@@ -1,0 +1,13 @@
+<template>
+  <div class="antialiased text-base-content bg-base-300 ">
+    <Header />
+    <div class="flex">
+      <Sidebar />
+      <RouterView class="doc" />
+    </div>
+  </div>
+</template>
+<script lang="ts" setup>
+import Header from './section/Header.vue'
+import Sidebar from './section/Sidebar.vue';
+</script>

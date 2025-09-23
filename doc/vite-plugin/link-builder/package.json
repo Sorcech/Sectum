@@ -1,0 +1,85 @@
+{
+  "name": "@yankeeinlondon/link-builder",
+  "type": "module",
+  "version": "1.2.1",
+  "description": "adds contextual classes and features to links in documents used in vite-plugin-md",
+  "keywords": [
+    "vitejs",
+    "builder",
+    "vite-plugin-md",
+    "vue"
+  ],
+  "homepage": "https://github.com/yankeeinlondon/link-builder#readme",
+  "bugs": {
+    "url": "https://github.com/yankeeinlondon/link-builder/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yankeeinlondon/link-builder.git"
+  },
+  "license": "MIT",
+  "author": "Ken Snyder <ken@ken.net>",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "package.json",
+    "README.md",
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format=esm --dts --clean",
+    "lint": "run-p lint:*",
+    "lint:src": "eslint src/**/*.ts --fix",
+    "lint:test": "eslint test/**/*.ts --fix",
+    "lint:tsc": "tsc --noEmit",
+    "lint:node": "tsup src/index.ts --format=esm && node dist/index.js",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "test:ui": "vitest:ui",
+    "watch": "tsup src/index.ts --format=esm --dts --watch",
+    "audit:fix": "pnpm audit --fix",
+    "release": "run-s lint release:latest test:ci audit:fix release:bump",
+    "release:latest": "pnpm install",
+    "release:bump": "bumpp"
+  },
+  "dependencies": {
+    "@yankeeinlondon/builder-api": "^1.4.1",
+    "@yankeeinlondon/happy-wrapper": "^3.1.0"
+  },
+  "devDependencies": {
+    "@antfu/ni": "^0.21.10",
+    "@rollup/pluginutils": "^5.0.5",
+    "@types/markdown-it": "^13.0.7",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "@vitest/ui": "^0.34.6",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-unicorn": "^49.0.0",
+    "fp-ts": "^2.16.1",
+    "happy-dom": "^12.10.3",
+    "markdown-it": "^13.0.2",
+    "npm-run-all": "^4.1.5",
+    "pathe": "^1.1.1",
+    "prettier": "^3.1.0",
+    "rollup": "^4.5.2",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2",
+    "vite-plugin-md": "^0.22.5",
+    "vitest": "^0.34.6",
+    "vue": "^3.3.9"
+  }
+}

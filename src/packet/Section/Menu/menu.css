@@ -1,0 +1,194 @@
+.menu {
+  @apply bg-base-200 w-auto select-none;
+
+  &.shadow {
+    @apply shadow shadow-md
+  }
+
+  &.rounded {
+    @apply rounded-$rounded-box;
+  }
+
+  &.padding {
+    @apply p-2;
+  }
+
+  li .disabled {
+    @apply cursor-not-allowed pointer-events-none text-base-text text-opacity-20 hover: bg-white/0;
+
+  }
+
+  &.hover-border li>* {
+    @apply border-l-4 border-white/0 hover: (border-primary);
+  }
+
+  li>*:not(.disabled, .menu-title) {
+    @apply flex items-center gap-3 hover: bg-black/7 dark:hover:bg-white/7 w-full text-left transition duration-200 ease-in-out text-base-text;
+
+    &:active {
+      @apply !bg-primary text-primary-content;
+    }
+  }
+
+  >:where(li:first-child) {
+    @apply border-tl-inherit border-tr-inherit border-bl-unset border-br-unset;
+  }
+
+  > :where(li:first-child)> :where(:not(ul)) {
+    @apply border-tl-inherit border-tr-inherit border-bl-unset border-br-unset;
+  }
+
+  > :where(li:last-child) {
+    @apply border-tl-unset border-tr-unset border-bl-inherit border-br-inherit;
+  }
+
+  > :where(li:last-child)> :where(:not(ul)) {
+    @apply border-tl-unset border-tr-unset border-bl-inherit border-br-inherit;
+  }
+
+  > :where(li)> :where(ul) {
+    @apply border-tl-inherit border-tr-inherit border-bl-inherit border-br-inherit;
+  }
+
+  &.padding li>* {
+    @apply rounded-$rounded-btn;
+  }
+
+  &:not(.compact) li>* {
+    @apply text-base p-4 py-3;
+  }
+
+  /* Static compact */
+  &.compact li>* {
+    @apply text-sm py-2 px-4;
+  }
+
+  /* Responsive compact  */
+  &.compact-sm li>* {
+    @apply <sm: (text-sm py-2 px-4);
+  }
+
+  &.compact-md li>* {
+    @apply <md: (text-sm py-2 px-4);
+  }
+
+  &.compact-lg li>* {
+    @apply <lg: (text-sm py-2 px-4);
+  }
+
+  &.compact-xl li>* {
+    @apply <xl: (text-sm py-2 px-4);
+  }
+
+  .menu:not(.horizontal) {
+    @apply flex flex-col;
+  }
+
+  /* Static horizontal */
+  &.horizontal {
+    @apply inline-flex flex-row text-center;
+  }
+
+  /* Responsive horizontal  */
+  &.horizontal-sm {
+    @apply sm: (inline-flex flex-row);
+  }
+
+  &.horizontal-md {
+    @apply md: (inline-flex flex-row);
+  }
+
+  &.horizontal-lg {
+    @apply lg: (inline-flex flex-row);
+  }
+
+  &.horizontal-xl {
+    @apply xl: (inline-flex flex-row);
+  }
+
+
+  &.horizontal>:where(li:first-child) {
+    @apply border-tl-inherit border-tr-unset border-br-unset border-bl-inherit;
+  }
+
+  &.horizontal>:where(li:first-child)>:where(*:not(ul)) {
+    @apply border-tl-inherit border-tr-unset border-br-unset border-bl-inherit;
+  }
+
+  &.horizontal>:where(li:last-child) {
+    @apply border-tl-unset border-tr-inherit border-br-inherit border-bl-unset;
+  }
+
+  &.horizontal>:where(li:last-child)>:where(*:not(ul)) {
+    @apply border-tl-unset border-tr-inherit border-br-inherit border-bl-unset;
+
+  }
+
+  &.horizontal-sm>:where(li:first-child) {
+    @apply sm: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-sm>:where(li:first-child)>:where(*:not(ul)) {
+    @apply sm: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-sm>:where(li:last-child) {
+    @apply sm: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-sm>:where(li:last-child)>:where(*:not(ul)) {
+    @apply sm: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-md>:where(li:first-child) {
+    @apply md: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-md>:where(li:first-child)>:where(*:not(ul)) {
+    @apply md: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-md>:where(li:last-child) {
+    @apply md: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-md>:where(li:last-child)>:where(*:not(ul)) {
+    @apply md: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-lg>:where(li:first-child) {
+    @apply lg: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-lg>:where(li:first-child)>:where(*:not(ul)) {
+    @apply lg: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-lg>:where(li:last-child) {
+    @apply lg: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-lg>:where(li:last-child)>:where(*:not(ul)) {
+    @apply lg: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-xl>:where(li:first-child) {
+    @apply xl: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-xl>:where(li:first-child)>:where(*:not(ul)) {
+    @apply xl: (border-tl-inherit border-tr-unset border-br-unset border-bl-inherit);
+  }
+
+  &.horizontal-xl>:where(li:last-child) {
+    @apply xl: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  &.horizontal-xl>:where(li:last-child)>:where(*:not(ul)) {
+    @apply xl: (border-tl-unset border-tr-inherit border-br-inherit border-bl-unset);
+  }
+
+  .menu-title {
+    @apply py-1 !text-xl font-bold text-gray-500 text-opacity-100;
+  }
+}
