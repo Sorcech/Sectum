@@ -1,0 +1,33 @@
+export default [{
+  title: 'Dashboard',
+  icon: 'gauge',
+  path: '/dashboard',
+}, {
+  title: 'Task',
+  icon: 'calendar-check',
+  path: '/task',
+}, {
+  title: 'Project',
+  icon: 'layer-group',
+  path: '/project'
+}, {
+  title: 'Product',
+  icon: 'atom',
+  path: '/product'
+}, {
+  title: 'Data',
+  icon: 'database',
+  path: '/data'
+}, {
+  title: 'Website',
+  icon: 'globe',
+  path: '/website'
+}, {
+  title: 'Blog',
+  icon: 'blog',
+  path: '/blog'
+}, {
+  title: 'Section',
+  icon: 'section',
+  path: '/sectum/'
+}]

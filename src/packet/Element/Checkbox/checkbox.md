@@ -3,7 +3,7 @@
 ## Basic usage
 
 ```ts
-import ckb from 'sectionui'
+import ckb from 'sectum'
 ```
 
 ## Basic
@@ -31,6 +31,7 @@ import ckb from 'sectionui'
   <ckb checked size="sm" />
   <ckb checked size="md" />
   <ckb checked size="lg" />
+  <ckb checked size="xl" />
 </div>
 
 ```ts
@@ -38,6 +39,7 @@ import ckb from 'sectionui'
   <ckb checked size="sm" />
   <ckb checked size="md" />
   <ckb checked size="lg" />
+  <ckb checked size="xl" />
 ```
 
 ## Disabled

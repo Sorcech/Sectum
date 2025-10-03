@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "suppressImplicitAnyIndexErrors": true,
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "module": "ESNext",
@@ -13,7 +12,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
@@ -30,6 +29,8 @@
   },
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "**/*.test.*",
+    "**/test.*"
   ]
 }

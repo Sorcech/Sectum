@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import './backdrop.css'
 defineProps({
-  show: { type: Boolean, required: true }
+  show: { type: Boolean, required: false, default: false },
+  blur: { type: Boolean, required: false },
+  loading: { type: Boolean, required: false }
 })
 </script>
 <template>
-  <transition name="backdrop-fade" appear>
-    <div v-show="show" class="backdrop inset-0 fixed z-10 bg-gray-500  opacity-30">
+  <tst name="bloom">
+    <div v-show="show" class="fixed inset-0 z-10 flex place-content-center h-screen backdrop-filter items-center"
+      :class="[blur ? 'backdrop-brightness-60 backdrop-blur-1' : 'bg-gray-500 opacity-30']">
+      <div v-show="show && loading">
+        <icn name="spinner" solid xl spinpulse></icn>
+      </div>
     </div>
-  </transition>
+  </tst>
 </template>

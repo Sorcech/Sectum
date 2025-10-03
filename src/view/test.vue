@@ -4,9 +4,9 @@
     <icn name="user" regular xl />
   </btn>
   <Drawer title="Drawer" :isShow="isShow">
-    <h1>哈哈</h1>
-    <h1>哈哈</h1>
-    <h1>哈哈</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
   </Drawer>
 </template>
 
