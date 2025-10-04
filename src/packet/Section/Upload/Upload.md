@@ -29,27 +29,23 @@ import Upload from '~/packet/Section/Upload/Upload.vue'
 <script setup lang="ts">
 import Upload from '~/packet/Section/Upload/Upload.vue'
 import Message from '~/packet/Element/Message/Message'
-import { Storage } from '~/store/storage/storage'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const handleFileChange = (files: File[]) => {
+  // 处理文件上传逻辑
   let formData = new FormData()
   if (files && files.length > 0) {
     files.forEach((file: File) => {
       formData.append('File', file)
     })
   }
-  Storage.Uploads(formData).then((res: any) => {
-    if (res.data.code == 0) {
-      Message({ type: 'success', message: t('storage.uploadSuccess') })
-    } else {
-      Message({ type: 'error', message: t('storage.uploadFailed') })
-    }
-  }).catch((e: any) => {
-    alert(e)
-  })
+  
+  // 这里应该调用你的上传API
+  // 示例：uploadFiles(formData).then(...)
+  console.log('准备上传文件:', files)
+  Message({ type: 'info', message: '请实现文件上传逻辑' })
 }
 </script>
 ```

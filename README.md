@@ -1,7 +1,7 @@
 # Sectum UI
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-0.1.2-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-0.1.4-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/UnoCSS-66.x-333333?style=for-the-badge&logo=unocss&logoColor=white" alt="UnoCSS" />
@@ -28,6 +28,7 @@
 - 🌍 **国际化** - 内置多语言支持
 - 💾 **存储工具** - 内置 localStorage、sessionStorage、Cookie 管理工具
 - 🔄 **路由集成** - 与 Vue Router 无缝集成，支持路由跳转回调
+- 🛠️ **自动修复** - 自动处理 UnoCSS 在浏览器环境中的 process 对象问题
 
 ## 📦 安装
 
@@ -61,17 +62,18 @@ npm install sectum unocss vue@^3.0.0 vue-router@^4.0.0 vue-i18n@^11.0.0
 
 ### 2. 配置 UnoCSS
 
-在你的 `vite.config.js` 中配置 UnoCSS：
+在你的 `vite.config.ts` 中配置 UnoCSS：
 
-```javascript
+```typescript
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
+import { UnoConfig } from 'sectum'
 
 export default defineConfig({
   plugins: [
     vue(),
-    UnoCSS()
+    UnoCSS(UnoConfig)
   ]
 })
 ```
@@ -82,81 +84,33 @@ export default defineConfig({
 
 ```typescript
 import { defineConfig } from 'unocss'
-import { sectumUnoConfig } from 'sectum'
+import { UnoConfig } from 'sectum'
 
 export default defineConfig({
-  presets: [
-    presetUno(),
-    ...sectumUnoConfig.presets
-  ],
-  rules: [
-    ...sectumUnoConfig.rules,
-    // 你的自定义规则
-  ],
-  safelist: [
-    ...sectumUnoConfig.safelist,
-    // 你的其他类名
-  ],
-  theme: {
-    ...sectumUnoConfig.theme,
-    // 你的主题扩展
-  }
+  ...UnoConfig,
+  // 你的自定义配置
 })
 ```
+
+> **💡 自动处理 process 对象**
+> 
+> sectum 组件库已经内置了 `process` 对象的自动定义，解决了 UnoCSS 在浏览器环境中的 `process is not defined` 错误。你不需要在项目中手动配置 `define` 或安装额外的 polyfill 插件，组件库会在初始化时自动处理这个问题。
 
 #### 方法二：复制配置文件
 
-将 `node_modules/sectum/dist/sectum-uno.config.ts` 复制到你的项目根目录，重命名为 `uno.config.ts`：
+将 `node_modules/sectum/dist/uno.config.ts` 复制到你的项目根目录，然后根据需要修改：
 
 ```bash
-cp node_modules/sectum/dist/sectum-uno.config.ts uno.config.ts
+cp node_modules/sectum/dist/uno.config.ts uno.config.ts
 ```
 
-#### 方法三：手动配置
-
-如果你需要自定义配置，可以参考以下配置：
-
-```javascript
-import { defineConfig, presetUno } from 'unocss'
-
-export default defineConfig({
-  presets: [
-    presetUno()
-  ],
-  rules: [
-    // 支持 sectum 组件的 CSS 变量
-    [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
-      return { 'background-color': `var(--${color})` }
-    }],
-    [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
-      return { 'color': `var(--${color}-content)` }
-    }],
-    [/^border-(primary|secondary|success|warning|error)$/, ([, color]) => {
-      return { 'border-color': `var(--${color})` }
-    }],
-    [/^bg-base-(\d+)$/, ([, num]) => {
-      return { 'background-color': `var(--base-${num})` }
-    }],
-    [/^text-base-content$/, () => {
-      return { 'color': `var(--base-content)` }
-    }]
-  ],
-  safelist: [
-    // 确保 sectum 组件相关的类名被生成
-    'bg-primary', 'bg-secondary', 'bg-success', 'bg-warning', 'bg-error',
-    'text-primary-content', 'text-secondary-content', 'text-success-content',
-    'text-warning-content', 'text-error-content', 'text-base-content',
-    'border-primary', 'border-secondary', 'border-success', 'border-warning', 'border-error',
-    'bg-base-100', 'bg-base-200', 'bg-base-300'
-  ]
-})
-```
+然后你可以直接使用或修改这个配置文件。
 
 ### 3. 引入样式
 
-在你的 `main.js` 中引入样式：
+在你的 `main.ts` 中引入样式：
 
-```javascript
+```typescript
 import 'sectum/dist/style.css'
 import 'uno.css'  // 引入 UnoCSS
 ```
@@ -165,7 +119,7 @@ import 'uno.css'  // 引入 UnoCSS
 
 #### 全局引入
 
-```javascript
+```typescript
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createI18n } from 'vue-i18n'
@@ -229,7 +183,7 @@ app.mount('#app')
 
 #### 按需引入
 
-```javascript
+```typescript
 import { createApp } from 'vue'
 import { 
   Button, Input, Header, Sidebar, 
@@ -429,7 +383,7 @@ const routes = [
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Store } from 'sectum'
 
@@ -473,7 +427,7 @@ const clearData = () => {
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Header, Sidebar, ThemeSelect, DarkChange, LanguageSelect } from 'sectum'
 import { useRouter } from 'vue-router'
 
@@ -504,7 +458,7 @@ const routes = [
 
 Sectum 内置了动态主题系统，支持运行时主题切换：
 
-```javascript
+```typescript
 // 主题会自动注入到页面中，无需额外配置
 // 支持的主题：blue, teal, rose, violet, orange
 // 深色模式会自动应用对应的深色主题变量
@@ -512,7 +466,7 @@ Sectum 内置了动态主题系统，支持运行时主题切换：
 
 ### 存储工具高级用法
 
-```javascript
+```typescript
 import { Store } from 'sectum'
 
 // localStorage 操作
@@ -549,13 +503,17 @@ Store.removeCookie('token')
     :on-navigate="handleNavigate"
   />
 </template>
+
+<script setup lang="ts">
+// 你的组件逻辑
+</script>
 ```
 
 ### 路由配置
 
 Sidebar 组件支持自定义路由配置：
 
-```javascript
+```typescript
 const routes = [
   {
     path: '/',
@@ -622,6 +580,32 @@ npm run publish:minor
 # 发布主要版本
 npm run publish:major
 ```
+
+## ❓ 常见问题
+
+### Q: 出现 `process is not defined` 错误怎么办？
+
+**A:** sectum 组件库已经内置了 process 对象的自动定义，无需手动配置。如果仍然出现此错误，请确保：
+
+1. 使用的是最新版本的 sectum
+2. 正确导入了组件库的 CSS 文件
+3. 在 `main.ts` 中正确调用了 `app.use(Sectum)`
+
+### Q: 主题切换不生效怎么办？
+
+**A:** 请确保：
+
+1. 正确导入了 `sectum/dist/style.css`
+2. 在 UnoCSS 配置中使用了 `UnoConfig` 或 sectum 的主题预设
+3. 组件使用了正确的 CSS 类名（如 `bg-primary`、`text-primary` 等）
+
+### Q: 组件样式显示异常怎么办？
+
+**A:** 请检查：
+
+1. UnoCSS 是否正确配置
+2. 是否导入了必要的 CSS 文件
+3. 浏览器开发者工具中是否有 CSS 加载错误
 
 ## 📄 许可证
 

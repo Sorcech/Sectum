@@ -11,20 +11,13 @@ import TaskDetail from './Detail/TaskDetail.vue'
 import StorageDetail from './Detail/StorageDetail.vue'
 import InterlinkDetail from './Detail/InterlinkDetail.vue'
 
-import MaterialSelect from './Select/MaterialSelect.vue'
-import SymbolSelect from './Select/SymbolSelect.vue'
-import SurfaceSelect from './Select/SurfaceSelect.vue'
-import StandardSelect from './Select/StandardSelect.vue'
-import MemberSelect from './Select/MemberSelect.vue'
-import BrandSelect from './Select/BrandSelect.vue'
-import ProjectSelect from './Select/ProjectSelect.vue'
+// Select 组件已移除，请使用 Section/Select 组件
 
 
 // 导出所有组件
 export {
   TaskCreate, AccountCreate, ProjectCreate,
-  PartDetail, SectionDetail, SourceDetail, StandardDetail, ProjectDetail, TaskDetail, StorageDetail, InterlinkDetail,
-  MaterialSelect, SymbolSelect, SurfaceSelect, StandardSelect, MemberSelect, BrandSelect, ProjectSelect
+  PartDetail, SectionDetail, SourceDetail, StandardDetail, ProjectDetail, TaskDetail, StorageDetail, InterlinkDetail
 }
 
 const install = (app: App) => {
@@ -40,13 +33,6 @@ const install = (app: App) => {
   app.component('StorageDetail', StorageDetail)//文件详细信息
   app.component('InterlinkDetail', InterlinkDetail)//内部链接详细信息
 
-  app.component('MaterialSelect', MaterialSelect)//材质选择
-  app.component('SurfaceSelect', SurfaceSelect)//表面处理/封装选择
-  app.component('StandardSelect', StandardSelect)//标准选择
-  app.component('SymbolSelect', SymbolSelect)//符号选择
-  app.component('MemberSelect', MemberSelect)//用户选择
-  app.component('BrandSelect', BrandSelect)//品牌选择
-  app.component('ProjectSelect', ProjectSelect)//项目选择
 }
 
 export default install //全局引用

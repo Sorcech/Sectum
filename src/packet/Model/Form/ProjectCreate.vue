@@ -19,7 +19,11 @@
 import { computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n'
 import Message from '~/packet/Element/Message/Message';
-import { ProjectCreate } from '~/store/type/type'
+// 定义项目创建表单的类型
+interface ProjectCreate {
+  Type: number,
+  Name: string,
+}
 // Props 定义
 const props = defineProps<{
   onSubmit?: (formData: ProjectCreate) => void | Promise<void>

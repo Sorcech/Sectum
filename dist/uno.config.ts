@@ -1,101 +1,70 @@
-import { defineConfig, presetUno } from 'unocss'
-import { getTheme } from './src/packet/Pattern/Theme/generator'
+import { presetUno } from 'unocss'
+import SectumTheme from '../Pattern/Theme'
 
-export default defineConfig({
+// 定义规则函数的参数类型
+type RuleParams = [string, string, string?]
+
+export const UnoConfig = {
   presets: [
-    presetUno(), // 支持基本的 Tailwind 类名（bg-*, text-*, hover:* 等）
-  ],
-  preflights: [
-    {
-      getCSS: () => {
-        const theme = getTheme()
-        let css = ''
-        
-        // 全局字体设置
-        css += `* {\n`
-        css += `  font-family: 'HarmonyOS Sans';\n`
-        css += `}\n\n`
-        
-        // 全局背景色设置，防止白框
-        css += `html, body {\n`
-        css += `  margin: 0;\n`
-        css += `  padding: 0;\n`
-        css += `  height: 100%;\n`
-        css += `  background-color: var(--base-300);\n`
-        css += `}\n\n`
-        
-        css += `#app {\n`
-        css += `  height: 100%;\n`
-        css += `  background-color: var(--base-300);\n`
-        css += `}\n\n`
-        
-        for (const [selector, variables] of Object.entries(theme)) {
-          css += `${selector} {\n`
-          for (const [property, value] of Object.entries(variables)) {
-            css += `  ${property}: ${value};\n`
-          }
-          css += `}\n`
-        }
-        return css
-      }
-    }
+    presetUno(),
+    SectumTheme,
   ],
 
   rules: [
     // 自定义颜色规则 - 处理项目特有的颜色名
-    [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
+    [/^bg-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'background-color': `var(--${color})` }
     }],
-    [/^bg-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
+    [/^bg-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
       return { 'background-color': `var(--${color}-focus)` }
     }],
-    [/^text-(primary|secondary|success|warning|error)$/, ([, color]) => {
+    [/^text-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'color': `var(--${color})` }
     }],
-    [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
+    [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]: RuleParams) => {
       return { 'color': `var(--${color}-content)` }
     }],
-    [/^border-(primary|secondary|success|warning|error)$/, ([, color]) => {
+    [/^border-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'border-color': `var(--${color})` }
     }],
-    [/^border-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
+    [/^border-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
       return { 'border-color': `var(--${color}-focus)` }
     }],
     // 透明度支持
-    [/^bg-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]) => {
-      return { 'background-color': `rgba(var(--${color}), ${parseInt(opacity) / 100})` }
+    [/^bg-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]: RuleParams) => {
+      return { 'background-color': `rgba(var(--${color}), ${parseInt(opacity!) / 100})` }
     }],
-    [/^text-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]) => {
-      return { 'color': `rgba(var(--${color}), ${parseInt(opacity) / 100})` }
+    [/^text-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]: RuleParams) => {
+      return { 'color': `rgba(var(--${color}), ${parseInt(opacity!) / 100})` }
     }],
     // 阴影规则
-    [/^shadow-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]) => {
-      return { 'box-shadow': `0 4px 6px -1px rgba(var(--${color}), ${parseInt(opacity) / 100})` }
+    [/^shadow-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]: RuleParams) => {
+      return { 'box-shadow': `0 4px 6px -1px rgba(var(--${color}), ${parseInt(opacity!) / 100})` }
     }],
     // 悬停状态支持 - UnoCSS 会自动处理 hover: 前缀
-    [/^hover:bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
+    [/^hover:bg-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'background-color': `var(--${color})` }
     }],
-    [/^hover:bg-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
+    [/^hover:bg-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
       return { 'background-color': `var(--${color}-focus)` }
     }],
-    [/^hover:text-(primary|secondary|success|warning|error)$/, ([, color]) => {
+    [/^hover:text-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'color': `var(--${color})` }
     }],
-    [/^hover:text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
+    [/^hover:text-(primary|secondary|success|warning|error)-content$/, ([, color]: RuleParams) => {
       return { 'color': `var(--${color}-content)` }
     }],
     // Base 颜色规则
-    [/^bg-base-(\d+)$/, ([, num]) => {
+    [/^bg-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'background-color': `var(--base-${num})` }
     }],
-    [/^bg-dark-base-(\d+)$/, ([, num]) => {
+    [/^bg-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'background-color': `var(--dark-base-${num})` }
     }],
-    [/^text-base-(\d+)$/, ([, num]) => {
+    [/^text-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'color': `var(--base-${num})` }
     }],
-    [/^text-dark-base-(\d+)$/, ([, num]) => {
+    [/^text-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'color': `var(--dark-base-${num})` }
     }],
     [/^color-base-content$/, () => {
@@ -104,10 +73,10 @@ export default defineConfig({
     [/^color-dark-base-content$/, () => {
       return { 'color': `var(--dark-base-content)` }
     }],
-    [/^border-base-(\d+)$/, ([, num]) => {
+    [/^border-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--base-${num})` }
     }],
-    [/^border-dark-base-(\d+)$/, ([, num]) => {
+    [/^border-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--dark-base-${num})` }
     }],
     [/^text-base-content$/, () => {
@@ -212,4 +181,4 @@ export default defineConfig({
     
     return classes
   })(),
-})
+}

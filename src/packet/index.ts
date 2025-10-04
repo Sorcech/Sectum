@@ -13,13 +13,20 @@ export * from './Pattern'
 export * from './Layout'
 export * from './Model'
 
-// 导出路由相关功能
-export { setRouterPushCallback } from '../store/axios'
 
 // 导出存储功能
 export { Store } from './Util/storage'
 
+// 导出 UnoCSS 配置
+export * from './Config'
+
 const install = (app: App) => {
+  // 定义 process 对象，解决 UnoCSS 在浏览器环境中的 process is not defined 错误
+  if (typeof process === 'undefined') {
+    (window as any).process = { env: {} }
+    ;(globalThis as any).process = { env: {} }
+  }
+  
   // 动态注入 CSS 变量
   if (typeof document !== 'undefined') {
     const style = document.createElement('style')

@@ -107,8 +107,7 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import I18n from '~/locale'
 import { Store } from '~/packet/Util/storage'
-import { Task } from '~/store/project/task'
-import { Project } from '~/store/project/project'
+// 移除业务逻辑相关的 store 导入
 
 // Props 定义
 const props = defineProps<{
@@ -116,8 +115,8 @@ const props = defineProps<{
   onThemeChange?: (theme: string) => void
   onLanguageChange?: (locale: 'zh-CN' | 'en-US') => void
   onNavigate?: (path: string) => void
-  onTaskCreate?: () => void
-  onAccountCreate?: () => void
+  onTaskCreate?: (formData?: any) => void
+  onAccountCreate?: (formData?: any) => void
   onNoticeClick?: () => void
   onSearchClick?: () => void
   onSettingClick?: () => void
@@ -242,18 +241,10 @@ function plusAccount() {
   props.onAccountCreate?.()
 }
 
-// 任务表单回调函数
+// 任务表单回调函数 - 通过 props 传递处理函数
 const handleTaskSubmit = async (formData: any) => {
-  try {
-    const response: any = await Task.Create(formData)
-    if (response.data.code === 0) {
-      handleTaskSuccess(response)
-    } else {
-      handleTaskError(response.data.message)
-    }
-  } catch (error) {
-    handleTaskError(error)
-  }
+  // 调用父组件传入的任务创建回调
+  props.onTaskCreate?.(formData)
 }
 
 const handleTaskSuccess = (response: any) => {
@@ -269,18 +260,10 @@ const handleTaskError = (error: any, response?: any) => {
   }
 }
 
-// 账户表单回调函数
+// 账户表单回调函数 - 通过 props 传递处理函数
 const handleAccountSubmit = async (formData: any) => {
-  try {
-    const response: any = await Project.Create(formData)
-    if (response.data.code === 0) {
-      handleAccountSuccess(response)
-    } else {
-      handleAccountError(response.data.message)
-    }
-  } catch (error) {
-    handleAccountError(error)
-  }
+  // 调用父组件传入的账户创建回调
+  props.onAccountCreate?.(formData)
 }
 
 const handleAccountSuccess = (response: any) => {

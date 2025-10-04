@@ -19,7 +19,12 @@
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n'
 import Message from '~/packet/Element/Message/Message';
-import { TaskCreate } from '~/store/type/type';
+// 定义任务创建表单的类型
+interface TaskCreate {
+  Name: string,
+  Project: number,
+  EndAt: string
+}
 // Props 定义
 const props = defineProps<{
   onSubmit?: (formData: TaskCreate) => void | Promise<void>

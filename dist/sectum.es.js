@@ -1,10 +1,16 @@
+if (typeof process === "undefined") {
+  window.process = { env: {} };
+  globalThis.process = { env: {} };
+}
 import { defineComponent, computed, createBlock, openBlock, resolveDynamicComponent, normalizeClass, withCtx, createElementBlock, createCommentVNode, renderSlot, ref, createElementVNode, toDisplayString as toDisplayString$1, withDirectives, vModelCheckbox, onMounted, nextTick, normalizeStyle, resolveComponent, createVNode, vShow, Transition as Transition$1, Fragment, renderList, reactive, toRefs, unref, createApp, watch, onBeforeUnmount, withModifiers, createTextVNode, getCurrentInstance, inject, shallowRef, onUnmounted, effectScope, isRef, h as h$1, Text, useSlots } from "vue";
 import { useRoute } from "vue-router";
+import { createValueHandler, colorToString, colorOpacityToString, parseCssColor, getStringComponent, getStringComponents, variantParentMatcher, createPartClasses, variantMatcher, variantGetParameter, variantGetBracket, calcMaxWidthBySize, createPseudoClassesAndElements, getBracket, createPseudoClassFunctions, createTaggedPseudoClasses, hasThemeFn, transformThemeFn } from "@unocss/rule-utils";
+import { resolveBreakpoints as resolveBreakpoints$1, makeGlobalStaticRules as makeGlobalStaticRules$1, directionSize as directionSize$1, colorResolver as colorResolver$1, h as h$2, globalKeywords as globalKeywords$1, colorableShadows as colorableShadows$1, variantParentMatcher as variantParentMatcher$1, variantMatcher as variantMatcher$1, hasParseableColor as hasParseableColor$1, positionMap as positionMap$1, directionMap as directionMap$1, parseColor as parseColor$1 } from "@unocss/preset-mini/utils";
 const _hoisted_1$w = {
   key: 0,
   class: "btn-loading-icon animate-spin w-4 h-4 mr-2 border-2 border-current border-t-transparent rounded-full"
 };
-const _sfc_main$T = /* @__PURE__ */ defineComponent({
+const _sfc_main$M = /* @__PURE__ */ defineComponent({
   __name: "Button",
   props: {
     tag: { type: String, default: "button", required: false },
@@ -180,8 +186,8 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const Button = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["__scopeId", "data-v-8cb75963"]]);
-const _sfc_main$S = /* @__PURE__ */ defineComponent({
+const Button = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["__scopeId", "data-v-8cb75963"]]);
+const _sfc_main$L = /* @__PURE__ */ defineComponent({
   __name: "Label",
   props: {
     color: {
@@ -327,10 +333,10 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Label = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["__scopeId", "data-v-791b1ff8"]]);
+const Label = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["__scopeId", "data-v-791b1ff8"]]);
 const _hoisted_1$v = ["value", "name", "placeholder", "type", "disabled"];
 const _hoisted_2$b = ["textContent"];
-const _sfc_main$R = /* @__PURE__ */ defineComponent({
+const _sfc_main$K = /* @__PURE__ */ defineComponent({
   __name: "Input",
   props: {
     modelValue: { type: [String, Number], required: false },
@@ -516,9 +522,9 @@ const _sfc_main$R = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Input = /* @__PURE__ */ _export_sfc(_sfc_main$R, [["__scopeId", "data-v-ce64b9ed"]]);
+const Input = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["__scopeId", "data-v-ce64b9ed"]]);
 const _hoisted_1$u = ["disabled"];
-const _sfc_main$Q = /* @__PURE__ */ defineComponent({
+const _sfc_main$J = /* @__PURE__ */ defineComponent({
   __name: "Checkbox",
   props: {
     color: {
@@ -562,9 +568,9 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Checkbox = /* @__PURE__ */ _export_sfc(_sfc_main$Q, [["__scopeId", "data-v-cd5cc613"]]);
+const Checkbox = /* @__PURE__ */ _export_sfc(_sfc_main$J, [["__scopeId", "data-v-cd5cc613"]]);
 const _hoisted_1$t = ["disabled"];
-const _sfc_main$P = /* @__PURE__ */ defineComponent({
+const _sfc_main$I = /* @__PURE__ */ defineComponent({
   __name: "Toggle",
   props: {
     checked: { type: Boolean, default: false, required: true },
@@ -660,8 +666,8 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Toggle = /* @__PURE__ */ _export_sfc(_sfc_main$P, [["__scopeId", "data-v-bca215d5"]]);
-const _sfc_main$O = /* @__PURE__ */ defineComponent({
+const Toggle = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["__scopeId", "data-v-bca215d5"]]);
+const _sfc_main$H = /* @__PURE__ */ defineComponent({
   __name: "Icon",
   props: {
     name: { type: String, default: "", required: true },
@@ -801,7 +807,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$N = /* @__PURE__ */ defineComponent({
+const _sfc_main$G = /* @__PURE__ */ defineComponent({
   __name: "Backdrop",
   props: {
     show: { type: Boolean, required: false, default: false },
@@ -837,7 +843,7 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$s = ["value", "rows", "cols", "disabled", "readonly", "placeholder", "maxlength"];
-const _sfc_main$M = /* @__PURE__ */ defineComponent({
+const _sfc_main$F = /* @__PURE__ */ defineComponent({
   __name: "Textarea",
   props: {
     modelValue: { type: String },
@@ -1013,8 +1019,8 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["__scopeId", "data-v-87a6e8a0"]]);
-const _sfc_main$L = /* @__PURE__ */ defineComponent({
+const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["__scopeId", "data-v-87a6e8a0"]]);
+const _sfc_main$E = /* @__PURE__ */ defineComponent({
   __name: "Transition",
   props: {
     name: {
@@ -1036,10 +1042,10 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Transition = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["__scopeId", "data-v-25e2ffe3"]]);
+const Transition = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["__scopeId", "data-v-25e2ffe3"]]);
 const _hoisted_1$r = { class: "font-bold text-sm" };
 const _hoisted_2$a = { class: "opacity-50 font-mono text-xs -mt-1" };
-const _sfc_main$K = /* @__PURE__ */ defineComponent({
+const _sfc_main$D = /* @__PURE__ */ defineComponent({
   __name: "Color",
   props: {
     color: {
@@ -1170,7 +1176,7 @@ const _hoisted_1$q = { class: "my-8" };
 const _hoisted_2$9 = { class: "mb-3 mt-8" };
 const _hoisted_3$7 = { class: "font-bold" };
 const _hoisted_4$5 = { class: "flex gap-2 mb-2" };
-const _sfc_main$J = /* @__PURE__ */ defineComponent({
+const _sfc_main$C = /* @__PURE__ */ defineComponent({
   __name: "Palette",
   setup(__props) {
     const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
@@ -1227,7 +1233,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$I = /* @__PURE__ */ defineComponent({
+const _sfc_main$B = /* @__PURE__ */ defineComponent({
   __name: "Message",
   props: {
     type: {
@@ -1296,7 +1302,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const MessageComponent = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["__scopeId", "data-v-4c4a9d11"]]);
+const MessageComponent = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["__scopeId", "data-v-4c4a9d11"]]);
 const MessageTypes = {
   SUCCESS: "success",
   MESSAGE: "message",
@@ -1306,7 +1312,7 @@ const MessageTypes = {
 const messageArr = ref([]);
 const Message = (options) => {
   const messageApp = createApp(MessageComponent, options);
-  showMessage$1(messageApp, options.duration || 3e3);
+  showMessage(messageApp, options.duration || 3e3);
 };
 const MessageWithMethods = Message;
 Object.values(MessageTypes).forEach((type) => {
@@ -1315,7 +1321,7 @@ Object.values(MessageTypes).forEach((type) => {
     return Message(optionsWithType);
   };
 });
-function showMessage$1(app, duration2) {
+function showMessage(app, duration2) {
   const oFrag = document.createDocumentFragment();
   const vm = app.mount(oFrag);
   messageArr.value.push(vm);
@@ -1346,16 +1352,16 @@ const install$5 = (app) => {
   app.component("ipt", Input);
   app.component("tgl", Toggle);
   app.component("ckb", Checkbox);
-  app.component("icn", _sfc_main$O);
-  app.component("bkd", _sfc_main$N);
+  app.component("icn", _sfc_main$H);
+  app.component("bkd", _sfc_main$G);
   app.component("txa", Textarea);
   app.component("tst", Transition);
-  app.component("Color", _sfc_main$K);
-  app.component("Palette", _sfc_main$J);
+  app.component("Color", _sfc_main$D);
+  app.component("Palette", _sfc_main$C);
   app.config.globalProperties.$message = MessageWithMethods;
   app.provide("message", MessageWithMethods);
 };
-const _sfc_main$H = /* @__PURE__ */ defineComponent({
+const _sfc_main$A = /* @__PURE__ */ defineComponent({
   __name: "ButtonGroup",
   props: {
     direction: { default: "horizontal" },
@@ -1470,8 +1476,8 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const ButtonGroup = /* @__PURE__ */ _export_sfc(_sfc_main$H, [["__scopeId", "data-v-103ddf75"]]);
-const _sfc_main$G = /* @__PURE__ */ defineComponent({
+const ButtonGroup = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["__scopeId", "data-v-103ddf75"]]);
+const _sfc_main$z = /* @__PURE__ */ defineComponent({
   __name: "Menu",
   props: {
     compact: {
@@ -1550,7 +1556,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["__scopeId", "data-v-7560be56"]]);
+const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["__scopeId", "data-v-7560be56"]]);
 function useClickOutside(target, callback) {
   if (!target)
     return;
@@ -1581,7 +1587,7 @@ function useClickOutside(target, callback) {
   });
   return { listener };
 }
-const _sfc_main$F = /* @__PURE__ */ defineComponent({
+const _sfc_main$y = /* @__PURE__ */ defineComponent({
   __name: "Dropdown",
   props: {
     placement: {
@@ -1677,7 +1683,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$p = { class: "font-semibold text-xl" };
-const _sfc_main$E = /* @__PURE__ */ defineComponent({
+const _sfc_main$x = /* @__PURE__ */ defineComponent({
   __name: "Modal",
   props: {
     active: { type: Boolean, required: true },
@@ -1812,9 +1818,9 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Modal = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["__scopeId", "data-v-e0bdb0a9"]]);
+const Modal = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["__scopeId", "data-v-e0bdb0a9"]]);
 const _hoisted_1$o = { class: "text-base-content font-medium text-lg" };
-const _sfc_main$D = /* @__PURE__ */ defineComponent({
+const _sfc_main$w = /* @__PURE__ */ defineComponent({
   __name: "Drawer",
   props: {
     isShow: { type: Boolean, default: false, required: false },
@@ -1924,7 +1930,7 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$n = ["value"];
-const _sfc_main$C = /* @__PURE__ */ defineComponent({
+const _sfc_main$v = /* @__PURE__ */ defineComponent({
   __name: "EditInput",
   props: {
     value: { type: String, default: "" },
@@ -1956,7 +1962,7 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$m = ["onClick"];
-const _sfc_main$B = /* @__PURE__ */ defineComponent({
+const _sfc_main$u = /* @__PURE__ */ defineComponent({
   __name: "Table",
   props: {
     data: { type: Object, default: { tableHead: [], tableBody: [] }, required: true },
@@ -2018,7 +2024,7 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
       editInputApp && removeEditInputApp();
       if (!checkEditable(key)) return;
       const target = event.target;
-      editInputApp = createApp(_sfc_main$C, {
+      editInputApp = createApp(_sfc_main$v, {
         value: target.textContent,
         setValue
       });
@@ -2168,21 +2174,21 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Table = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["__scopeId", "data-v-ee53b1b3"]]);
-const _sfc_main$A = {};
+const Table = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["__scopeId", "data-v-ee53b1b3"]]);
+const _sfc_main$t = {};
 const _hoisted_1$l = { class: "p-3 w-full" };
 function _sfc_render$1(_ctx, _cache) {
   return openBlock(), createElementBlock("div", _hoisted_1$l, [
     renderSlot(_ctx.$slots, "default")
   ]);
 }
-const Form = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$1]]);
+const Form = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$1]]);
 const _hoisted_1$k = { class: "flex flex-row items-center" };
 const _hoisted_2$8 = {
   key: 0,
   class: "w-15"
 };
-const _sfc_main$z = /* @__PURE__ */ defineComponent({
+const _sfc_main$s = /* @__PURE__ */ defineComponent({
   __name: "FormItem",
   props: {
     isShow: { type: Boolean, default: false },
@@ -2198,7 +2204,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$y = /* @__PURE__ */ defineComponent({
+const _sfc_main$r = /* @__PURE__ */ defineComponent({
   __name: "Select",
   props: {
     direction: {},
@@ -2380,6 +2386,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     };
   }
 });
+var define_process_env_default$3 = {};
 /*!
   * shared v11.1.12
   * (c) 2025 kazuya kawaguchi
@@ -2403,7 +2410,7 @@ function warnOnce(msg) {
 const inBrowser = typeof window !== "undefined";
 let mark;
 let measure;
-if (process.env.NODE_ENV !== "production") {
+if (define_process_env_default$3.NODE_ENV !== "production") {
   const perf2 = inBrowser && window.performance;
   if (perf2 && perf2.mark && perf2.measure && perf2.clearMarks && // @ts-ignore browser compat
   perf2.clearMeasures) {
@@ -2419,7 +2426,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g;
 function format$1(message, ...args) {
-  if (args.length === 1 && isObject$2(args[0])) {
+  if (args.length === 1 && isObject(args[0])) {
     args = args[0];
   }
   if (!args || !args.hasOwnProperty) {
@@ -2432,10 +2439,10 @@ function format$1(message, ...args) {
 const makeSymbol = (name, shareable = false) => !shareable ? Symbol(name) : Symbol.for(name);
 const generateFormatCacheKey = (locale, key, source) => friendlyJSONstringify({ l: locale, k: key, s: source });
 const friendlyJSONstringify = (json) => JSON.stringify(json).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029").replace(/\u0027/g, "\\u0027");
-const isNumber$1 = (val) => typeof val === "number" && isFinite(val);
-const isDate$1 = (val) => toTypeString(val) === "[object Date]";
-const isRegExp$1 = (val) => toTypeString(val) === "[object RegExp]";
-const isEmptyObject$1 = (val) => isPlainObject$1(val) && Object.keys(val).length === 0;
+const isNumber = (val) => typeof val === "number" && isFinite(val);
+const isDate = (val) => toTypeString(val) === "[object Date]";
+const isRegExp = (val) => toTypeString(val) === "[object RegExp]";
+const isEmptyObject = (val) => isPlainObject(val) && Object.keys(val).length === 0;
 const assign = Object.assign;
 const _create = Object.create;
 const create = (obj = null) => _create(obj);
@@ -2454,7 +2461,7 @@ function sanitizeTranslatedHtml(html) {
   html = html.replace(/(\w+)\s*=\s*'([^']*)'/g, (_, attrName, attrValue) => `${attrName}='${escapeAttributeValue(attrValue)}'`);
   const eventHandlerPattern = /\s*on\w+\s*=\s*["']?[^"'>]+["']?/gi;
   if (eventHandlerPattern.test(html)) {
-    if (process.env.NODE_ENV !== "production") {
+    if (define_process_env_default$3.NODE_ENV !== "production") {
       warn("Potentially dangerous event handlers detected in translation. Consider removing onclick, onerror, etc. from your translation messages.");
     }
     html = html.replace(/(\s+)(on)(\w+\s*=)/gi, "$1&#111;n$3");
@@ -2470,23 +2477,23 @@ function sanitizeTranslatedHtml(html) {
   });
   return html;
 }
-const hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 function hasOwn(obj, key) {
-  return hasOwnProperty$1.call(obj, key);
+  return hasOwnProperty.call(obj, key);
 }
-const isArray$1 = Array.isArray;
-const isFunction$2 = (val) => typeof val === "function";
-const isString$3 = (val) => typeof val === "string";
-const isBoolean$1 = (val) => typeof val === "boolean";
-const isObject$2 = (val) => val !== null && typeof val === "object";
+const isArray = Array.isArray;
+const isFunction = (val) => typeof val === "function";
+const isString$1 = (val) => typeof val === "string";
+const isBoolean = (val) => typeof val === "boolean";
+const isObject = (val) => val !== null && typeof val === "object";
 const isPromise = (val) => {
-  return isObject$2(val) && isFunction$2(val.then) && isFunction$2(val.catch);
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
 };
 const objectToString = Object.prototype.toString;
 const toTypeString = (value) => objectToString.call(value);
-const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
+const isPlainObject = (val) => toTypeString(val) === "[object Object]";
 const toDisplayString = (val) => {
-  return val == null ? "" : isArray$1(val) || isPlainObject$1(val) && val.toString === objectToString ? JSON.stringify(val, null, 2) : String(val);
+  return val == null ? "" : isArray(val) || isPlainObject(val) && val.toString === objectToString ? JSON.stringify(val, null, 2) : String(val);
 };
 function join(items, separator = "") {
   return items.reduce((str, item, index) => index === 0 ? str + item : str + separator + item, "");
@@ -2546,7 +2553,7 @@ function createEmitter() {
   };
   return emitter;
 }
-const isNotObjectOrIsArray = (val) => !isObject$2(val) || isArray$1(val);
+const isNotObjectOrIsArray = (val) => !isObject(val) || isArray(val);
 function deepCopy(src, des) {
   if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
     throw new Error("Invalid value");
@@ -2558,7 +2565,7 @@ function deepCopy(src, des) {
       if (key === "__proto__") {
         return;
       }
-      if (isObject$2(src2[key]) && !isObject$2(des2[key])) {
+      if (isObject(src2[key]) && !isObject(des2[key])) {
         des2[key] = Array.isArray(src2[key]) ? [] : create();
       }
       if (isNotObjectOrIsArray(des2[key]) || isNotObjectOrIsArray(src2[key])) {
@@ -2569,11 +2576,7 @@ function deepCopy(src, des) {
     });
   }
 }
-/*!
-  * message-compiler v11.1.12
-  * (c) 2025 kazuya kawaguchi
-  * Released under the MIT License.
-  */
+var define_process_env_default$2 = {};
 function createPosition(line, column, offset) {
   return { line, column, offset };
 }
@@ -2628,7 +2631,7 @@ const errorMessages$2 = {
 };
 function createCompileError(code, loc, options = {}) {
   const { domain, messages, args } = options;
-  const msg = process.env.NODE_ENV !== "production" ? format$1((messages || errorMessages$2)[code] || "", ...args || []) : code;
+  const msg = define_process_env_default$2.NODE_ENV !== "production" ? format$1((messages || errorMessages$2)[code] || "", ...args || []) : code;
   const error = new SyntaxError(String(msg));
   error.code = code;
   if (loc) {
@@ -3820,7 +3823,7 @@ function minify(node) {
       break;
     }
     default:
-      if (process.env.NODE_ENV !== "production") {
+      if (define_process_env_default$2.NODE_ENV !== "production") {
         throw createCompileError(CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE, null, {
           domain: ERROR_DOMAIN$1,
           args: [node.type]
@@ -3851,9 +3854,9 @@ function createCodeGenerator(ast, options) {
   function push(code, node) {
     _context.code += code;
   }
-  function _newline(n2, withBreakLine = true) {
+  function _newline(n, withBreakLine = true) {
     const _breakLineCode = withBreakLine ? breakLineCode : "";
-    push(_needIndent ? _breakLineCode + `  `.repeat(n2) : _breakLineCode);
+    push(_needIndent ? _breakLineCode + `  `.repeat(n) : _breakLineCode);
   }
   function indent(withNewLine = true) {
     const level = ++_context.indentLevel;
@@ -3985,7 +3988,7 @@ function generateNode(generator, node) {
       generator.push(JSON.stringify(node.value), node);
       break;
     default:
-      if (process.env.NODE_ENV !== "production") {
+      if (define_process_env_default$2.NODE_ENV !== "production") {
         throw createCompileError(CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE, null, {
           domain: ERROR_DOMAIN,
           args: [node.type]
@@ -3994,8 +3997,8 @@ function generateNode(generator, node) {
   }
 }
 const generate = (ast, options = {}) => {
-  const mode = isString$3(options.mode) ? options.mode : "normal";
-  const filename = isString$3(options.filename) ? options.filename : "message.intl";
+  const mode = isString$1(options.mode) ? options.mode : "normal";
+  const filename = isString$1(options.filename) ? options.filename : "message.intl";
   !!options.sourceMap;
   const breakLineCode = options.breakLineCode != null ? options.breakLineCode : mode === "arrow" ? ";" : "\n";
   const needIndent = options.needIndent ? options.needIndent : mode !== "arrow";
@@ -4040,11 +4043,7 @@ function baseCompile$1(source, options = {}) {
     return { ast, code: "" };
   }
 }
-/*!
-  * core-base v11.1.12
-  * (c) 2025 kazuya kawaguchi
-  * Released under the MIT License.
-  */
+var define_process_env_default$1 = {};
 function initFeatureFlags$1() {
   if (typeof __INTLIFY_PROD_DEVTOOLS__ !== "boolean") {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false;
@@ -4054,7 +4053,7 @@ function initFeatureFlags$1() {
   }
 }
 function isMessageAST(val) {
-  return isObject$2(val) && resolveType(val) === 0 && (hasOwn(val, "b") || hasOwn(val, "body"));
+  return isObject(val) && resolveType(val) === 0 && (hasOwn(val, "b") || hasOwn(val, "body"));
 }
 const PROPS_BODY = ["b", "body"];
 function resolveBody(node) {
@@ -4177,10 +4176,10 @@ function formatMessagePart(ctx, node) {
     }
     case 5: {
       const list = node;
-      if (hasOwn(list, "i") && isNumber$1(list.i)) {
+      if (hasOwn(list, "i") && isNumber(list.i)) {
         return ctx.interpolate(ctx.list(list.i));
       }
-      if (hasOwn(list, "index") && isNumber$1(list.index)) {
+      if (hasOwn(list, "index") && isNumber(list.index)) {
         return ctx.interpolate(ctx.list(list.index));
       }
       throw createUnhandleNodeError(type);
@@ -4220,9 +4219,9 @@ function baseCompile(message, options = {}) {
 }
 // @__NO_SIDE_EFFECTS__
 function compile(message, context) {
-  if (!__INTLIFY_DROP_MESSAGE_COMPILER__ && isString$3(message)) {
-    const warnHtmlMessage = isBoolean$1(context.warnHtmlMessage) ? context.warnHtmlMessage : true;
-    process.env.NODE_ENV !== "production" && checkHtmlMessage(message, warnHtmlMessage);
+  if (!__INTLIFY_DROP_MESSAGE_COMPILER__ && isString$1(message)) {
+    const warnHtmlMessage = isBoolean(context.warnHtmlMessage) ? context.warnHtmlMessage : true;
+    define_process_env_default$1.NODE_ENV !== "production" && checkHtmlMessage(message, warnHtmlMessage);
     const onCacheKey = context.onCacheKey || defaultOnCacheKey;
     const cacheKey = onCacheKey(message);
     const cached = compileCache[cacheKey];
@@ -4231,13 +4230,13 @@ function compile(message, context) {
     }
     const { ast, detectError } = baseCompile(message, {
       ...context,
-      location: process.env.NODE_ENV !== "production",
+      location: define_process_env_default$1.NODE_ENV !== "production",
       jit: true
     });
     const msg = format(ast);
     return !detectError ? compileCache[cacheKey] = msg : msg;
   } else {
-    if (process.env.NODE_ENV !== "production" && !isMessageAST(message)) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && !isMessageAST(message)) {
       warn(`the message that is resolve with key '${context.key}' is not supported for jit compilation`);
       return (() => message);
     }
@@ -4281,7 +4280,7 @@ const CoreErrorCodes = {
 };
 const CORE_ERROR_CODES_EXTEND_POINT = 24;
 function createCoreError(code) {
-  return createCompileError(code, null, process.env.NODE_ENV !== "production" ? { messages: errorMessages$1 } : void 0);
+  return createCompileError(code, null, define_process_env_default$1.NODE_ENV !== "production" ? { messages: errorMessages$1 } : void 0);
 }
 const errorMessages$1 = {
   [CoreErrorCodes.INVALID_ARGUMENT]: "Invalid arguments",
@@ -4297,10 +4296,10 @@ function getLocale(context, options) {
 }
 let _resolveLocale;
 function resolveLocale(locale) {
-  if (isString$3(locale)) {
+  if (isString$1(locale)) {
     return locale;
   } else {
-    if (isFunction$2(locale)) {
+    if (isFunction(locale)) {
       if (locale.resolvedOnce && _resolveLocale != null) {
         return _resolveLocale;
       } else if (locale.constructor.name === "Function") {
@@ -4320,11 +4319,11 @@ function resolveLocale(locale) {
 function fallbackWithSimple(ctx, fallback, start) {
   return [.../* @__PURE__ */ new Set([
     start,
-    ...isArray$1(fallback) ? fallback : isObject$2(fallback) ? Object.keys(fallback) : isString$3(fallback) ? [fallback] : [start]
+    ...isArray(fallback) ? fallback : isObject(fallback) ? Object.keys(fallback) : isString$1(fallback) ? [fallback] : [start]
   ])];
 }
 function fallbackWithLocaleChain(ctx, fallback, start) {
-  const startLocale = isString$3(start) ? start : DEFAULT_LOCALE;
+  const startLocale = isString$1(start) ? start : DEFAULT_LOCALE;
   const context = ctx;
   if (!context.__localeChainCache) {
     context.__localeChainCache = /* @__PURE__ */ new Map();
@@ -4333,12 +4332,12 @@ function fallbackWithLocaleChain(ctx, fallback, start) {
   if (!chain) {
     chain = [];
     let block = [start];
-    while (isArray$1(block)) {
+    while (isArray(block)) {
       block = appendBlockToChain(chain, block, fallback);
     }
-    const defaults2 = isArray$1(fallback) || !isPlainObject$1(fallback) ? fallback : fallback["default"] ? fallback["default"] : null;
-    block = isString$3(defaults2) ? [defaults2] : defaults2;
-    if (isArray$1(block)) {
+    const defaults = isArray(fallback) || !isPlainObject(fallback) ? fallback : fallback["default"] ? fallback["default"] : null;
+    block = isString$1(defaults) ? [defaults] : defaults;
+    if (isArray(block)) {
       appendBlockToChain(chain, block, false);
     }
     context.__localeChainCache.set(startLocale, chain);
@@ -4347,9 +4346,9 @@ function fallbackWithLocaleChain(ctx, fallback, start) {
 }
 function appendBlockToChain(chain, block, blocks) {
   let follow = true;
-  for (let i = 0; i < block.length && isBoolean$1(follow); i++) {
+  for (let i = 0; i < block.length && isBoolean(follow); i++) {
     const locale = block[i];
-    if (isString$3(locale)) {
+    if (isString$1(locale)) {
       follow = appendLocaleToChain(chain, block[i], blocks);
     }
   }
@@ -4373,7 +4372,7 @@ function appendItemToChain(chain, target, blocks) {
       follow = target[target.length - 1] !== "!";
       const locale = target.replace(/!/g, "");
       chain.push(locale);
-      if ((isArray$1(blocks) || isPlainObject$1(blocks)) && blocks[locale]) {
+      if ((isArray(blocks) || isPlainObject(blocks)) && blocks[locale]) {
         follow = blocks[locale];
       }
     }
@@ -4796,10 +4795,10 @@ function parse(path) {
 }
 const cache = /* @__PURE__ */ new Map();
 function resolveWithKeyValue(obj, path) {
-  return isObject$2(obj) ? obj[path] : null;
+  return isObject(obj) ? obj[path] : null;
 }
 function resolveValue(obj, path) {
-  if (!isObject$2(obj)) {
+  if (!isObject(obj)) {
     return null;
   }
   let hit = cache.get(path);
@@ -4824,7 +4823,7 @@ function resolveValue(obj, path) {
     if (val === void 0) {
       return null;
     }
-    if (isFunction$2(last)) {
+    if (isFunction(last)) {
       return null;
     }
     last = val;
@@ -4854,7 +4853,7 @@ const warnMessages$1 = {
 function getWarnMessage$1(code, ...args) {
   return format$1(warnMessages$1[code], ...args);
 }
-const VERSION$3 = "11.1.12";
+const VERSION$1 = "11.1.12";
 const NOT_REOSLVED = -1;
 const DEFAULT_LOCALE = "en-US";
 const MISSING_RESOLVE_VALUE = "";
@@ -4862,13 +4861,13 @@ const capitalize = (str) => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)
 function getDefaultLinkedModifiers() {
   return {
     upper: (val, type) => {
-      return type === "text" && isString$3(val) ? val.toUpperCase() : type === "vnode" && isObject$2(val) && "__v_isVNode" in val ? val.children.toUpperCase() : val;
+      return type === "text" && isString$1(val) ? val.toUpperCase() : type === "vnode" && isObject(val) && "__v_isVNode" in val ? val.children.toUpperCase() : val;
     },
     lower: (val, type) => {
-      return type === "text" && isString$3(val) ? val.toLowerCase() : type === "vnode" && isObject$2(val) && "__v_isVNode" in val ? val.children.toLowerCase() : val;
+      return type === "text" && isString$1(val) ? val.toLowerCase() : type === "vnode" && isObject(val) && "__v_isVNode" in val ? val.children.toLowerCase() : val;
     },
     capitalize: (val, type) => {
-      return type === "text" && isString$3(val) ? capitalize(val) : type === "vnode" && isObject$2(val) && "__v_isVNode" in val ? capitalize(val.children) : val;
+      return type === "text" && isString$1(val) ? capitalize(val) : type === "vnode" && isObject(val) && "__v_isVNode" in val ? capitalize(val.children) : val;
     }
   };
 }
@@ -4896,36 +4895,36 @@ const setFallbackContext = (context) => {
 const getFallbackContext = () => _fallbackContext;
 let _cid = 0;
 function createCoreContext(options = {}) {
-  const onWarn = isFunction$2(options.onWarn) ? options.onWarn : warn;
-  const version = isString$3(options.version) ? options.version : VERSION$3;
-  const locale = isString$3(options.locale) || isFunction$2(options.locale) ? options.locale : DEFAULT_LOCALE;
-  const _locale = isFunction$2(locale) ? DEFAULT_LOCALE : locale;
-  const fallbackLocale = isArray$1(options.fallbackLocale) || isPlainObject$1(options.fallbackLocale) || isString$3(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale;
-  const messages = isPlainObject$1(options.messages) ? options.messages : createResources(_locale);
-  const datetimeFormats = isPlainObject$1(options.datetimeFormats) ? options.datetimeFormats : createResources(_locale);
-  const numberFormats = isPlainObject$1(options.numberFormats) ? options.numberFormats : createResources(_locale);
+  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn;
+  const version = isString$1(options.version) ? options.version : VERSION$1;
+  const locale = isString$1(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale;
+  const fallbackLocale = isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || isString$1(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale;
+  const messages = isPlainObject(options.messages) ? options.messages : createResources(_locale);
+  const datetimeFormats = isPlainObject(options.datetimeFormats) ? options.datetimeFormats : createResources(_locale);
+  const numberFormats = isPlainObject(options.numberFormats) ? options.numberFormats : createResources(_locale);
   const modifiers = assign(create(), options.modifiers, getDefaultLinkedModifiers());
   const pluralRules = options.pluralRules || create();
-  const missing = isFunction$2(options.missing) ? options.missing : null;
-  const missingWarn = isBoolean$1(options.missingWarn) || isRegExp$1(options.missingWarn) ? options.missingWarn : true;
-  const fallbackWarn = isBoolean$1(options.fallbackWarn) || isRegExp$1(options.fallbackWarn) ? options.fallbackWarn : true;
+  const missing = isFunction(options.missing) ? options.missing : null;
+  const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  const fallbackWarn = isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
   const fallbackFormat = !!options.fallbackFormat;
   const unresolving = !!options.unresolving;
-  const postTranslation = isFunction$2(options.postTranslation) ? options.postTranslation : null;
-  const processor = isPlainObject$1(options.processor) ? options.processor : null;
-  const warnHtmlMessage = isBoolean$1(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  const processor = isPlainObject(options.processor) ? options.processor : null;
+  const warnHtmlMessage = isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
   const escapeParameter = !!options.escapeParameter;
-  const messageCompiler = isFunction$2(options.messageCompiler) ? options.messageCompiler : _compiler;
-  if (process.env.NODE_ENV !== "production" && true && true && isFunction$2(options.messageCompiler)) {
+  const messageCompiler = isFunction(options.messageCompiler) ? options.messageCompiler : _compiler;
+  if (define_process_env_default$1.NODE_ENV !== "production" && true && true && isFunction(options.messageCompiler)) {
     warnOnce(getWarnMessage$1(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER));
   }
-  const messageResolver = isFunction$2(options.messageResolver) ? options.messageResolver : _resolver || resolveWithKeyValue;
-  const localeFallbacker = isFunction$2(options.localeFallbacker) ? options.localeFallbacker : _fallbacker || fallbackWithSimple;
-  const fallbackContext = isObject$2(options.fallbackContext) ? options.fallbackContext : void 0;
+  const messageResolver = isFunction(options.messageResolver) ? options.messageResolver : _resolver || resolveWithKeyValue;
+  const localeFallbacker = isFunction(options.localeFallbacker) ? options.localeFallbacker : _fallbacker || fallbackWithSimple;
+  const fallbackContext = isObject(options.fallbackContext) ? options.fallbackContext : void 0;
   const internalOptions = options;
-  const __datetimeFormatters = isObject$2(internalOptions.__datetimeFormatters) ? internalOptions.__datetimeFormatters : /* @__PURE__ */ new Map();
-  const __numberFormatters = isObject$2(internalOptions.__numberFormatters) ? internalOptions.__numberFormatters : /* @__PURE__ */ new Map();
-  const __meta = isObject$2(internalOptions.__meta) ? internalOptions.__meta : {};
+  const __datetimeFormatters = isObject(internalOptions.__datetimeFormatters) ? internalOptions.__datetimeFormatters : /* @__PURE__ */ new Map();
+  const __numberFormatters = isObject(internalOptions.__numberFormatters) ? internalOptions.__numberFormatters : /* @__PURE__ */ new Map();
+  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {};
   _cid++;
   const context = {
     version,
@@ -4957,10 +4956,10 @@ function createCoreContext(options = {}) {
     context.__datetimeFormatters = __datetimeFormatters;
     context.__numberFormatters = __numberFormatters;
   }
-  if (process.env.NODE_ENV !== "production") {
+  if (define_process_env_default$1.NODE_ENV !== "production") {
     context.__v_emitter = internalOptions.__v_emitter != null ? internalOptions.__v_emitter : void 0;
   }
-  if (process.env.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
+  if (define_process_env_default$1.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
     initI18nDevTools(context, version, __meta);
   }
   return context;
@@ -4974,7 +4973,7 @@ function isTranslateMissingWarn(missing, key) {
 }
 function handleMissing(context, key, locale, missingWarn, type) {
   const { missing, onWarn } = context;
-  if (process.env.NODE_ENV !== "production") {
+  if (define_process_env_default$1.NODE_ENV !== "production") {
     const emitter = context.__v_emitter;
     if (emitter) {
       emitter.emit("missing", {
@@ -4987,9 +4986,9 @@ function handleMissing(context, key, locale, missingWarn, type) {
   }
   if (missing !== null) {
     const ret = missing(context, locale, key, type);
-    return isString$3(ret) ? ret : key;
+    return isString$1(ret) ? ret : key;
   } else {
-    if (process.env.NODE_ENV !== "production" && isTranslateMissingWarn(missingWarn, key)) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && isTranslateMissingWarn(missingWarn, key)) {
       onWarn(getWarnMessage$1(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }));
     }
     return key;
@@ -5025,13 +5024,13 @@ const Availabilities = {
 function datetime(context, ...args) {
   const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
   const { __datetimeFormatters } = context;
-  if (process.env.NODE_ENV !== "production" && !Availabilities.dateTimeFormat) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && !Availabilities.dateTimeFormat) {
     onWarn(getWarnMessage$1(CoreWarnCodes.CANNOT_FORMAT_DATE));
     return MISSING_RESOLVE_VALUE;
   }
   const [key, value, options, overrides] = parseDateTimeArgs(...args);
-  const missingWarn = isBoolean$1(options.missingWarn) ? options.missingWarn : context.missingWarn;
-  const fallbackWarn = isBoolean$1(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
   const part = !!options.part;
   const locale = getLocale(context, options);
   const locales = localeFallbacker(
@@ -5040,7 +5039,7 @@ function datetime(context, ...args) {
     fallbackLocale,
     locale
   );
-  if (!isString$3(key) || key === "") {
+  if (!isString$1(key) || key === "") {
     return new Intl.DateTimeFormat(locale, overrides).format(value);
   }
   let datetimeFormat = {};
@@ -5051,13 +5050,13 @@ function datetime(context, ...args) {
   const type = "datetime format";
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i];
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(getWarnMessage$1(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
         key,
         target: targetLocale
       }));
     }
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale) {
       const emitter = context.__v_emitter;
       if (emitter) {
         emitter.emit("fallback", {
@@ -5071,16 +5070,16 @@ function datetime(context, ...args) {
     }
     datetimeFormat = datetimeFormats[targetLocale] || {};
     format2 = datetimeFormat[key];
-    if (isPlainObject$1(format2))
+    if (isPlainObject(format2))
       break;
     handleMissing(context, key, targetLocale, missingWarn, type);
     from = to;
   }
-  if (!isPlainObject$1(format2) || !isString$3(targetLocale)) {
+  if (!isPlainObject(format2) || !isString$1(targetLocale)) {
     return unresolving ? NOT_REOSLVED : key;
   }
   let id = `${targetLocale}__${key}`;
-  if (!isEmptyObject$1(overrides)) {
+  if (!isEmptyObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`;
   }
   let formatter = __datetimeFormatters.get(id);
@@ -5117,7 +5116,7 @@ function parseDateTimeArgs(...args) {
   const options = create();
   let overrides = create();
   let value;
-  if (isString$3(arg1)) {
+  if (isString$1(arg1)) {
     const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/);
     if (!matches) {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
@@ -5129,19 +5128,19 @@ function parseDateTimeArgs(...args) {
     } catch {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
     }
-  } else if (isDate$1(arg1)) {
+  } else if (isDate(arg1)) {
     if (isNaN(arg1.getTime())) {
       throw createCoreError(CoreErrorCodes.INVALID_DATE_ARGUMENT);
     }
     value = arg1;
-  } else if (isNumber$1(arg1)) {
+  } else if (isNumber(arg1)) {
     value = arg1;
   } else {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
   }
-  if (isString$3(arg2)) {
+  if (isString$1(arg2)) {
     options.key = arg2;
-  } else if (isPlainObject$1(arg2)) {
+  } else if (isPlainObject(arg2)) {
     Object.keys(arg2).forEach((key) => {
       if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
         overrides[key] = arg2[key];
@@ -5150,12 +5149,12 @@ function parseDateTimeArgs(...args) {
       }
     });
   }
-  if (isString$3(arg3)) {
+  if (isString$1(arg3)) {
     options.locale = arg3;
-  } else if (isPlainObject$1(arg3)) {
+  } else if (isPlainObject(arg3)) {
     overrides = arg3;
   }
-  if (isPlainObject$1(arg4)) {
+  if (isPlainObject(arg4)) {
     overrides = arg4;
   }
   return [options.key || "", value, options, overrides];
@@ -5173,13 +5172,13 @@ function clearDateTimeFormat(ctx, locale, format2) {
 function number$1(context, ...args) {
   const { numberFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
   const { __numberFormatters } = context;
-  if (process.env.NODE_ENV !== "production" && !Availabilities.numberFormat) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && !Availabilities.numberFormat) {
     onWarn(getWarnMessage$1(CoreWarnCodes.CANNOT_FORMAT_NUMBER));
     return MISSING_RESOLVE_VALUE;
   }
   const [key, value, options, overrides] = parseNumberArgs(...args);
-  const missingWarn = isBoolean$1(options.missingWarn) ? options.missingWarn : context.missingWarn;
-  const fallbackWarn = isBoolean$1(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
   const part = !!options.part;
   const locale = getLocale(context, options);
   const locales = localeFallbacker(
@@ -5188,7 +5187,7 @@ function number$1(context, ...args) {
     fallbackLocale,
     locale
   );
-  if (!isString$3(key) || key === "") {
+  if (!isString$1(key) || key === "") {
     return new Intl.NumberFormat(locale, overrides).format(value);
   }
   let numberFormat = {};
@@ -5199,13 +5198,13 @@ function number$1(context, ...args) {
   const type = "number format";
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i];
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(getWarnMessage$1(CoreWarnCodes.FALLBACK_TO_NUMBER_FORMAT, {
         key,
         target: targetLocale
       }));
     }
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale) {
       const emitter = context.__v_emitter;
       if (emitter) {
         emitter.emit("fallback", {
@@ -5219,16 +5218,16 @@ function number$1(context, ...args) {
     }
     numberFormat = numberFormats[targetLocale] || {};
     format2 = numberFormat[key];
-    if (isPlainObject$1(format2))
+    if (isPlainObject(format2))
       break;
     handleMissing(context, key, targetLocale, missingWarn, type);
     from = to;
   }
-  if (!isPlainObject$1(format2) || !isString$3(targetLocale)) {
+  if (!isPlainObject(format2) || !isString$1(targetLocale)) {
     return unresolving ? NOT_REOSLVED : key;
   }
   let id = `${targetLocale}__${key}`;
-  if (!isEmptyObject$1(overrides)) {
+  if (!isEmptyObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`;
   }
   let formatter = __numberFormatters.get(id);
@@ -5264,13 +5263,13 @@ function parseNumberArgs(...args) {
   const [arg1, arg2, arg3, arg4] = args;
   const options = create();
   let overrides = create();
-  if (!isNumber$1(arg1)) {
+  if (!isNumber(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
   }
   const value = arg1;
-  if (isString$3(arg2)) {
+  if (isString$1(arg2)) {
     options.key = arg2;
-  } else if (isPlainObject$1(arg2)) {
+  } else if (isPlainObject(arg2)) {
     Object.keys(arg2).forEach((key) => {
       if (NUMBER_FORMAT_OPTIONS_KEYS.includes(key)) {
         overrides[key] = arg2[key];
@@ -5279,12 +5278,12 @@ function parseNumberArgs(...args) {
       }
     });
   }
-  if (isString$3(arg3)) {
+  if (isString$1(arg3)) {
     options.locale = arg3;
-  } else if (isPlainObject$1(arg3)) {
+  } else if (isPlainObject(arg3)) {
     overrides = arg3;
   }
-  if (isPlainObject$1(arg4)) {
+  if (isPlainObject(arg4)) {
     overrides = arg4;
   }
   return [options.key || "", value, options, overrides];
@@ -5312,8 +5311,8 @@ function pluralDefault(choice, choicesLength) {
   return choice ? Math.min(choice, 2) : 0;
 }
 function getPluralIndex(options) {
-  const index = isNumber$1(options.pluralIndex) ? options.pluralIndex : -1;
-  return options.named && (isNumber$1(options.named.count) || isNumber$1(options.named.n)) ? isNumber$1(options.named.count) ? options.named.count : isNumber$1(options.named.n) ? options.named.n : index : index;
+  const index = isNumber(options.pluralIndex) ? options.pluralIndex : -1;
+  return options.named && (isNumber(options.named.count) || isNumber(options.named.n)) ? isNumber(options.named.count) ? options.named.count : isNumber(options.named.n) ? options.named.n : index : index;
 }
 function normalizeNamed(pluralIndex, props) {
   if (!props.count) {
@@ -5326,47 +5325,47 @@ function normalizeNamed(pluralIndex, props) {
 function createMessageContext(options = {}) {
   const locale = options.locale;
   const pluralIndex = getPluralIndex(options);
-  const pluralRule = isObject$2(options.pluralRules) && isString$3(locale) && isFunction$2(options.pluralRules[locale]) ? options.pluralRules[locale] : pluralDefault;
-  const orgPluralRule = isObject$2(options.pluralRules) && isString$3(locale) && isFunction$2(options.pluralRules[locale]) ? pluralDefault : void 0;
+  const pluralRule = isObject(options.pluralRules) && isString$1(locale) && isFunction(options.pluralRules[locale]) ? options.pluralRules[locale] : pluralDefault;
+  const orgPluralRule = isObject(options.pluralRules) && isString$1(locale) && isFunction(options.pluralRules[locale]) ? pluralDefault : void 0;
   const plural = (messages) => {
     return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)];
   };
   const _list = options.list || [];
   const list = (index) => _list[index];
   const _named = options.named || create();
-  isNumber$1(options.pluralIndex) && normalizeNamed(pluralIndex, _named);
+  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named);
   const named = (key) => _named[key];
   function message(key, useLinked) {
-    const msg = isFunction$2(options.messages) ? options.messages(key, !!useLinked) : isObject$2(options.messages) ? options.messages[key] : false;
+    const msg = isFunction(options.messages) ? options.messages(key, !!useLinked) : isObject(options.messages) ? options.messages[key] : false;
     return !msg ? options.parent ? options.parent.message(key) : DEFAULT_MESSAGE : msg;
   }
   const _modifier = (name) => options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER;
-  const normalize = isPlainObject$1(options.processor) && isFunction$2(options.processor.normalize) ? options.processor.normalize : DEFAULT_NORMALIZE;
-  const interpolate = isPlainObject$1(options.processor) && isFunction$2(options.processor.interpolate) ? options.processor.interpolate : DEFAULT_INTERPOLATE;
-  const type = isPlainObject$1(options.processor) && isString$3(options.processor.type) ? options.processor.type : DEFAULT_MESSAGE_DATA_TYPE;
+  const normalize = isPlainObject(options.processor) && isFunction(options.processor.normalize) ? options.processor.normalize : DEFAULT_NORMALIZE;
+  const interpolate = isPlainObject(options.processor) && isFunction(options.processor.interpolate) ? options.processor.interpolate : DEFAULT_INTERPOLATE;
+  const type = isPlainObject(options.processor) && isString$1(options.processor.type) ? options.processor.type : DEFAULT_MESSAGE_DATA_TYPE;
   const linked = (key, ...args) => {
     const [arg1, arg2] = args;
     let type2 = "text";
     let modifier = "";
     if (args.length === 1) {
-      if (isObject$2(arg1)) {
+      if (isObject(arg1)) {
         modifier = arg1.modifier || modifier;
         type2 = arg1.type || type2;
-      } else if (isString$3(arg1)) {
+      } else if (isString$1(arg1)) {
         modifier = arg1 || modifier;
       }
     } else if (args.length === 2) {
-      if (isString$3(arg1)) {
+      if (isString$1(arg1)) {
         modifier = arg1 || modifier;
       }
-      if (isString$3(arg2)) {
+      if (isString$1(arg2)) {
         type2 = arg2 || type2;
       }
     }
     const ret = message(key, true)(ctx);
     const msg = (
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
-      type2 === "vnode" && isArray$1(ret) && modifier ? ret[0] : ret
+      type2 === "vnode" && isArray(ret) && modifier ? ret[0] : ret
     );
     return modifier ? _modifier(modifier)(msg, type2) : msg;
   };
@@ -5411,16 +5410,16 @@ function createMessageContext(options = {}) {
   return ctx;
 }
 const NOOP_MESSAGE_FUNCTION = () => "";
-const isMessageFunction = (val) => isFunction$2(val);
+const isMessageFunction = (val) => isFunction(val);
 function translate(context, ...args) {
   const { fallbackFormat, postTranslation, unresolving, messageCompiler, fallbackLocale, messages } = context;
   const [key, options] = parseTranslateArgs(...args);
-  const missingWarn = isBoolean$1(options.missingWarn) ? options.missingWarn : context.missingWarn;
-  const fallbackWarn = isBoolean$1(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
-  const escapeParameter = isBoolean$1(options.escapeParameter) ? options.escapeParameter : context.escapeParameter;
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const escapeParameter = isBoolean(options.escapeParameter) ? options.escapeParameter : context.escapeParameter;
   const resolvedMessage = !!options.resolvedMessage;
-  const defaultMsgOrKey = isString$3(options.default) || isBoolean$1(options.default) ? !isBoolean$1(options.default) ? options.default : !messageCompiler ? () => key : key : fallbackFormat ? !messageCompiler ? () => key : key : null;
-  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey != null && (isString$3(defaultMsgOrKey) || isFunction$2(defaultMsgOrKey));
+  const defaultMsgOrKey = isString$1(options.default) || isBoolean(options.default) ? !isBoolean(options.default) ? options.default : !messageCompiler ? () => key : key : fallbackFormat ? !messageCompiler ? () => key : key : null;
+  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey != null && (isString$1(defaultMsgOrKey) || isFunction(defaultMsgOrKey));
   const locale = getLocale(context, options);
   escapeParameter && escapeParams(options);
   let [formatScope, targetLocale, message] = !resolvedMessage ? resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn, missingWarn) : [
@@ -5430,16 +5429,16 @@ function translate(context, ...args) {
   ];
   let format2 = formatScope;
   let cacheBaseKey = key;
-  if (!resolvedMessage && !(isString$3(format2) || isMessageAST(format2) || isMessageFunction(format2))) {
+  if (!resolvedMessage && !(isString$1(format2) || isMessageAST(format2) || isMessageFunction(format2))) {
     if (enableDefaultMsg) {
       format2 = defaultMsgOrKey;
       cacheBaseKey = format2;
     }
   }
-  if (!resolvedMessage && (!(isString$3(format2) || isMessageAST(format2) || isMessageFunction(format2)) || !isString$3(targetLocale))) {
+  if (!resolvedMessage && (!(isString$1(format2) || isMessageAST(format2) || isMessageFunction(format2)) || !isString$1(targetLocale))) {
     return unresolving ? NOT_REOSLVED : key;
   }
-  if (process.env.NODE_ENV !== "production" && isString$3(format2) && context.messageCompiler == null) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && isString$1(format2) && context.messageCompiler == null) {
     warn(`The message format compilation is not supported in this build. Because message compiler isn't included. You need to pre-compilation all message format. So translate function return '${key}'.`);
     return key;
   }
@@ -5455,15 +5454,15 @@ function translate(context, ...args) {
   const msgContext = createMessageContext(ctxOptions);
   const messaged = evaluateMessage(context, msg, msgContext);
   let ret = postTranslation ? postTranslation(messaged, key) : messaged;
-  if (escapeParameter && isString$3(ret)) {
+  if (escapeParameter && isString$1(ret)) {
     ret = sanitizeTranslatedHtml(ret);
   }
-  if (process.env.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
+  if (define_process_env_default$1.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
     const payloads = {
       timestamp: Date.now(),
-      key: isString$3(key) ? key : isMessageFunction(format2) ? format2.key : "",
+      key: isString$1(key) ? key : isMessageFunction(format2) ? format2.key : "",
       locale: targetLocale || (isMessageFunction(format2) ? format2.locale : ""),
-      format: isString$3(format2) ? format2 : isMessageFunction(format2) ? format2.source : "",
+      format: isString$1(format2) ? format2 : isMessageFunction(format2) ? format2.source : "",
       message: ret
     };
     payloads.meta = assign({}, context.__meta, /* @__PURE__ */ getAdditionalMeta() || {});
@@ -5472,11 +5471,11 @@ function translate(context, ...args) {
   return ret;
 }
 function escapeParams(options) {
-  if (isArray$1(options.list)) {
-    options.list = options.list.map((item) => isString$3(item) ? escapeHtml(item) : item);
-  } else if (isObject$2(options.named)) {
+  if (isArray(options.list)) {
+    options.list = options.list.map((item) => isString$1(item) ? escapeHtml(item) : item);
+  } else if (isObject(options.named)) {
     Object.keys(options.named).forEach((key) => {
-      if (isString$3(options.named[key])) {
+      if (isString$1(options.named[key])) {
         options.named[key] = escapeHtml(options.named[key]);
       }
     });
@@ -5493,13 +5492,13 @@ function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn
   const type = "translate";
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i];
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale && !isAlmostSameLocale(locale, targetLocale) && isTranslateFallbackWarn(fallbackWarn, key)) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale && !isAlmostSameLocale(locale, targetLocale) && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(getWarnMessage$1(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
         key,
         target: targetLocale
       }));
     }
-    if (process.env.NODE_ENV !== "production" && locale !== targetLocale) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && locale !== targetLocale) {
       const emitter = context.__v_emitter;
       if (emitter) {
         emitter.emit("fallback", {
@@ -5515,7 +5514,7 @@ function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn
     let start = null;
     let startTag;
     let endTag;
-    if (process.env.NODE_ENV !== "production" && inBrowser) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
       start = window.performance.now();
       startTag = "intlify-message-resolve-start";
       endTag = "intlify-message-resolve-end";
@@ -5524,7 +5523,7 @@ function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn
     if ((format2 = resolveValue2(message, key)) === null) {
       format2 = message[key];
     }
-    if (process.env.NODE_ENV !== "production" && inBrowser) {
+    if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
       const end = window.performance.now();
       const emitter = context.__v_emitter;
       if (emitter && start && format2) {
@@ -5541,7 +5540,7 @@ function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn
         measure("intlify message resolve", startTag, endTag);
       }
     }
-    if (isString$3(format2) || isMessageAST(format2) || isMessageFunction(format2)) {
+    if (isString$1(format2) || isMessageAST(format2) || isMessageFunction(format2)) {
       break;
     }
     if (!isImplicitFallback(targetLocale, locales)) {
@@ -5578,14 +5577,14 @@ function compileMessageFormat(context, key, targetLocale, format2, cacheBaseKey,
   let start = null;
   let startTag;
   let endTag;
-  if (process.env.NODE_ENV !== "production" && inBrowser) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
     start = window.performance.now();
     startTag = "intlify-message-compilation-start";
     endTag = "intlify-message-compilation-end";
     mark && mark(startTag);
   }
   const msg = messageCompiler(format2, getCompileContext(context, targetLocale, cacheBaseKey, format2, warnHtmlMessage, onError));
-  if (process.env.NODE_ENV !== "production" && inBrowser) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
     const end = window.performance.now();
     const emitter = context.__v_emitter;
     if (emitter && start) {
@@ -5610,14 +5609,14 @@ function evaluateMessage(context, msg, msgCtx) {
   let start = null;
   let startTag;
   let endTag;
-  if (process.env.NODE_ENV !== "production" && inBrowser) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
     start = window.performance.now();
     startTag = "intlify-message-evaluation-start";
     endTag = "intlify-message-evaluation-end";
     mark && mark(startTag);
   }
   const messaged = msg(msgCtx);
-  if (process.env.NODE_ENV !== "production" && inBrowser) {
+  if (define_process_env_default$1.NODE_ENV !== "production" && inBrowser) {
     const end = window.performance.now();
     const emitter = context.__v_emitter;
     if (emitter && start) {
@@ -5638,24 +5637,24 @@ function evaluateMessage(context, msg, msgCtx) {
 function parseTranslateArgs(...args) {
   const [arg1, arg2, arg3] = args;
   const options = create();
-  if (!isString$3(arg1) && !isNumber$1(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
+  if (!isString$1(arg1) && !isNumber(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
   }
-  const key = isNumber$1(arg1) ? String(arg1) : isMessageFunction(arg1) ? arg1 : arg1;
-  if (isNumber$1(arg2)) {
+  const key = isNumber(arg1) ? String(arg1) : isMessageFunction(arg1) ? arg1 : arg1;
+  if (isNumber(arg2)) {
     options.plural = arg2;
-  } else if (isString$3(arg2)) {
+  } else if (isString$1(arg2)) {
     options.default = arg2;
-  } else if (isPlainObject$1(arg2) && !isEmptyObject$1(arg2)) {
+  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
     options.named = arg2;
-  } else if (isArray$1(arg2)) {
+  } else if (isArray(arg2)) {
     options.list = arg2;
   }
-  if (isNumber$1(arg3)) {
+  if (isNumber(arg3)) {
     options.plural = arg3;
-  } else if (isString$3(arg3)) {
+  } else if (isString$1(arg3)) {
     options.default = arg3;
-  } else if (isPlainObject$1(arg3)) {
+  } else if (isPlainObject(arg3)) {
     assign(options, arg3);
   }
   return [key, options];
@@ -5667,7 +5666,7 @@ function getCompileContext(context, locale, key, source, warnHtmlMessage, onErro
     warnHtmlMessage,
     onError: (err) => {
       onError && onError(err);
-      if (process.env.NODE_ENV !== "production") {
+      if (define_process_env_default$1.NODE_ENV !== "production") {
         const _source = getSourceForCodeFrame(source);
         const message = `Message compilation error: ${err.message}`;
         const codeFrame = err.location && _source && generateCodeFrame(_source, err.location.start.offset, err.location.end.offset);
@@ -5691,7 +5690,7 @@ ${codeFrame}` : message);
   };
 }
 function getSourceForCodeFrame(source) {
-  if (isString$3(source)) {
+  if (isString$1(source)) {
     return source;
   } else {
     if (source.loc && source.loc.source) {
@@ -5715,7 +5714,7 @@ function getMessageContextOptions(context, locale, message, options) {
       );
       val = resolveValue2(message2, key);
     }
-    if (isString$3(val) || isMessageAST(val)) {
+    if (isString$1(val) || isMessageAST(val)) {
       let occurred = false;
       const onError = () => {
         occurred = true;
@@ -5743,7 +5742,7 @@ function getMessageContextOptions(context, locale, message, options) {
   if (options.named) {
     ctxOptions.named = options.named;
   }
-  if (isNumber$1(options.plural)) {
+  if (isNumber(options.plural)) {
     ctxOptions.pluralIndex = options.plural;
   }
   return ctxOptions;
@@ -5899,12 +5898,8 @@ function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
     }
   }
 }
-/*!
-  * vue-i18n v11.1.12
-  * (c) 2025 kazuya kawaguchi
-  * Released under the MIT License.
-  */
-const VERSION$2 = "11.1.12";
+var define_process_env_default = {};
+const VERSION = "11.1.12";
 function initFeatureFlags() {
   if (typeof __VUE_I18N_FULL_INSTALL__ !== "boolean") {
     getGlobalThis().__VUE_I18N_FULL_INSTALL__ = true;
@@ -5942,7 +5937,7 @@ const I18nErrorCodes = {
   NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34
 };
 function createI18nError(code, ...args) {
-  return createCompileError(code, null, process.env.NODE_ENV !== "production" ? { messages: errorMessages, args } : void 0);
+  return createCompileError(code, null, define_process_env_default.NODE_ENV !== "production" ? { messages: errorMessages, args } : void 0);
 }
 const errorMessages = {
   [I18nErrorCodes.UNEXPECTED_RETURN_TYPE]: "Unexpected return type in composer",
@@ -6000,7 +5995,7 @@ function getWarnMessage(code, ...args) {
   return format$1(warnMessages[code], ...args);
 }
 function handleFlatJson(obj) {
-  if (!isObject$2(obj)) {
+  if (!isObject(obj)) {
     return obj;
   }
   if (isMessageAST(obj)) {
@@ -6011,7 +6006,7 @@ function handleFlatJson(obj) {
       continue;
     }
     if (!key.includes(".")) {
-      if (isObject$2(obj[key])) {
+      if (isObject(obj[key])) {
         handleFlatJson(obj[key]);
       }
     } else {
@@ -6026,8 +6021,8 @@ function handleFlatJson(obj) {
         if (!(subKeys[i] in currentObj)) {
           currentObj[subKeys[i]] = create();
         }
-        if (!isObject$2(currentObj[subKeys[i]])) {
-          process.env.NODE_ENV !== "production" && warn(getWarnMessage(I18nWarnCodes.IGNORE_OBJ_FLATTEN, {
+        if (!isObject(currentObj[subKeys[i]])) {
+          define_process_env_default.NODE_ENV !== "production" && warn(getWarnMessage(I18nWarnCodes.IGNORE_OBJ_FLATTEN, {
             key: subKeys[i]
           }));
           hasStringValue = true;
@@ -6047,7 +6042,7 @@ function handleFlatJson(obj) {
       }
       if (!isMessageAST(currentObj)) {
         const target = currentObj[subKeys[lastIndex]];
-        if (isObject$2(target)) {
+        if (isObject(target)) {
           handleFlatJson(target);
         }
       }
@@ -6057,8 +6052,8 @@ function handleFlatJson(obj) {
 }
 function getLocaleMessages(locale, options) {
   const { messages, __i18n, messageResolver, flatJson } = options;
-  const ret = isPlainObject$1(messages) ? messages : isArray$1(__i18n) ? create() : { [locale]: create() };
-  if (isArray$1(__i18n)) {
+  const ret = isPlainObject(messages) ? messages : isArray(__i18n) ? create() : { [locale]: create() };
+  if (isArray(__i18n)) {
     __i18n.forEach((custom2) => {
       if ("locale" in custom2 && "resource" in custom2) {
         const { locale: locale2, resource } = custom2;
@@ -6069,7 +6064,7 @@ function getLocaleMessages(locale, options) {
           deepCopy(resource, ret);
         }
       } else {
-        isString$3(custom2) && deepCopy(JSON.parse(custom2), ret);
+        isString$1(custom2) && deepCopy(JSON.parse(custom2), ret);
       }
     });
   }
@@ -6086,7 +6081,7 @@ function getComponentOptions(instance) {
   return instance.type;
 }
 function adjustI18nResources(gl, options, componentOptions) {
-  let messages = isObject$2(options.messages) ? options.messages : create();
+  let messages = isObject(options.messages) ? options.messages : create();
   if ("__i18nGlobal" in componentOptions) {
     messages = getLocaleMessages(gl.locale.value, {
       messages,
@@ -6100,7 +6095,7 @@ function adjustI18nResources(gl, options, componentOptions) {
     });
   }
   {
-    if (isObject$2(options.datetimeFormats)) {
+    if (isObject(options.datetimeFormats)) {
       const locales2 = Object.keys(options.datetimeFormats);
       if (locales2.length) {
         locales2.forEach((locale) => {
@@ -6108,7 +6103,7 @@ function adjustI18nResources(gl, options, componentOptions) {
         });
       }
     }
-    if (isObject$2(options.numberFormats)) {
+    if (isObject(options.numberFormats)) {
       const locales2 = Object.keys(options.numberFormats);
       if (locales2.length) {
         locales2.forEach((locale) => {
@@ -6140,34 +6135,34 @@ function createComposer(options = {}) {
   const _isGlobal = __root === void 0;
   const flatJson = options.flatJson;
   const _ref = inBrowser ? ref : shallowRef;
-  let _inheritLocale = isBoolean$1(options.inheritLocale) ? options.inheritLocale : true;
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true;
   const _locale = _ref(
     // prettier-ignore
-    __root && _inheritLocale ? __root.locale.value : isString$3(options.locale) ? options.locale : DEFAULT_LOCALE
+    __root && _inheritLocale ? __root.locale.value : isString$1(options.locale) ? options.locale : DEFAULT_LOCALE
   );
   const _fallbackLocale = _ref(
     // prettier-ignore
-    __root && _inheritLocale ? __root.fallbackLocale.value : isString$3(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject$1(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
+    __root && _inheritLocale ? __root.fallbackLocale.value : isString$1(options.fallbackLocale) || isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
   );
   const _messages = _ref(getLocaleMessages(_locale.value, options));
-  const _datetimeFormats = _ref(isPlainObject$1(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
-  const _numberFormats = _ref(isPlainObject$1(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
-  let _missingWarn = __root ? __root.missingWarn : isBoolean$1(options.missingWarn) || isRegExp$1(options.missingWarn) ? options.missingWarn : true;
-  let _fallbackWarn = __root ? __root.fallbackWarn : isBoolean$1(options.fallbackWarn) || isRegExp$1(options.fallbackWarn) ? options.fallbackWarn : true;
-  let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean$1(options.fallbackRoot) ? options.fallbackRoot : true;
+  const _datetimeFormats = _ref(isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
+  const _numberFormats = _ref(isPlainObject(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
+  let _missingWarn = __root ? __root.missingWarn : isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  let _fallbackWarn = __root ? __root.fallbackWarn : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
   let _fallbackFormat = !!options.fallbackFormat;
-  let _missing = isFunction$2(options.missing) ? options.missing : null;
-  let _runtimeMissing = isFunction$2(options.missing) ? defineCoreMissingHandler(options.missing) : null;
-  let _postTranslation = isFunction$2(options.postTranslation) ? options.postTranslation : null;
-  let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean$1(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  let _missing = isFunction(options.missing) ? options.missing : null;
+  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler(options.missing) : null;
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
   let _escapeParameter = !!options.escapeParameter;
-  const _modifiers = __root ? __root.modifiers : isPlainObject$1(options.modifiers) ? options.modifiers : {};
+  const _modifiers = __root ? __root.modifiers : isPlainObject(options.modifiers) ? options.modifiers : {};
   let _pluralRules = options.pluralRules || __root && __root.pluralRules;
   let _context;
   const getCoreContext = () => {
     _isGlobal && setFallbackContext(null);
     const ctxOptions = {
-      version: VERSION$2,
+      version: VERSION,
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
@@ -6188,11 +6183,11 @@ function createComposer(options = {}) {
     {
       ctxOptions.datetimeFormats = _datetimeFormats.value;
       ctxOptions.numberFormats = _numberFormats.value;
-      ctxOptions.__datetimeFormatters = isPlainObject$1(_context) ? _context.__datetimeFormatters : void 0;
-      ctxOptions.__numberFormatters = isPlainObject$1(_context) ? _context.__numberFormatters : void 0;
+      ctxOptions.__datetimeFormatters = isPlainObject(_context) ? _context.__datetimeFormatters : void 0;
+      ctxOptions.__numberFormatters = isPlainObject(_context) ? _context.__numberFormatters : void 0;
     }
-    if (process.env.NODE_ENV !== "production") {
-      ctxOptions.__v_emitter = isPlainObject$1(_context) ? _context.__v_emitter : void 0;
+    if (define_process_env_default.NODE_ENV !== "production") {
+      ctxOptions.__v_emitter = isPlainObject(_context) ? _context.__v_emitter : void 0;
     }
     const ctx = createCoreContext(ctxOptions);
     _isGlobal && setFallbackContext(ctx);
@@ -6228,7 +6223,7 @@ function createComposer(options = {}) {
   const datetimeFormats = /* @__PURE__ */ computed(() => _datetimeFormats.value);
   const numberFormats = /* @__PURE__ */ computed(() => _numberFormats.value);
   function getPostTranslationHandler() {
-    return isFunction$2(_postTranslation) ? _postTranslation : null;
+    return isFunction(_postTranslation) ? _postTranslation : null;
   }
   function setPostTranslationHandler(handler2) {
     _postTranslation = handler2;
@@ -6251,7 +6246,7 @@ function createComposer(options = {}) {
     trackReactivityValues();
     let ret;
     try {
-      if (process.env.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
+      if (define_process_env_default.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
         /* @__PURE__ */ setAdditionalMeta(/* @__PURE__ */ getMetaInfo());
       }
       if (!_isGlobal) {
@@ -6259,22 +6254,22 @@ function createComposer(options = {}) {
       }
       ret = fn(_context);
     } finally {
-      if (process.env.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) ;
+      if (define_process_env_default.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) ;
       if (!_isGlobal) {
         _context.fallbackContext = void 0;
       }
     }
     if (warnType !== "translate exists" && // for not `te` (e.g `t`)
-    isNumber$1(ret) && ret === NOT_REOSLVED || warnType === "translate exists" && !ret) {
+    isNumber(ret) && ret === NOT_REOSLVED || warnType === "translate exists" && !ret) {
       const [key, arg2] = argumentParser();
-      if (process.env.NODE_ENV !== "production" && __root && isString$3(key) && isResolvedTranslateMessage(warnType, arg2)) {
+      if (define_process_env_default.NODE_ENV !== "production" && __root && isString$1(key) && isResolvedTranslateMessage(warnType, arg2)) {
         if (_fallbackRoot && (isTranslateFallbackWarn(_fallbackWarn, key) || isTranslateMissingWarn(_missingWarn, key))) {
           warn(getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
             key,
             type: warnType
           }));
         }
-        if (process.env.NODE_ENV !== "production") {
+        if (define_process_env_default.NODE_ENV !== "production") {
           const { __v_emitter: emitter } = _context;
           if (emitter && _fallbackRoot) {
             emitter.emit("fallback", {
@@ -6294,23 +6289,23 @@ function createComposer(options = {}) {
     }
   };
   function t(...args) {
-    return wrapWithDeps((context) => Reflect.apply(translate, null, [context, ...args]), () => parseTranslateArgs(...args), "translate", (root) => Reflect.apply(root.t, root, [...args]), (key) => key, (val) => isString$3(val));
+    return wrapWithDeps((context) => Reflect.apply(translate, null, [context, ...args]), () => parseTranslateArgs(...args), "translate", (root) => Reflect.apply(root.t, root, [...args]), (key) => key, (val) => isString$1(val));
   }
   function rt(...args) {
     const [arg1, arg2, arg3] = args;
-    if (arg3 && !isObject$2(arg3)) {
+    if (arg3 && !isObject(arg3)) {
       throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
     }
     return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})]);
   }
   function d(...args) {
-    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString$3(val) || isArray$1(val));
+    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString$1(val) || isArray(val));
   }
-  function n2(...args) {
-    return wrapWithDeps((context) => Reflect.apply(number$1, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString$3(val) || isArray$1(val));
+  function n(...args) {
+    return wrapWithDeps((context) => Reflect.apply(number$1, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString$1(val) || isArray(val));
   }
   function normalize(values) {
-    return values.map((val) => isString$3(val) || isNumber$1(val) || isBoolean$1(val) ? createTextNode(String(val)) : val);
+    return values.map((val) => isString$1(val) || isNumber(val) || isBoolean(val) ? createTextNode(String(val)) : val);
   }
   const interpolate = (val) => val;
   const processor = {
@@ -6329,13 +6324,13 @@ function createComposer(options = {}) {
         _context2.processor = null;
       }
       return ret;
-    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol](...args), (key) => [createTextNode(key)], (val) => isArray$1(val));
+    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol](...args), (key) => [createTextNode(key)], (val) => isArray(val));
   }
   function numberParts(...args) {
-    return wrapWithDeps((context) => Reflect.apply(number$1, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString$3(val) || isArray$1(val));
+    return wrapWithDeps((context) => Reflect.apply(number$1, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString$1(val) || isArray(val));
   }
   function datetimeParts(...args) {
-    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString$3(val) || isArray$1(val));
+    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString$1(val) || isArray(val));
   }
   function setPluralRules(rules2) {
     _pluralRules = rules2;
@@ -6346,13 +6341,13 @@ function createComposer(options = {}) {
       if (!key) {
         return false;
       }
-      const targetLocale = isString$3(locale2) ? locale2 : _locale.value;
+      const targetLocale = isString$1(locale2) ? locale2 : _locale.value;
       const message = getLocaleMessage(targetLocale);
       const resolved = _context.messageResolver(message, key);
-      return isMessageAST(resolved) || isMessageFunction(resolved) || isString$3(resolved);
+      return isMessageAST(resolved) || isMessageFunction(resolved) || isString$1(resolved);
     }, () => [key], "translate exists", (root) => {
       return Reflect.apply(root.te, root, [key, locale2]);
-    }, NOOP_RETURN_FALSE, (val) => isBoolean$1(val));
+    }, NOOP_RETURN_FALSE, (val) => isBoolean(val));
   }
   function resolveMessages(key) {
     let messages2 = null;
@@ -6530,7 +6525,7 @@ function createComposer(options = {}) {
     composer.te = te;
     composer.tm = tm;
     composer.d = d;
-    composer.n = n2;
+    composer.n = n;
     composer.getDateTimeFormat = getDateTimeFormat;
     composer.setDateTimeFormat = setDateTimeFormat;
     composer.mergeDateTimeFormat = mergeDateTimeFormat;
@@ -6542,7 +6537,7 @@ function createComposer(options = {}) {
     composer[DatetimePartsSymbol] = datetimeParts;
     composer[NumberPartsSymbol] = numberParts;
   }
-  if (process.env.NODE_ENV !== "production") {
+  if (define_process_env_default.NODE_ENV !== "production") {
     composer[EnableEmitter] = (emitter) => {
       _context.__v_emitter = emitter;
     };
@@ -6706,11 +6701,11 @@ function getLocaleMessageValue(messages) {
   const value = {};
   Object.keys(messages).forEach((key) => {
     const v = messages[key];
-    if (isFunction$2(v) && "source" in v) {
+    if (isFunction(v) && "source" in v) {
       value[key] = getMessageFunctionDetails(v);
     } else if (isMessageAST(v) && v.loc && v.loc.source) {
       value[key] = v.loc.source;
-    } else if (isObject$2(v)) {
+    } else if (isObject(v)) {
       value[key] = getLocaleMessageValue(v);
     } else {
       value[key] = v;
@@ -6875,31 +6870,31 @@ function editScope(payload, i18n) {
   const composer = getComposer$2(payload.nodeId, i18n);
   if (composer) {
     const [field] = payload.path;
-    if (field === "locale" && isString$3(payload.state.value)) {
+    if (field === "locale" && isString$1(payload.state.value)) {
       composer.locale.value = payload.state.value;
-    } else if (field === "fallbackLocale" && (isString$3(payload.state.value) || isArray$1(payload.state.value) || isObject$2(payload.state.value))) {
+    } else if (field === "fallbackLocale" && (isString$1(payload.state.value) || isArray(payload.state.value) || isObject(payload.state.value))) {
       composer.fallbackLocale.value = payload.state.value;
-    } else if (field === "inheritLocale" && isBoolean$1(payload.state.value)) {
+    } else if (field === "inheritLocale" && isBoolean(payload.state.value)) {
       composer.inheritLocale = payload.state.value;
     }
   }
 }
 function convertComposerOptions(options) {
-  const locale = isString$3(options.locale) ? options.locale : DEFAULT_LOCALE;
-  const fallbackLocale = isString$3(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject$1(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale;
-  const missing = isFunction$2(options.missing) ? options.missing : void 0;
-  const missingWarn = isBoolean$1(options.silentTranslationWarn) || isRegExp$1(options.silentTranslationWarn) ? !options.silentTranslationWarn : true;
-  const fallbackWarn = isBoolean$1(options.silentFallbackWarn) || isRegExp$1(options.silentFallbackWarn) ? !options.silentFallbackWarn : true;
-  const fallbackRoot = isBoolean$1(options.fallbackRoot) ? options.fallbackRoot : true;
+  const locale = isString$1(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const fallbackLocale = isString$1(options.fallbackLocale) || isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale;
+  const missing = isFunction(options.missing) ? options.missing : void 0;
+  const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn) ? !options.silentTranslationWarn : true;
+  const fallbackWarn = isBoolean(options.silentFallbackWarn) || isRegExp(options.silentFallbackWarn) ? !options.silentFallbackWarn : true;
+  const fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
   const fallbackFormat = !!options.formatFallbackMessages;
-  const modifiers = isPlainObject$1(options.modifiers) ? options.modifiers : {};
+  const modifiers = isPlainObject(options.modifiers) ? options.modifiers : {};
   const pluralizationRules = options.pluralizationRules;
-  const postTranslation = isFunction$2(options.postTranslation) ? options.postTranslation : void 0;
-  const warnHtmlMessage = isString$3(options.warnHtmlInMessage) ? options.warnHtmlInMessage !== "off" : true;
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : void 0;
+  const warnHtmlMessage = isString$1(options.warnHtmlInMessage) ? options.warnHtmlInMessage !== "off" : true;
   const escapeParameter = !!options.escapeParameterHtml;
-  const inheritLocale = isBoolean$1(options.sync) ? options.sync : true;
+  const inheritLocale = isBoolean(options.sync) ? options.sync : true;
   let messages = options.messages;
-  if (isPlainObject$1(options.sharedMessages)) {
+  if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages;
     const locales = Object.keys(sharedMessages);
     messages = locales.reduce((messages2, locale2) => {
@@ -6981,17 +6976,17 @@ function createVueI18n(options = {}) {
     },
     // silentTranslationWarn
     get silentTranslationWarn() {
-      return isBoolean$1(composer.missingWarn) ? !composer.missingWarn : composer.missingWarn;
+      return isBoolean(composer.missingWarn) ? !composer.missingWarn : composer.missingWarn;
     },
     set silentTranslationWarn(val) {
-      composer.missingWarn = isBoolean$1(val) ? !val : val;
+      composer.missingWarn = isBoolean(val) ? !val : val;
     },
     // silentFallbackWarn
     get silentFallbackWarn() {
-      return isBoolean$1(composer.fallbackWarn) ? !composer.fallbackWarn : composer.fallbackWarn;
+      return isBoolean(composer.fallbackWarn) ? !composer.fallbackWarn : composer.fallbackWarn;
     },
     set silentFallbackWarn(val) {
-      composer.fallbackWarn = isBoolean$1(val) ? !val : val;
+      composer.fallbackWarn = isBoolean(val) ? !val : val;
     },
     // modifiers
     get modifiers() {
@@ -7100,7 +7095,7 @@ function createVueI18n(options = {}) {
     }
   };
   vueI18n.__extender = __extender;
-  if (process.env.NODE_ENV !== "production") {
+  if (define_process_env_default.NODE_ENV !== "production") {
     vueI18n.__enableEmitter = (emitter) => {
       const __composer = composer;
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter);
@@ -7167,7 +7162,7 @@ function defineMixin(vuei18n, composer, i18n) {
       i18n.__setInstance(instance, this.$i18n);
     },
     mounted() {
-      if ((process.env.NODE_ENV !== "production" || false) && true && this.$el && this.$i18n) {
+      if ((define_process_env_default.NODE_ENV !== "production" || false) && true && this.$el && this.$i18n) {
         const _vueI18n = this.$i18n;
         this.$el.__VUE_I18N__ = _vueI18n.__composer;
         const emitter = this.__v_emitter = createEmitter();
@@ -7181,7 +7176,7 @@ function defineMixin(vuei18n, composer, i18n) {
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
       }
       const _vueI18n = this.$i18n;
-      if ((process.env.NODE_ENV !== "production" || false) && true && this.$el && this.$el.__VUE_I18N__) {
+      if ((define_process_env_default.NODE_ENV !== "production" || false) && true && this.$el && this.$el.__VUE_I18N__) {
         if (this.__v_emitter) {
           this.__v_emitter.off("*", addTimelineEvent);
           delete this.__v_emitter;
@@ -7283,7 +7278,7 @@ const TranslationImpl = /* @__PURE__ */ defineComponent({
     },
     plural: {
       type: [Number, String],
-      validator: (val) => isNumber$1(val) || !isNaN(val)
+      validator: (val) => isNumber(val) || !isNaN(val)
     }
   }, baseFormatProps),
   /* eslint-enable */
@@ -7301,19 +7296,19 @@ const TranslationImpl = /* @__PURE__ */ defineComponent({
         options.locale = props.locale;
       }
       if (props.plural !== void 0) {
-        options.plural = isString$3(props.plural) ? +props.plural : props.plural;
+        options.plural = isString$1(props.plural) ? +props.plural : props.plural;
       }
       const arg = getInterpolateArg(context, keys);
       const children = i18n[TranslateVNodeSymbol](props.keypath, arg, options);
       const assignedAttrs = assign(create(), attrs);
-      const tag = isString$3(props.tag) || isObject$2(props.tag) ? props.tag : getFragmentableTag();
+      const tag = isString$1(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag();
       return h$1(tag, assignedAttrs, children);
     };
   }
 });
 const Translation = TranslationImpl;
 function isVNode(target) {
-  return isArray$1(target) && !isString$3(target[0]);
+  return isArray(target) && !isString$1(target[0]);
 }
 function renderFormatter(props, context, slotKeys, partFormatter) {
   const { slots, attrs } = context;
@@ -7323,10 +7318,10 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
     if (props.locale) {
       options.locale = props.locale;
     }
-    if (isString$3(props.format)) {
+    if (isString$1(props.format)) {
       options.key = props.format;
-    } else if (isObject$2(props.format)) {
-      if (isString$3(props.format.key)) {
+    } else if (isObject(props.format)) {
+      if (isString$1(props.format.key)) {
         options.key = props.format.key;
       }
       overrides = Object.keys(props.format).reduce((options2, prop) => {
@@ -7335,7 +7330,7 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
     }
     const parts = partFormatter(...[props.value, options, overrides]);
     let children = [options.key];
-    if (isArray$1(parts)) {
+    if (isArray(parts)) {
       children = parts.map((part, index) => {
         const slot = slots[part.type];
         const node = slot ? slot({ [part.type]: part.value, index, parts }) : [part.value];
@@ -7344,11 +7339,11 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
         }
         return node;
       });
-    } else if (isString$3(parts)) {
+    } else if (isString$1(parts)) {
       children = [parts];
     }
     const assignedAttrs = assign(create(), attrs);
-    const tag = isString$3(props.tag) || isObject$2(props.tag) ? props.tag : getFragmentableTag();
+    const tag = isString$1(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag();
     return h$1(tag, assignedAttrs, children);
   };
 }
@@ -7389,7 +7384,7 @@ function getComposer$1(i18n, instance) {
 }
 function vTDirective(i18n) {
   const _process = (binding) => {
-    if (process.env.NODE_ENV !== "production") {
+    if (define_process_env_default.NODE_ENV !== "production") {
       warnOnce(getWarnMessage(I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE));
     }
     const { instance, value } = binding;
@@ -7445,9 +7440,9 @@ function vTDirective(i18n) {
   };
 }
 function parseValue(value) {
-  if (isString$3(value)) {
+  if (isString$1(value)) {
     return { path: value };
-  } else if (isPlainObject$1(value)) {
+  } else if (isPlainObject(value)) {
     if (!("path" in value)) {
       throw createI18nError(I18nErrorCodes.REQUIRED_VALUE, "path");
     }
@@ -7460,20 +7455,20 @@ function makeParams(value) {
   const { path, locale, args, choice, plural } = value;
   const options = {};
   const named = args || {};
-  if (isString$3(locale)) {
+  if (isString$1(locale)) {
     options.locale = locale;
   }
-  if (isNumber$1(choice)) {
+  if (isNumber(choice)) {
     options.plural = choice;
   }
-  if (isNumber$1(plural)) {
+  if (isNumber(plural)) {
     options.plural = plural;
   }
   return [path, named, options];
 }
 function apply(app, i18n, ...options) {
-  const pluginOptions = isPlainObject$1(options[0]) ? options[0] : {};
-  const globalInstall = isBoolean$1(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true;
+  const pluginOptions = isPlainObject(options[0]) ? options[0] : {};
+  const globalInstall = isBoolean(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true;
   if (globalInstall) {
     [Translation.name, "I18nT"].forEach((name) => app.component(name, Translation));
     [NumberFormat.name, "I18nN"].forEach((name) => app.component(name, NumberFormat));
@@ -7485,14 +7480,14 @@ function apply(app, i18n, ...options) {
 }
 const I18nInjectionKey = /* @__PURE__ */ makeSymbol("global-vue-i18n");
 function createI18n(options = {}) {
-  const __legacyMode = __VUE_I18N_LEGACY_API__ && isBoolean$1(options.legacy) ? options.legacy : __VUE_I18N_LEGACY_API__;
-  if (process.env.NODE_ENV !== "production" && __legacyMode) {
+  const __legacyMode = __VUE_I18N_LEGACY_API__ && isBoolean(options.legacy) ? options.legacy : __VUE_I18N_LEGACY_API__;
+  if (define_process_env_default.NODE_ENV !== "production" && __legacyMode) {
     warnOnce(getWarnMessage(I18nWarnCodes.DEPRECATE_LEGACY_MODE));
   }
-  const __globalInjection = isBoolean$1(options.globalInjection) ? options.globalInjection : true;
+  const __globalInjection = isBoolean(options.globalInjection) ? options.globalInjection : true;
   const __instances = /* @__PURE__ */ new Map();
   const [globalScope, __global] = createGlobal(options, __legacyMode);
-  const symbol = /* @__PURE__ */ makeSymbol(process.env.NODE_ENV !== "production" ? "vue-i18n" : "");
+  const symbol = /* @__PURE__ */ makeSymbol(define_process_env_default.NODE_ENV !== "production" ? "vue-i18n" : "");
   function __getInstance(component) {
     return __instances.get(component) || null;
   }
@@ -7509,12 +7504,12 @@ function createI18n(options = {}) {
     },
     // install plugin
     async install(app, ...options2) {
-      if ((process.env.NODE_ENV !== "production" || false) && true) {
+      if ((define_process_env_default.NODE_ENV !== "production" || false) && true) {
         app.__VUE_I18N__ = i18n;
       }
       app.__VUE_I18N_SYMBOL__ = symbol;
       app.provide(app.__VUE_I18N_SYMBOL__, i18n);
-      if (isPlainObject$1(options2[0])) {
+      if (isPlainObject(options2[0])) {
         const opts = options2[0];
         i18n.__composerExtend = opts.__composerExtend;
         i18n.__vueI18nExtend = opts.__vueI18nExtend;
@@ -7535,7 +7530,7 @@ function createI18n(options = {}) {
         i18n.dispose();
         unmountApp();
       };
-      if ((process.env.NODE_ENV !== "production" || false) && true) {
+      if ((define_process_env_default.NODE_ENV !== "production" || false) && true) {
         const ret = await enableDevTools(app, i18n);
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN);
@@ -7588,7 +7583,7 @@ function useI18n(options = {}) {
   if (scope === "parent") {
     let composer2 = getComposer(i18n, instance, options.__useComponent);
     if (composer2 == null) {
-      if (process.env.NODE_ENV !== "production") {
+      if (define_process_env_default.NODE_ENV !== "production") {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE));
       }
       composer2 = gl;
@@ -7612,7 +7607,7 @@ function useI18n(options = {}) {
     setupLifeCycle(i18nInternal, instance, composer);
     i18nInternal.__setInstance(instance, composer);
   } else {
-    if (process.env.NODE_ENV !== "production" && scope === "local") {
+    if (define_process_env_default.NODE_ENV !== "production" && scope === "local") {
       warn(getWarnMessage(I18nWarnCodes.DUPLICATE_USE_I18N_CALLING));
     }
   }
@@ -7634,7 +7629,7 @@ function getI18nInstance(instance) {
   return i18n;
 }
 function getScope(options, componentOptions) {
-  return isEmptyObject$1(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
+  return isEmptyObject(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
 }
 function getGlobalComposer(i18n) {
   return i18n.mode === "composition" ? i18n.global : i18n.global.__composer;
@@ -7677,7 +7672,7 @@ function getParentComponentInstance(target, useComponent = false) {
 function setupLifeCycle(i18n, target, composer) {
   let emitter = null;
   onMounted(() => {
-    if ((process.env.NODE_ENV !== "production" || false) && true && target.vnode.el) {
+    if ((define_process_env_default.NODE_ENV !== "production" || false) && true && target.vnode.el) {
       target.vnode.el.__VUE_I18N__ = composer;
       emitter = createEmitter();
       const _composer = composer;
@@ -7687,7 +7682,7 @@ function setupLifeCycle(i18n, target, composer) {
   }, target);
   onUnmounted(() => {
     const _composer = composer;
-    if ((process.env.NODE_ENV !== "production" || false) && true && target.vnode.el && target.vnode.el.__VUE_I18N__) {
+    if ((define_process_env_default.NODE_ENV !== "production" || false) && true && target.vnode.el && target.vnode.el.__VUE_I18N__) {
       emitter && emitter.off("*", addTimelineEvent);
       _composer[DisableEmitter] && _composer[DisableEmitter]();
       delete target.vnode.el.__VUE_I18N__;
@@ -7776,18 +7771,17 @@ const DatetimeFormat = DatetimeFormatImpl;
 registerMessageCompiler(compile);
 registerMessageResolver(resolveValue);
 registerLocaleFallbacker(fallbackWithLocaleChain);
-if (process.env.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
+if (define_process_env_default.NODE_ENV !== "production" || __INTLIFY_PROD_DEVTOOLS__) {
   const target = getGlobalThis();
   target.__INTLIFY__ = true;
   setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__);
 }
-if (process.env.NODE_ENV !== "production") ;
 const _hoisted_1$j = {
   key: 0,
   class: "text-error ml-1"
 };
 const _hoisted_2$7 = ["onClick"];
-const _sfc_main$x = /* @__PURE__ */ defineComponent({
+const _sfc_main$q = /* @__PURE__ */ defineComponent({
   __name: "Date",
   props: {
     modelValue: {},
@@ -8403,8 +8397,8 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Date$1 = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["__scopeId", "data-v-b0c88115"]]);
-const _sfc_main$w = /* @__PURE__ */ defineComponent({
+const Date$1 = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["__scopeId", "data-v-b0c88115"]]);
+const _sfc_main$p = /* @__PURE__ */ defineComponent({
   __name: "Tabs",
   props: {
     name: {},
@@ -8462,7 +8456,7 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$v = /* @__PURE__ */ defineComponent({
+const _sfc_main$o = /* @__PURE__ */ defineComponent({
   __name: "TabPane",
   props: {
     name: {},
@@ -8484,7 +8478,7 @@ const _hoisted_5$2 = ["onClick"];
 const _hoisted_6$2 = ["multiple"];
 const _hoisted_7$1 = { class: "px-1" };
 const _hoisted_8$1 = ["onClick"];
-const _sfc_main$u = /* @__PURE__ */ defineComponent({
+const _sfc_main$n = /* @__PURE__ */ defineComponent({
   __name: "Upload",
   props: {
     direction: { type: String, default: "row", required: false },
@@ -8628,7 +8622,7 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$h = ["href"];
-const _sfc_main$t = /* @__PURE__ */ defineComponent({
+const _sfc_main$m = /* @__PURE__ */ defineComponent({
   __name: "File",
   props: {
     direction: { type: String, default: "row", required: false },
@@ -8718,18 +8712,18 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
 const install$4 = (app) => {
   app.component("ButtonGroup", ButtonGroup);
   app.component("Menu", Menu);
-  app.component("Dropdown", _sfc_main$F);
+  app.component("Dropdown", _sfc_main$y);
   app.component("Modal", Modal);
-  app.component("Drawer", _sfc_main$D);
+  app.component("Drawer", _sfc_main$w);
   app.component("Table", Table);
   app.component("Form", Form);
-  app.component("FormItem", _sfc_main$z);
-  app.component("Select", _sfc_main$y);
+  app.component("FormItem", _sfc_main$s);
+  app.component("Select", _sfc_main$r);
   app.component("Date", Date$1);
-  app.component("Tabs", _sfc_main$w);
-  app.component("TabPane", _sfc_main$v);
-  app.component("Upload", _sfc_main$u);
-  app.component("File", _sfc_main$t);
+  app.component("Tabs", _sfc_main$p);
+  app.component("TabPane", _sfc_main$o);
+  app.component("Upload", _sfc_main$n);
+  app.component("File", _sfc_main$m);
 };
 class Store {
   /**
@@ -8828,7 +8822,7 @@ class Store {
     sessionStorage.clear();
   };
 }
-const _sfc_main$s = /* @__PURE__ */ defineComponent({
+const _sfc_main$l = /* @__PURE__ */ defineComponent({
   __name: "ThemeSelect",
   setup(__props) {
     const { t } = useI18n();
@@ -8982,7 +8976,7 @@ const I18n = createI18n({
     "en-US": enUS
   }
 });
-const _sfc_main$r = /* @__PURE__ */ defineComponent({
+const _sfc_main$k = /* @__PURE__ */ defineComponent({
   __name: "LanguageSelect",
   setup(__props) {
     const setLanguage = (locale) => {
@@ -9058,7 +9052,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$q = /* @__PURE__ */ defineComponent({
+const _sfc_main$j = /* @__PURE__ */ defineComponent({
   __name: "DarkChange",
   setup(__props) {
     const isDark = ref(false);
@@ -9127,7 +9121,7 @@ const _hoisted_8 = {
   class: "!list-none !p-0 !m-0"
 };
 const _hoisted_9 = ["href", "aria-selected", "onClick"];
-const _sfc_main$p = /* @__PURE__ */ defineComponent({
+const _sfc_main$i = /* @__PURE__ */ defineComponent({
   __name: "Catalog",
   props: {
     toc: { type: Array, default: () => [] },
@@ -9221,7 +9215,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["__scopeId", "data-v-eb228acc"]]);
+const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-eb228acc"]]);
 const _hoisted_1$f = { class: "h-screen overflow-y-auto w-full" };
 const _hoisted_2$4 = { class: "flex flex-row px-10 pt-10 min-w-0 h-full" };
 const _hoisted_3$4 = { class: "lg:w-5/6 w-full lg:pr-10" };
@@ -9229,7 +9223,7 @@ const _hoisted_4$2 = {
   key: 0,
   class: "hidden xl:block xl:row-span-3"
 };
-const _sfc_main$o = /* @__PURE__ */ defineComponent({
+const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "Markdown",
   props: {
     content: {}
@@ -9286,7 +9280,7 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
       domStatus: "未初始化",
       containerContent: "未检查"
     });
-    function parseHeaders2(content) {
+    function parseHeaders(content) {
       const lines = content.split("\n");
       const headers = [];
       const stack = [];
@@ -9374,7 +9368,7 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
     onMounted(async () => {
       debugInfo.value.domStatus = "组件已挂载";
       if (props.content) {
-        const parsedToc = parseHeaders2(props.content);
+        const parsedToc = parseHeaders(props.content);
         toc.value = convertTocToMarkdownItHeaders(parsedToc);
       } else {
         await nextTick();
@@ -9421,7 +9415,7 @@ const _sfc_main$o = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$n = /* @__PURE__ */ defineComponent({
+const _sfc_main$g = /* @__PURE__ */ defineComponent({
   __name: "FullScreen",
   props: {
     target: { default: void 0 },
@@ -9585,14 +9579,14 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
   }
 });
 const install$3 = (app) => {
-  app.component("Theme", _sfc_main$s);
-  app.component("Language", _sfc_main$r);
-  app.component("Dark", _sfc_main$q);
-  app.component("Markdown", _sfc_main$o);
+  app.component("Theme", _sfc_main$l);
+  app.component("Language", _sfc_main$k);
+  app.component("Dark", _sfc_main$j);
+  app.component("Markdown", _sfc_main$h);
   app.component("Toc", Catalog);
-  app.component("FullScreen", _sfc_main$n);
+  app.component("FullScreen", _sfc_main$g);
 };
-const _sfc_main$m = /* @__PURE__ */ defineComponent({
+const _sfc_main$f = /* @__PURE__ */ defineComponent({
   __name: "TaskCreate",
   props: {
     onSubmit: { type: Function },
@@ -9607,7 +9601,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
       Project: 0,
       EndAt: ""
     });
-    const TaskCreate2 = async (form) => {
+    const TaskCreate = async (form) => {
       const param = {
         Name: form.Name,
         "Project": form.Project,
@@ -9668,7 +9662,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
             default: withCtx(() => [
               createVNode(_component_btn, {
                 class: "w-full",
-                onClick: _cache[0] || (_cache[0] = ($event) => TaskCreate2(TaskCreateForm))
+                onClick: _cache[0] || (_cache[0] = ($event) => TaskCreate(TaskCreateForm))
               }, {
                 default: withCtx(() => [
                   createTextVNode(toDisplayString$1(unref(t)("toolbar.create")), 1)
@@ -9685,7 +9679,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$e = { class: "pt-5" };
-const _sfc_main$l = /* @__PURE__ */ defineComponent({
+const _sfc_main$e = /* @__PURE__ */ defineComponent({
   __name: "AccountCreate",
   props: {
     onSubmit: { type: Function },
@@ -9837,7 +9831,7 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$d = { class: "pt-5" };
-const _sfc_main$k = /* @__PURE__ */ defineComponent({
+const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __name: "ProjectCreate",
   props: {
     onSubmit: { type: Function },
@@ -9868,7 +9862,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
     const select = (e) => {
       project.Type = e;
     };
-    const ProjectCreate2 = async (project2) => {
+    const ProjectCreate = async (project2) => {
       try {
         if (props.onSubmit) {
           await props.onSubmit(project2);
@@ -9919,7 +9913,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
             default: withCtx(() => [
               createVNode(_component_btn, {
                 class: "w-full",
-                onClick: _cache[1] || (_cache[1] = ($event) => ProjectCreate2(project))
+                onClick: _cache[1] || (_cache[1] = ($event) => ProjectCreate(project))
               }, {
                 default: withCtx(() => [
                   createTextVNode(toDisplayString$1(unref(t)("toolbar.create")), 1)
@@ -9937,7 +9931,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$c = { class: "flex flex-col p-2" };
-const _sfc_main$j = /* @__PURE__ */ defineComponent({
+const _sfc_main$c = /* @__PURE__ */ defineComponent({
   __name: "PartDetail",
   props: {
     item: {}
@@ -10156,7 +10150,7 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$b = { class: "flex flex-col p-2" };
-const _sfc_main$i = /* @__PURE__ */ defineComponent({
+const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __name: "SectionDetail",
   props: {
     item: {}
@@ -10343,7 +10337,7 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$a = { class: "flex flex-col p-2" };
-const _sfc_main$h = /* @__PURE__ */ defineComponent({
+const _sfc_main$a = /* @__PURE__ */ defineComponent({
   __name: "SourceDetail",
   props: {
     item: {}
@@ -10460,7 +10454,7 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$9 = { class: "flex flex-col p-2" };
-const _sfc_main$g = /* @__PURE__ */ defineComponent({
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
   __name: "StandardDetail",
   props: {
     item: {}
@@ -10602,7 +10596,7 @@ const _sfc_main$g = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$8 = { class: "flex flex-col p-2" };
-const _sfc_main$f = /* @__PURE__ */ defineComponent({
+const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "ProjectDetail",
   props: {
     item: {}
@@ -10698,7 +10692,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$7 = { class: "flex flex-col p-2" };
-const _sfc_main$e = /* @__PURE__ */ defineComponent({
+const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   __name: "TaskDetail",
   props: {
     item: {}
@@ -10790,7 +10784,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$6 = { class: "flex flex-col p-2" };
-const _sfc_main$d = /* @__PURE__ */ defineComponent({
+const _sfc_main$6 = /* @__PURE__ */ defineComponent({
   __name: "StorageDetail",
   props: {
     item: {}
@@ -10874,7 +10868,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$5 = { class: "flex flex-col p-2" };
-const _sfc_main$c = /* @__PURE__ */ defineComponent({
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   __name: "InterlinkDetail",
   props: {
     item: {}
@@ -10977,2885 +10971,18 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     };
   }
 });
-function bind(fn, thisArg) {
-  return function wrap() {
-    return fn.apply(thisArg, arguments);
-  };
-}
-const { toString: toString$1 } = Object.prototype;
-const { getPrototypeOf } = Object;
-const { iterator, toStringTag } = Symbol;
-const kindOf = /* @__PURE__ */ ((cache2) => (thing) => {
-  const str = toString$1.call(thing);
-  return cache2[str] || (cache2[str] = str.slice(8, -1).toLowerCase());
-})(/* @__PURE__ */ Object.create(null));
-const kindOfTest = (type) => {
-  type = type.toLowerCase();
-  return (thing) => kindOf(thing) === type;
-};
-const typeOfTest = (type) => (thing) => typeof thing === type;
-const { isArray } = Array;
-const isUndefined = typeOfTest("undefined");
-function isBuffer(val) {
-  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && isFunction$1(val.constructor.isBuffer) && val.constructor.isBuffer(val);
-}
-const isArrayBuffer = kindOfTest("ArrayBuffer");
-function isArrayBufferView(val) {
-  let result;
-  if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView) {
-    result = ArrayBuffer.isView(val);
-  } else {
-    result = val && val.buffer && isArrayBuffer(val.buffer);
-  }
-  return result;
-}
-const isString$2 = typeOfTest("string");
-const isFunction$1 = typeOfTest("function");
-const isNumber = typeOfTest("number");
-const isObject$1 = (thing) => thing !== null && typeof thing === "object";
-const isBoolean = (thing) => thing === true || thing === false;
-const isPlainObject = (val) => {
-  if (kindOf(val) !== "object") {
-    return false;
-  }
-  const prototype2 = getPrototypeOf(val);
-  return (prototype2 === null || prototype2 === Object.prototype || Object.getPrototypeOf(prototype2) === null) && !(toStringTag in val) && !(iterator in val);
-};
-const isEmptyObject = (val) => {
-  if (!isObject$1(val) || isBuffer(val)) {
-    return false;
-  }
-  try {
-    return Object.keys(val).length === 0 && Object.getPrototypeOf(val) === Object.prototype;
-  } catch (e) {
-    return false;
-  }
-};
-const isDate = kindOfTest("Date");
-const isFile = kindOfTest("File");
-const isBlob = kindOfTest("Blob");
-const isFileList = kindOfTest("FileList");
-const isStream = (val) => isObject$1(val) && isFunction$1(val.pipe);
-const isFormData = (thing) => {
-  let kind;
-  return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction$1(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
-  kind === "object" && isFunction$1(thing.toString) && thing.toString() === "[object FormData]"));
-};
-const isURLSearchParams = kindOfTest("URLSearchParams");
-const [isReadableStream, isRequest, isResponse, isHeaders] = ["ReadableStream", "Request", "Response", "Headers"].map(kindOfTest);
-const trim = (str) => str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
-function forEach(obj, fn, { allOwnKeys = false } = {}) {
-  if (obj === null || typeof obj === "undefined") {
-    return;
-  }
-  let i;
-  let l;
-  if (typeof obj !== "object") {
-    obj = [obj];
-  }
-  if (isArray(obj)) {
-    for (i = 0, l = obj.length; i < l; i++) {
-      fn.call(null, obj[i], i, obj);
-    }
-  } else {
-    if (isBuffer(obj)) {
-      return;
-    }
-    const keys = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
-    const len = keys.length;
-    let key;
-    for (i = 0; i < len; i++) {
-      key = keys[i];
-      fn.call(null, obj[key], key, obj);
-    }
-  }
-}
-function findKey(obj, key) {
-  if (isBuffer(obj)) {
-    return null;
-  }
-  key = key.toLowerCase();
-  const keys = Object.keys(obj);
-  let i = keys.length;
-  let _key;
-  while (i-- > 0) {
-    _key = keys[i];
-    if (key === _key.toLowerCase()) {
-      return _key;
-    }
-  }
-  return null;
-}
-const _global = (() => {
-  if (typeof globalThis !== "undefined") return globalThis;
-  return typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : global;
-})();
-const isContextDefined = (context) => !isUndefined(context) && context !== _global;
-function merge() {
-  const { caseless, skipUndefined } = isContextDefined(this) && this || {};
-  const result = {};
-  const assignValue = (val, key) => {
-    const targetKey = caseless && findKey(result, key) || key;
-    if (isPlainObject(result[targetKey]) && isPlainObject(val)) {
-      result[targetKey] = merge(result[targetKey], val);
-    } else if (isPlainObject(val)) {
-      result[targetKey] = merge({}, val);
-    } else if (isArray(val)) {
-      result[targetKey] = val.slice();
-    } else if (!skipUndefined || !isUndefined(val)) {
-      result[targetKey] = val;
-    }
-  };
-  for (let i = 0, l = arguments.length; i < l; i++) {
-    arguments[i] && forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-const extend = (a, b, thisArg, { allOwnKeys } = {}) => {
-  forEach(b, (val, key) => {
-    if (thisArg && isFunction$1(val)) {
-      a[key] = bind(val, thisArg);
-    } else {
-      a[key] = val;
-    }
-  }, { allOwnKeys });
-  return a;
-};
-const stripBOM = (content) => {
-  if (content.charCodeAt(0) === 65279) {
-    content = content.slice(1);
-  }
-  return content;
-};
-const inherits = (constructor, superConstructor, props, descriptors2) => {
-  constructor.prototype = Object.create(superConstructor.prototype, descriptors2);
-  constructor.prototype.constructor = constructor;
-  Object.defineProperty(constructor, "super", {
-    value: superConstructor.prototype
-  });
-  props && Object.assign(constructor.prototype, props);
-};
-const toFlatObject = (sourceObj, destObj, filter2, propFilter) => {
-  let props;
-  let i;
-  let prop;
-  const merged = {};
-  destObj = destObj || {};
-  if (sourceObj == null) return destObj;
-  do {
-    props = Object.getOwnPropertyNames(sourceObj);
-    i = props.length;
-    while (i-- > 0) {
-      prop = props[i];
-      if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
-        destObj[prop] = sourceObj[prop];
-        merged[prop] = true;
-      }
-    }
-    sourceObj = filter2 !== false && getPrototypeOf(sourceObj);
-  } while (sourceObj && (!filter2 || filter2(sourceObj, destObj)) && sourceObj !== Object.prototype);
-  return destObj;
-};
-const endsWith = (str, searchString, position2) => {
-  str = String(str);
-  if (position2 === void 0 || position2 > str.length) {
-    position2 = str.length;
-  }
-  position2 -= searchString.length;
-  const lastIndex = str.indexOf(searchString, position2);
-  return lastIndex !== -1 && lastIndex === position2;
-};
-const toArray$3 = (thing) => {
-  if (!thing) return null;
-  if (isArray(thing)) return thing;
-  let i = thing.length;
-  if (!isNumber(i)) return null;
-  const arr = new Array(i);
-  while (i-- > 0) {
-    arr[i] = thing[i];
-  }
-  return arr;
-};
-const isTypedArray = /* @__PURE__ */ ((TypedArray) => {
-  return (thing) => {
-    return TypedArray && thing instanceof TypedArray;
-  };
-})(typeof Uint8Array !== "undefined" && getPrototypeOf(Uint8Array));
-const forEachEntry = (obj, fn) => {
-  const generator = obj && obj[iterator];
-  const _iterator = generator.call(obj);
-  let result;
-  while ((result = _iterator.next()) && !result.done) {
-    const pair = result.value;
-    fn.call(obj, pair[0], pair[1]);
-  }
-};
-const matchAll = (regExp, str) => {
-  let matches;
-  const arr = [];
-  while ((matches = regExp.exec(str)) !== null) {
-    arr.push(matches);
-  }
-  return arr;
-};
-const isHTMLForm = kindOfTest("HTMLFormElement");
-const toCamelCase = (str) => {
-  return str.toLowerCase().replace(
-    /[-_\s]([a-z\d])(\w*)/g,
-    function replacer(m, p1, p2) {
-      return p1.toUpperCase() + p2;
-    }
-  );
-};
-const hasOwnProperty = (({ hasOwnProperty: hasOwnProperty2 }) => (obj, prop) => hasOwnProperty2.call(obj, prop))(Object.prototype);
-const isRegExp = kindOfTest("RegExp");
-const reduceDescriptors = (obj, reducer) => {
-  const descriptors2 = Object.getOwnPropertyDescriptors(obj);
-  const reducedDescriptors = {};
-  forEach(descriptors2, (descriptor, name) => {
-    let ret;
-    if ((ret = reducer(descriptor, name, obj)) !== false) {
-      reducedDescriptors[name] = ret || descriptor;
-    }
-  });
-  Object.defineProperties(obj, reducedDescriptors);
-};
-const freezeMethods = (obj) => {
-  reduceDescriptors(obj, (descriptor, name) => {
-    if (isFunction$1(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
-      return false;
-    }
-    const value = obj[name];
-    if (!isFunction$1(value)) return;
-    descriptor.enumerable = false;
-    if ("writable" in descriptor) {
-      descriptor.writable = false;
-      return;
-    }
-    if (!descriptor.set) {
-      descriptor.set = () => {
-        throw Error("Can not rewrite read-only method '" + name + "'");
-      };
-    }
-  });
-};
-const toObjectSet = (arrayOrString, delimiter) => {
-  const obj = {};
-  const define = (arr) => {
-    arr.forEach((value) => {
-      obj[value] = true;
-    });
-  };
-  isArray(arrayOrString) ? define(arrayOrString) : define(String(arrayOrString).split(delimiter));
-  return obj;
-};
-const noop = () => {
-};
-const toFiniteNumber = (value, defaultValue) => {
-  return value != null && Number.isFinite(value = +value) ? value : defaultValue;
-};
-function isSpecCompliantForm(thing) {
-  return !!(thing && isFunction$1(thing.append) && thing[toStringTag] === "FormData" && thing[iterator]);
-}
-const toJSONObject = (obj) => {
-  const stack = new Array(10);
-  const visit = (source, i) => {
-    if (isObject$1(source)) {
-      if (stack.indexOf(source) >= 0) {
-        return;
-      }
-      if (isBuffer(source)) {
-        return source;
-      }
-      if (!("toJSON" in source)) {
-        stack[i] = source;
-        const target = isArray(source) ? [] : {};
-        forEach(source, (value, key) => {
-          const reducedValue = visit(value, i + 1);
-          !isUndefined(reducedValue) && (target[key] = reducedValue);
-        });
-        stack[i] = void 0;
-        return target;
-      }
-    }
-    return source;
-  };
-  return visit(obj, 0);
-};
-const isAsyncFn = kindOfTest("AsyncFunction");
-const isThenable = (thing) => thing && (isObject$1(thing) || isFunction$1(thing)) && isFunction$1(thing.then) && isFunction$1(thing.catch);
-const _setImmediate = ((setImmediateSupported, postMessageSupported) => {
-  if (setImmediateSupported) {
-    return setImmediate;
-  }
-  return postMessageSupported ? ((token, callbacks) => {
-    _global.addEventListener("message", ({ source, data }) => {
-      if (source === _global && data === token) {
-        callbacks.length && callbacks.shift()();
-      }
-    }, false);
-    return (cb) => {
-      callbacks.push(cb);
-      _global.postMessage(token, "*");
-    };
-  })(`axios@${Math.random()}`, []) : (cb) => setTimeout(cb);
-})(
-  typeof setImmediate === "function",
-  isFunction$1(_global.postMessage)
-);
-const asap = typeof queueMicrotask !== "undefined" ? queueMicrotask.bind(_global) : typeof process !== "undefined" && process.nextTick || _setImmediate;
-const isIterable = (thing) => thing != null && isFunction$1(thing[iterator]);
-const utils$1 = {
-  isArray,
-  isArrayBuffer,
-  isBuffer,
-  isFormData,
-  isArrayBufferView,
-  isString: isString$2,
-  isNumber,
-  isBoolean,
-  isObject: isObject$1,
-  isPlainObject,
-  isEmptyObject,
-  isReadableStream,
-  isRequest,
-  isResponse,
-  isHeaders,
-  isUndefined,
-  isDate,
-  isFile,
-  isBlob,
-  isRegExp,
-  isFunction: isFunction$1,
-  isStream,
-  isURLSearchParams,
-  isTypedArray,
-  isFileList,
-  forEach,
-  merge,
-  extend,
-  trim,
-  stripBOM,
-  inherits,
-  toFlatObject,
-  kindOf,
-  kindOfTest,
-  endsWith,
-  toArray: toArray$3,
-  forEachEntry,
-  matchAll,
-  isHTMLForm,
-  hasOwnProperty,
-  hasOwnProp: hasOwnProperty,
-  // an alias to avoid ESLint no-prototype-builtins detection
-  reduceDescriptors,
-  freezeMethods,
-  toObjectSet,
-  toCamelCase,
-  noop,
-  toFiniteNumber,
-  findKey,
-  global: _global,
-  isContextDefined,
-  isSpecCompliantForm,
-  toJSONObject,
-  isAsyncFn,
-  isThenable,
-  setImmediate: _setImmediate,
-  asap,
-  isIterable
-};
-function AxiosError$1(message, code, config, request2, response) {
-  Error.call(this);
-  if (Error.captureStackTrace) {
-    Error.captureStackTrace(this, this.constructor);
-  } else {
-    this.stack = new Error().stack;
-  }
-  this.message = message;
-  this.name = "AxiosError";
-  code && (this.code = code);
-  config && (this.config = config);
-  request2 && (this.request = request2);
-  if (response) {
-    this.response = response;
-    this.status = response.status ? response.status : null;
-  }
-}
-utils$1.inherits(AxiosError$1, Error, {
-  toJSON: function toJSON() {
-    return {
-      // Standard
-      message: this.message,
-      name: this.name,
-      // Microsoft
-      description: this.description,
-      number: this.number,
-      // Mozilla
-      fileName: this.fileName,
-      lineNumber: this.lineNumber,
-      columnNumber: this.columnNumber,
-      stack: this.stack,
-      // Axios
-      config: utils$1.toJSONObject(this.config),
-      code: this.code,
-      status: this.status
-    };
-  }
-});
-const prototype$1 = AxiosError$1.prototype;
-const descriptors = {};
-[
-  "ERR_BAD_OPTION_VALUE",
-  "ERR_BAD_OPTION",
-  "ECONNABORTED",
-  "ETIMEDOUT",
-  "ERR_NETWORK",
-  "ERR_FR_TOO_MANY_REDIRECTS",
-  "ERR_DEPRECATED",
-  "ERR_BAD_RESPONSE",
-  "ERR_BAD_REQUEST",
-  "ERR_CANCELED",
-  "ERR_NOT_SUPPORT",
-  "ERR_INVALID_URL"
-  // eslint-disable-next-line func-names
-].forEach((code) => {
-  descriptors[code] = { value: code };
-});
-Object.defineProperties(AxiosError$1, descriptors);
-Object.defineProperty(prototype$1, "isAxiosError", { value: true });
-AxiosError$1.from = (error, code, config, request2, response, customProps) => {
-  const axiosError = Object.create(prototype$1);
-  utils$1.toFlatObject(error, axiosError, function filter2(obj) {
-    return obj !== Error.prototype;
-  }, (prop) => {
-    return prop !== "isAxiosError";
-  });
-  const msg = error && error.message ? error.message : "Error";
-  const errCode = code == null && error ? error.code : code;
-  AxiosError$1.call(axiosError, msg, errCode, config, request2, response);
-  if (error && axiosError.cause == null) {
-    Object.defineProperty(axiosError, "cause", { value: error, configurable: true });
-  }
-  axiosError.name = error && error.name || "Error";
-  customProps && Object.assign(axiosError, customProps);
-  return axiosError;
-};
-const httpAdapter = null;
-function isVisitable(thing) {
-  return utils$1.isPlainObject(thing) || utils$1.isArray(thing);
-}
-function removeBrackets(key) {
-  return utils$1.endsWith(key, "[]") ? key.slice(0, -2) : key;
-}
-function renderKey(path, key, dots) {
-  if (!path) return key;
-  return path.concat(key).map(function each(token, i) {
-    token = removeBrackets(token);
-    return !dots && i ? "[" + token + "]" : token;
-  }).join(dots ? "." : "");
-}
-function isFlatArray(arr) {
-  return utils$1.isArray(arr) && !arr.some(isVisitable);
-}
-const predicates = utils$1.toFlatObject(utils$1, {}, null, function filter(prop) {
-  return /^is[A-Z]/.test(prop);
-});
-function toFormData$1(obj, formData, options) {
-  if (!utils$1.isObject(obj)) {
-    throw new TypeError("target must be an object");
-  }
-  formData = formData || new FormData();
-  options = utils$1.toFlatObject(options, {
-    metaTokens: true,
-    dots: false,
-    indexes: false
-  }, false, function defined(option, source) {
-    return !utils$1.isUndefined(source[option]);
-  });
-  const metaTokens = options.metaTokens;
-  const visitor = options.visitor || defaultVisitor;
-  const dots = options.dots;
-  const indexes = options.indexes;
-  const _Blob = options.Blob || typeof Blob !== "undefined" && Blob;
-  const useBlob = _Blob && utils$1.isSpecCompliantForm(formData);
-  if (!utils$1.isFunction(visitor)) {
-    throw new TypeError("visitor must be a function");
-  }
-  function convertValue(value) {
-    if (value === null) return "";
-    if (utils$1.isDate(value)) {
-      return value.toISOString();
-    }
-    if (utils$1.isBoolean(value)) {
-      return value.toString();
-    }
-    if (!useBlob && utils$1.isBlob(value)) {
-      throw new AxiosError$1("Blob is not supported. Use a Buffer instead.");
-    }
-    if (utils$1.isArrayBuffer(value) || utils$1.isTypedArray(value)) {
-      return useBlob && typeof Blob === "function" ? new Blob([value]) : Buffer.from(value);
-    }
-    return value;
-  }
-  function defaultVisitor(value, key, path) {
-    let arr = value;
-    if (value && !path && typeof value === "object") {
-      if (utils$1.endsWith(key, "{}")) {
-        key = metaTokens ? key : key.slice(0, -2);
-        value = JSON.stringify(value);
-      } else if (utils$1.isArray(value) && isFlatArray(value) || (utils$1.isFileList(value) || utils$1.endsWith(key, "[]")) && (arr = utils$1.toArray(value))) {
-        key = removeBrackets(key);
-        arr.forEach(function each(el, index) {
-          !(utils$1.isUndefined(el) || el === null) && formData.append(
-            // eslint-disable-next-line no-nested-ternary
-            indexes === true ? renderKey([key], index, dots) : indexes === null ? key : key + "[]",
-            convertValue(el)
-          );
-        });
-        return false;
-      }
-    }
-    if (isVisitable(value)) {
-      return true;
-    }
-    formData.append(renderKey(path, key, dots), convertValue(value));
-    return false;
-  }
-  const stack = [];
-  const exposedHelpers = Object.assign(predicates, {
-    defaultVisitor,
-    convertValue,
-    isVisitable
-  });
-  function build(value, path) {
-    if (utils$1.isUndefined(value)) return;
-    if (stack.indexOf(value) !== -1) {
-      throw Error("Circular reference detected in " + path.join("."));
-    }
-    stack.push(value);
-    utils$1.forEach(value, function each(el, key) {
-      const result = !(utils$1.isUndefined(el) || el === null) && visitor.call(
-        formData,
-        el,
-        utils$1.isString(key) ? key.trim() : key,
-        path,
-        exposedHelpers
-      );
-      if (result === true) {
-        build(el, path ? path.concat(key) : [key]);
-      }
-    });
-    stack.pop();
-  }
-  if (!utils$1.isObject(obj)) {
-    throw new TypeError("data must be an object");
-  }
-  build(obj);
-  return formData;
-}
-function encode$2(str) {
-  const charMap = {
-    "!": "%21",
-    "'": "%27",
-    "(": "%28",
-    ")": "%29",
-    "~": "%7E",
-    "%20": "+",
-    "%00": "\0"
-  };
-  return encodeURIComponent(str).replace(/[!'()~]|%20|%00/g, function replacer(match) {
-    return charMap[match];
-  });
-}
-function AxiosURLSearchParams(params, options) {
-  this._pairs = [];
-  params && toFormData$1(params, this, options);
-}
-const prototype = AxiosURLSearchParams.prototype;
-prototype.append = function append(name, value) {
-  this._pairs.push([name, value]);
-};
-prototype.toString = function toString(encoder) {
-  const _encode = encoder ? function(value) {
-    return encoder.call(this, value, encode$2);
-  } : encode$2;
-  return this._pairs.map(function each(pair) {
-    return _encode(pair[0]) + "=" + _encode(pair[1]);
-  }, "").join("&");
-};
-function encode$1(val) {
-  return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+");
-}
-function buildURL(url, params, options) {
-  if (!params) {
-    return url;
-  }
-  const _encode = options && options.encode || encode$1;
-  if (utils$1.isFunction(options)) {
-    options = {
-      serialize: options
-    };
-  }
-  const serializeFn = options && options.serialize;
-  let serializedParams;
-  if (serializeFn) {
-    serializedParams = serializeFn(params, options);
-  } else {
-    serializedParams = utils$1.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams(params, options).toString(_encode);
-  }
-  if (serializedParams) {
-    const hashmarkIndex = url.indexOf("#");
-    if (hashmarkIndex !== -1) {
-      url = url.slice(0, hashmarkIndex);
-    }
-    url += (url.indexOf("?") === -1 ? "?" : "&") + serializedParams;
-  }
-  return url;
-}
-class InterceptorManager {
-  constructor() {
-    this.handlers = [];
-  }
-  /**
-   * Add a new interceptor to the stack
-   *
-   * @param {Function} fulfilled The function to handle `then` for a `Promise`
-   * @param {Function} rejected The function to handle `reject` for a `Promise`
-   *
-   * @return {Number} An ID used to remove interceptor later
-   */
-  use(fulfilled, rejected, options) {
-    this.handlers.push({
-      fulfilled,
-      rejected,
-      synchronous: options ? options.synchronous : false,
-      runWhen: options ? options.runWhen : null
-    });
-    return this.handlers.length - 1;
-  }
-  /**
-   * Remove an interceptor from the stack
-   *
-   * @param {Number} id The ID that was returned by `use`
-   *
-   * @returns {Boolean} `true` if the interceptor was removed, `false` otherwise
-   */
-  eject(id) {
-    if (this.handlers[id]) {
-      this.handlers[id] = null;
-    }
-  }
-  /**
-   * Clear all interceptors from the stack
-   *
-   * @returns {void}
-   */
-  clear() {
-    if (this.handlers) {
-      this.handlers = [];
-    }
-  }
-  /**
-   * Iterate over all the registered interceptors
-   *
-   * This method is particularly useful for skipping over any
-   * interceptors that may have become `null` calling `eject`.
-   *
-   * @param {Function} fn The function to call for each interceptor
-   *
-   * @returns {void}
-   */
-  forEach(fn) {
-    utils$1.forEach(this.handlers, function forEachHandler(h2) {
-      if (h2 !== null) {
-        fn(h2);
-      }
-    });
-  }
-}
-const transitionalDefaults = {
-  silentJSONParsing: true,
-  forcedJSONParsing: true,
-  clarifyTimeoutError: false
-};
-const URLSearchParams$1 = typeof URLSearchParams !== "undefined" ? URLSearchParams : AxiosURLSearchParams;
-const FormData$1 = typeof FormData !== "undefined" ? FormData : null;
-const Blob$1 = typeof Blob !== "undefined" ? Blob : null;
-const platform$1 = {
-  isBrowser: true,
-  classes: {
-    URLSearchParams: URLSearchParams$1,
-    FormData: FormData$1,
-    Blob: Blob$1
-  },
-  protocols: ["http", "https", "file", "blob", "url", "data"]
-};
-const hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
-const _navigator = typeof navigator === "object" && navigator || void 0;
-const hasStandardBrowserEnv = hasBrowserEnv && (!_navigator || ["ReactNative", "NativeScript", "NS"].indexOf(_navigator.product) < 0);
-const hasStandardBrowserWebWorkerEnv = (() => {
-  return typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
-  self instanceof WorkerGlobalScope && typeof self.importScripts === "function";
-})();
-const origin = hasBrowserEnv && window.location.href || "http://localhost";
-const utils = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  hasBrowserEnv,
-  hasStandardBrowserEnv,
-  hasStandardBrowserWebWorkerEnv,
-  navigator: _navigator,
-  origin
-}, Symbol.toStringTag, { value: "Module" }));
-const platform = {
-  ...utils,
-  ...platform$1
-};
-function toURLEncodedForm(data, options) {
-  return toFormData$1(data, new platform.classes.URLSearchParams(), {
-    visitor: function(value, key, path, helpers) {
-      if (platform.isNode && utils$1.isBuffer(value)) {
-        this.append(key, value.toString("base64"));
-        return false;
-      }
-      return helpers.defaultVisitor.apply(this, arguments);
-    },
-    ...options
-  });
-}
-function parsePropPath(name) {
-  return utils$1.matchAll(/\w+|\[(\w*)]/g, name).map((match) => {
-    return match[0] === "[]" ? "" : match[1] || match[0];
-  });
-}
-function arrayToObject(arr) {
-  const obj = {};
-  const keys = Object.keys(arr);
-  let i;
-  const len = keys.length;
-  let key;
-  for (i = 0; i < len; i++) {
-    key = keys[i];
-    obj[key] = arr[key];
-  }
-  return obj;
-}
-function formDataToJSON(formData) {
-  function buildPath(path, value, target, index) {
-    let name = path[index++];
-    if (name === "__proto__") return true;
-    const isNumericKey = Number.isFinite(+name);
-    const isLast = index >= path.length;
-    name = !name && utils$1.isArray(target) ? target.length : name;
-    if (isLast) {
-      if (utils$1.hasOwnProp(target, name)) {
-        target[name] = [target[name], value];
-      } else {
-        target[name] = value;
-      }
-      return !isNumericKey;
-    }
-    if (!target[name] || !utils$1.isObject(target[name])) {
-      target[name] = [];
-    }
-    const result = buildPath(path, value, target[name], index);
-    if (result && utils$1.isArray(target[name])) {
-      target[name] = arrayToObject(target[name]);
-    }
-    return !isNumericKey;
-  }
-  if (utils$1.isFormData(formData) && utils$1.isFunction(formData.entries)) {
-    const obj = {};
-    utils$1.forEachEntry(formData, (name, value) => {
-      buildPath(parsePropPath(name), value, obj, 0);
-    });
-    return obj;
-  }
-  return null;
-}
-function stringifySafely(rawValue, parser, encoder) {
-  if (utils$1.isString(rawValue)) {
-    try {
-      (parser || JSON.parse)(rawValue);
-      return utils$1.trim(rawValue);
-    } catch (e) {
-      if (e.name !== "SyntaxError") {
-        throw e;
-      }
-    }
-  }
-  return (encoder || JSON.stringify)(rawValue);
-}
-const defaults = {
-  transitional: transitionalDefaults,
-  adapter: ["xhr", "http", "fetch"],
-  transformRequest: [function transformRequest(data, headers) {
-    const contentType = headers.getContentType() || "";
-    const hasJSONContentType = contentType.indexOf("application/json") > -1;
-    const isObjectPayload = utils$1.isObject(data);
-    if (isObjectPayload && utils$1.isHTMLForm(data)) {
-      data = new FormData(data);
-    }
-    const isFormData2 = utils$1.isFormData(data);
-    if (isFormData2) {
-      return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
-    }
-    if (utils$1.isArrayBuffer(data) || utils$1.isBuffer(data) || utils$1.isStream(data) || utils$1.isFile(data) || utils$1.isBlob(data) || utils$1.isReadableStream(data)) {
-      return data;
-    }
-    if (utils$1.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils$1.isURLSearchParams(data)) {
-      headers.setContentType("application/x-www-form-urlencoded;charset=utf-8", false);
-      return data.toString();
-    }
-    let isFileList2;
-    if (isObjectPayload) {
-      if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
-        return toURLEncodedForm(data, this.formSerializer).toString();
-      }
-      if ((isFileList2 = utils$1.isFileList(data)) || contentType.indexOf("multipart/form-data") > -1) {
-        const _FormData = this.env && this.env.FormData;
-        return toFormData$1(
-          isFileList2 ? { "files[]": data } : data,
-          _FormData && new _FormData(),
-          this.formSerializer
-        );
-      }
-    }
-    if (isObjectPayload || hasJSONContentType) {
-      headers.setContentType("application/json", false);
-      return stringifySafely(data);
-    }
-    return data;
-  }],
-  transformResponse: [function transformResponse(data) {
-    const transitional2 = this.transitional || defaults.transitional;
-    const forcedJSONParsing = transitional2 && transitional2.forcedJSONParsing;
-    const JSONRequested = this.responseType === "json";
-    if (utils$1.isResponse(data) || utils$1.isReadableStream(data)) {
-      return data;
-    }
-    if (data && utils$1.isString(data) && (forcedJSONParsing && !this.responseType || JSONRequested)) {
-      const silentJSONParsing = transitional2 && transitional2.silentJSONParsing;
-      const strictJSONParsing = !silentJSONParsing && JSONRequested;
-      try {
-        return JSON.parse(data, this.parseReviver);
-      } catch (e) {
-        if (strictJSONParsing) {
-          if (e.name === "SyntaxError") {
-            throw AxiosError$1.from(e, AxiosError$1.ERR_BAD_RESPONSE, this, null, this.response);
-          }
-          throw e;
-        }
-      }
-    }
-    return data;
-  }],
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-  xsrfCookieName: "XSRF-TOKEN",
-  xsrfHeaderName: "X-XSRF-TOKEN",
-  maxContentLength: -1,
-  maxBodyLength: -1,
-  env: {
-    FormData: platform.classes.FormData,
-    Blob: platform.classes.Blob
-  },
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  },
-  headers: {
-    common: {
-      "Accept": "application/json, text/plain, */*",
-      "Content-Type": void 0
-    }
-  }
-};
-utils$1.forEach(["delete", "get", "head", "post", "put", "patch"], (method) => {
-  defaults.headers[method] = {};
-});
-const ignoreDuplicateOf = utils$1.toObjectSet([
-  "age",
-  "authorization",
-  "content-length",
-  "content-type",
-  "etag",
-  "expires",
-  "from",
-  "host",
-  "if-modified-since",
-  "if-unmodified-since",
-  "last-modified",
-  "location",
-  "max-forwards",
-  "proxy-authorization",
-  "referer",
-  "retry-after",
-  "user-agent"
-]);
-const parseHeaders = (rawHeaders) => {
-  const parsed = {};
-  let key;
-  let val;
-  let i;
-  rawHeaders && rawHeaders.split("\n").forEach(function parser(line) {
-    i = line.indexOf(":");
-    key = line.substring(0, i).trim().toLowerCase();
-    val = line.substring(i + 1).trim();
-    if (!key || parsed[key] && ignoreDuplicateOf[key]) {
-      return;
-    }
-    if (key === "set-cookie") {
-      if (parsed[key]) {
-        parsed[key].push(val);
-      } else {
-        parsed[key] = [val];
-      }
-    } else {
-      parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
-    }
-  });
-  return parsed;
-};
-const $internals = Symbol("internals");
-function normalizeHeader(header) {
-  return header && String(header).trim().toLowerCase();
-}
-function normalizeValue(value) {
-  if (value === false || value == null) {
-    return value;
-  }
-  return utils$1.isArray(value) ? value.map(normalizeValue) : String(value);
-}
-function parseTokens(str) {
-  const tokens = /* @__PURE__ */ Object.create(null);
-  const tokensRE = /([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;
-  let match;
-  while (match = tokensRE.exec(str)) {
-    tokens[match[1]] = match[2];
-  }
-  return tokens;
-}
-const isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
-function matchHeaderValue(context, value, header, filter2, isHeaderNameFilter) {
-  if (utils$1.isFunction(filter2)) {
-    return filter2.call(this, value, header);
-  }
-  if (isHeaderNameFilter) {
-    value = header;
-  }
-  if (!utils$1.isString(value)) return;
-  if (utils$1.isString(filter2)) {
-    return value.indexOf(filter2) !== -1;
-  }
-  if (utils$1.isRegExp(filter2)) {
-    return filter2.test(value);
-  }
-}
-function formatHeader(header) {
-  return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w, char, str) => {
-    return char.toUpperCase() + str;
-  });
-}
-function buildAccessors(obj, header) {
-  const accessorName = utils$1.toCamelCase(" " + header);
-  ["get", "set", "has"].forEach((methodName) => {
-    Object.defineProperty(obj, methodName + accessorName, {
-      value: function(arg1, arg2, arg3) {
-        return this[methodName].call(this, header, arg1, arg2, arg3);
-      },
-      configurable: true
-    });
-  });
-}
-let AxiosHeaders$1 = class AxiosHeaders {
-  constructor(headers) {
-    headers && this.set(headers);
-  }
-  set(header, valueOrRewrite, rewrite) {
-    const self2 = this;
-    function setHeader(_value, _header, _rewrite) {
-      const lHeader = normalizeHeader(_header);
-      if (!lHeader) {
-        throw new Error("header name must be a non-empty string");
-      }
-      const key = utils$1.findKey(self2, lHeader);
-      if (!key || self2[key] === void 0 || _rewrite === true || _rewrite === void 0 && self2[key] !== false) {
-        self2[key || _header] = normalizeValue(_value);
-      }
-    }
-    const setHeaders = (headers, _rewrite) => utils$1.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
-    if (utils$1.isPlainObject(header) || header instanceof this.constructor) {
-      setHeaders(header, valueOrRewrite);
-    } else if (utils$1.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
-      setHeaders(parseHeaders(header), valueOrRewrite);
-    } else if (utils$1.isObject(header) && utils$1.isIterable(header)) {
-      let obj = {}, dest, key;
-      for (const entry of header) {
-        if (!utils$1.isArray(entry)) {
-          throw TypeError("Object iterator must return a key-value pair");
-        }
-        obj[key = entry[0]] = (dest = obj[key]) ? utils$1.isArray(dest) ? [...dest, entry[1]] : [dest, entry[1]] : entry[1];
-      }
-      setHeaders(obj, valueOrRewrite);
-    } else {
-      header != null && setHeader(valueOrRewrite, header, rewrite);
-    }
-    return this;
-  }
-  get(header, parser) {
-    header = normalizeHeader(header);
-    if (header) {
-      const key = utils$1.findKey(this, header);
-      if (key) {
-        const value = this[key];
-        if (!parser) {
-          return value;
-        }
-        if (parser === true) {
-          return parseTokens(value);
-        }
-        if (utils$1.isFunction(parser)) {
-          return parser.call(this, value, key);
-        }
-        if (utils$1.isRegExp(parser)) {
-          return parser.exec(value);
-        }
-        throw new TypeError("parser must be boolean|regexp|function");
-      }
-    }
-  }
-  has(header, matcher) {
-    header = normalizeHeader(header);
-    if (header) {
-      const key = utils$1.findKey(this, header);
-      return !!(key && this[key] !== void 0 && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
-    }
-    return false;
-  }
-  delete(header, matcher) {
-    const self2 = this;
-    let deleted = false;
-    function deleteHeader(_header) {
-      _header = normalizeHeader(_header);
-      if (_header) {
-        const key = utils$1.findKey(self2, _header);
-        if (key && (!matcher || matchHeaderValue(self2, self2[key], key, matcher))) {
-          delete self2[key];
-          deleted = true;
-        }
-      }
-    }
-    if (utils$1.isArray(header)) {
-      header.forEach(deleteHeader);
-    } else {
-      deleteHeader(header);
-    }
-    return deleted;
-  }
-  clear(matcher) {
-    const keys = Object.keys(this);
-    let i = keys.length;
-    let deleted = false;
-    while (i--) {
-      const key = keys[i];
-      if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
-        delete this[key];
-        deleted = true;
-      }
-    }
-    return deleted;
-  }
-  normalize(format2) {
-    const self2 = this;
-    const headers = {};
-    utils$1.forEach(this, (value, header) => {
-      const key = utils$1.findKey(headers, header);
-      if (key) {
-        self2[key] = normalizeValue(value);
-        delete self2[header];
-        return;
-      }
-      const normalized = format2 ? formatHeader(header) : String(header).trim();
-      if (normalized !== header) {
-        delete self2[header];
-      }
-      self2[normalized] = normalizeValue(value);
-      headers[normalized] = true;
-    });
-    return this;
-  }
-  concat(...targets) {
-    return this.constructor.concat(this, ...targets);
-  }
-  toJSON(asStrings) {
-    const obj = /* @__PURE__ */ Object.create(null);
-    utils$1.forEach(this, (value, header) => {
-      value != null && value !== false && (obj[header] = asStrings && utils$1.isArray(value) ? value.join(", ") : value);
-    });
-    return obj;
-  }
-  [Symbol.iterator]() {
-    return Object.entries(this.toJSON())[Symbol.iterator]();
-  }
-  toString() {
-    return Object.entries(this.toJSON()).map(([header, value]) => header + ": " + value).join("\n");
-  }
-  getSetCookie() {
-    return this.get("set-cookie") || [];
-  }
-  get [Symbol.toStringTag]() {
-    return "AxiosHeaders";
-  }
-  static from(thing) {
-    return thing instanceof this ? thing : new this(thing);
-  }
-  static concat(first, ...targets) {
-    const computed2 = new this(first);
-    targets.forEach((target) => computed2.set(target));
-    return computed2;
-  }
-  static accessor(header) {
-    const internals = this[$internals] = this[$internals] = {
-      accessors: {}
-    };
-    const accessors = internals.accessors;
-    const prototype2 = this.prototype;
-    function defineAccessor(_header) {
-      const lHeader = normalizeHeader(_header);
-      if (!accessors[lHeader]) {
-        buildAccessors(prototype2, _header);
-        accessors[lHeader] = true;
-      }
-    }
-    utils$1.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
-    return this;
-  }
-};
-AxiosHeaders$1.accessor(["Content-Type", "Content-Length", "Accept", "Accept-Encoding", "User-Agent", "Authorization"]);
-utils$1.reduceDescriptors(AxiosHeaders$1.prototype, ({ value }, key) => {
-  let mapped = key[0].toUpperCase() + key.slice(1);
-  return {
-    get: () => value,
-    set(headerValue) {
-      this[mapped] = headerValue;
-    }
-  };
-});
-utils$1.freezeMethods(AxiosHeaders$1);
-function transformData(fns2, response) {
-  const config = this || defaults;
-  const context = response || config;
-  const headers = AxiosHeaders$1.from(context.headers);
-  let data = context.data;
-  utils$1.forEach(fns2, function transform2(fn) {
-    data = fn.call(config, data, headers.normalize(), response ? response.status : void 0);
-  });
-  headers.normalize();
-  return data;
-}
-function isCancel$1(value) {
-  return !!(value && value.__CANCEL__);
-}
-function CanceledError$1(message, config, request2) {
-  AxiosError$1.call(this, message == null ? "canceled" : message, AxiosError$1.ERR_CANCELED, config, request2);
-  this.name = "CanceledError";
-}
-utils$1.inherits(CanceledError$1, AxiosError$1, {
-  __CANCEL__: true
-});
-function settle(resolve, reject, response) {
-  const validateStatus2 = response.config.validateStatus;
-  if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
-    resolve(response);
-  } else {
-    reject(new AxiosError$1(
-      "Request failed with status code " + response.status,
-      [AxiosError$1.ERR_BAD_REQUEST, AxiosError$1.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
-      response.config,
-      response.request,
-      response
-    ));
-  }
-}
-function parseProtocol(url) {
-  const match = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
-  return match && match[1] || "";
-}
-function speedometer(samplesCount, min) {
-  samplesCount = samplesCount || 10;
-  const bytes = new Array(samplesCount);
-  const timestamps = new Array(samplesCount);
-  let head = 0;
-  let tail = 0;
-  let firstSampleTS;
-  min = min !== void 0 ? min : 1e3;
-  return function push(chunkLength) {
-    const now2 = Date.now();
-    const startedAt = timestamps[tail];
-    if (!firstSampleTS) {
-      firstSampleTS = now2;
-    }
-    bytes[head] = chunkLength;
-    timestamps[head] = now2;
-    let i = tail;
-    let bytesCount = 0;
-    while (i !== head) {
-      bytesCount += bytes[i++];
-      i = i % samplesCount;
-    }
-    head = (head + 1) % samplesCount;
-    if (head === tail) {
-      tail = (tail + 1) % samplesCount;
-    }
-    if (now2 - firstSampleTS < min) {
-      return;
-    }
-    const passed = startedAt && now2 - startedAt;
-    return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
-  };
-}
-function throttle(fn, freq) {
-  let timestamp = 0;
-  let threshold = 1e3 / freq;
-  let lastArgs;
-  let timer;
-  const invoke = (args, now2 = Date.now()) => {
-    timestamp = now2;
-    lastArgs = null;
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    fn(...args);
-  };
-  const throttled = (...args) => {
-    const now2 = Date.now();
-    const passed = now2 - timestamp;
-    if (passed >= threshold) {
-      invoke(args, now2);
-    } else {
-      lastArgs = args;
-      if (!timer) {
-        timer = setTimeout(() => {
-          timer = null;
-          invoke(lastArgs);
-        }, threshold - passed);
-      }
-    }
-  };
-  const flush = () => lastArgs && invoke(lastArgs);
-  return [throttled, flush];
-}
-const progressEventReducer = (listener, isDownloadStream, freq = 3) => {
-  let bytesNotified = 0;
-  const _speedometer = speedometer(50, 250);
-  return throttle((e) => {
-    const loaded = e.loaded;
-    const total = e.lengthComputable ? e.total : void 0;
-    const progressBytes = loaded - bytesNotified;
-    const rate = _speedometer(progressBytes);
-    const inRange = loaded <= total;
-    bytesNotified = loaded;
-    const data = {
-      loaded,
-      total,
-      progress: total ? loaded / total : void 0,
-      bytes: progressBytes,
-      rate: rate ? rate : void 0,
-      estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
-      event: e,
-      lengthComputable: total != null,
-      [isDownloadStream ? "download" : "upload"]: true
-    };
-    listener(data);
-  }, freq);
-};
-const progressEventDecorator = (total, throttled) => {
-  const lengthComputable = total != null;
-  return [(loaded) => throttled[0]({
-    lengthComputable,
-    total,
-    loaded
-  }), throttled[1]];
-};
-const asyncDecorator = (fn) => (...args) => utils$1.asap(() => fn(...args));
-const isURLSameOrigin = platform.hasStandardBrowserEnv ? /* @__PURE__ */ ((origin2, isMSIE) => (url) => {
-  url = new URL(url, platform.origin);
-  return origin2.protocol === url.protocol && origin2.host === url.host && (isMSIE || origin2.port === url.port);
-})(
-  new URL(platform.origin),
-  platform.navigator && /(msie|trident)/i.test(platform.navigator.userAgent)
-) : () => true;
-const cookies = platform.hasStandardBrowserEnv ? (
-  // Standard browser envs support document.cookie
-  {
-    write(name, value, expires, path, domain, secure) {
-      const cookie = [name + "=" + encodeURIComponent(value)];
-      utils$1.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
-      utils$1.isString(path) && cookie.push("path=" + path);
-      utils$1.isString(domain) && cookie.push("domain=" + domain);
-      secure === true && cookie.push("secure");
-      document.cookie = cookie.join("; ");
-    },
-    read(name) {
-      const match = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
-      return match ? decodeURIComponent(match[3]) : null;
-    },
-    remove(name) {
-      this.write(name, "", Date.now() - 864e5);
-    }
-  }
-) : (
-  // Non-standard browser env (web workers, react-native) lack needed support.
-  {
-    write() {
-    },
-    read() {
-      return null;
-    },
-    remove() {
-    }
-  }
-);
-function isAbsoluteURL(url) {
-  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
-}
-function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
-}
-function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
-  let isRelativeUrl = !isAbsoluteURL(requestedURL);
-  if (baseURL && (isRelativeUrl || allowAbsoluteUrls == false)) {
-    return combineURLs(baseURL, requestedURL);
-  }
-  return requestedURL;
-}
-const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
-function mergeConfig$1(config1, config2) {
-  config2 = config2 || {};
-  const config = {};
-  function getMergedValue(target, source, prop, caseless) {
-    if (utils$1.isPlainObject(target) && utils$1.isPlainObject(source)) {
-      return utils$1.merge.call({ caseless }, target, source);
-    } else if (utils$1.isPlainObject(source)) {
-      return utils$1.merge({}, source);
-    } else if (utils$1.isArray(source)) {
-      return source.slice();
-    }
-    return source;
-  }
-  function mergeDeepProperties(a, b, prop, caseless) {
-    if (!utils$1.isUndefined(b)) {
-      return getMergedValue(a, b, prop, caseless);
-    } else if (!utils$1.isUndefined(a)) {
-      return getMergedValue(void 0, a, prop, caseless);
-    }
-  }
-  function valueFromConfig2(a, b) {
-    if (!utils$1.isUndefined(b)) {
-      return getMergedValue(void 0, b);
-    }
-  }
-  function defaultToConfig2(a, b) {
-    if (!utils$1.isUndefined(b)) {
-      return getMergedValue(void 0, b);
-    } else if (!utils$1.isUndefined(a)) {
-      return getMergedValue(void 0, a);
-    }
-  }
-  function mergeDirectKeys(a, b, prop) {
-    if (prop in config2) {
-      return getMergedValue(a, b);
-    } else if (prop in config1) {
-      return getMergedValue(void 0, a);
-    }
-  }
-  const mergeMap = {
-    url: valueFromConfig2,
-    method: valueFromConfig2,
-    data: valueFromConfig2,
-    baseURL: defaultToConfig2,
-    transformRequest: defaultToConfig2,
-    transformResponse: defaultToConfig2,
-    paramsSerializer: defaultToConfig2,
-    timeout: defaultToConfig2,
-    timeoutMessage: defaultToConfig2,
-    withCredentials: defaultToConfig2,
-    withXSRFToken: defaultToConfig2,
-    adapter: defaultToConfig2,
-    responseType: defaultToConfig2,
-    xsrfCookieName: defaultToConfig2,
-    xsrfHeaderName: defaultToConfig2,
-    onUploadProgress: defaultToConfig2,
-    onDownloadProgress: defaultToConfig2,
-    decompress: defaultToConfig2,
-    maxContentLength: defaultToConfig2,
-    maxBodyLength: defaultToConfig2,
-    beforeRedirect: defaultToConfig2,
-    transport: defaultToConfig2,
-    httpAgent: defaultToConfig2,
-    httpsAgent: defaultToConfig2,
-    cancelToken: defaultToConfig2,
-    socketPath: defaultToConfig2,
-    responseEncoding: defaultToConfig2,
-    validateStatus: mergeDirectKeys,
-    headers: (a, b, prop) => mergeDeepProperties(headersToObject(a), headersToObject(b), prop, true)
-  };
-  utils$1.forEach(Object.keys({ ...config1, ...config2 }), function computeConfigValue(prop) {
-    const merge2 = mergeMap[prop] || mergeDeepProperties;
-    const configValue = merge2(config1[prop], config2[prop], prop);
-    utils$1.isUndefined(configValue) && merge2 !== mergeDirectKeys || (config[prop] = configValue);
-  });
-  return config;
-}
-const resolveConfig = (config) => {
-  const newConfig = mergeConfig$1({}, config);
-  let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } = newConfig;
-  newConfig.headers = headers = AxiosHeaders$1.from(headers);
-  newConfig.url = buildURL(buildFullPath(newConfig.baseURL, newConfig.url, newConfig.allowAbsoluteUrls), config.params, config.paramsSerializer);
-  if (auth) {
-    headers.set(
-      "Authorization",
-      "Basic " + btoa((auth.username || "") + ":" + (auth.password ? unescape(encodeURIComponent(auth.password)) : ""))
-    );
-  }
-  if (utils$1.isFormData(data)) {
-    if (platform.hasStandardBrowserEnv || platform.hasStandardBrowserWebWorkerEnv) {
-      headers.setContentType(void 0);
-    } else if (utils$1.isFunction(data.getHeaders)) {
-      const formHeaders = data.getHeaders();
-      const allowedHeaders = ["content-type", "content-length"];
-      Object.entries(formHeaders).forEach(([key, val]) => {
-        if (allowedHeaders.includes(key.toLowerCase())) {
-          headers.set(key, val);
-        }
-      });
-    }
-  }
-  if (platform.hasStandardBrowserEnv) {
-    withXSRFToken && utils$1.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(newConfig));
-    if (withXSRFToken || withXSRFToken !== false && isURLSameOrigin(newConfig.url)) {
-      const xsrfValue = xsrfHeaderName && xsrfCookieName && cookies.read(xsrfCookieName);
-      if (xsrfValue) {
-        headers.set(xsrfHeaderName, xsrfValue);
-      }
-    }
-  }
-  return newConfig;
-};
-const isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
-const xhrAdapter = isXHRAdapterSupported && function(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    const _config = resolveConfig(config);
-    let requestData = _config.data;
-    const requestHeaders = AxiosHeaders$1.from(_config.headers).normalize();
-    let { responseType, onUploadProgress, onDownloadProgress } = _config;
-    let onCanceled;
-    let uploadThrottled, downloadThrottled;
-    let flushUpload, flushDownload;
-    function done() {
-      flushUpload && flushUpload();
-      flushDownload && flushDownload();
-      _config.cancelToken && _config.cancelToken.unsubscribe(onCanceled);
-      _config.signal && _config.signal.removeEventListener("abort", onCanceled);
-    }
-    let request2 = new XMLHttpRequest();
-    request2.open(_config.method.toUpperCase(), _config.url, true);
-    request2.timeout = _config.timeout;
-    function onloadend() {
-      if (!request2) {
-        return;
-      }
-      const responseHeaders = AxiosHeaders$1.from(
-        "getAllResponseHeaders" in request2 && request2.getAllResponseHeaders()
-      );
-      const responseData = !responseType || responseType === "text" || responseType === "json" ? request2.responseText : request2.response;
-      const response = {
-        data: responseData,
-        status: request2.status,
-        statusText: request2.statusText,
-        headers: responseHeaders,
-        config,
-        request: request2
-      };
-      settle(function _resolve(value) {
-        resolve(value);
-        done();
-      }, function _reject(err) {
-        reject(err);
-        done();
-      }, response);
-      request2 = null;
-    }
-    if ("onloadend" in request2) {
-      request2.onloadend = onloadend;
-    } else {
-      request2.onreadystatechange = function handleLoad() {
-        if (!request2 || request2.readyState !== 4) {
-          return;
-        }
-        if (request2.status === 0 && !(request2.responseURL && request2.responseURL.indexOf("file:") === 0)) {
-          return;
-        }
-        setTimeout(onloadend);
-      };
-    }
-    request2.onabort = function handleAbort() {
-      if (!request2) {
-        return;
-      }
-      reject(new AxiosError$1("Request aborted", AxiosError$1.ECONNABORTED, config, request2));
-      request2 = null;
-    };
-    request2.onerror = function handleError(event) {
-      const msg = event && event.message ? event.message : "Network Error";
-      const err = new AxiosError$1(msg, AxiosError$1.ERR_NETWORK, config, request2);
-      err.event = event || null;
-      reject(err);
-      request2 = null;
-    };
-    request2.ontimeout = function handleTimeout() {
-      let timeoutErrorMessage = _config.timeout ? "timeout of " + _config.timeout + "ms exceeded" : "timeout exceeded";
-      const transitional2 = _config.transitional || transitionalDefaults;
-      if (_config.timeoutErrorMessage) {
-        timeoutErrorMessage = _config.timeoutErrorMessage;
-      }
-      reject(new AxiosError$1(
-        timeoutErrorMessage,
-        transitional2.clarifyTimeoutError ? AxiosError$1.ETIMEDOUT : AxiosError$1.ECONNABORTED,
-        config,
-        request2
-      ));
-      request2 = null;
-    };
-    requestData === void 0 && requestHeaders.setContentType(null);
-    if ("setRequestHeader" in request2) {
-      utils$1.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
-        request2.setRequestHeader(key, val);
-      });
-    }
-    if (!utils$1.isUndefined(_config.withCredentials)) {
-      request2.withCredentials = !!_config.withCredentials;
-    }
-    if (responseType && responseType !== "json") {
-      request2.responseType = _config.responseType;
-    }
-    if (onDownloadProgress) {
-      [downloadThrottled, flushDownload] = progressEventReducer(onDownloadProgress, true);
-      request2.addEventListener("progress", downloadThrottled);
-    }
-    if (onUploadProgress && request2.upload) {
-      [uploadThrottled, flushUpload] = progressEventReducer(onUploadProgress);
-      request2.upload.addEventListener("progress", uploadThrottled);
-      request2.upload.addEventListener("loadend", flushUpload);
-    }
-    if (_config.cancelToken || _config.signal) {
-      onCanceled = (cancel) => {
-        if (!request2) {
-          return;
-        }
-        reject(!cancel || cancel.type ? new CanceledError$1(null, config, request2) : cancel);
-        request2.abort();
-        request2 = null;
-      };
-      _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
-      if (_config.signal) {
-        _config.signal.aborted ? onCanceled() : _config.signal.addEventListener("abort", onCanceled);
-      }
-    }
-    const protocol = parseProtocol(_config.url);
-    if (protocol && platform.protocols.indexOf(protocol) === -1) {
-      reject(new AxiosError$1("Unsupported protocol " + protocol + ":", AxiosError$1.ERR_BAD_REQUEST, config));
-      return;
-    }
-    request2.send(requestData || null);
-  });
-};
-const composeSignals = (signals, timeout) => {
-  const { length } = signals = signals ? signals.filter(Boolean) : [];
-  if (timeout || length) {
-    let controller = new AbortController();
-    let aborted;
-    const onabort = function(reason) {
-      if (!aborted) {
-        aborted = true;
-        unsubscribe();
-        const err = reason instanceof Error ? reason : this.reason;
-        controller.abort(err instanceof AxiosError$1 ? err : new CanceledError$1(err instanceof Error ? err.message : err));
-      }
-    };
-    let timer = timeout && setTimeout(() => {
-      timer = null;
-      onabort(new AxiosError$1(`timeout ${timeout} of ms exceeded`, AxiosError$1.ETIMEDOUT));
-    }, timeout);
-    const unsubscribe = () => {
-      if (signals) {
-        timer && clearTimeout(timer);
-        timer = null;
-        signals.forEach((signal2) => {
-          signal2.unsubscribe ? signal2.unsubscribe(onabort) : signal2.removeEventListener("abort", onabort);
-        });
-        signals = null;
-      }
-    };
-    signals.forEach((signal2) => signal2.addEventListener("abort", onabort));
-    const { signal } = controller;
-    signal.unsubscribe = () => utils$1.asap(unsubscribe);
-    return signal;
-  }
-};
-const streamChunk = function* (chunk, chunkSize) {
-  let len = chunk.byteLength;
-  if (len < chunkSize) {
-    yield chunk;
-    return;
-  }
-  let pos = 0;
-  let end;
-  while (pos < len) {
-    end = pos + chunkSize;
-    yield chunk.slice(pos, end);
-    pos = end;
-  }
-};
-const readBytes = async function* (iterable, chunkSize) {
-  for await (const chunk of readStream(iterable)) {
-    yield* streamChunk(chunk, chunkSize);
-  }
-};
-const readStream = async function* (stream) {
-  if (stream[Symbol.asyncIterator]) {
-    yield* stream;
-    return;
-  }
-  const reader = stream.getReader();
-  try {
-    for (; ; ) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
-      }
-      yield value;
-    }
-  } finally {
-    await reader.cancel();
-  }
-};
-const trackStream = (stream, chunkSize, onProgress, onFinish) => {
-  const iterator2 = readBytes(stream, chunkSize);
-  let bytes = 0;
-  let done;
-  let _onFinish = (e) => {
-    if (!done) {
-      done = true;
-      onFinish && onFinish(e);
-    }
-  };
-  return new ReadableStream({
-    async pull(controller) {
-      try {
-        const { done: done2, value } = await iterator2.next();
-        if (done2) {
-          _onFinish();
-          controller.close();
-          return;
-        }
-        let len = value.byteLength;
-        if (onProgress) {
-          let loadedBytes = bytes += len;
-          onProgress(loadedBytes);
-        }
-        controller.enqueue(new Uint8Array(value));
-      } catch (err) {
-        _onFinish(err);
-        throw err;
-      }
-    },
-    cancel(reason) {
-      _onFinish(reason);
-      return iterator2.return();
-    }
-  }, {
-    highWaterMark: 2
-  });
-};
-const DEFAULT_CHUNK_SIZE = 64 * 1024;
-const { isFunction } = utils$1;
-const globalFetchAPI = (({ Request, Response }) => ({
-  Request,
-  Response
-}))(utils$1.global);
-const {
-  ReadableStream: ReadableStream$1,
-  TextEncoder
-} = utils$1.global;
-const test = (fn, ...args) => {
-  try {
-    return !!fn(...args);
-  } catch (e) {
-    return false;
-  }
-};
-const factory = (env) => {
-  env = utils$1.merge.call({
-    skipUndefined: true
-  }, globalFetchAPI, env);
-  const { fetch: envFetch, Request, Response } = env;
-  const isFetchSupported = envFetch ? isFunction(envFetch) : typeof fetch === "function";
-  const isRequestSupported = isFunction(Request);
-  const isResponseSupported = isFunction(Response);
-  if (!isFetchSupported) {
-    return false;
-  }
-  const isReadableStreamSupported = isFetchSupported && isFunction(ReadableStream$1);
-  const encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @__PURE__ */ ((encoder) => (str) => encoder.encode(str))(new TextEncoder()) : async (str) => new Uint8Array(await new Request(str).arrayBuffer()));
-  const supportsRequestStream = isRequestSupported && isReadableStreamSupported && test(() => {
-    let duplexAccessed = false;
-    const hasContentType = new Request(platform.origin, {
-      body: new ReadableStream$1(),
-      method: "POST",
-      get duplex() {
-        duplexAccessed = true;
-        return "half";
-      }
-    }).headers.has("Content-Type");
-    return duplexAccessed && !hasContentType;
-  });
-  const supportsResponseStream = isResponseSupported && isReadableStreamSupported && test(() => utils$1.isReadableStream(new Response("").body));
-  const resolvers = {
-    stream: supportsResponseStream && ((res) => res.body)
-  };
-  isFetchSupported && (() => {
-    ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
-      !resolvers[type] && (resolvers[type] = (res, config) => {
-        let method = res && res[type];
-        if (method) {
-          return method.call(res);
-        }
-        throw new AxiosError$1(`Response type '${type}' is not supported`, AxiosError$1.ERR_NOT_SUPPORT, config);
-      });
-    });
-  })();
-  const getBodyLength = async (body) => {
-    if (body == null) {
-      return 0;
-    }
-    if (utils$1.isBlob(body)) {
-      return body.size;
-    }
-    if (utils$1.isSpecCompliantForm(body)) {
-      const _request = new Request(platform.origin, {
-        method: "POST",
-        body
-      });
-      return (await _request.arrayBuffer()).byteLength;
-    }
-    if (utils$1.isArrayBufferView(body) || utils$1.isArrayBuffer(body)) {
-      return body.byteLength;
-    }
-    if (utils$1.isURLSearchParams(body)) {
-      body = body + "";
-    }
-    if (utils$1.isString(body)) {
-      return (await encodeText(body)).byteLength;
-    }
-  };
-  const resolveBodyLength = async (headers, body) => {
-    const length = utils$1.toFiniteNumber(headers.getContentLength());
-    return length == null ? getBodyLength(body) : length;
-  };
-  return async (config) => {
-    let {
-      url,
-      method,
-      data,
-      signal,
-      cancelToken,
-      timeout,
-      onDownloadProgress,
-      onUploadProgress,
-      responseType,
-      headers,
-      withCredentials = "same-origin",
-      fetchOptions
-    } = resolveConfig(config);
-    let _fetch = envFetch || fetch;
-    responseType = responseType ? (responseType + "").toLowerCase() : "text";
-    let composedSignal = composeSignals([signal, cancelToken && cancelToken.toAbortSignal()], timeout);
-    let request2 = null;
-    const unsubscribe = composedSignal && composedSignal.unsubscribe && (() => {
-      composedSignal.unsubscribe();
-    });
-    let requestContentLength;
-    try {
-      if (onUploadProgress && supportsRequestStream && method !== "get" && method !== "head" && (requestContentLength = await resolveBodyLength(headers, data)) !== 0) {
-        let _request = new Request(url, {
-          method: "POST",
-          body: data,
-          duplex: "half"
-        });
-        let contentTypeHeader;
-        if (utils$1.isFormData(data) && (contentTypeHeader = _request.headers.get("content-type"))) {
-          headers.setContentType(contentTypeHeader);
-        }
-        if (_request.body) {
-          const [onProgress, flush] = progressEventDecorator(
-            requestContentLength,
-            progressEventReducer(asyncDecorator(onUploadProgress))
-          );
-          data = trackStream(_request.body, DEFAULT_CHUNK_SIZE, onProgress, flush);
-        }
-      }
-      if (!utils$1.isString(withCredentials)) {
-        withCredentials = withCredentials ? "include" : "omit";
-      }
-      const isCredentialsSupported = isRequestSupported && "credentials" in Request.prototype;
-      const resolvedOptions = {
-        ...fetchOptions,
-        signal: composedSignal,
-        method: method.toUpperCase(),
-        headers: headers.normalize().toJSON(),
-        body: data,
-        duplex: "half",
-        credentials: isCredentialsSupported ? withCredentials : void 0
-      };
-      request2 = isRequestSupported && new Request(url, resolvedOptions);
-      let response = await (isRequestSupported ? _fetch(request2, fetchOptions) : _fetch(url, resolvedOptions));
-      const isStreamResponse = supportsResponseStream && (responseType === "stream" || responseType === "response");
-      if (supportsResponseStream && (onDownloadProgress || isStreamResponse && unsubscribe)) {
-        const options = {};
-        ["status", "statusText", "headers"].forEach((prop) => {
-          options[prop] = response[prop];
-        });
-        const responseContentLength = utils$1.toFiniteNumber(response.headers.get("content-length"));
-        const [onProgress, flush] = onDownloadProgress && progressEventDecorator(
-          responseContentLength,
-          progressEventReducer(asyncDecorator(onDownloadProgress), true)
-        ) || [];
-        response = new Response(
-          trackStream(response.body, DEFAULT_CHUNK_SIZE, onProgress, () => {
-            flush && flush();
-            unsubscribe && unsubscribe();
-          }),
-          options
-        );
-      }
-      responseType = responseType || "text";
-      let responseData = await resolvers[utils$1.findKey(resolvers, responseType) || "text"](response, config);
-      !isStreamResponse && unsubscribe && unsubscribe();
-      return await new Promise((resolve, reject) => {
-        settle(resolve, reject, {
-          data: responseData,
-          headers: AxiosHeaders$1.from(response.headers),
-          status: response.status,
-          statusText: response.statusText,
-          config,
-          request: request2
-        });
-      });
-    } catch (err) {
-      unsubscribe && unsubscribe();
-      if (err && err.name === "TypeError" && /Load failed|fetch/i.test(err.message)) {
-        throw Object.assign(
-          new AxiosError$1("Network Error", AxiosError$1.ERR_NETWORK, config, request2),
-          {
-            cause: err.cause || err
-          }
-        );
-      }
-      throw AxiosError$1.from(err, err && err.code, config, request2);
-    }
-  };
-};
-const seedCache = /* @__PURE__ */ new Map();
-const getFetch = (config) => {
-  let env = config ? config.env : {};
-  const { fetch: fetch2, Request, Response } = env;
-  const seeds = [
-    Request,
-    Response,
-    fetch2
-  ];
-  let len = seeds.length, i = len, seed, target, map = seedCache;
-  while (i--) {
-    seed = seeds[i];
-    target = map.get(seed);
-    target === void 0 && map.set(seed, target = i ? /* @__PURE__ */ new Map() : factory(env));
-    map = target;
-  }
-  return target;
-};
-getFetch();
-const knownAdapters = {
-  http: httpAdapter,
-  xhr: xhrAdapter,
-  fetch: {
-    get: getFetch
-  }
-};
-utils$1.forEach(knownAdapters, (fn, value) => {
-  if (fn) {
-    try {
-      Object.defineProperty(fn, "name", { value });
-    } catch (e) {
-    }
-    Object.defineProperty(fn, "adapterName", { value });
-  }
-});
-const renderReason = (reason) => `- ${reason}`;
-const isResolvedHandle = (adapter) => utils$1.isFunction(adapter) || adapter === null || adapter === false;
-const adapters = {
-  getAdapter: (adapters2, config) => {
-    adapters2 = utils$1.isArray(adapters2) ? adapters2 : [adapters2];
-    const { length } = adapters2;
-    let nameOrAdapter;
-    let adapter;
-    const rejectedReasons = {};
-    for (let i = 0; i < length; i++) {
-      nameOrAdapter = adapters2[i];
-      let id;
-      adapter = nameOrAdapter;
-      if (!isResolvedHandle(nameOrAdapter)) {
-        adapter = knownAdapters[(id = String(nameOrAdapter)).toLowerCase()];
-        if (adapter === void 0) {
-          throw new AxiosError$1(`Unknown adapter '${id}'`);
-        }
-      }
-      if (adapter && (utils$1.isFunction(adapter) || (adapter = adapter.get(config)))) {
-        break;
-      }
-      rejectedReasons[id || "#" + i] = adapter;
-    }
-    if (!adapter) {
-      const reasons = Object.entries(rejectedReasons).map(
-        ([id, state]) => `adapter ${id} ` + (state === false ? "is not supported by the environment" : "is not available in the build")
-      );
-      let s = length ? reasons.length > 1 ? "since :\n" + reasons.map(renderReason).join("\n") : " " + renderReason(reasons[0]) : "as no adapter specified";
-      throw new AxiosError$1(
-        `There is no suitable adapter to dispatch the request ` + s,
-        "ERR_NOT_SUPPORT"
-      );
-    }
-    return adapter;
-  },
-  adapters: knownAdapters
-};
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-  if (config.signal && config.signal.aborted) {
-    throw new CanceledError$1(null, config);
-  }
-}
-function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-  config.headers = AxiosHeaders$1.from(config.headers);
-  config.data = transformData.call(
-    config,
-    config.transformRequest
-  );
-  if (["post", "put", "patch"].indexOf(config.method) !== -1) {
-    config.headers.setContentType("application/x-www-form-urlencoded", false);
-  }
-  const adapter = adapters.getAdapter(config.adapter || defaults.adapter, config);
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-    response.data = transformData.call(
-      config,
-      config.transformResponse,
-      response
-    );
-    response.headers = AxiosHeaders$1.from(response.headers);
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel$1(reason)) {
-      throwIfCancellationRequested(config);
-      if (reason && reason.response) {
-        reason.response.data = transformData.call(
-          config,
-          config.transformResponse,
-          reason.response
-        );
-        reason.response.headers = AxiosHeaders$1.from(reason.response.headers);
-      }
-    }
-    return Promise.reject(reason);
-  });
-}
-const VERSION$1 = "1.12.2";
-const validators$1 = {};
-["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
-  validators$1[type] = function validator2(thing) {
-    return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
-  };
-});
-const deprecatedWarnings = {};
-validators$1.transitional = function transitional(validator2, version, message) {
-  function formatMessage(opt, desc) {
-    return "[Axios v" + VERSION$1 + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
-  }
-  return (value, opt, opts) => {
-    if (validator2 === false) {
-      throw new AxiosError$1(
-        formatMessage(opt, " has been removed" + (version ? " in " + version : "")),
-        AxiosError$1.ERR_DEPRECATED
-      );
-    }
-    if (version && !deprecatedWarnings[opt]) {
-      deprecatedWarnings[opt] = true;
-      console.warn(
-        formatMessage(
-          opt,
-          " has been deprecated since v" + version + " and will be removed in the near future"
-        )
-      );
-    }
-    return validator2 ? validator2(value, opt, opts) : true;
-  };
-};
-validators$1.spelling = function spelling(correctSpelling) {
-  return (value, opt) => {
-    console.warn(`${opt} is likely a misspelling of ${correctSpelling}`);
-    return true;
-  };
-};
-function assertOptions(options, schema, allowUnknown) {
-  if (typeof options !== "object") {
-    throw new AxiosError$1("options must be an object", AxiosError$1.ERR_BAD_OPTION_VALUE);
-  }
-  const keys = Object.keys(options);
-  let i = keys.length;
-  while (i-- > 0) {
-    const opt = keys[i];
-    const validator2 = schema[opt];
-    if (validator2) {
-      const value = options[opt];
-      const result = value === void 0 || validator2(value, opt, options);
-      if (result !== true) {
-        throw new AxiosError$1("option " + opt + " must be " + result, AxiosError$1.ERR_BAD_OPTION_VALUE);
-      }
-      continue;
-    }
-    if (allowUnknown !== true) {
-      throw new AxiosError$1("Unknown option " + opt, AxiosError$1.ERR_BAD_OPTION);
-    }
-  }
-}
-const validator = {
-  assertOptions,
-  validators: validators$1
-};
-const validators = validator.validators;
-let Axios$1 = class Axios {
-  constructor(instanceConfig) {
-    this.defaults = instanceConfig || {};
-    this.interceptors = {
-      request: new InterceptorManager(),
-      response: new InterceptorManager()
-    };
-  }
-  /**
-   * Dispatch a request
-   *
-   * @param {String|Object} configOrUrl The config specific for this request (merged with this.defaults)
-   * @param {?Object} config
-   *
-   * @returns {Promise} The Promise to be fulfilled
-   */
-  async request(configOrUrl, config) {
-    try {
-      return await this._request(configOrUrl, config);
-    } catch (err) {
-      if (err instanceof Error) {
-        let dummy = {};
-        Error.captureStackTrace ? Error.captureStackTrace(dummy) : dummy = new Error();
-        const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, "") : "";
-        try {
-          if (!err.stack) {
-            err.stack = stack;
-          } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
-            err.stack += "\n" + stack;
-          }
-        } catch (e) {
-        }
-      }
-      throw err;
-    }
-  }
-  _request(configOrUrl, config) {
-    if (typeof configOrUrl === "string") {
-      config = config || {};
-      config.url = configOrUrl;
-    } else {
-      config = configOrUrl || {};
-    }
-    config = mergeConfig$1(this.defaults, config);
-    const { transitional: transitional2, paramsSerializer, headers } = config;
-    if (transitional2 !== void 0) {
-      validator.assertOptions(transitional2, {
-        silentJSONParsing: validators.transitional(validators.boolean),
-        forcedJSONParsing: validators.transitional(validators.boolean),
-        clarifyTimeoutError: validators.transitional(validators.boolean)
-      }, false);
-    }
-    if (paramsSerializer != null) {
-      if (utils$1.isFunction(paramsSerializer)) {
-        config.paramsSerializer = {
-          serialize: paramsSerializer
-        };
-      } else {
-        validator.assertOptions(paramsSerializer, {
-          encode: validators.function,
-          serialize: validators.function
-        }, true);
-      }
-    }
-    if (config.allowAbsoluteUrls !== void 0) ;
-    else if (this.defaults.allowAbsoluteUrls !== void 0) {
-      config.allowAbsoluteUrls = this.defaults.allowAbsoluteUrls;
-    } else {
-      config.allowAbsoluteUrls = true;
-    }
-    validator.assertOptions(config, {
-      baseUrl: validators.spelling("baseURL"),
-      withXsrfToken: validators.spelling("withXSRFToken")
-    }, true);
-    config.method = (config.method || this.defaults.method || "get").toLowerCase();
-    let contextHeaders = headers && utils$1.merge(
-      headers.common,
-      headers[config.method]
-    );
-    headers && utils$1.forEach(
-      ["delete", "get", "head", "post", "put", "patch", "common"],
-      (method) => {
-        delete headers[method];
-      }
-    );
-    config.headers = AxiosHeaders$1.concat(contextHeaders, headers);
-    const requestInterceptorChain = [];
-    let synchronousRequestInterceptors = true;
-    this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-      if (typeof interceptor.runWhen === "function" && interceptor.runWhen(config) === false) {
-        return;
-      }
-      synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
-      requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
-    });
-    const responseInterceptorChain = [];
-    this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-      responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
-    });
-    let promise;
-    let i = 0;
-    let len;
-    if (!synchronousRequestInterceptors) {
-      const chain = [dispatchRequest.bind(this), void 0];
-      chain.unshift(...requestInterceptorChain);
-      chain.push(...responseInterceptorChain);
-      len = chain.length;
-      promise = Promise.resolve(config);
-      while (i < len) {
-        promise = promise.then(chain[i++], chain[i++]);
-      }
-      return promise;
-    }
-    len = requestInterceptorChain.length;
-    let newConfig = config;
-    while (i < len) {
-      const onFulfilled = requestInterceptorChain[i++];
-      const onRejected = requestInterceptorChain[i++];
-      try {
-        newConfig = onFulfilled(newConfig);
-      } catch (error) {
-        onRejected.call(this, error);
-        break;
-      }
-    }
-    try {
-      promise = dispatchRequest.call(this, newConfig);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-    i = 0;
-    len = responseInterceptorChain.length;
-    while (i < len) {
-      promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
-    }
-    return promise;
-  }
-  getUri(config) {
-    config = mergeConfig$1(this.defaults, config);
-    const fullPath = buildFullPath(config.baseURL, config.url, config.allowAbsoluteUrls);
-    return buildURL(fullPath, config.params, config.paramsSerializer);
-  }
-};
-utils$1.forEach(["delete", "get", "head", "options"], function forEachMethodNoData(method) {
-  Axios$1.prototype[method] = function(url, config) {
-    return this.request(mergeConfig$1(config || {}, {
-      method,
-      url,
-      data: (config || {}).data
-    }));
-  };
-});
-utils$1.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
-  function generateHTTPMethod(isForm) {
-    return function httpMethod(url, data, config) {
-      return this.request(mergeConfig$1(config || {}, {
-        method,
-        headers: isForm ? {
-          "Content-Type": "multipart/form-data"
-        } : {},
-        url,
-        data
-      }));
-    };
-  }
-  Axios$1.prototype[method] = generateHTTPMethod();
-  Axios$1.prototype[method + "Form"] = generateHTTPMethod(true);
-});
-let CancelToken$1 = class CancelToken {
-  constructor(executor) {
-    if (typeof executor !== "function") {
-      throw new TypeError("executor must be a function.");
-    }
-    let resolvePromise;
-    this.promise = new Promise(function promiseExecutor(resolve) {
-      resolvePromise = resolve;
-    });
-    const token = this;
-    this.promise.then((cancel) => {
-      if (!token._listeners) return;
-      let i = token._listeners.length;
-      while (i-- > 0) {
-        token._listeners[i](cancel);
-      }
-      token._listeners = null;
-    });
-    this.promise.then = (onfulfilled) => {
-      let _resolve;
-      const promise = new Promise((resolve) => {
-        token.subscribe(resolve);
-        _resolve = resolve;
-      }).then(onfulfilled);
-      promise.cancel = function reject() {
-        token.unsubscribe(_resolve);
-      };
-      return promise;
-    };
-    executor(function cancel(message, config, request2) {
-      if (token.reason) {
-        return;
-      }
-      token.reason = new CanceledError$1(message, config, request2);
-      resolvePromise(token.reason);
-    });
-  }
-  /**
-   * Throws a `CanceledError` if cancellation has been requested.
-   */
-  throwIfRequested() {
-    if (this.reason) {
-      throw this.reason;
-    }
-  }
-  /**
-   * Subscribe to the cancel signal
-   */
-  subscribe(listener) {
-    if (this.reason) {
-      listener(this.reason);
-      return;
-    }
-    if (this._listeners) {
-      this._listeners.push(listener);
-    } else {
-      this._listeners = [listener];
-    }
-  }
-  /**
-   * Unsubscribe from the cancel signal
-   */
-  unsubscribe(listener) {
-    if (!this._listeners) {
-      return;
-    }
-    const index = this._listeners.indexOf(listener);
-    if (index !== -1) {
-      this._listeners.splice(index, 1);
-    }
-  }
-  toAbortSignal() {
-    const controller = new AbortController();
-    const abort = (err) => {
-      controller.abort(err);
-    };
-    this.subscribe(abort);
-    controller.signal.unsubscribe = () => this.unsubscribe(abort);
-    return controller.signal;
-  }
-  /**
-   * Returns an object that contains a new `CancelToken` and a function that, when called,
-   * cancels the `CancelToken`.
-   */
-  static source() {
-    let cancel;
-    const token = new CancelToken(function executor(c) {
-      cancel = c;
-    });
-    return {
-      token,
-      cancel
-    };
-  }
-};
-function spread$1(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-}
-function isAxiosError$1(payload) {
-  return utils$1.isObject(payload) && payload.isAxiosError === true;
-}
-const HttpStatusCode$1 = {
-  Continue: 100,
-  SwitchingProtocols: 101,
-  Processing: 102,
-  EarlyHints: 103,
-  Ok: 200,
-  Created: 201,
-  Accepted: 202,
-  NonAuthoritativeInformation: 203,
-  NoContent: 204,
-  ResetContent: 205,
-  PartialContent: 206,
-  MultiStatus: 207,
-  AlreadyReported: 208,
-  ImUsed: 226,
-  MultipleChoices: 300,
-  MovedPermanently: 301,
-  Found: 302,
-  SeeOther: 303,
-  NotModified: 304,
-  UseProxy: 305,
-  Unused: 306,
-  TemporaryRedirect: 307,
-  PermanentRedirect: 308,
-  BadRequest: 400,
-  Unauthorized: 401,
-  PaymentRequired: 402,
-  Forbidden: 403,
-  NotFound: 404,
-  MethodNotAllowed: 405,
-  NotAcceptable: 406,
-  ProxyAuthenticationRequired: 407,
-  RequestTimeout: 408,
-  Conflict: 409,
-  Gone: 410,
-  LengthRequired: 411,
-  PreconditionFailed: 412,
-  PayloadTooLarge: 413,
-  UriTooLong: 414,
-  UnsupportedMediaType: 415,
-  RangeNotSatisfiable: 416,
-  ExpectationFailed: 417,
-  ImATeapot: 418,
-  MisdirectedRequest: 421,
-  UnprocessableEntity: 422,
-  Locked: 423,
-  FailedDependency: 424,
-  TooEarly: 425,
-  UpgradeRequired: 426,
-  PreconditionRequired: 428,
-  TooManyRequests: 429,
-  RequestHeaderFieldsTooLarge: 431,
-  UnavailableForLegalReasons: 451,
-  InternalServerError: 500,
-  NotImplemented: 501,
-  BadGateway: 502,
-  ServiceUnavailable: 503,
-  GatewayTimeout: 504,
-  HttpVersionNotSupported: 505,
-  VariantAlsoNegotiates: 506,
-  InsufficientStorage: 507,
-  LoopDetected: 508,
-  NotExtended: 510,
-  NetworkAuthenticationRequired: 511
-};
-Object.entries(HttpStatusCode$1).forEach(([key, value]) => {
-  HttpStatusCode$1[value] = key;
-});
-function createInstance(defaultConfig) {
-  const context = new Axios$1(defaultConfig);
-  const instance = bind(Axios$1.prototype.request, context);
-  utils$1.extend(instance, Axios$1.prototype, context, { allOwnKeys: true });
-  utils$1.extend(instance, context, null, { allOwnKeys: true });
-  instance.create = function create2(instanceConfig) {
-    return createInstance(mergeConfig$1(defaultConfig, instanceConfig));
-  };
-  return instance;
-}
-const axios = createInstance(defaults);
-axios.Axios = Axios$1;
-axios.CanceledError = CanceledError$1;
-axios.CancelToken = CancelToken$1;
-axios.isCancel = isCancel$1;
-axios.VERSION = VERSION$1;
-axios.toFormData = toFormData$1;
-axios.AxiosError = AxiosError$1;
-axios.Cancel = axios.CanceledError;
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = spread$1;
-axios.isAxiosError = isAxiosError$1;
-axios.mergeConfig = mergeConfig$1;
-axios.AxiosHeaders = AxiosHeaders$1;
-axios.formToJSON = (thing) => formDataToJSON(utils$1.isHTMLForm(thing) ? new FormData(thing) : thing);
-axios.getAdapter = adapters.getAdapter;
-axios.HttpStatusCode = HttpStatusCode$1;
-axios.default = axios;
-const {
-  Axios: Axios2,
-  AxiosError,
-  CanceledError,
-  isCancel,
-  CancelToken: CancelToken2,
-  VERSION,
-  all: all2,
-  Cancel,
-  isAxiosError,
-  spread,
-  toFormData,
-  AxiosHeaders: AxiosHeaders2,
-  HttpStatusCode,
-  formToJSON,
-  getAdapter,
-  mergeConfig
-} = axios;
-const showMessage = (status) => {
-  let message = "";
-  switch (status) {
-    case 400:
-      message = "请求错误(400)";
-      break;
-    case 401:
-      message = "未授权，请重新登录(401)";
-      break;
-    case 403:
-      message = "拒绝访问(403)";
-      break;
-    case 404:
-      message = "请求出错(404)";
-      break;
-    case 408:
-      message = "请求超时(408)";
-      break;
-    case 500:
-      message = "服务器错误(500)";
-      break;
-    case 501:
-      message = "服务未实现(501)";
-      break;
-    case 502:
-      message = "网络错误(502)";
-      break;
-    case 503:
-      message = "服务不可用(503)";
-      break;
-    case 504:
-      message = "网络超时(504)";
-      break;
-    case 505:
-      message = "HTTP版本不受支持(505)";
-      break;
-    default:
-      message = `连接出错(${status})!`;
-  }
-  return `${message}，请检查网络或联系管理员！`;
-};
-let routerPushCallback = null;
-const setRouterPushCallback = (callback) => {
-  routerPushCallback = callback;
-};
-axios.defaults.timeout = 6e4;
-axios.defaults.baseURL = "http://123.60.25.193:8888/";
-axios.interceptors.request.use(
-  (config) => {
-    config.headers.set("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-    config.headers.set("Authorization", "Bearer " + Store.getLocalStorage("Token"));
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-axios.interceptors.response.use(
-  (response) => {
-    if (response.data.code == 5e3) {
-      if (routerPushCallback) {
-        routerPushCallback("/login");
-      } else {
-        console.warn("Router callback not set, please call setRouterPushCallback to handle authentication redirect");
-      }
-    }
-    return response;
-  },
-  (error) => {
-    const { response } = error;
-    if (response) {
-      showMessage(response.status);
-      return Promise.reject(response.data);
-    } else {
-      alert("网路连接异常，请稍后再试!");
-    }
-  }
-);
-function request(url, method, params) {
-  return new Promise((resolve, reject) => {
-    let promise;
-    if (method.toUpperCase() === "GET") {
-      promise = axios({ method: "GET", url });
-    } else if (method.toUpperCase() === "POST") {
-      promise = axios({ method: "POST", url, params });
-    } else if (method.toUpperCase() === "PUT") {
-      promise = axios({ method: "PUT", url, params });
-    } else if (method.toUpperCase() === "DELETE") {
-      promise = axios({ method: "DELETE", url, params });
-    } else {
-      promise = axios({ url, params });
-    }
-    promise.then((res) => {
-      resolve(res);
-    }).catch((err) => {
-      reject(err);
-    });
-  });
-}
-class Sheet {
-  static async PartTable(params) {
-    return request("/sheet/parttable", "GET", params);
-  }
-  static async PartDetail(params) {
-    return request("/sheet/partdetail", "POST", params);
-  }
-  static async MaterialSelect(params) {
-    return request("/sheet/materialselect", "GET", params);
-  }
-  static async SurfaceSelect(params) {
-    return request("/sheet/surfaceselect", "GET", params);
-  }
-  static async StandardSelect(params) {
-    return request("/sheet/standardselect", "GET", params);
-  }
-  static async SymbolSelect(params) {
-    return request("/sheet/symbolselect", "GET", params);
-  }
-  static async MemberSelect(params) {
-    return request("/sheet/memberselect", "GET", params);
-  }
-  static async BrandSelect(params) {
-    return request("/sheet/brandselect", "GET", params);
-  }
-  static async ProjectSelect(params) {
-    return request("/sheet/projectselect", "GET", params);
-  }
-  static async SectionTable(params) {
-    return request("/sheet/sectiontable", "GET", params);
-  }
-  static async SectionDetail(params) {
-    return request("/sheet/sectiondetail", "POST", params);
-  }
-  static async SectionPartTable(params) {
-    return request("/sheet/sectionparttable", "POST", params);
-  }
-  static async SourceTable(params) {
-    return request("/sheet/sourcetable", "GET", params);
-  }
-  static async SourceDetail(params) {
-    return request("/sheet/sourcedetail", "POST", params);
-  }
-  static async StandardTable(params) {
-    return request("/sheet/standardtable", "GET", params);
-  }
-  static async StandardDetail(params) {
-    return request("/sheet/standarddetail", "POST", params);
-  }
-  static async ProjectTable(params) {
-    return request("/sheet/projecttable", "GET", params);
-  }
-  static async ProjectDetail(params) {
-    return request("/sheet/projectdetail", "POST", params);
-  }
-  static async TaskTable(params) {
-    return request("/sheet/tasktable", "GET", params);
-  }
-  static async TaskDetail(params) {
-    return request("/sheet/taskdetail", "POST", params);
-  }
-  static async StorageTable(params) {
-    return request("/sheet/storagetable", "GET", params);
-  }
-  static async StorageDetail(params) {
-    return request("/sheet/storagedetail", "POST", params);
-  }
-  static async InterlinkTable(params) {
-    return request("/sheet/interlinktable", "GET", params);
-  }
-  static async InterlinkDetail(params) {
-    return request("/sheet/interlinkdetail", "POST", params);
-  }
-}
-const _sfc_main$b = /* @__PURE__ */ defineComponent({
-  __name: "MaterialSelect",
-  props: {
-    selected: { type: String, required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.MaterialSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Model",
-        fieldValue: "StandardId",
-        onSelect: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$a = /* @__PURE__ */ defineComponent({
-  __name: "SymbolSelect",
-  props: {
-    selected: { type: String, required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.SymbolSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Model",
-        fieldValue: "StandardId",
-        onSelect: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$9 = /* @__PURE__ */ defineComponent({
-  __name: "SurfaceSelect",
-  props: {
-    selected: { type: String, required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.SurfaceSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Model",
-        fieldValue: "StandardId",
-        onSelect: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
-  __name: "StandardSelect",
-  props: {
-    selected: { type: String, required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.StandardSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Model",
-        fieldValue: "StandardId",
-        onSelect: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$7 = /* @__PURE__ */ defineComponent({
-  __name: "MemberSelect",
-  props: {
-    selected: { type: String, default: "", required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.MemberSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Name",
-        fieldValue: "InterlinkId",
-        onSelectIndex: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$6 = /* @__PURE__ */ defineComponent({
-  __name: "BrandSelect",
-  props: {
-    selected: { type: String, default: "", required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.BrandSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Name",
-        fieldValue: "InterlinkId",
-        onSelectIndex: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
-const _sfc_main$5 = /* @__PURE__ */ defineComponent({
-  __name: "ProjectSelect",
-  props: {
-    selected: { type: String, required: false },
-    disabled: { type: Boolean, default: false, required: false }
-  },
-  setup(__props) {
-    const sheet = reactive([]);
-    onMounted(() => {
-      Sheet.ProjectSelect().then((res) => {
-        sheet.length = 0;
-        sheet.push(...res.data.data);
-      }).catch((reason) => {
-        console.log(reason);
-      });
-    });
-    const select = (e) => {
-      console.log(e);
-    };
-    return (_ctx, _cache) => {
-      const _component_Select = resolveComponent("Select");
-      return openBlock(), createBlock(_component_Select, {
-        options: sheet,
-        selected: __props.selected,
-        fieldLabel: "Name",
-        fieldValue: "ProjectId",
-        onSelect: select,
-        disabled: __props.disabled
-      }, null, 8, ["options", "selected", "disabled"]);
-    };
-  }
-});
 const install$2 = (app) => {
-  app.component("TaskCreate", _sfc_main$m);
-  app.component("AccountCreate", _sfc_main$l);
-  app.component("ProjectCreate", _sfc_main$k);
-  app.component("PartDetail", _sfc_main$j);
-  app.component("SectionDetail", _sfc_main$i);
-  app.component("SourceDetail", _sfc_main$h);
-  app.component("StandardDetail", _sfc_main$g);
-  app.component("ProjectDetail", _sfc_main$f);
-  app.component("TaskDetail", _sfc_main$e);
-  app.component("StorageDetail", _sfc_main$d);
-  app.component("InterlinkDetail", _sfc_main$c);
-  app.component("MaterialSelect", _sfc_main$b);
-  app.component("SurfaceSelect", _sfc_main$9);
-  app.component("StandardSelect", _sfc_main$8);
-  app.component("SymbolSelect", _sfc_main$a);
-  app.component("MemberSelect", _sfc_main$7);
-  app.component("BrandSelect", _sfc_main$6);
-  app.component("ProjectSelect", _sfc_main$5);
+  app.component("TaskCreate", _sfc_main$f);
+  app.component("AccountCreate", _sfc_main$e);
+  app.component("ProjectCreate", _sfc_main$d);
+  app.component("PartDetail", _sfc_main$c);
+  app.component("SectionDetail", _sfc_main$b);
+  app.component("SourceDetail", _sfc_main$a);
+  app.component("StandardDetail", _sfc_main$9);
+  app.component("ProjectDetail", _sfc_main$8);
+  app.component("TaskDetail", _sfc_main$7);
+  app.component("StorageDetail", _sfc_main$6);
+  app.component("InterlinkDetail", _sfc_main$5);
 };
 const _sfc_main$4 = {};
 const _hoisted_1$4 = { class: "mx-auto container !max-w-screen-2xl px-6" };
@@ -14164,46 +11291,6 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-class Task {
-  //新建任务
-  static async Create(params) {
-    return request("/task/create", "POST", params);
-  }
-  //获取任务列表
-  static async List() {
-    return request("/task/list", "GET");
-  }
-  //修改任务内容
-  static async Update(params) {
-    return request("/task/update", "PUT", params);
-  }
-  //删除任务（子任务）
-  static async Delete(params) {
-    return request("/task/delete", "DELETE", params);
-  }
-}
-class Project {
-  //创建项目
-  static async Create(params) {
-    return request("/project/create", "POST", params);
-  }
-  //获取项目列表
-  static async List(params) {
-    return request("/project/list", "GET", params);
-  }
-  //修改项目内容
-  static async Update(params) {
-    return request("/project/update", "PUT", params);
-  }
-  //删除项目
-  static async Delete(params) {
-    return request("/project/delete", "DELETE", params);
-  }
-  //获取项目详情
-  static async Profile(params) {
-    return request("/project/profile", "POST", params);
-  }
-}
 const _hoisted_1 = { class: "flex flex-row" };
 const _hoisted_2 = { class: "flex flex-col h-screen w-16 bg-base-100 dark:bg-gray-800 dark:border-gray-600" };
 const _hoisted_3 = { class: "flex flex-row" };
@@ -14325,16 +11412,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       props.onAccountCreate?.();
     }
     const handleTaskSubmit = async (formData) => {
-      try {
-        const response = await Task.Create(formData);
-        if (response.data.code === 0) {
-          handleTaskSuccess(response);
-        } else {
-          handleTaskError(response.data.message);
-        }
-      } catch (error) {
-        handleTaskError(error);
-      }
+      props.onTaskCreate?.(formData);
     };
     const handleTaskSuccess = (response) => {
       console.log("任务创建成功:", response);
@@ -14346,16 +11424,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     const handleAccountSubmit = async (formData) => {
-      try {
-        const response = await Project.Create(formData);
-        if (response.data.code === 0) {
-          handleAccountSuccess(response);
-        } else {
-          handleAccountError(response.data.message);
-        }
-      } catch (error) {
-        handleAccountError(error);
-      }
+      props.onAccountCreate?.(formData);
     };
     const handleAccountSuccess = (response) => {
       console.log("账户创建成功:", response);
@@ -15015,13 +12084,16 @@ const generateCSSVariables = (themeName = "blue") => {
   }
   return css;
 };
-function toArray$2(value = []) {
+function definePreset$3(preset) {
+  return preset;
+}
+function toArray$1(value = []) {
   return Array.isArray(value) ? value : [value];
 }
-function escapeRegExp$1(string) {
+function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-function escapeSelector$1(str) {
+function escapeSelector(str) {
   const length = str.length;
   let index = -1;
   let codeUnit;
@@ -15155,1848 +12227,6 @@ function extractorArbitraryVariants() {
       return splitCodeWithArbitraryVariants(removeSourceMap(code));
     }
   };
-}
-function toArray$1(value = []) {
-  return Array.isArray(value) ? value : [value];
-}
-function isString$1(s) {
-  return typeof s === "string";
-}
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-function escapeSelector(str) {
-  const length = str.length;
-  let index = -1;
-  let codeUnit;
-  let result = "";
-  const firstCodeUnit = str.charCodeAt(0);
-  while (++index < length) {
-    codeUnit = str.charCodeAt(index);
-    if (codeUnit === 0) {
-      result += "�";
-      continue;
-    }
-    if (codeUnit === 37) {
-      result += "\\%";
-      continue;
-    }
-    if (codeUnit === 44) {
-      result += "\\,";
-      continue;
-    }
-    if (
-      // If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
-      // U+007F, […]
-      codeUnit >= 1 && codeUnit <= 31 || codeUnit === 127 || index === 0 && codeUnit >= 48 && codeUnit <= 57 || index === 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit === 45
-    ) {
-      result += `\\${codeUnit.toString(16)} `;
-      continue;
-    }
-    if (
-      // If the character is the first character and is a `-` (U+002D), and
-      // there is no second character, […]
-      index === 0 && length === 1 && codeUnit === 45
-    ) {
-      result += `\\${str.charAt(index)}`;
-      continue;
-    }
-    if (codeUnit >= 128 || codeUnit === 45 || codeUnit === 95 || codeUnit >= 48 && codeUnit <= 57 || codeUnit >= 65 && codeUnit <= 90 || codeUnit >= 97 && codeUnit <= 122) {
-      result += str.charAt(index);
-      continue;
-    }
-    result += `\\${str.charAt(index)}`;
-  }
-  return result;
-}
-var comma = ",".charCodeAt(0);
-var semicolon = ";".charCodeAt(0);
-var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-var intToChar = new Uint8Array(64);
-var charToInt = new Uint8Array(128);
-for (let i = 0; i < chars.length; i++) {
-  const c = chars.charCodeAt(i);
-  intToChar[i] = c;
-  charToInt[c] = i;
-}
-function encodeInteger(builder, num, relative) {
-  let delta = num - relative;
-  delta = delta < 0 ? -delta << 1 | 1 : delta << 1;
-  do {
-    let clamped = delta & 31;
-    delta >>>= 5;
-    if (delta > 0) clamped |= 32;
-    builder.write(intToChar[clamped]);
-  } while (delta > 0);
-  return num;
-}
-var bufLength = 1024 * 16;
-var td = typeof TextDecoder !== "undefined" ? /* @__PURE__ */ new TextDecoder() : typeof Buffer !== "undefined" ? {
-  decode(buf) {
-    const out = Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength);
-    return out.toString();
-  }
-} : {
-  decode(buf) {
-    let out = "";
-    for (let i = 0; i < buf.length; i++) {
-      out += String.fromCharCode(buf[i]);
-    }
-    return out;
-  }
-};
-var StringWriter = class {
-  constructor() {
-    this.pos = 0;
-    this.out = "";
-    this.buffer = new Uint8Array(bufLength);
-  }
-  write(v) {
-    const { buffer } = this;
-    buffer[this.pos++] = v;
-    if (this.pos === bufLength) {
-      this.out += td.decode(buffer);
-      this.pos = 0;
-    }
-  }
-  flush() {
-    const { buffer, out, pos } = this;
-    return pos > 0 ? out + td.decode(buffer.subarray(0, pos)) : out;
-  }
-};
-function encode(decoded) {
-  const writer = new StringWriter();
-  let sourcesIndex = 0;
-  let sourceLine = 0;
-  let sourceColumn = 0;
-  let namesIndex = 0;
-  for (let i = 0; i < decoded.length; i++) {
-    const line = decoded[i];
-    if (i > 0) writer.write(semicolon);
-    if (line.length === 0) continue;
-    let genColumn = 0;
-    for (let j = 0; j < line.length; j++) {
-      const segment = line[j];
-      if (j > 0) writer.write(comma);
-      genColumn = encodeInteger(writer, segment[0], genColumn);
-      if (segment.length === 1) continue;
-      sourcesIndex = encodeInteger(writer, segment[1], sourcesIndex);
-      sourceLine = encodeInteger(writer, segment[2], sourceLine);
-      sourceColumn = encodeInteger(writer, segment[3], sourceColumn);
-      if (segment.length === 4) continue;
-      namesIndex = encodeInteger(writer, segment[4], namesIndex);
-    }
-  }
-  return writer.flush();
-}
-class BitSet {
-  constructor(arg) {
-    this.bits = arg instanceof BitSet ? arg.bits.slice() : [];
-  }
-  add(n2) {
-    this.bits[n2 >> 5] |= 1 << (n2 & 31);
-  }
-  has(n2) {
-    return !!(this.bits[n2 >> 5] & 1 << (n2 & 31));
-  }
-}
-class Chunk {
-  constructor(start, end, content) {
-    this.start = start;
-    this.end = end;
-    this.original = content;
-    this.intro = "";
-    this.outro = "";
-    this.content = content;
-    this.storeName = false;
-    this.edited = false;
-    {
-      this.previous = null;
-      this.next = null;
-    }
-  }
-  appendLeft(content) {
-    this.outro += content;
-  }
-  appendRight(content) {
-    this.intro = this.intro + content;
-  }
-  clone() {
-    const chunk = new Chunk(this.start, this.end, this.original);
-    chunk.intro = this.intro;
-    chunk.outro = this.outro;
-    chunk.content = this.content;
-    chunk.storeName = this.storeName;
-    chunk.edited = this.edited;
-    return chunk;
-  }
-  contains(index) {
-    return this.start < index && index < this.end;
-  }
-  eachNext(fn) {
-    let chunk = this;
-    while (chunk) {
-      fn(chunk);
-      chunk = chunk.next;
-    }
-  }
-  eachPrevious(fn) {
-    let chunk = this;
-    while (chunk) {
-      fn(chunk);
-      chunk = chunk.previous;
-    }
-  }
-  edit(content, storeName, contentOnly) {
-    this.content = content;
-    if (!contentOnly) {
-      this.intro = "";
-      this.outro = "";
-    }
-    this.storeName = storeName;
-    this.edited = true;
-    return this;
-  }
-  prependLeft(content) {
-    this.outro = content + this.outro;
-  }
-  prependRight(content) {
-    this.intro = content + this.intro;
-  }
-  reset() {
-    this.intro = "";
-    this.outro = "";
-    if (this.edited) {
-      this.content = this.original;
-      this.storeName = false;
-      this.edited = false;
-    }
-  }
-  split(index) {
-    const sliceIndex = index - this.start;
-    const originalBefore = this.original.slice(0, sliceIndex);
-    const originalAfter = this.original.slice(sliceIndex);
-    this.original = originalBefore;
-    const newChunk = new Chunk(index, this.end, originalAfter);
-    newChunk.outro = this.outro;
-    this.outro = "";
-    this.end = index;
-    if (this.edited) {
-      newChunk.edit("", false);
-      this.content = "";
-    } else {
-      this.content = originalBefore;
-    }
-    newChunk.next = this.next;
-    if (newChunk.next) newChunk.next.previous = newChunk;
-    newChunk.previous = this;
-    this.next = newChunk;
-    return newChunk;
-  }
-  toString() {
-    return this.intro + this.content + this.outro;
-  }
-  trimEnd(rx) {
-    this.outro = this.outro.replace(rx, "");
-    if (this.outro.length) return true;
-    const trimmed = this.content.replace(rx, "");
-    if (trimmed.length) {
-      if (trimmed !== this.content) {
-        this.split(this.start + trimmed.length).edit("", void 0, true);
-        if (this.edited) {
-          this.edit(trimmed, this.storeName, true);
-        }
-      }
-      return true;
-    } else {
-      this.edit("", void 0, true);
-      this.intro = this.intro.replace(rx, "");
-      if (this.intro.length) return true;
-    }
-  }
-  trimStart(rx) {
-    this.intro = this.intro.replace(rx, "");
-    if (this.intro.length) return true;
-    const trimmed = this.content.replace(rx, "");
-    if (trimmed.length) {
-      if (trimmed !== this.content) {
-        const newChunk = this.split(this.end - trimmed.length);
-        if (this.edited) {
-          newChunk.edit(trimmed, this.storeName, true);
-        }
-        this.edit("", void 0, true);
-      }
-      return true;
-    } else {
-      this.edit("", void 0, true);
-      this.outro = this.outro.replace(rx, "");
-      if (this.outro.length) return true;
-    }
-  }
-}
-function getBtoa() {
-  if (typeof globalThis !== "undefined" && typeof globalThis.btoa === "function") {
-    return (str) => globalThis.btoa(unescape(encodeURIComponent(str)));
-  } else if (typeof Buffer === "function") {
-    return (str) => Buffer.from(str, "utf-8").toString("base64");
-  } else {
-    return () => {
-      throw new Error("Unsupported environment: `window.btoa` or `Buffer` should be supported.");
-    };
-  }
-}
-const btoa$1 = /* @__PURE__ */ getBtoa();
-class SourceMap {
-  constructor(properties2) {
-    this.version = 3;
-    this.file = properties2.file;
-    this.sources = properties2.sources;
-    this.sourcesContent = properties2.sourcesContent;
-    this.names = properties2.names;
-    this.mappings = encode(properties2.mappings);
-    if (typeof properties2.x_google_ignoreList !== "undefined") {
-      this.x_google_ignoreList = properties2.x_google_ignoreList;
-    }
-    if (typeof properties2.debugId !== "undefined") {
-      this.debugId = properties2.debugId;
-    }
-  }
-  toString() {
-    return JSON.stringify(this);
-  }
-  toUrl() {
-    return "data:application/json;charset=utf-8;base64," + btoa$1(this.toString());
-  }
-}
-function guessIndent(code) {
-  const lines = code.split("\n");
-  const tabbed = lines.filter((line) => /^\t+/.test(line));
-  const spaced = lines.filter((line) => /^ {2,}/.test(line));
-  if (tabbed.length === 0 && spaced.length === 0) {
-    return null;
-  }
-  if (tabbed.length >= spaced.length) {
-    return "	";
-  }
-  const min = spaced.reduce((previous, current) => {
-    const numSpaces = /^ +/.exec(current)[0].length;
-    return Math.min(numSpaces, previous);
-  }, Infinity);
-  return new Array(min + 1).join(" ");
-}
-function getRelativePath(from, to) {
-  const fromParts = from.split(/[/\\]/);
-  const toParts = to.split(/[/\\]/);
-  fromParts.pop();
-  while (fromParts[0] === toParts[0]) {
-    fromParts.shift();
-    toParts.shift();
-  }
-  if (fromParts.length) {
-    let i = fromParts.length;
-    while (i--) fromParts[i] = "..";
-  }
-  return fromParts.concat(toParts).join("/");
-}
-const toString2 = Object.prototype.toString;
-function isObject(thing) {
-  return toString2.call(thing) === "[object Object]";
-}
-function getLocator(source) {
-  const originalLines = source.split("\n");
-  const lineOffsets = [];
-  for (let i = 0, pos = 0; i < originalLines.length; i++) {
-    lineOffsets.push(pos);
-    pos += originalLines[i].length + 1;
-  }
-  return function locate(index) {
-    let i = 0;
-    let j = lineOffsets.length;
-    while (i < j) {
-      const m = i + j >> 1;
-      if (index < lineOffsets[m]) {
-        j = m;
-      } else {
-        i = m + 1;
-      }
-    }
-    const line = i - 1;
-    const column = index - lineOffsets[line];
-    return { line, column };
-  };
-}
-const wordRegex = /\w/;
-class Mappings {
-  constructor(hires) {
-    this.hires = hires;
-    this.generatedCodeLine = 0;
-    this.generatedCodeColumn = 0;
-    this.raw = [];
-    this.rawSegments = this.raw[this.generatedCodeLine] = [];
-    this.pending = null;
-  }
-  addEdit(sourceIndex, content, loc, nameIndex) {
-    if (content.length) {
-      const contentLengthMinusOne = content.length - 1;
-      let contentLineEnd = content.indexOf("\n", 0);
-      let previousContentLineEnd = -1;
-      while (contentLineEnd >= 0 && contentLengthMinusOne > contentLineEnd) {
-        const segment2 = [this.generatedCodeColumn, sourceIndex, loc.line, loc.column];
-        if (nameIndex >= 0) {
-          segment2.push(nameIndex);
-        }
-        this.rawSegments.push(segment2);
-        this.generatedCodeLine += 1;
-        this.raw[this.generatedCodeLine] = this.rawSegments = [];
-        this.generatedCodeColumn = 0;
-        previousContentLineEnd = contentLineEnd;
-        contentLineEnd = content.indexOf("\n", contentLineEnd + 1);
-      }
-      const segment = [this.generatedCodeColumn, sourceIndex, loc.line, loc.column];
-      if (nameIndex >= 0) {
-        segment.push(nameIndex);
-      }
-      this.rawSegments.push(segment);
-      this.advance(content.slice(previousContentLineEnd + 1));
-    } else if (this.pending) {
-      this.rawSegments.push(this.pending);
-      this.advance(content);
-    }
-    this.pending = null;
-  }
-  addUneditedChunk(sourceIndex, chunk, original, loc, sourcemapLocations) {
-    let originalCharIndex = chunk.start;
-    let first = true;
-    let charInHiresBoundary = false;
-    while (originalCharIndex < chunk.end) {
-      if (original[originalCharIndex] === "\n") {
-        loc.line += 1;
-        loc.column = 0;
-        this.generatedCodeLine += 1;
-        this.raw[this.generatedCodeLine] = this.rawSegments = [];
-        this.generatedCodeColumn = 0;
-        first = true;
-        charInHiresBoundary = false;
-      } else {
-        if (this.hires || first || sourcemapLocations.has(originalCharIndex)) {
-          const segment = [this.generatedCodeColumn, sourceIndex, loc.line, loc.column];
-          if (this.hires === "boundary") {
-            if (wordRegex.test(original[originalCharIndex])) {
-              if (!charInHiresBoundary) {
-                this.rawSegments.push(segment);
-                charInHiresBoundary = true;
-              }
-            } else {
-              this.rawSegments.push(segment);
-              charInHiresBoundary = false;
-            }
-          } else {
-            this.rawSegments.push(segment);
-          }
-        }
-        loc.column += 1;
-        this.generatedCodeColumn += 1;
-        first = false;
-      }
-      originalCharIndex += 1;
-    }
-    this.pending = null;
-  }
-  advance(str) {
-    if (!str) return;
-    const lines = str.split("\n");
-    if (lines.length > 1) {
-      for (let i = 0; i < lines.length - 1; i++) {
-        this.generatedCodeLine++;
-        this.raw[this.generatedCodeLine] = this.rawSegments = [];
-      }
-      this.generatedCodeColumn = 0;
-    }
-    this.generatedCodeColumn += lines[lines.length - 1].length;
-  }
-}
-const n = "\n";
-const warned = {
-  insertLeft: false,
-  insertRight: false,
-  storeName: false
-};
-class MagicString {
-  constructor(string, options = {}) {
-    const chunk = new Chunk(0, string.length, string);
-    Object.defineProperties(this, {
-      original: { writable: true, value: string },
-      outro: { writable: true, value: "" },
-      intro: { writable: true, value: "" },
-      firstChunk: { writable: true, value: chunk },
-      lastChunk: { writable: true, value: chunk },
-      lastSearchedChunk: { writable: true, value: chunk },
-      byStart: { writable: true, value: {} },
-      byEnd: { writable: true, value: {} },
-      filename: { writable: true, value: options.filename },
-      indentExclusionRanges: { writable: true, value: options.indentExclusionRanges },
-      sourcemapLocations: { writable: true, value: new BitSet() },
-      storedNames: { writable: true, value: {} },
-      indentStr: { writable: true, value: void 0 },
-      ignoreList: { writable: true, value: options.ignoreList },
-      offset: { writable: true, value: options.offset || 0 }
-    });
-    this.byStart[0] = chunk;
-    this.byEnd[string.length] = chunk;
-  }
-  addSourcemapLocation(char) {
-    this.sourcemapLocations.add(char);
-  }
-  append(content) {
-    if (typeof content !== "string") throw new TypeError("outro content must be a string");
-    this.outro += content;
-    return this;
-  }
-  appendLeft(index, content) {
-    index = index + this.offset;
-    if (typeof content !== "string") throw new TypeError("inserted content must be a string");
-    this._split(index);
-    const chunk = this.byEnd[index];
-    if (chunk) {
-      chunk.appendLeft(content);
-    } else {
-      this.intro += content;
-    }
-    return this;
-  }
-  appendRight(index, content) {
-    index = index + this.offset;
-    if (typeof content !== "string") throw new TypeError("inserted content must be a string");
-    this._split(index);
-    const chunk = this.byStart[index];
-    if (chunk) {
-      chunk.appendRight(content);
-    } else {
-      this.outro += content;
-    }
-    return this;
-  }
-  clone() {
-    const cloned = new MagicString(this.original, { filename: this.filename, offset: this.offset });
-    let originalChunk = this.firstChunk;
-    let clonedChunk = cloned.firstChunk = cloned.lastSearchedChunk = originalChunk.clone();
-    while (originalChunk) {
-      cloned.byStart[clonedChunk.start] = clonedChunk;
-      cloned.byEnd[clonedChunk.end] = clonedChunk;
-      const nextOriginalChunk = originalChunk.next;
-      const nextClonedChunk = nextOriginalChunk && nextOriginalChunk.clone();
-      if (nextClonedChunk) {
-        clonedChunk.next = nextClonedChunk;
-        nextClonedChunk.previous = clonedChunk;
-        clonedChunk = nextClonedChunk;
-      }
-      originalChunk = nextOriginalChunk;
-    }
-    cloned.lastChunk = clonedChunk;
-    if (this.indentExclusionRanges) {
-      cloned.indentExclusionRanges = this.indentExclusionRanges.slice();
-    }
-    cloned.sourcemapLocations = new BitSet(this.sourcemapLocations);
-    cloned.intro = this.intro;
-    cloned.outro = this.outro;
-    return cloned;
-  }
-  generateDecodedMap(options) {
-    options = options || {};
-    const sourceIndex = 0;
-    const names = Object.keys(this.storedNames);
-    const mappings = new Mappings(options.hires);
-    const locate = getLocator(this.original);
-    if (this.intro) {
-      mappings.advance(this.intro);
-    }
-    this.firstChunk.eachNext((chunk) => {
-      const loc = locate(chunk.start);
-      if (chunk.intro.length) mappings.advance(chunk.intro);
-      if (chunk.edited) {
-        mappings.addEdit(
-          sourceIndex,
-          chunk.content,
-          loc,
-          chunk.storeName ? names.indexOf(chunk.original) : -1
-        );
-      } else {
-        mappings.addUneditedChunk(sourceIndex, chunk, this.original, loc, this.sourcemapLocations);
-      }
-      if (chunk.outro.length) mappings.advance(chunk.outro);
-    });
-    if (this.outro) {
-      mappings.advance(this.outro);
-    }
-    return {
-      file: options.file ? options.file.split(/[/\\]/).pop() : void 0,
-      sources: [
-        options.source ? getRelativePath(options.file || "", options.source) : options.file || ""
-      ],
-      sourcesContent: options.includeContent ? [this.original] : void 0,
-      names,
-      mappings: mappings.raw,
-      x_google_ignoreList: this.ignoreList ? [sourceIndex] : void 0
-    };
-  }
-  generateMap(options) {
-    return new SourceMap(this.generateDecodedMap(options));
-  }
-  _ensureindentStr() {
-    if (this.indentStr === void 0) {
-      this.indentStr = guessIndent(this.original);
-    }
-  }
-  _getRawIndentString() {
-    this._ensureindentStr();
-    return this.indentStr;
-  }
-  getIndentString() {
-    this._ensureindentStr();
-    return this.indentStr === null ? "	" : this.indentStr;
-  }
-  indent(indentStr, options) {
-    const pattern = /^[^\r\n]/gm;
-    if (isObject(indentStr)) {
-      options = indentStr;
-      indentStr = void 0;
-    }
-    if (indentStr === void 0) {
-      this._ensureindentStr();
-      indentStr = this.indentStr || "	";
-    }
-    if (indentStr === "") return this;
-    options = options || {};
-    const isExcluded = {};
-    if (options.exclude) {
-      const exclusions = typeof options.exclude[0] === "number" ? [options.exclude] : options.exclude;
-      exclusions.forEach((exclusion) => {
-        for (let i = exclusion[0]; i < exclusion[1]; i += 1) {
-          isExcluded[i] = true;
-        }
-      });
-    }
-    let shouldIndentNextCharacter = options.indentStart !== false;
-    const replacer = (match) => {
-      if (shouldIndentNextCharacter) return `${indentStr}${match}`;
-      shouldIndentNextCharacter = true;
-      return match;
-    };
-    this.intro = this.intro.replace(pattern, replacer);
-    let charIndex = 0;
-    let chunk = this.firstChunk;
-    while (chunk) {
-      const end = chunk.end;
-      if (chunk.edited) {
-        if (!isExcluded[charIndex]) {
-          chunk.content = chunk.content.replace(pattern, replacer);
-          if (chunk.content.length) {
-            shouldIndentNextCharacter = chunk.content[chunk.content.length - 1] === "\n";
-          }
-        }
-      } else {
-        charIndex = chunk.start;
-        while (charIndex < end) {
-          if (!isExcluded[charIndex]) {
-            const char = this.original[charIndex];
-            if (char === "\n") {
-              shouldIndentNextCharacter = true;
-            } else if (char !== "\r" && shouldIndentNextCharacter) {
-              shouldIndentNextCharacter = false;
-              if (charIndex === chunk.start) {
-                chunk.prependRight(indentStr);
-              } else {
-                this._splitChunk(chunk, charIndex);
-                chunk = chunk.next;
-                chunk.prependRight(indentStr);
-              }
-            }
-          }
-          charIndex += 1;
-        }
-      }
-      charIndex = chunk.end;
-      chunk = chunk.next;
-    }
-    this.outro = this.outro.replace(pattern, replacer);
-    return this;
-  }
-  insert() {
-    throw new Error(
-      "magicString.insert(...) is deprecated. Use prependRight(...) or appendLeft(...)"
-    );
-  }
-  insertLeft(index, content) {
-    if (!warned.insertLeft) {
-      console.warn(
-        "magicString.insertLeft(...) is deprecated. Use magicString.appendLeft(...) instead"
-      );
-      warned.insertLeft = true;
-    }
-    return this.appendLeft(index, content);
-  }
-  insertRight(index, content) {
-    if (!warned.insertRight) {
-      console.warn(
-        "magicString.insertRight(...) is deprecated. Use magicString.prependRight(...) instead"
-      );
-      warned.insertRight = true;
-    }
-    return this.prependRight(index, content);
-  }
-  move(start, end, index) {
-    start = start + this.offset;
-    end = end + this.offset;
-    index = index + this.offset;
-    if (index >= start && index <= end) throw new Error("Cannot move a selection inside itself");
-    this._split(start);
-    this._split(end);
-    this._split(index);
-    const first = this.byStart[start];
-    const last = this.byEnd[end];
-    const oldLeft = first.previous;
-    const oldRight = last.next;
-    const newRight = this.byStart[index];
-    if (!newRight && last === this.lastChunk) return this;
-    const newLeft = newRight ? newRight.previous : this.lastChunk;
-    if (oldLeft) oldLeft.next = oldRight;
-    if (oldRight) oldRight.previous = oldLeft;
-    if (newLeft) newLeft.next = first;
-    if (newRight) newRight.previous = last;
-    if (!first.previous) this.firstChunk = last.next;
-    if (!last.next) {
-      this.lastChunk = first.previous;
-      this.lastChunk.next = null;
-    }
-    first.previous = newLeft;
-    last.next = newRight || null;
-    if (!newLeft) this.firstChunk = first;
-    if (!newRight) this.lastChunk = last;
-    return this;
-  }
-  overwrite(start, end, content, options) {
-    options = options || {};
-    return this.update(start, end, content, { ...options, overwrite: !options.contentOnly });
-  }
-  update(start, end, content, options) {
-    start = start + this.offset;
-    end = end + this.offset;
-    if (typeof content !== "string") throw new TypeError("replacement content must be a string");
-    if (this.original.length !== 0) {
-      while (start < 0) start += this.original.length;
-      while (end < 0) end += this.original.length;
-    }
-    if (end > this.original.length) throw new Error("end is out of bounds");
-    if (start === end)
-      throw new Error(
-        "Cannot overwrite a zero-length range – use appendLeft or prependRight instead"
-      );
-    this._split(start);
-    this._split(end);
-    if (options === true) {
-      if (!warned.storeName) {
-        console.warn(
-          "The final argument to magicString.overwrite(...) should be an options object. See https://github.com/rich-harris/magic-string"
-        );
-        warned.storeName = true;
-      }
-      options = { storeName: true };
-    }
-    const storeName = options !== void 0 ? options.storeName : false;
-    const overwrite = options !== void 0 ? options.overwrite : false;
-    if (storeName) {
-      const original = this.original.slice(start, end);
-      Object.defineProperty(this.storedNames, original, {
-        writable: true,
-        value: true,
-        enumerable: true
-      });
-    }
-    const first = this.byStart[start];
-    const last = this.byEnd[end];
-    if (first) {
-      let chunk = first;
-      while (chunk !== last) {
-        if (chunk.next !== this.byStart[chunk.end]) {
-          throw new Error("Cannot overwrite across a split point");
-        }
-        chunk = chunk.next;
-        chunk.edit("", false);
-      }
-      first.edit(content, storeName, !overwrite);
-    } else {
-      const newChunk = new Chunk(start, end, "").edit(content, storeName);
-      last.next = newChunk;
-      newChunk.previous = last;
-    }
-    return this;
-  }
-  prepend(content) {
-    if (typeof content !== "string") throw new TypeError("outro content must be a string");
-    this.intro = content + this.intro;
-    return this;
-  }
-  prependLeft(index, content) {
-    index = index + this.offset;
-    if (typeof content !== "string") throw new TypeError("inserted content must be a string");
-    this._split(index);
-    const chunk = this.byEnd[index];
-    if (chunk) {
-      chunk.prependLeft(content);
-    } else {
-      this.intro = content + this.intro;
-    }
-    return this;
-  }
-  prependRight(index, content) {
-    index = index + this.offset;
-    if (typeof content !== "string") throw new TypeError("inserted content must be a string");
-    this._split(index);
-    const chunk = this.byStart[index];
-    if (chunk) {
-      chunk.prependRight(content);
-    } else {
-      this.outro = content + this.outro;
-    }
-    return this;
-  }
-  remove(start, end) {
-    start = start + this.offset;
-    end = end + this.offset;
-    if (this.original.length !== 0) {
-      while (start < 0) start += this.original.length;
-      while (end < 0) end += this.original.length;
-    }
-    if (start === end) return this;
-    if (start < 0 || end > this.original.length) throw new Error("Character is out of bounds");
-    if (start > end) throw new Error("end must be greater than start");
-    this._split(start);
-    this._split(end);
-    let chunk = this.byStart[start];
-    while (chunk) {
-      chunk.intro = "";
-      chunk.outro = "";
-      chunk.edit("");
-      chunk = end > chunk.end ? this.byStart[chunk.end] : null;
-    }
-    return this;
-  }
-  reset(start, end) {
-    start = start + this.offset;
-    end = end + this.offset;
-    if (this.original.length !== 0) {
-      while (start < 0) start += this.original.length;
-      while (end < 0) end += this.original.length;
-    }
-    if (start === end) return this;
-    if (start < 0 || end > this.original.length) throw new Error("Character is out of bounds");
-    if (start > end) throw new Error("end must be greater than start");
-    this._split(start);
-    this._split(end);
-    let chunk = this.byStart[start];
-    while (chunk) {
-      chunk.reset();
-      chunk = end > chunk.end ? this.byStart[chunk.end] : null;
-    }
-    return this;
-  }
-  lastChar() {
-    if (this.outro.length) return this.outro[this.outro.length - 1];
-    let chunk = this.lastChunk;
-    do {
-      if (chunk.outro.length) return chunk.outro[chunk.outro.length - 1];
-      if (chunk.content.length) return chunk.content[chunk.content.length - 1];
-      if (chunk.intro.length) return chunk.intro[chunk.intro.length - 1];
-    } while (chunk = chunk.previous);
-    if (this.intro.length) return this.intro[this.intro.length - 1];
-    return "";
-  }
-  lastLine() {
-    let lineIndex = this.outro.lastIndexOf(n);
-    if (lineIndex !== -1) return this.outro.substr(lineIndex + 1);
-    let lineStr = this.outro;
-    let chunk = this.lastChunk;
-    do {
-      if (chunk.outro.length > 0) {
-        lineIndex = chunk.outro.lastIndexOf(n);
-        if (lineIndex !== -1) return chunk.outro.substr(lineIndex + 1) + lineStr;
-        lineStr = chunk.outro + lineStr;
-      }
-      if (chunk.content.length > 0) {
-        lineIndex = chunk.content.lastIndexOf(n);
-        if (lineIndex !== -1) return chunk.content.substr(lineIndex + 1) + lineStr;
-        lineStr = chunk.content + lineStr;
-      }
-      if (chunk.intro.length > 0) {
-        lineIndex = chunk.intro.lastIndexOf(n);
-        if (lineIndex !== -1) return chunk.intro.substr(lineIndex + 1) + lineStr;
-        lineStr = chunk.intro + lineStr;
-      }
-    } while (chunk = chunk.previous);
-    lineIndex = this.intro.lastIndexOf(n);
-    if (lineIndex !== -1) return this.intro.substr(lineIndex + 1) + lineStr;
-    return this.intro + lineStr;
-  }
-  slice(start = 0, end = this.original.length - this.offset) {
-    start = start + this.offset;
-    end = end + this.offset;
-    if (this.original.length !== 0) {
-      while (start < 0) start += this.original.length;
-      while (end < 0) end += this.original.length;
-    }
-    let result = "";
-    let chunk = this.firstChunk;
-    while (chunk && (chunk.start > start || chunk.end <= start)) {
-      if (chunk.start < end && chunk.end >= end) {
-        return result;
-      }
-      chunk = chunk.next;
-    }
-    if (chunk && chunk.edited && chunk.start !== start)
-      throw new Error(`Cannot use replaced character ${start} as slice start anchor.`);
-    const startChunk = chunk;
-    while (chunk) {
-      if (chunk.intro && (startChunk !== chunk || chunk.start === start)) {
-        result += chunk.intro;
-      }
-      const containsEnd = chunk.start < end && chunk.end >= end;
-      if (containsEnd && chunk.edited && chunk.end !== end)
-        throw new Error(`Cannot use replaced character ${end} as slice end anchor.`);
-      const sliceStart = startChunk === chunk ? start - chunk.start : 0;
-      const sliceEnd = containsEnd ? chunk.content.length + end - chunk.end : chunk.content.length;
-      result += chunk.content.slice(sliceStart, sliceEnd);
-      if (chunk.outro && (!containsEnd || chunk.end === end)) {
-        result += chunk.outro;
-      }
-      if (containsEnd) {
-        break;
-      }
-      chunk = chunk.next;
-    }
-    return result;
-  }
-  // TODO deprecate this? not really very useful
-  snip(start, end) {
-    const clone = this.clone();
-    clone.remove(0, start);
-    clone.remove(end, clone.original.length);
-    return clone;
-  }
-  _split(index) {
-    if (this.byStart[index] || this.byEnd[index]) return;
-    let chunk = this.lastSearchedChunk;
-    let previousChunk = chunk;
-    const searchForward = index > chunk.end;
-    while (chunk) {
-      if (chunk.contains(index)) return this._splitChunk(chunk, index);
-      chunk = searchForward ? this.byStart[chunk.end] : this.byEnd[chunk.start];
-      if (chunk === previousChunk) return;
-      previousChunk = chunk;
-    }
-  }
-  _splitChunk(chunk, index) {
-    if (chunk.edited && chunk.content.length) {
-      const loc = getLocator(this.original)(index);
-      throw new Error(
-        `Cannot split a chunk that has already been edited (${loc.line}:${loc.column} – "${chunk.original}")`
-      );
-    }
-    const newChunk = chunk.split(index);
-    this.byEnd[index] = chunk;
-    this.byStart[index] = newChunk;
-    this.byEnd[newChunk.end] = newChunk;
-    if (chunk === this.lastChunk) this.lastChunk = newChunk;
-    this.lastSearchedChunk = chunk;
-    return true;
-  }
-  toString() {
-    let str = this.intro;
-    let chunk = this.firstChunk;
-    while (chunk) {
-      str += chunk.toString();
-      chunk = chunk.next;
-    }
-    return str + this.outro;
-  }
-  isEmpty() {
-    let chunk = this.firstChunk;
-    do {
-      if (chunk.intro.length && chunk.intro.trim() || chunk.content.length && chunk.content.trim() || chunk.outro.length && chunk.outro.trim())
-        return false;
-    } while (chunk = chunk.next);
-    return true;
-  }
-  length() {
-    let chunk = this.firstChunk;
-    let length = 0;
-    do {
-      length += chunk.intro.length + chunk.content.length + chunk.outro.length;
-    } while (chunk = chunk.next);
-    return length;
-  }
-  trimLines() {
-    return this.trim("[\\r\\n]");
-  }
-  trim(charType) {
-    return this.trimStart(charType).trimEnd(charType);
-  }
-  trimEndAborted(charType) {
-    const rx = new RegExp((charType || "\\s") + "+$");
-    this.outro = this.outro.replace(rx, "");
-    if (this.outro.length) return true;
-    let chunk = this.lastChunk;
-    do {
-      const end = chunk.end;
-      const aborted = chunk.trimEnd(rx);
-      if (chunk.end !== end) {
-        if (this.lastChunk === chunk) {
-          this.lastChunk = chunk.next;
-        }
-        this.byEnd[chunk.end] = chunk;
-        this.byStart[chunk.next.start] = chunk.next;
-        this.byEnd[chunk.next.end] = chunk.next;
-      }
-      if (aborted) return true;
-      chunk = chunk.previous;
-    } while (chunk);
-    return false;
-  }
-  trimEnd(charType) {
-    this.trimEndAborted(charType);
-    return this;
-  }
-  trimStartAborted(charType) {
-    const rx = new RegExp("^" + (charType || "\\s") + "+");
-    this.intro = this.intro.replace(rx, "");
-    if (this.intro.length) return true;
-    let chunk = this.firstChunk;
-    do {
-      const end = chunk.end;
-      const aborted = chunk.trimStart(rx);
-      if (chunk.end !== end) {
-        if (chunk === this.lastChunk) this.lastChunk = chunk.next;
-        this.byEnd[chunk.end] = chunk;
-        this.byStart[chunk.next.start] = chunk.next;
-        this.byEnd[chunk.next.end] = chunk.next;
-      }
-      if (aborted) return true;
-      chunk = chunk.next;
-    } while (chunk);
-    return false;
-  }
-  trimStart(charType) {
-    this.trimStartAborted(charType);
-    return this;
-  }
-  hasChanged() {
-    return this.original !== this.toString();
-  }
-  _replaceRegexp(searchValue, replacement) {
-    function getReplacement(match, str) {
-      if (typeof replacement === "string") {
-        return replacement.replace(/\$(\$|&|\d+)/g, (_, i) => {
-          if (i === "$") return "$";
-          if (i === "&") return match[0];
-          const num = +i;
-          if (num < match.length) return match[+i];
-          return `$${i}`;
-        });
-      } else {
-        return replacement(...match, match.index, str, match.groups);
-      }
-    }
-    function matchAll2(re, str) {
-      let match;
-      const matches = [];
-      while (match = re.exec(str)) {
-        matches.push(match);
-      }
-      return matches;
-    }
-    if (searchValue.global) {
-      const matches = matchAll2(searchValue, this.original);
-      matches.forEach((match) => {
-        if (match.index != null) {
-          const replacement2 = getReplacement(match, this.original);
-          if (replacement2 !== match[0]) {
-            this.overwrite(match.index, match.index + match[0].length, replacement2);
-          }
-        }
-      });
-    } else {
-      const match = this.original.match(searchValue);
-      if (match && match.index != null) {
-        const replacement2 = getReplacement(match, this.original);
-        if (replacement2 !== match[0]) {
-          this.overwrite(match.index, match.index + match[0].length, replacement2);
-        }
-      }
-    }
-    return this;
-  }
-  _replaceString(string, replacement) {
-    const { original } = this;
-    const index = original.indexOf(string);
-    if (index !== -1) {
-      if (typeof replacement === "function") {
-        replacement = replacement(string, index, original);
-      }
-      if (string !== replacement) {
-        this.overwrite(index, index + string.length, replacement);
-      }
-    }
-    return this;
-  }
-  replace(searchValue, replacement) {
-    if (typeof searchValue === "string") {
-      return this._replaceString(searchValue, replacement);
-    }
-    return this._replaceRegexp(searchValue, replacement);
-  }
-  _replaceAllString(string, replacement) {
-    const { original } = this;
-    const stringLength = string.length;
-    for (let index = original.indexOf(string); index !== -1; index = original.indexOf(string, index + stringLength)) {
-      const previous = original.slice(index, index + stringLength);
-      let _replacement = replacement;
-      if (typeof replacement === "function") {
-        _replacement = replacement(previous, index, original);
-      }
-      if (previous !== _replacement) this.overwrite(index, index + stringLength, _replacement);
-    }
-    return this;
-  }
-  replaceAll(searchValue, replacement) {
-    if (typeof searchValue === "string") {
-      return this._replaceAllString(searchValue, replacement);
-    }
-    if (!searchValue.global) {
-      throw new TypeError(
-        "MagicString.prototype.replaceAll called with a non-global RegExp argument"
-      );
-    }
-    return this._replaceRegexp(searchValue, replacement);
-  }
-}
-function getBracket(str, open, close) {
-  if (str === "")
-    return;
-  const l = str.length;
-  let parenthesis = 0;
-  let opened = false;
-  let openAt = 0;
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case open:
-        if (!opened) {
-          opened = true;
-          openAt = i;
-        }
-        parenthesis++;
-        break;
-      case close:
-        --parenthesis;
-        if (parenthesis < 0)
-          return;
-        if (parenthesis === 0) {
-          return [
-            str.slice(openAt, i + 1),
-            str.slice(i + 1),
-            str.slice(0, openAt)
-          ];
-        }
-        break;
-    }
-  }
-}
-function getStringComponent(str, open, close, separators) {
-  if (str === "")
-    return;
-  if (isString$1(separators))
-    separators = [separators];
-  if (separators.length === 0)
-    return;
-  const l = str.length;
-  let parenthesis = 0;
-  for (let i = 0; i < l; i++) {
-    switch (str[i]) {
-      case open:
-        parenthesis++;
-        break;
-      case close:
-        if (--parenthesis < 0)
-          return;
-        break;
-      default:
-        for (const separator of separators) {
-          const separatorLength = separator.length;
-          if (separatorLength && separator === str.slice(i, i + separatorLength) && parenthesis === 0) {
-            if (i === 0 || i === l - separatorLength)
-              return;
-            return [
-              str.slice(0, i),
-              str.slice(i + separatorLength)
-            ];
-          }
-        }
-    }
-  }
-  return [
-    str,
-    ""
-  ];
-}
-function getStringComponents(str, separators, limit, open = "(", close = ")") {
-  limit = limit ?? 10;
-  const components = [];
-  let i = 0;
-  while (str !== "") {
-    if (++i > limit)
-      return;
-    const componentPair = getStringComponent(str, open, close, separators);
-    if (!componentPair)
-      return;
-    const [component, rest] = componentPair;
-    components.push(component);
-    str = rest;
-  }
-  if (components.length > 0)
-    return components;
-}
-const cssColorFunctions = ["hsl", "hsla", "hwb", "lab", "lch", "oklab", "oklch", "rgb", "rgba"];
-const alphaPlaceholders = ["%alpha", "<alpha-value>"];
-const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map((v) => escapeRegExp(v)).join("|"), "g");
-function parseCssColor(str = "") {
-  const color = parseColor$1(str);
-  if (color == null || color === false)
-    return;
-  const { type: casedType, components, alpha } = color;
-  const type = casedType.toLowerCase();
-  if (components.length === 0)
-    return;
-  if (cssColorFunctions.includes(type) && ![1, 3].includes(components.length))
-    return;
-  return {
-    type,
-    components: components.map((c) => typeof c === "string" ? c.trim() : c),
-    alpha: typeof alpha === "string" ? alpha.trim() : alpha
-  };
-}
-function colorOpacityToString(color) {
-  const alpha = color.alpha ?? 1;
-  return typeof alpha === "string" && alphaPlaceholders.includes(alpha) ? 1 : alpha;
-}
-function colorToString(color, alphaOverride) {
-  if (typeof color === "string")
-    return color.replace(alphaPlaceholdersRE, `${alphaOverride ?? 1}`);
-  const { components } = color;
-  let { alpha, type } = color;
-  alpha = alphaOverride ?? alpha;
-  type = type.toLowerCase();
-  if (["hsla", "rgba"].includes(type))
-    return `${type}(${components.join(", ")}${alpha == null ? "" : `, ${alpha}`})`;
-  alpha = alpha == null ? "" : ` / ${alpha}`;
-  if (cssColorFunctions.includes(type))
-    return `${type}(${components.join(" ")}${alpha})`;
-  return `color(${type} ${components.join(" ")}${alpha})`;
-}
-function parseColor$1(str) {
-  if (!str)
-    return;
-  let color = parseHexColor(str);
-  if (color != null)
-    return color;
-  color = cssColorKeyword(str);
-  if (color != null)
-    return color;
-  color = parseCssCommaColorFunction(str);
-  if (color != null)
-    return color;
-  color = parseCssSpaceColorFunction(str);
-  if (color != null)
-    return color;
-  color = parseCssColorFunction(str);
-  if (color != null)
-    return color;
-}
-function parseHexColor(str) {
-  const [, body] = str.match(/^#([\da-f]+)$/i) || [];
-  if (!body)
-    return;
-  switch (body.length) {
-    case 3:
-    case 4: {
-      const digits = Array.from(body, (s) => Number.parseInt(s, 16)).map((n2) => n2 << 4 | n2);
-      return {
-        type: "rgb",
-        components: digits.slice(0, 3),
-        alpha: body.length === 3 ? void 0 : Math.round(digits[3] / 255 * 100) / 100
-      };
-    }
-    case 6:
-    case 8: {
-      const value = Number.parseInt(body, 16);
-      return {
-        type: "rgb",
-        components: body.length === 6 ? [value >> 16 & 255, value >> 8 & 255, value & 255] : [value >> 24 & 255, value >> 16 & 255, value >> 8 & 255],
-        alpha: body.length === 6 ? void 0 : Math.round((value & 255) / 255 * 100) / 100
-      };
-    }
-  }
-}
-function cssColorKeyword(str) {
-  const color = {
-    rebeccapurple: [102, 51, 153, 1]
-  }[str];
-  if (color != null) {
-    return {
-      type: "rgb",
-      components: color.slice(0, 3),
-      alpha: color[3]
-    };
-  }
-}
-function parseCssCommaColorFunction(color) {
-  const match = color.match(/^(rgb|rgba|hsl|hsla)\((.+)\)$/i);
-  if (!match)
-    return;
-  const [, type, componentString] = match;
-  const components = getStringComponents(componentString, ",", 5);
-  if (components) {
-    if ([3, 4].includes(components.length)) {
-      return {
-        type,
-        components: components.slice(0, 3),
-        alpha: components[3]
-      };
-    } else if (components.length !== 1) {
-      return false;
-    }
-  }
-}
-const cssColorFunctionsRe = new RegExp(`^(${cssColorFunctions.join("|")})\\((.+)\\)$`, "i");
-function parseCssSpaceColorFunction(color) {
-  const match = color.match(cssColorFunctionsRe);
-  if (!match)
-    return;
-  const [, fn, componentString] = match;
-  const parsed = parseCssSpaceColorValues(`${fn} ${componentString}`);
-  if (parsed) {
-    const { alpha, components: [type, ...components] } = parsed;
-    return {
-      type,
-      components,
-      alpha
-    };
-  }
-}
-function parseCssColorFunction(color) {
-  const match = color.match(/^color\((.+)\)$/);
-  if (!match)
-    return;
-  const parsed = parseCssSpaceColorValues(match[1]);
-  if (parsed) {
-    const { alpha, components: [type, ...components] } = parsed;
-    return {
-      type,
-      components,
-      alpha
-    };
-  }
-}
-function parseCssSpaceColorValues(componentString) {
-  const components = getStringComponents(componentString, " ");
-  if (!components)
-    return;
-  let totalComponents = components.length;
-  if (components[totalComponents - 2] === "/") {
-    return {
-      components: components.slice(0, totalComponents - 2),
-      alpha: components[totalComponents - 1]
-    };
-  }
-  if (components[totalComponents - 2] != null && (components[totalComponents - 2].endsWith("/") || components[totalComponents - 1].startsWith("/"))) {
-    const removed = components.splice(totalComponents - 2);
-    components.push(removed.join(" "));
-    --totalComponents;
-  }
-  const withAlpha = getStringComponents(components[totalComponents - 1], "/", 2);
-  if (!withAlpha)
-    return;
-  if (withAlpha.length === 1 || withAlpha[withAlpha.length - 1] === "")
-    return { components };
-  const alpha = withAlpha.pop();
-  components[totalComponents - 1] = withAlpha.join("/");
-  return {
-    components,
-    alpha
-  };
-}
-const themeFnRE = /theme\(\s*(['"])?(.*?)\1?\s*\)/g;
-function hasThemeFn(str) {
-  return str.includes("theme(") && str.includes(")");
-}
-function transformThemeFn(code, theme2, throwOnMissing = true) {
-  const matches = Array.from(code.toString().matchAll(themeFnRE));
-  if (!matches.length)
-    return code;
-  const s = new MagicString(code);
-  for (const match of matches) {
-    const rawArg = match[2];
-    if (!rawArg)
-      throw new Error("theme() expect exact one argument, but got 0");
-    const value = transformThemeString(rawArg, theme2, throwOnMissing);
-    if (value) {
-      s.overwrite(
-        match.index,
-        match.index + match[0].length,
-        value
-      );
-    }
-  }
-  return s.toString();
-}
-function transformThemeString(code, theme2, throwOnMissing = true) {
-  const [rawKey, alpha] = code.split("/");
-  const keys = rawKey.trim().split(".");
-  let value = keys.reduce((t, k) => t?.[k], theme2);
-  if (typeof value === "object") {
-    value = value.DEFAULT;
-  }
-  if (typeof value === "string") {
-    if (alpha) {
-      const color = parseCssColor(value);
-      if (color)
-        value = colorToString(color, alpha);
-    }
-    return value;
-  } else if (throwOnMissing) {
-    throw new Error(`theme of "${code}" did not found`);
-  }
-}
-function calcMaxWidthBySize(size) {
-  const value = size.match(/^-?\d+\.?\d*/)?.[0] || "";
-  const unit = size.slice(value.length);
-  if (unit === "px") {
-    const maxWidth2 = Number.parseFloat(value) - 0.1;
-    return Number.isNaN(maxWidth2) ? size : `${maxWidth2}${unit}`;
-  }
-  return `calc(${size} - 0.1px)`;
-}
-function createValueHandler(handlers) {
-  const handler2 = function(str) {
-    const s = this.__options?.sequence || [];
-    this.__options.sequence = [];
-    for (const n2 of s) {
-      const res = handlers[n2](str);
-      if (res != null)
-        return res;
-    }
-  };
-  function addProcessor(that, name) {
-    if (!that.__options) {
-      that.__options = {
-        sequence: []
-      };
-    }
-    that.__options.sequence.push(name);
-    return that;
-  }
-  for (const name of Object.keys(handlers)) {
-    Object.defineProperty(handler2, name, {
-      enumerable: true,
-      configurable: true,
-      get() {
-        return addProcessor(this, name);
-      }
-    });
-  }
-  return handler2;
-}
-const PseudoPlaceholder = "__pseudo_placeholder__";
-const PseudoClasses = Object.fromEntries([
-  // pseudo elements part 1
-  ["first-letter", "::first-letter"],
-  ["first-line", "::first-line"],
-  // location
-  "any-link",
-  "link",
-  "visited",
-  "target",
-  ["open", "[open]"],
-  // forms
-  "default",
-  "checked",
-  "indeterminate",
-  "placeholder-shown",
-  "autofill",
-  "optional",
-  "required",
-  "valid",
-  "invalid",
-  "user-valid",
-  "user-invalid",
-  "in-range",
-  "out-of-range",
-  "read-only",
-  "read-write",
-  // content
-  "empty",
-  // interactions
-  "focus-within",
-  "hover",
-  "focus",
-  "focus-visible",
-  "active",
-  "enabled",
-  "disabled",
-  "popover-open",
-  // tree-structural
-  "root",
-  "empty",
-  ["even-of-type", ":nth-of-type(even)"],
-  ["even", ":nth-child(even)"],
-  ["odd-of-type", ":nth-of-type(odd)"],
-  ["odd", ":nth-child(odd)"],
-  ["nth", `:nth-child(${PseudoPlaceholder})`],
-  ["nth-last", `:nth-last-child(${PseudoPlaceholder})`],
-  ["nth-last-of-type", `:nth-last-of-type(${PseudoPlaceholder})`],
-  ["nth-of-type", `:nth-of-type(${PseudoPlaceholder})`],
-  "first-of-type",
-  ["first", ":first-child"],
-  "last-of-type",
-  ["last", ":last-child"],
-  "only-child",
-  "only-of-type",
-  // pseudo elements part 2
-  ["backdrop-element", "::backdrop"],
-  ["placeholder", "::placeholder"],
-  ["before", "::before"],
-  ["after", "::after"],
-  ["file", "::file-selector-button"]
-].map((key) => Array.isArray(key) ? key : [key, `:${key}`]));
-const PseudoClassesKeys = Object.keys(PseudoClasses);
-const PseudoClassesColon = Object.fromEntries([
-  ["backdrop", "::backdrop"]
-].map((key) => Array.isArray(key) ? key : [key, `:${key}`]));
-const PseudoClassesColonKeys = Object.keys(PseudoClassesColon);
-const PseudoClassFunctions = [
-  "not",
-  "is",
-  "where",
-  "has"
-];
-const PseudoClassesMulti = Object.fromEntries([
-  ["selection", ["::selection", " *::selection"]],
-  ["marker", ["::marker", " *::marker"]]
-]);
-const PseudoClassesStr = Object.entries(PseudoClasses).filter(([, pseudo]) => !pseudo.startsWith("::")).map(([key]) => key).sort((a, b) => b.length - a.length).join("|");
-const PseudoClassesColonStr = Object.entries(PseudoClassesColon).filter(([, pseudo]) => !pseudo.startsWith("::")).map(([key]) => key).sort((a, b) => b.length - a.length).join("|");
-const PseudoClassFunctionsStr = PseudoClassFunctions.join("|");
-const PseudoClassesMultiStr = Object.keys(PseudoClassesMulti).sort((a, b) => b.length - a.length).join("|");
-const excludedPseudo = [
-  "::-webkit-resizer",
-  "::-webkit-scrollbar",
-  "::-webkit-scrollbar-button",
-  "::-webkit-scrollbar-corner",
-  "::-webkit-scrollbar-thumb",
-  "::-webkit-scrollbar-track",
-  "::-webkit-scrollbar-track-piece",
-  "::file-selector-button"
-];
-const PseudoClassesAndElementsStr = Object.entries(PseudoClasses).map(([key]) => key).sort((a, b) => b.length - a.length).join("|");
-const PseudoClassesAndElementsColonStr = Object.entries(PseudoClassesColon).map(([key]) => key).sort((a, b) => b.length - a.length).join("|");
-function createTaggedPseudoClassMatcher(tag, parent, combinator, utils2) {
-  const { h: h2, variantGetBracket: variantGetBracket2 } = utils2;
-  const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`);
-  let splitRE;
-  let pseudoRE;
-  let pseudoColonRE;
-  let pseudoVarRE;
-  const matchBracket = (input) => {
-    const body = variantGetBracket2(`${tag}-`, input, []);
-    if (!body)
-      return;
-    const [match, rest] = body;
-    const bracketValue = h2.bracket(match);
-    if (bracketValue == null)
-      return;
-    const label = rest.split(splitRE, 1)?.[0] ?? "";
-    const prefix = `${parent}${escapeSelector(label)}`;
-    return [
-      label,
-      input.slice(input.length - (rest.length - label.length - 1)),
-      bracketValue.includes("&") ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`
-    ];
-  };
-  const matchPseudo = (input) => {
-    const match = input.match(pseudoRE) || input.match(pseudoColonRE);
-    if (!match)
-      return;
-    const [original, fn, pseudoKey] = match;
-    const label = match[3] ?? "";
-    let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`;
-    if (fn)
-      pseudo = `:${fn}(${pseudo})`;
-    return [
-      label,
-      input.slice(original.length),
-      `${parent}${escapeSelector(label)}${pseudo}`,
-      pseudoKey
-    ];
-  };
-  const matchPseudoVar = (input) => {
-    const match = input.match(pseudoVarRE);
-    if (!match)
-      return;
-    const [original, fn, pseudoValue] = match;
-    const label = match[3] ?? "";
-    const pseudo = `:${fn}(${pseudoValue})`;
-    return [
-      label,
-      input.slice(original.length),
-      `${parent}${escapeSelector(label)}${pseudo}`
-    ];
-  };
-  return {
-    name: `pseudo:${tag}`,
-    match(input, ctx) {
-      if (!(splitRE && pseudoRE && pseudoColonRE)) {
-        splitRE = new RegExp(`(?:${ctx.generator.config.separators.join("|")})`);
-        pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/[\\w-]+))?(?:${ctx.generator.config.separators.join("|")})`);
-        pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/[\\w-]+))?(?:${ctx.generator.config.separators.filter((x) => x !== "-").join("|")})`);
-        pseudoVarRE = new RegExp(`^${tag}-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/[\\w-]+))?(?:${ctx.generator.config.separators.filter((x) => x !== "-").join("|")})`);
-      }
-      if (!input.startsWith(tag))
-        return;
-      const result = matchBracket(input) || matchPseudo(input) || matchPseudoVar(input);
-      if (!result)
-        return;
-      const [_label, matcher, prefix, pseudoName = ""] = result;
-      return {
-        matcher,
-        handle: (input2, next) => next({
-          ...input2,
-          prefix: `${prefix}${combinator}${input2.prefix}`.replace(rawRE, "$1$2:"),
-          sort: PseudoClassesKeys.indexOf(pseudoName) ?? PseudoClassesColonKeys.indexOf(pseudoName)
-        })
-      };
-    },
-    multiPass: true
-  };
-}
-function createPseudoClassesAndElements(utils2) {
-  const { h: h2 } = utils2;
-  let PseudoClassesAndElementsRE;
-  let PseudoClassesAndElementsColonRE;
-  let PseudoClassesMultiRE;
-  return [
-    {
-      name: "pseudo",
-      match(input, ctx) {
-        if (!(PseudoClassesAndElementsRE && PseudoClassesAndElementsColonRE)) {
-          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\d+|\\[(\\w|[+-.])+\\]))?(?:${ctx.generator.config.separators.join("|")})`);
-          PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})(?:${ctx.generator.config.separators.filter((x) => x !== "-").join("|")})`);
-        }
-        const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE);
-        if (match) {
-          let pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`;
-          if (match[2]) {
-            let anPlusB;
-            if (match[2].startsWith("[") && match[2].endsWith("]")) {
-              anPlusB = h2.bracket(match[2]);
-            } else {
-              anPlusB = match[2];
-            }
-            if (anPlusB) {
-              pseudo = pseudo.replace(PseudoPlaceholder, anPlusB);
-            }
-          }
-          let index = PseudoClassesKeys.indexOf(match[1]);
-          if (index === -1)
-            index = PseudoClassesColonKeys.indexOf(match[1]);
-          if (index === -1)
-            index = void 0;
-          return {
-            matcher: input.slice(match[0].length),
-            handle: (input2, next) => {
-              const selectors = pseudo.includes("::") && !excludedPseudo.includes(pseudo) ? {
-                pseudo: `${input2.pseudo}${pseudo}`
-              } : {
-                selector: `${input2.selector}${pseudo}`
-              };
-              return next({
-                ...input2,
-                ...selectors,
-                sort: index,
-                noMerge: true
-              });
-            }
-          };
-        }
-      },
-      multiPass: true,
-      autocomplete: `(${PseudoClassesAndElementsStr}|${PseudoClassesAndElementsColonStr}):`
-    },
-    {
-      name: "pseudo:multi",
-      match(input, ctx) {
-        if (!PseudoClassesMultiRE) {
-          PseudoClassesMultiRE = new RegExp(`^(${PseudoClassesMultiStr})(?:${ctx.generator.config.separators.join("|")})`);
-        }
-        const match = input.match(PseudoClassesMultiRE);
-        if (match) {
-          const pseudos = PseudoClassesMulti[match[1]];
-          return pseudos.map((pseudo) => {
-            return {
-              matcher: input.slice(match[0].length),
-              handle: (input2, next) => next({
-                ...input2,
-                pseudo: `${input2.pseudo}${pseudo}`
-              })
-            };
-          });
-        }
-      },
-      multiPass: false,
-      autocomplete: `(${PseudoClassesMultiStr}):`
-    }
-  ];
-}
-function createPseudoClassFunctions(utils2) {
-  const { getBracket: getBracket2, h: h2 } = utils2;
-  let PseudoClassFunctionsRE;
-  let PseudoClassColonFunctionsRE;
-  let PseudoClassVarFunctionRE;
-  return {
-    match(input, ctx) {
-      if (!(PseudoClassFunctionsRE && PseudoClassColonFunctionsRE)) {
-        PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})(?:${ctx.generator.config.separators.join("|")})`);
-        PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})(?:${ctx.generator.config.separators.filter((x) => x !== "-").join("|")})`);
-        PseudoClassVarFunctionRE = new RegExp(`^(${PseudoClassFunctionsStr})-(\\[.+\\])(?:${ctx.generator.config.separators.filter((x) => x !== "-").join("|")})`);
-      }
-      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE) || input.match(PseudoClassVarFunctionRE);
-      if (match) {
-        const fn = match[1];
-        const fnVal = getBracket2(match[2], "[", "]");
-        const pseudo = fnVal ? h2.bracket(match[2]) : PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`;
-        return {
-          matcher: input.slice(match[0].length),
-          selector: (s) => `${s}:${fn}(${pseudo})`
-        };
-      }
-    },
-    multiPass: true,
-    autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`
-  };
-}
-function createTaggedPseudoClasses(options, utils2) {
-  const attributify = !!options?.attributifyPseudo;
-  let firstPrefix = options?.prefix ?? "";
-  firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? "";
-  const tagWithPrefix = (tag, combinator) => createTaggedPseudoClassMatcher(tag, attributify ? `[${firstPrefix}${tag}=""]` : `.${firstPrefix}${tag}`, combinator, utils2);
-  return [
-    tagWithPrefix("group", " "),
-    tagWithPrefix("peer", "~"),
-    tagWithPrefix("parent", ">"),
-    tagWithPrefix("previous", "+")
-  ];
-}
-const PartClassesRE = /(part-\[(.+)\]:)(.+)/;
-function createPartClasses() {
-  return {
-    match(input) {
-      const match = input.match(PartClassesRE);
-      if (match) {
-        const part = `part(${match[2]})`;
-        return {
-          matcher: input.slice(match[1].length),
-          selector: (s) => `${s}::${part}`
-        };
-      }
-    },
-    multiPass: true
-  };
-}
-function variantMatcher(name, handler2, options = {}) {
-  let re;
-  return {
-    name,
-    match(input, ctx) {
-      if (!re)
-        re = new RegExp(`^${escapeRegExp(name)}(?:${ctx.generator.config.separators.join("|")})`);
-      const match = input.match(re);
-      if (match) {
-        const matcher = input.slice(match[0].length);
-        const handlers = toArray$1(handler2).map((handler22) => ({
-          matcher,
-          handle: (input2, next) => next({
-            ...input2,
-            ...handler22(input2)
-          }),
-          ...options
-        }));
-        return handlers.length === 1 ? handlers[0] : handlers;
-      }
-    },
-    autocomplete: `${name}:`
-  };
-}
-function variantParentMatcher(name, parent) {
-  let re;
-  return {
-    name,
-    match(input, ctx) {
-      if (!re)
-        re = new RegExp(`^${escapeRegExp(name)}(?:${ctx.generator.config.separators.join("|")})`);
-      const match = input.match(re);
-      if (match) {
-        return {
-          matcher: input.slice(match[0].length),
-          handle: (input2, next) => next({
-            ...input2,
-            parent: `${input2.parent ? `${input2.parent} $$ ` : ""}${parent}`
-          })
-        };
-      }
-    },
-    autocomplete: `${name}:`
-  };
-}
-function variantGetBracket(prefix, matcher, separators) {
-  if (matcher.startsWith(`${prefix}[`)) {
-    const [match, rest] = getBracket(matcher.slice(prefix.length), "[", "]") ?? [];
-    if (match && rest) {
-      for (const separator of separators) {
-        if (rest.startsWith(separator))
-          return [match, rest.slice(separator.length), separator];
-      }
-      return [match, rest, ""];
-    }
-  }
-}
-function variantGetParameter(prefix, matcher, separators) {
-  for (const p of toArray$1(prefix)) {
-    if (matcher.startsWith(p)) {
-      const body = variantGetBracket(p, matcher, separators);
-      if (body) {
-        const [label = "", rest = body[1]] = variantGetParameter("/", body[1], separators) ?? [];
-        return [body[0], rest, label];
-      }
-      for (const separator of separators.filter((x) => x !== "/")) {
-        const pos = matcher.indexOf(separator, p.length);
-        if (pos !== -1) {
-          const labelPos = matcher.indexOf("/", p.length);
-          const unlabelled = labelPos === -1 || pos <= labelPos;
-          return [
-            matcher.slice(p.length, unlabelled ? pos : labelPos),
-            matcher.slice(pos + separator.length),
-            unlabelled ? "" : matcher.slice(labelPos + 1, pos)
-          ];
-        }
-      }
-    }
-  }
 }
 const directionMap = {
   "l": ["-left"],
@@ -17182,15 +12412,15 @@ const cssProps = [
   "clip",
   "border-radius"
 ];
-function round(n2) {
-  return +n2.toFixed(10);
+function round(n) {
+  return +n.toFixed(10);
 }
 function numberWithUnit(str) {
   const match = str.match(numberWithUnitRE);
   if (!match)
     return;
-  const [, n2, unit] = match;
-  const num = Number.parseFloat(n2);
+  const [, n, unit] = match;
+  const num = Number.parseFloat(n);
   if (unit && !Number.isNaN(num))
     return `${round(num)}${unit}`;
 }
@@ -17206,8 +12436,8 @@ function rem(str) {
   const match = str.match(numberWithUnitRE);
   if (!match)
     return;
-  const [, n2, unit] = match;
-  const num = Number.parseFloat(n2);
+  const [, n, unit] = match;
+  const num = Number.parseFloat(n);
   if (!Number.isNaN(num)) {
     if (num === 0)
       return "0";
@@ -17220,8 +12450,8 @@ function px(str) {
   const match = str.match(numberWithUnitRE);
   if (!match)
     return;
-  const [, n2, unit] = match;
-  const num = Number.parseFloat(n2);
+  const [, n, unit] = match;
+  const num = Number.parseFloat(n);
   if (!Number.isNaN(num))
     return unit ? `${round(num)}${unit}` : `${round(num)}px`;
 }
@@ -17314,15 +12544,15 @@ function bracketOfPosition(str) {
 function cssvar(str) {
   if (/^\$[^\s'"`;{}]/.test(str)) {
     const [name, defaultValue] = str.slice(1).split(",");
-    return `var(--${escapeSelector$1(name)}${defaultValue ? `, ${defaultValue}` : ""})`;
+    return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ""})`;
   }
 }
 function time(str) {
   const match = str.match(/^(-?[0-9.]+)(s|ms)?$/i);
   if (!match)
     return;
-  const [, n2, unit] = match;
-  const num = Number.parseFloat(n2);
+  const [, n, unit] = match;
+  const num = Number.parseFloat(n);
   if (!Number.isNaN(num)) {
     if (num === 0 && !unit)
       return "0s";
@@ -17333,8 +12563,8 @@ function degree(str) {
   const match = str.match(/^(-?[0-9.]+)(deg|rad|grad|turn)?$/i);
   if (!match)
     return;
-  const [, n2, unit] = match;
-  const num = Number.parseFloat(n2);
+  const [, n, unit] = match;
+  const num = Number.parseFloat(n);
   if (!Number.isNaN(num)) {
     if (num === 0)
       return "0deg";
@@ -17394,7 +12624,7 @@ function getThemeColorForKey(theme2, colors2, key = "colors") {
   for (const c of colors2) {
     index += 1;
     if (obj && typeof obj !== "string") {
-      const camel = colors2.slice(index).join("-").replace(/(-[a-z])/g, (n2) => n2.slice(1).toUpperCase());
+      const camel = colors2.slice(index).join("-").replace(/(-[a-z])/g, (n) => n.slice(1).toUpperCase());
       if (obj[camel])
         return obj[camel];
       if (obj[c]) {
@@ -17503,7 +12733,7 @@ function colorResolver(property, varName, key, shouldPass) {
 }
 function colorableShadows(shadows, colorVar) {
   const colored = [];
-  shadows = toArray$2(shadows);
+  shadows = toArray$1(shadows);
   for (let i = 0; i < shadows.length; i++) {
     const components = getStringComponents(shadows[i], " ", 6);
     if (!components || components.length < 3)
@@ -17594,11 +12824,11 @@ function taggedAria(tagName, combinator, options = {}) {
           let firstPrefix = options?.prefix ?? "";
           firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? "";
           const parent = `${attributify ? `[${firstPrefix}${tagName}=""]` : `.${firstPrefix}${tagName}`}`;
-          const escapedLabel = escapeSelector$1(label ? `/${label}` : "");
+          const escapedLabel = escapeSelector(label ? `/${label}` : "");
           return {
             matcher: rest,
             handle: (input, next) => {
-              const regexp = new RegExp(`${escapeRegExp$1(parent)}${escapeRegExp$1(escapedLabel)}(?:\\[.+?\\])+`);
+              const regexp = new RegExp(`${escapeRegExp(parent)}${escapeRegExp(escapedLabel)}(?:\\[.+?\\])+`);
               const match2 = input.prefix.match(regexp);
               let nextPrefix;
               if (match2) {
@@ -17805,8 +13035,8 @@ function variantColorsMediaOrClass(options = {}) {
   if (options?.dark === "class" || typeof options.dark === "object") {
     const { dark = ".dark", light = ".light" } = typeof options.dark === "string" ? {} : options.dark;
     return [
-      variantMatcher("dark", toArray$2(dark).map((dark2) => (input) => ({ prefix: `${dark2} $$ ${input.prefix}` }))),
-      variantMatcher("light", toArray$2(light).map((light2) => (input) => ({ prefix: `${light2} $$ ${input.prefix}` })))
+      variantMatcher("dark", toArray$1(dark).map((dark2) => (input) => ({ prefix: `${dark2} $$ ${input.prefix}` }))),
+      variantMatcher("light", toArray$1(light).map((light2) => (input) => ({ prefix: `${light2} $$ ${input.prefix}` })))
     ];
   }
   return [
@@ -17844,11 +13074,11 @@ function taggedData(tagName, combinator, options = {}) {
           let firstPrefix = options?.prefix ?? "";
           firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? "";
           const parent = `${attributify ? `[${firstPrefix}${tagName}=""]` : `.${firstPrefix}${tagName}`}`;
-          const escapedLabel = escapeSelector$1(label ? `/${label}` : "");
+          const escapedLabel = escapeSelector(label ? `/${label}` : "");
           return {
             matcher: rest,
             handle: (input, next) => {
-              const regexp = new RegExp(`${escapeRegExp$1(parent)}${escapeRegExp$1(escapedLabel)}(?:\\[.+?\\])+`);
+              const regexp = new RegExp(`${escapeRegExp(parent)}${escapeRegExp(escapedLabel)}(?:\\[.+?\\])+`);
               const match2 = input.prefix.match(regexp);
               let nextPrefix;
               if (match2) {
@@ -18155,16 +13385,16 @@ const variantNegative = {
   }
 };
 function variantPseudoClassesAndElements() {
-  const utils2 = { h };
-  return createPseudoClassesAndElements(utils2);
+  const utils = { getBracket, h, variantGetBracket };
+  return createPseudoClassesAndElements(utils);
 }
 function variantPseudoClassFunctions() {
-  const utils2 = { getBracket, h };
-  return createPseudoClassFunctions(utils2);
+  const utils = { getBracket, h, variantGetBracket };
+  return createPseudoClassFunctions(utils);
 }
 function variantTaggedPseudoClasses(options = {}) {
-  const utils2 = { h, variantGetBracket };
-  return createTaggedPseudoClasses(options, utils2);
+  const utils = { getBracket, h, variantGetBracket };
+  return createTaggedPseudoClasses(options, utils);
 }
 const variantPartClasses = createPartClasses();
 const variantStartingStyle = {
@@ -19452,7 +14682,7 @@ function handleThemeByKey(s, theme2, key) {
   return theme2[key]?.[s] || h.bracket.cssvar.global.rem(s);
 }
 function handleSize([, s], { theme: theme2 }) {
-  const themed = toArray$2(theme2.fontSize?.[s]);
+  const themed = toArray$1(theme2.fontSize?.[s]);
   const size = themed?.[0] ?? h.bracket.cssvar.global.rem(s);
   if (size != null)
     return { "font-size": size };
@@ -19467,7 +14697,7 @@ function handleText([, s = "base"], { theme: theme2 }) {
   if (!split)
     return;
   const [size, leading] = split;
-  const sizePairs = toArray$2(theme2.fontSize?.[size]);
+  const sizePairs = toArray$1(theme2.fontSize?.[size]);
   const lineHeight2 = leading ? handleThemeByKey(leading, theme2, "lineHeight") : void 0;
   if (sizePairs?.[0]) {
     const [fontSize22, height2, letterSpacing2] = sizePairs;
@@ -20305,14 +15535,14 @@ function preflights(options) {
             let entries = Object.entries(theme2.preflightBase);
             if (options.preflight === "on-demand") {
               const keys = new Set(Array.from(generator.activatedRules).map((r) => r[2]?.custom?.preflightKeys).filter(Boolean).flat());
-              entries = entries.filter(([k]) => keys.has(k));
+              entries = entries.filter(([k2]) => keys.has(k2));
             }
             if (entries.length > 0) {
               let css = entriesToCss(entries);
               if (options.variablePrefix !== "un-") {
                 css = css.replace(/--un-/g, `--${options.variablePrefix}`);
               }
-              const roots = toArray$2(theme2.preflightRoot ?? ["*,::before,::after", "::backdrop"]);
+              const roots = toArray$1(theme2.preflightRoot ?? ["*,::before,::after", "::backdrop"]);
               return roots.map((root) => `${root}{${css}}`).join("");
             }
           }
@@ -20393,7 +15623,7 @@ const container = [
         if (isString(query)) {
           const match = query.match(queryMatcher)?.[1];
           if (match) {
-            const bp = resolveBreakpoints(context) ?? [];
+            const bp = resolveBreakpoints$1(context) ?? [];
             const matchBp = bp.find((i) => i.size === match)?.point;
             if (!themeMaxWidth)
               maxWidth2 = match;
@@ -20424,7 +15654,7 @@ const container = [
 ];
 const containerShortcuts = [
   [/^(?:(\w+)[:-])?container$/, ([, bp], context) => {
-    let points = (resolveBreakpoints(context) ?? []).map((i) => i.point);
+    let points = (resolveBreakpoints$1(context) ?? []).map((i) => i.point);
     if (bp) {
       if (!points.includes(bp))
         return;
@@ -20475,10 +15705,10 @@ const composeMetaCustom = {
   preflightKeys: [...filterBaseKeys, ...backdropFilterBaseKeys]
 };
 function percentWithDefault(str) {
-  let v = h.bracket.cssvar(str || "");
+  let v = h$2.bracket.cssvar(str || "");
   if (v != null)
     return v;
-  v = str ? h.percent(str) : "1";
+  v = str ? h$2.percent(str) : "1";
   if (v != null && Number.parseFloat(v) <= 1)
     return v;
 }
@@ -20504,13 +15734,13 @@ function toFilter(varName, resolver) {
 function dropShadowResolver([, s], { theme: theme2 }) {
   let v = theme2.dropShadow?.[s || "DEFAULT"];
   if (v != null) {
-    const shadows = colorableShadows(v, "--un-drop-shadow-color");
+    const shadows = colorableShadows$1(v, "--un-drop-shadow-color");
     return {
       "--un-drop-shadow": `drop-shadow(${shadows.join(") drop-shadow(")})`,
       "filter": filterProperty
     };
   }
-  v = h.bracket.cssvar(s);
+  v = h$2.bracket.cssvar(s);
   if (v != null) {
     return {
       "--un-drop-shadow": `drop-shadow(${v})`,
@@ -20520,9 +15750,9 @@ function dropShadowResolver([, s], { theme: theme2 }) {
 }
 const filters = [
   // filters
-  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter("blur", (s, theme2) => theme2.blur?.[s || "DEFAULT"] || h.bracket.cssvar.px(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-blur-$blur", "blur-$blur", "filter-blur"] }],
-  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter("brightness", (s) => h.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-brightness-<percent>", "brightness-<percent>"] }],
-  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter("contrast", (s) => h.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-contrast-<percent>", "contrast-<percent>"] }],
+  [/^(?:(backdrop-)|filter-)?blur(?:-(.+))?$/, toFilter("blur", (s, theme2) => theme2.blur?.[s || "DEFAULT"] || h$2.bracket.cssvar.px(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-blur-$blur", "blur-$blur", "filter-blur"] }],
+  [/^(?:(backdrop-)|filter-)?brightness-(.+)$/, toFilter("brightness", (s) => h$2.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-brightness-<percent>", "brightness-<percent>"] }],
+  [/^(?:(backdrop-)|filter-)?contrast-(.+)$/, toFilter("contrast", (s) => h$2.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-contrast-<percent>", "contrast-<percent>"] }],
   // drop-shadow only on filter
   [/^(?:filter-)?drop-shadow(?:-(.+))?$/, dropShadowResolver, {
     custom: filterMetaCustom,
@@ -20542,14 +15772,14 @@ const filters = [
       "drop-shadow-color-(op|opacity)-<percent>"
     ]
   }],
-  [/^(?:filter-)?drop-shadow-color-(.+)$/, colorResolver("--un-drop-shadow-color", "drop-shadow", "shadowColor")],
-  [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-drop-shadow-opacity": h.bracket.percent(opacity2) })],
+  [/^(?:filter-)?drop-shadow-color-(.+)$/, colorResolver$1("--un-drop-shadow-color", "drop-shadow", "shadowColor")],
+  [/^(?:filter-)?drop-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-drop-shadow-opacity": h$2.bracket.percent(opacity2) })],
   [/^(?:(backdrop-)|filter-)?grayscale(?:-(.+))?$/, toFilter("grayscale", percentWithDefault), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-grayscale", "(backdrop|filter)-grayscale-<percent>", "grayscale-<percent>"] }],
-  [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter("hue-rotate", (s) => h.bracket.cssvar.degree(s)), { custom: composeMetaCustom }],
+  [/^(?:(backdrop-)|filter-)?hue-rotate-(.+)$/, toFilter("hue-rotate", (s) => h$2.bracket.cssvar.degree(s)), { custom: composeMetaCustom }],
   [/^(?:(backdrop-)|filter-)?invert(?:-(.+))?$/, toFilter("invert", percentWithDefault), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-invert", "(backdrop|filter)-invert-<percent>", "invert-<percent>"] }],
   // opacity only on backdrop-filter
-  [/^(backdrop-)op(?:acity)?-(.+)$/, toFilter("opacity", (s) => h.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["backdrop-(op|opacity)", "backdrop-(op|opacity)-<percent>"] }],
-  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter("saturate", (s) => h.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-saturate", "(backdrop|filter)-saturate-<percent>", "saturate-<percent>"] }],
+  [/^(backdrop-)op(?:acity)?-(.+)$/, toFilter("opacity", (s) => h$2.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["backdrop-(op|opacity)", "backdrop-(op|opacity)-<percent>"] }],
+  [/^(?:(backdrop-)|filter-)?saturate-(.+)$/, toFilter("saturate", (s) => h$2.bracket.cssvar.percent(s)), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-saturate", "(backdrop|filter)-saturate-<percent>", "saturate-<percent>"] }],
   [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter("sepia", percentWithDefault), { custom: composeMetaCustom, autocomplete: ["(backdrop|filter)-sepia", "(backdrop|filter)-sepia-<percent>", "sepia-<percent>"] }],
   // base
   ["filter", { filter: filterProperty }, { custom: filterMetaCustom }],
@@ -20563,8 +15793,8 @@ const filters = [
     "-webkit-backdrop-filter": "none",
     "backdrop-filter": "none"
   }],
-  ...globalKeywords.map((keyword) => [`filter-${keyword}`, { filter: keyword }]),
-  ...globalKeywords.map((keyword) => [`backdrop-filter-${keyword}`, {
+  ...globalKeywords$1.map((keyword) => [`filter-${keyword}`, { filter: keyword }]),
+  ...globalKeywords$1.map((keyword) => [`backdrop-filter-${keyword}`, {
     "-webkit-backdrop-filter": keyword,
     "backdrop-filter": keyword
   }])
@@ -20593,7 +15823,7 @@ const scrolls = [
   ["snap-normal", { "scroll-snap-stop": "normal" }],
   ["snap-always", { "scroll-snap-stop": "always" }],
   // scroll margin
-  [/^scroll-ma?()-?(.+)$/, directionSize("scroll-margin"), {
+  [/^scroll-ma?()-?(.+)$/, directionSize$1("scroll-margin"), {
     autocomplete: [
       "scroll-(m|p|ma|pa|block|inline)",
       "scroll-(m|p|ma|pa|block|inline)-$spacing",
@@ -20601,16 +15831,16 @@ const scrolls = [
       "scroll-(m|p|ma|pa|block|inline)-(x|y|r|l|t|b|bs|be|is|ie)-$spacing"
     ]
   }],
-  [/^scroll-m-?([xy])-?(.+)$/, directionSize("scroll-margin")],
-  [/^scroll-m-?([rltb])-?(.+)$/, directionSize("scroll-margin")],
-  [/^scroll-m-(block|inline)-(.+)$/, directionSize("scroll-margin")],
-  [/^scroll-m-?([bi][se])-?(.+)$/, directionSize("scroll-margin")],
+  [/^scroll-m-?([xy])-?(.+)$/, directionSize$1("scroll-margin")],
+  [/^scroll-m-?([rltb])-?(.+)$/, directionSize$1("scroll-margin")],
+  [/^scroll-m-(block|inline)-(.+)$/, directionSize$1("scroll-margin")],
+  [/^scroll-m-?([bi][se])-?(.+)$/, directionSize$1("scroll-margin")],
   // scroll padding
-  [/^scroll-pa?()-?(.+)$/, directionSize("scroll-padding")],
-  [/^scroll-p-?([xy])-?(.+)$/, directionSize("scroll-padding")],
-  [/^scroll-p-?([rltb])-?(.+)$/, directionSize("scroll-padding")],
-  [/^scroll-p-(block|inline)-(.+)$/, directionSize("scroll-padding")],
-  [/^scroll-p-?([bi][se])-?(.+)$/, directionSize("scroll-padding")]
+  [/^scroll-pa?()-?(.+)$/, directionSize$1("scroll-padding")],
+  [/^scroll-p-?([xy])-?(.+)$/, directionSize$1("scroll-padding")],
+  [/^scroll-p-?([rltb])-?(.+)$/, directionSize$1("scroll-padding")],
+  [/^scroll-p-(block|inline)-(.+)$/, directionSize$1("scroll-padding")],
+  [/^scroll-p-?([bi][se])-?(.+)$/, directionSize$1("scroll-padding")]
 ];
 const borderSpacingBase = {
   "--un-border-spacing-x": 0,
@@ -20634,7 +15864,7 @@ const tables = [
   ["border-collapse", { "border-collapse": "collapse" }],
   ["border-separate", { "border-collapse": "separate" }],
   [/^border-spacing-(.+)$/, ([, s], { theme: theme2 }) => {
-    const v = theme2.spacing?.[s] ?? h.bracket.cssvar.global.auto.fraction.rem(s);
+    const v = theme2.spacing?.[s] ?? h$2.bracket.cssvar.global.auto.fraction.rem(s);
     if (v != null) {
       return {
         "--un-border-spacing-x": v,
@@ -20644,7 +15874,7 @@ const tables = [
     }
   }, { custom: custom$2, autocomplete: ["border-spacing", "border-spacing-$spacing"] }],
   [/^border-spacing-([xy])-(.+)$/, ([, d, s], { theme: theme2 }) => {
-    const v = theme2.spacing?.[s] ?? h.bracket.cssvar.global.auto.fraction.rem(s);
+    const v = theme2.spacing?.[s] ?? h$2.bracket.cssvar.global.auto.fraction.rem(s);
     if (v != null) {
       return {
         [`--un-border-spacing-${d}`]: v,
@@ -20682,7 +15912,7 @@ const touchActions = [
   ["touch-auto", { "touch-action": "auto" }],
   ["touch-manipulation", { "touch-action": "manipulation" }],
   ["touch-none", { "touch-action": "none" }],
-  ...makeGlobalStaticRules("touch", "touch-action")
+  ...makeGlobalStaticRules$1("touch", "touch-action")
 ];
 const fontVariantNumericBase = {
   "--un-ordinal": varEmpty,
@@ -21018,25 +16248,25 @@ const theme = {
   }
 };
 const variantCombinators = [
-  variantMatcher("svg", (input) => ({ selector: `${input.selector} svg` }))
+  variantMatcher$1("svg", (input) => ({ selector: `${input.selector} svg` }))
 ];
 const variantColorsScheme = [
-  variantMatcher(".dark", (input) => ({ prefix: `.dark $$ ${input.prefix}` })),
-  variantMatcher(".light", (input) => ({ prefix: `.light $$ ${input.prefix}` })),
-  variantParentMatcher("@dark", "@media (prefers-color-scheme: dark)"),
-  variantParentMatcher("@light", "@media (prefers-color-scheme: light)")
+  variantMatcher$1(".dark", (input) => ({ prefix: `.dark $$ ${input.prefix}` })),
+  variantMatcher$1(".light", (input) => ({ prefix: `.light $$ ${input.prefix}` })),
+  variantParentMatcher$1("@dark", "@media (prefers-color-scheme: dark)"),
+  variantParentMatcher$1("@light", "@media (prefers-color-scheme: light)")
 ];
 const variantContrasts = [
-  variantParentMatcher("contrast-more", "@media (prefers-contrast: more)"),
-  variantParentMatcher("contrast-less", "@media (prefers-contrast: less)")
+  variantParentMatcher$1("contrast-more", "@media (prefers-contrast: more)"),
+  variantParentMatcher$1("contrast-less", "@media (prefers-contrast: less)")
 ];
 const variantMotions = [
-  variantParentMatcher("motion-reduce", "@media (prefers-reduced-motion: reduce)"),
-  variantParentMatcher("motion-safe", "@media (prefers-reduced-motion: no-preference)")
+  variantParentMatcher$1("motion-reduce", "@media (prefers-reduced-motion: reduce)"),
+  variantParentMatcher$1("motion-safe", "@media (prefers-reduced-motion: no-preference)")
 ];
 const variantOrientations = [
-  variantParentMatcher("landscape", "@media (orientation: landscape)"),
-  variantParentMatcher("portrait", "@media (orientation: portrait)")
+  variantParentMatcher$1("landscape", "@media (orientation: landscape)"),
+  variantParentMatcher$1("portrait", "@media (orientation: portrait)")
 ];
 const variantSpaceAndDivide = (matcher) => {
   if (matcher.startsWith("_"))
@@ -21123,7 +16353,7 @@ const placeholderModifier = (input, { theme: theme2 }) => {
   const m = input.match(/^(.*)\b(placeholder-)(.+)$/);
   if (m) {
     const [, pre = "", p, body] = m;
-    if (hasParseableColor(body, theme2, "accentColor") || hasOpacityValue(body)) {
+    if (hasParseableColor$1(body, theme2, "accentColor") || hasOpacityValue(body)) {
       return {
         // Append `placeholder-$ ` (with space!) to the rule to be matched.
         // The `placeholder-` is added for placeholder variant processing, and
@@ -21137,7 +16367,7 @@ const placeholderModifier = (input, { theme: theme2 }) => {
 function hasOpacityValue(body) {
   const match = body.match(/^op(?:acity)?-?(.+)$/);
   if (match && match[1] != null)
-    return h.bracket.percent(match[1]) != null;
+    return h$2.bracket.percent(match[1]) != null;
   return false;
 }
 function variants(options) {
@@ -21179,15 +16409,15 @@ const animations = [
         }
       ];
     }
-    return { animation: h.bracket.cssvar(name) };
+    return { animation: h$2.bracket.cssvar(name) };
   }, { autocomplete: "animate-$animation.keyframes" }],
-  [/^animate-name-(.+)/, ([, d]) => ({ "animation-name": h.bracket.cssvar(d) ?? d })],
+  [/^animate-name-(.+)/, ([, d]) => ({ "animation-name": h$2.bracket.cssvar(d) ?? d })],
   // timings
-  [/^animate-duration-(.+)$/, ([, d], { theme: theme2 }) => ({ "animation-duration": theme2.duration?.[d || "DEFAULT"] ?? h.bracket.cssvar.time(d) }), { autocomplete: ["animate-duration", "animate-duration-$duration"] }],
-  [/^animate-delay-(.+)$/, ([, d], { theme: theme2 }) => ({ "animation-delay": theme2.duration?.[d || "DEFAULT"] ?? h.bracket.cssvar.time(d) }), { autocomplete: ["animate-delay", "animate-delay-$duration"] }],
-  [/^animate-ease(?:-(.+))?$/, ([, d], { theme: theme2 }) => ({ "animation-timing-function": theme2.easing?.[d || "DEFAULT"] ?? h.bracket.cssvar(d) }), { autocomplete: ["animate-ease", "animate-ease-$easing"] }],
+  [/^animate-duration-(.+)$/, ([, d], { theme: theme2 }) => ({ "animation-duration": theme2.duration?.[d || "DEFAULT"] ?? h$2.bracket.cssvar.time(d) }), { autocomplete: ["animate-duration", "animate-duration-$duration"] }],
+  [/^animate-delay-(.+)$/, ([, d], { theme: theme2 }) => ({ "animation-delay": theme2.duration?.[d || "DEFAULT"] ?? h$2.bracket.cssvar.time(d) }), { autocomplete: ["animate-delay", "animate-delay-$duration"] }],
+  [/^animate-ease(?:-(.+))?$/, ([, d], { theme: theme2 }) => ({ "animation-timing-function": theme2.easing?.[d || "DEFAULT"] ?? h$2.bracket.cssvar(d) }), { autocomplete: ["animate-ease", "animate-ease-$easing"] }],
   // fill mode
-  [/^animate-(fill-mode-|fill-|mode-)?(.+)$/, ([, t, d]) => ["none", "forwards", "backwards", "both", ...[t ? globalKeywords : []]].includes(d) ? { "animation-fill-mode": d } : void 0, {
+  [/^animate-(fill-mode-|fill-|mode-)?(.+)$/, ([, t, d]) => ["none", "forwards", "backwards", "both", ...[t ? globalKeywords$1 : []]].includes(d) ? { "animation-fill-mode": d } : void 0, {
     autocomplete: [
       "animate-(fill|mode|fill-mode)",
       "animate-(fill|mode|fill-mode)-(none|forwards|backwards|both|inherit|initial|revert|revert-layer|unset)",
@@ -21195,7 +16425,7 @@ const animations = [
     ]
   }],
   // direction
-  [/^animate-(direction-)?(.+)$/, ([, t, d]) => ["normal", "reverse", "alternate", "alternate-reverse", ...[t ? globalKeywords : []]].includes(d) ? { "animation-direction": d } : void 0, {
+  [/^animate-(direction-)?(.+)$/, ([, t, d]) => ["normal", "reverse", "alternate", "alternate-reverse", ...[t ? globalKeywords$1 : []]].includes(d) ? { "animation-direction": d } : void 0, {
     autocomplete: [
       "animate-direction",
       "animate-direction-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|revert-layer|unset)",
@@ -21203,8 +16433,8 @@ const animations = [
     ]
   }],
   // others
-  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ "animation-iteration-count": h.bracket.cssvar(d) ?? d.replace(/-/g, ",") }), { autocomplete: ["animate-(iteration|count|iteration-count)", "animate-(iteration|count|iteration-count)-<num>"] }],
-  [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ["paused", "running", ...[t ? globalKeywords : []]].includes(d) ? { "animation-play-state": d } : void 0, {
+  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ "animation-iteration-count": h$2.bracket.cssvar(d) ?? d.replace(/-/g, ",") }), { autocomplete: ["animate-(iteration|count|iteration-count)", "animate-(iteration|count|iteration-count)-<num>"] }],
+  [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ["paused", "running", ...[t ? globalKeywords$1 : []]].includes(d) ? { "animation-play-state": d } : void 0, {
     autocomplete: [
       "animate-(play|state|play-state)",
       "animate-(play|state|play-state)-(paused|running|inherit|initial|revert|revert-layer|unset)",
@@ -21212,7 +16442,7 @@ const animations = [
     ]
   }],
   ["animate-none", { animation: "none" }],
-  ...makeGlobalStaticRules("animate", "animation")
+  ...makeGlobalStaticRules$1("animate", "animation")
 ];
 function bgGradientToValue(cssColor) {
   if (cssColor)
@@ -21230,7 +16460,7 @@ function bgGradientColorValue(mode, cssColor, color, alpha) {
 }
 function bgGradientColorResolver() {
   return ([, mode, body], { theme: theme2 }) => {
-    const data = parseColor(body, theme2, "backgroundColor");
+    const data = parseColor$1(body, theme2, "backgroundColor");
     if (!data)
       return;
     const { alpha, color, cssColor } = data;
@@ -21263,20 +16493,20 @@ function bgGradientColorResolver() {
 function bgGradientPositionResolver() {
   return ([, mode, body]) => {
     return {
-      [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`
+      [`--un-gradient-${mode}-position`]: `${Number(h$2.bracket.cssvar.percent(body)) * 100}%`
     };
   };
 }
 const backgroundStyles = [
   // gradients
-  [/^bg-gradient-(.+)$/, ([, d]) => ({ "--un-gradient": h.bracket(d) }), {
+  [/^bg-gradient-(.+)$/, ([, d]) => ({ "--un-gradient": h$2.bracket(d) }), {
     autocomplete: ["bg-gradient", "bg-gradient-(from|to|via)", "bg-gradient-(from|to|via)-$colors", "bg-gradient-(from|to|via)-(op|opacity)", "bg-gradient-(from|to|via)-(op|opacity)-<percent>"]
   }],
-  [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ "--un-gradient-stops": h.bracket(s) })],
+  [/^(?:bg-gradient-)?stops-(\[.+\])$/, ([, s]) => ({ "--un-gradient-stops": h$2.bracket(s) })],
   [/^(?:bg-gradient-)?(from)-(.+)$/, bgGradientColorResolver()],
   [/^(?:bg-gradient-)?(via)-(.+)$/, bgGradientColorResolver()],
   [/^(?:bg-gradient-)?(to)-(.+)$/, bgGradientColorResolver()],
-  [/^(?:bg-gradient-)?(from|via|to)-op(?:acity)?-?(.+)$/, ([, position2, opacity2]) => ({ [`--un-${position2}-opacity`]: h.bracket.percent(opacity2) })],
+  [/^(?:bg-gradient-)?(from|via|to)-op(?:acity)?-?(.+)$/, ([, position2, opacity2]) => ({ [`--un-${position2}-opacity`]: h$2.bracket.percent(opacity2) })],
   [/^(from|via|to)-([\d.]+)%$/, bgGradientPositionResolver()],
   // images
   [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
@@ -21284,27 +16514,27 @@ const backgroundStyles = [
   }), { autocomplete: ["bg-gradient-repeating", "bg-gradient-(linear|radial|conic)", "bg-gradient-repeating-(linear|radial|conic)"] }],
   // ignore any center position
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
-    if (d in positionMap) {
+    if (d in positionMap$1) {
       return {
-        "--un-gradient-shape": `to ${positionMap[d]} in oklch`,
+        "--un-gradient-shape": `to ${positionMap$1[d]} in oklch`,
         "--un-gradient": "var(--un-gradient-shape), var(--un-gradient-stops)",
         "background-image": "linear-gradient(var(--un-gradient))"
       };
     }
-  }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap).filter((k) => k.length <= 2 && Array.from(k).every((c) => "rltb".includes(c))).join("|")})` }],
+  }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap$1).filter((k) => k.length <= 2 && Array.from(k).every((c) => "rltb".includes(c))).join("|")})` }],
   [/^(?:bg-gradient-)?shape-(.+)$/, ([, d]) => {
-    const v = d in positionMap ? `to ${positionMap[d]}` : h.bracket(d);
+    const v = d in positionMap$1 ? `to ${positionMap$1[d]}` : h$2.bracket(d);
     if (v != null) {
       return {
         "--un-gradient-shape": `${v} in oklch`,
         "--un-gradient": "var(--un-gradient-shape), var(--un-gradient-stops)"
       };
     }
-  }, { autocomplete: ["bg-gradient-shape", `bg-gradient-shape-(${Object.keys(positionMap).join("|")})`, `shape-(${Object.keys(positionMap).join("|")})`] }],
+  }, { autocomplete: ["bg-gradient-shape", `bg-gradient-shape-(${Object.keys(positionMap$1).join("|")})`, `shape-(${Object.keys(positionMap$1).join("|")})`] }],
   ["bg-none", { "background-image": "none" }],
   ["box-decoration-slice", { "box-decoration-break": "slice" }],
   ["box-decoration-clone", { "box-decoration-break": "clone" }],
-  ...makeGlobalStaticRules("box-decoration", "box-decoration-break"),
+  ...makeGlobalStaticRules$1("box-decoration", "box-decoration-break"),
   // size
   ["bg-auto", { "background-size": "auto" }],
   ["bg-cover", { "background-size": "cover" }],
@@ -21318,13 +16548,13 @@ const backgroundStyles = [
   ["bg-clip-content", { "-webkit-background-clip": "content-box", "background-clip": "content-box" }],
   ["bg-clip-padding", { "-webkit-background-clip": "padding-box", "background-clip": "padding-box" }],
   ["bg-clip-text", { "-webkit-background-clip": "text", "background-clip": "text" }],
-  ...globalKeywords.map((keyword) => [`bg-clip-${keyword}`, {
+  ...globalKeywords$1.map((keyword) => [`bg-clip-${keyword}`, {
     "-webkit-background-clip": keyword,
     "background-clip": keyword
   }]),
   // positions
   // skip 1 & 2 letters shortcut
-  [/^bg-([-\w]{3,})$/, ([, s]) => ({ "background-position": positionMap[s] })],
+  [/^bg-([-\w]{3,})$/, ([, s]) => ({ "background-position": positionMap$1[s] })],
   // repeats
   ["bg-repeat", { "background-repeat": "repeat" }],
   ["bg-no-repeat", { "background-repeat": "no-repeat" }],
@@ -21332,12 +16562,12 @@ const backgroundStyles = [
   ["bg-repeat-y", { "background-repeat": "repeat-y" }],
   ["bg-repeat-round", { "background-repeat": "round" }],
   ["bg-repeat-space", { "background-repeat": "space" }],
-  ...makeGlobalStaticRules("bg-repeat", "background-repeat"),
+  ...makeGlobalStaticRules$1("bg-repeat", "background-repeat"),
   // origins
   ["bg-origin-border", { "background-origin": "border-box" }],
   ["bg-origin-padding", { "background-origin": "padding-box" }],
   ["bg-origin-content", { "background-origin": "content-box" }],
-  ...makeGlobalStaticRules("bg-origin", "background-origin")
+  ...makeGlobalStaticRules$1("bg-origin", "background-origin")
 ];
 const listStyles = {
   "disc": "disc",
@@ -21374,18 +16604,18 @@ const listStyle = [
   // image
   [/^list-image-(.+)$/, ([, d]) => {
     if (/^\[url\(.+\)\]$/.test(d))
-      return { "list-style-image": h.bracket(d) };
+      return { "list-style-image": h$2.bracket(d) };
   }],
   ["list-image-none", { "list-style-image": "none" }],
-  ...makeGlobalStaticRules("list", "list-style-type")
+  ...makeGlobalStaticRules$1("list", "list-style-type")
 ];
 const accents = [
-  [/^accent-(.+)$/, colorResolver("accent-color", "accent", "accentColor"), { autocomplete: "accent-$colors" }],
-  [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ "--un-accent-opacity": h.bracket.percent(d) }), { autocomplete: ["accent-(op|opacity)", "accent-(op|opacity)-<percent>"] }]
+  [/^accent-(.+)$/, colorResolver$1("accent-color", "accent", "accentColor"), { autocomplete: "accent-$colors" }],
+  [/^accent-op(?:acity)?-?(.+)$/, ([, d]) => ({ "--un-accent-opacity": h$2.bracket.percent(d) }), { autocomplete: ["accent-(op|opacity)", "accent-(op|opacity)-<percent>"] }]
 ];
 const carets = [
-  [/^caret-(.+)$/, colorResolver("caret-color", "caret", "textColor"), { autocomplete: "caret-$colors" }],
-  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ "--un-caret-opacity": h.bracket.percent(d) }), { autocomplete: ["caret-(op|opacity)", "caret-(op|opacity)-<percent>"] }]
+  [/^caret-(.+)$/, colorResolver$1("caret-color", "caret", "textColor"), { autocomplete: "caret-$colors" }],
+  [/^caret-op(?:acity)?-?(.+)$/, ([, d]) => ({ "--un-caret-opacity": h$2.bracket.percent(d) }), { autocomplete: ["caret-(op|opacity)", "caret-(op|opacity)-<percent>"] }]
 ];
 const imageRenderings = [
   ["image-render-auto", { "image-rendering": "auto" }],
@@ -21402,23 +16632,23 @@ const overscrolls = [
   ["overscroll-auto", { "overscroll-behavior": "auto" }],
   ["overscroll-contain", { "overscroll-behavior": "contain" }],
   ["overscroll-none", { "overscroll-behavior": "none" }],
-  ...makeGlobalStaticRules("overscroll", "overscroll-behavior"),
+  ...makeGlobalStaticRules$1("overscroll", "overscroll-behavior"),
   ["overscroll-x-auto", { "overscroll-behavior-x": "auto" }],
   ["overscroll-x-contain", { "overscroll-behavior-x": "contain" }],
   ["overscroll-x-none", { "overscroll-behavior-x": "none" }],
-  ...makeGlobalStaticRules("overscroll-x", "overscroll-behavior-x"),
+  ...makeGlobalStaticRules$1("overscroll-x", "overscroll-behavior-x"),
   ["overscroll-y-auto", { "overscroll-behavior-y": "auto" }],
   ["overscroll-y-contain", { "overscroll-behavior-y": "contain" }],
   ["overscroll-y-none", { "overscroll-behavior-y": "none" }],
-  ...makeGlobalStaticRules("overscroll-y", "overscroll-behavior-y")
+  ...makeGlobalStaticRules$1("overscroll-y", "overscroll-behavior-y")
 ];
 const scrollBehaviors = [
   ["scroll-auto", { "scroll-behavior": "auto" }],
   ["scroll-smooth", { "scroll-behavior": "smooth" }],
-  ...makeGlobalStaticRules("scroll", "scroll-behavior")
+  ...makeGlobalStaticRules$1("scroll", "scroll-behavior")
 ];
 const columns = [
-  [/^columns-(.+)$/, ([, v]) => ({ columns: h.bracket.global.number.auto.numberWithUnit(v) }), { autocomplete: "columns-<num>" }],
+  [/^columns-(.+)$/, ([, v]) => ({ columns: h$2.bracket.global.number.auto.numberWithUnit(v) }), { autocomplete: "columns-<num>" }],
   // break before
   ["break-before-auto", { "break-before": "auto" }],
   ["break-before-avoid", { "break-before": "avoid" }],
@@ -21428,13 +16658,13 @@ const columns = [
   ["break-before-left", { "break-before": "left" }],
   ["break-before-right", { "break-before": "right" }],
   ["break-before-column", { "break-before": "column" }],
-  ...makeGlobalStaticRules("break-before"),
+  ...makeGlobalStaticRules$1("break-before"),
   // break inside
   ["break-inside-auto", { "break-inside": "auto" }],
   ["break-inside-avoid", { "break-inside": "avoid" }],
   ["break-inside-avoid-page", { "break-inside": "avoid-page" }],
   ["break-inside-avoid-column", { "break-inside": "avoid-column" }],
-  ...makeGlobalStaticRules("break-inside"),
+  ...makeGlobalStaticRules$1("break-inside"),
   // break after
   ["break-after-auto", { "break-after": "auto" }],
   ["break-after-avoid", { "break-after": "avoid" }],
@@ -21444,7 +16674,7 @@ const columns = [
   ["break-after-left", { "break-after": "left" }],
   ["break-after-right", { "break-after": "right" }],
   ["break-after-column", { "break-after": "column" }],
-  ...makeGlobalStaticRules("break-after")
+  ...makeGlobalStaticRules$1("break-after")
 ];
 const divides = [
   // divides
@@ -21455,17 +16685,17 @@ const divides = [
   [/^divide-(block|inline)-(.+)$/, handlerDivide],
   [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
   // color & opacity
-  [/^divide-(.+)$/, colorResolver("border-color", "divide", "borderColor"), { autocomplete: "divide-$colors" }],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-divide-opacity": h.bracket.percent(opacity2) }), { autocomplete: ["divide-(op|opacity)", "divide-(op|opacity)-<percent>"] }],
+  [/^divide-(.+)$/, colorResolver$1("border-color", "divide", "borderColor"), { autocomplete: "divide-$colors" }],
+  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-divide-opacity": h$2.bracket.percent(opacity2) }), { autocomplete: ["divide-(op|opacity)", "divide-(op|opacity)-<percent>"] }],
   // styles
   ...borderStyles.map((style) => [`divide-${style}`, { "border-style": style }])
 ];
 function handlerDivide([, d, s], { theme: theme2 }) {
-  let v = theme2.lineWidth?.[s || "DEFAULT"] ?? h.bracket.cssvar.px(s || "1");
+  let v = theme2.lineWidth?.[s || "DEFAULT"] ?? h$2.bracket.cssvar.px(s || "1");
   if (v != null) {
     if (v === "0")
       v = "0px";
-    const results = directionMap[d].map((item) => {
+    const results = directionMap$1[d].map((item) => {
       const key = `border${item}-width`;
       const value = item.endsWith("right") || item.endsWith("bottom") ? `calc(${v} * var(--un-divide-${d}-reverse))` : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`;
       return [key, value];
@@ -21486,7 +16716,7 @@ const lineClamps = [
     "-webkit-line-clamp": v,
     "line-clamp": v
   }), { autocomplete: ["line-clamp", "line-clamp-<num>"] }],
-  ...["none", ...globalKeywords].map((keyword) => [`line-clamp-${keyword}`, {
+  ...["none", ...globalKeywords$1].map((keyword) => [`line-clamp-${keyword}`, {
     "overflow": "visible",
     "display": "block",
     "-webkit-box-orient": "horizontal",
@@ -21497,8 +16727,8 @@ const lineClamps = [
 const placeholders = [
   // The prefix `$ ` is intentional. This rule is not to be matched directly from user-generated token.
   // See variants/placeholder.
-  [/^\$ placeholder-(.+)$/, colorResolver("color", "placeholder", "accentColor"), { autocomplete: "placeholder-$colors" }],
-  [/^\$ placeholder-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-placeholder-opacity": h.bracket.percent(opacity2) }), { autocomplete: ["placeholder-(op|opacity)", "placeholder-(op|opacity)-<percent>"] }]
+  [/^\$ placeholder-(.+)$/, colorResolver$1("color", "placeholder", "accentColor"), { autocomplete: "placeholder-$colors" }],
+  [/^\$ placeholder-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-placeholder-opacity": h$2.bracket.percent(opacity2) }), { autocomplete: ["placeholder-(op|opacity)", "placeholder-(op|opacity)-<percent>"] }]
 ];
 const spaces = [
   [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ["space-(x|y|block|inline)", "space-(x|y|block|inline)-reverse", "space-(x|y|block|inline)-$spacing"] }],
@@ -21507,11 +16737,11 @@ const spaces = [
   [/^space-(block|inline)-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })]
 ];
 function handlerSpace([, d, s], { theme: theme2 }) {
-  let v = theme2.spacing?.[s || "DEFAULT"] ?? h.bracket.cssvar.auto.fraction.rem(s || "1");
+  let v = theme2.spacing?.[s || "DEFAULT"] ?? h$2.bracket.cssvar.auto.fraction.rem(s || "1");
   if (v != null) {
     if (v === "0")
       v = "0px";
-    const results = directionMap[d].map((item) => {
+    const results = directionMap$1[d].map((item) => {
       const key = `margin${item}`;
       const value = item.endsWith("right") || item.endsWith("bottom") ? `calc(${v} * var(--un-space-${d}-reverse))` : `calc(${v} * calc(1 - var(--un-space-${d}-reverse)))`;
       return [key, value];
@@ -21532,7 +16762,7 @@ const textTransforms = [
   ["normal-case", { "text-transform": "none" }]
 ];
 const hyphens = [
-  ...["manual", "auto", "none", ...globalKeywords].map((keyword) => [`hyphens-${keyword}`, {
+  ...["manual", "auto", "none", ...globalKeywords$1].map((keyword) => [`hyphens-${keyword}`, {
     "-webkit-hyphens": keyword,
     "-ms-hyphens": keyword,
     "hyphens": keyword
@@ -21542,13 +16772,13 @@ const writingModes = [
   ["write-vertical-right", { "writing-mode": "vertical-rl" }],
   ["write-vertical-left", { "writing-mode": "vertical-lr" }],
   ["write-normal", { "writing-mode": "horizontal-tb" }],
-  ...makeGlobalStaticRules("write", "writing-mode")
+  ...makeGlobalStaticRules$1("write", "writing-mode")
 ];
 const writingOrientations = [
   ["write-orient-mixed", { "text-orientation": "mixed" }],
   ["write-orient-sideways", { "text-orientation": "sideways" }],
   ["write-orient-upright", { "text-orientation": "upright" }],
-  ...makeGlobalStaticRules("write-orient", "text-orientation")
+  ...makeGlobalStaticRules$1("write-orient", "text-orientation")
 ];
 const screenReadersAccess = [
   [
@@ -21593,11 +16823,11 @@ const objectPositions = [
   ["object-none", { "object-fit": "none" }],
   // object position
   [/^object-(.+)$/, ([, d]) => {
-    if (positionMap[d])
-      return { "object-position": positionMap[d] };
-    if (h.bracketOfPosition(d) != null)
-      return { "object-position": h.bracketOfPosition(d).split(" ").map((e) => h.position.fraction.auto.px.cssvar(e) ?? e).join(" ") };
-  }, { autocomplete: `object-(${Object.keys(positionMap).join("|")})` }]
+    if (positionMap$1[d])
+      return { "object-position": positionMap$1[d] };
+    if (h$2.bracketOfPosition(d) != null)
+      return { "object-position": h$2.bracketOfPosition(d).split(" ").map((e) => h$2.position.fraction.auto.px.cssvar(e) ?? e).join(" ") };
+  }, { autocomplete: `object-(${Object.keys(positionMap$1).join("|")})` }]
 ];
 const backgroundBlendModes = [
   ["bg-blend-multiply", { "background-blend-mode": "multiply" }],
@@ -21616,7 +16846,7 @@ const backgroundBlendModes = [
   ["bg-blend-color", { "background-blend-mode": "color" }],
   ["bg-blend-luminosity", { "background-blend-mode": "luminosity" }],
   ["bg-blend-normal", { "background-blend-mode": "normal" }],
-  ...makeGlobalStaticRules("bg-blend", "background-blend")
+  ...makeGlobalStaticRules$1("bg-blend", "background-blend")
 ];
 const mixBlendModes = [
   ["mix-blend-multiply", { "mix-blend-mode": "multiply" }],
@@ -21636,7 +16866,7 @@ const mixBlendModes = [
   ["mix-blend-luminosity", { "mix-blend-mode": "luminosity" }],
   ["mix-blend-plus-lighter", { "mix-blend-mode": "plus-lighter" }],
   ["mix-blend-normal", { "mix-blend-mode": "normal" }],
-  ...makeGlobalStaticRules("mix-blend")
+  ...makeGlobalStaticRules$1("mix-blend")
 ];
 const dynamicViewportHeight = [
   ["min-h-dvh", { "min-height": "100dvh" }],
@@ -21668,7 +16898,7 @@ const cssVariables = [
   [/^(.+?)-(\$.+)$/, ([, name, varname]) => {
     const prop = variablesAbbrMap[name];
     if (prop)
-      return { [prop]: h.cssvar(varname) };
+      return { [prop]: h$2.cssvar(varname) };
   }]
 ];
 const viewTransition = [
@@ -21930,61 +17160,67 @@ function getTheme() {
     ...generatedOthers
   };
 }
-const sectumUnoConfig = {
-  presets: [
-    presetUno()
-    // 支持基本的 Tailwind 类名（bg-*, text-*, hover:* 等）
-  ],
-  preflights: [
-    {
-      getCSS: () => {
-        const theme2 = getTheme();
-        let css = "";
-        css += `* {
+const SectumTheme = definePreset$3(() => {
+  return {
+    name: "sectum-theme",
+    preflights: [
+      {
+        getCSS: () => {
+          let css = "";
+          css += `* {
 `;
-        css += `  font-family: 'HarmonyOS Sans';
+          css += `  font-family: 'HarmonyOS Sans';
 `;
-        css += `}
+          css += `}
 
 `;
-        css += `html, body {
+          css += `html, body {
 `;
-        css += `  margin: 0;
+          css += `  margin: 0;
 `;
-        css += `  padding: 0;
+          css += `  padding: 0;
 `;
-        css += `  height: 100%;
+          css += `  height: 100%;
 `;
-        css += `  background-color: var(--base-300);
+          css += `  background-color: var(--base-300);
 `;
-        css += `}
+          css += `}
 
 `;
-        css += `#app {
+          css += `#app {
 `;
-        css += `  height: 100%;
+          css += `  height: 100%;
 `;
-        css += `  background-color: var(--base-300);
+          css += `  background-color: var(--base-300);
 `;
-        css += `}
+          css += `}
 
 `;
-        for (const [selector, variables] of Object.entries(theme2)) {
-          css += `${selector} {
+          const theme2 = getTheme();
+          for (const [selector, variables] of Object.entries(theme2)) {
+            css += `${selector} {
 `;
-          for (const [property, value] of Object.entries(variables)) {
-            css += `  ${property}: ${value};
+            for (const [property, value] of Object.entries(variables)) {
+              css += `  ${property}: ${value};
+`;
+            }
+            css += `}
 `;
           }
-          css += `}
-`;
+          return css;
         }
-        return css;
       }
-    }
+    ],
+    safelist: ["button", "a", "ul", "li", "input"]
+  };
+});
+const UnoConfig = {
+  presets: [
+    presetUno(),
+    SectumTheme
   ],
   rules: [
-    // 自定义颜色规则 - 处理 sectum 组件特有的颜色名
+    // 自定义颜色规则 - 处理项目特有的颜色名
     [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
       return { "background-color": `var(--${color})` };
     }],
@@ -22010,6 +17246,23 @@ const sectumUnoConfig = {
     [/^text-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity2]) => {
       return { "color": `rgba(var(--${color}), ${parseInt(opacity2) / 100})` };
     }],
+    // 阴影规则
+    [/^shadow-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity2]) => {
+      return { "box-shadow": `0 4px 6px -1px rgba(var(--${color}), ${parseInt(opacity2) / 100})` };
+    }],
+    // 悬停状态支持 - UnoCSS 会自动处理 hover: 前缀
+    [/^hover:bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { "background-color": `var(--${color})` };
+    }],
+    [/^hover:bg-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
+      return { "background-color": `var(--${color}-focus)` };
+    }],
+    [/^hover:text-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { "color": `var(--${color})` };
+    }],
+    [/^hover:text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
+      return { "color": `var(--${color}-content)` };
+    }],
     // Base 颜色规则
     [/^bg-base-(\d+)$/, ([, num]) => {
       return { "background-color": `var(--base-${num})` };
@@ -22023,10 +17276,10 @@ const sectumUnoConfig = {
     [/^text-dark-base-(\d+)$/, ([, num]) => {
       return { "color": `var(--dark-base-${num})` };
     }],
-    [/^text-base-content$/, () => {
+    [/^color-base-content$/, () => {
       return { "color": `var(--base-content)` };
     }],
-    [/^text-dark-base-content$/, () => {
+    [/^color-dark-base-content$/, () => {
       return { "color": `var(--dark-base-content)` };
     }],
     [/^border-base-(\d+)$/, ([, num]) => {
@@ -22034,6 +17287,12 @@ const sectumUnoConfig = {
     }],
     [/^border-dark-base-(\d+)$/, ([, num]) => {
       return { "border-color": `var(--dark-base-${num})` };
+    }],
+    [/^text-base-content$/, () => {
+      return { "color": `var(--base-content)` };
+    }],
+    [/^text-dark-base-content$/, () => {
+      return { "color": `var(--dark-base-content)` };
     }]
   ],
   theme: {
@@ -22045,6 +17304,14 @@ const sectumUnoConfig = {
       "$rounded-box": "var(--rounded-box)",
       "$rounded-btn": "var(--rounded-btn)",
       "$rounded-badge": "var(--rounded-badge)"
+    }
+  },
+  content: {
+    pipeline: {
+      include: [
+        /\.(vue|js|ts)($|\?)/,
+        "src/**/*.html"
+      ]
     }
   },
   // 智能生成 safelist - 基于组件中实际使用的颜色和变体
@@ -22104,57 +17371,34 @@ const sectumUnoConfig = {
 };
 const configInfo = {
   name: "Sectum UI UnoCSS Configuration",
-  version: "0.1.2",
-  description: "UnoCSS configuration for Sectum UI component library",
-  usage: {
-    basic: `
-// 在你的 uno.config.js 中
+  version: "0.1.4",
+  description: "UnoCSS configuration for Sectum UI component library, including presets, rules, theme extensions, and safelist.",
+  usage: `
+// In your uno.config.js:
 import { defineConfig } from 'unocss'
-import { sectumUnoConfig } from 'sectum'
+import { UnoConfig } from 'sectum/dist/uno.config.js' // For JS projects
 
 export default defineConfig({
-  ...sectumUnoConfig,
-  // 你的其他配置
+  ...UnoConfig,
+  // Your other configurations
 })
-    `,
-    advanced: `
-// 高级用法 - 扩展配置
+
+// In your uno.config.ts (for internal development or TS projects):
 import { defineConfig } from 'unocss'
-import { presetUno, presetAttributify, presetIcons } from 'unocss'
-import { sectumUnoConfig } from 'sectum'
+import { UnoConfig } from 'sectum/src/packet/Config' // For TS projects
 
 export default defineConfig({
-  presets: [
-    presetUno(),
-    presetAttributify(),
-    presetIcons(),
-    ...sectumUnoConfig.presets
-  ],
-  rules: [
-    ...sectumUnoConfig.rules,
-    // 你的自定义规则
-  ],
-  safelist: [
-    ...sectumUnoConfig.safelist,
-    // 你的其他 safelist 类名
-  ],
-  theme: {
-    ...sectumUnoConfig.theme,
-    // 你的主题扩展
-  }
+  ...UnoConfig,
+  // Your other configurations
 })
-    `
-  },
-  features: [
-    "支持 sectum 组件的所有颜色变量",
-    "自动生成必要的 CSS 类名",
-    "支持主题切换和深色模式",
-    "支持透明度和悬停状态",
-    "优化的 safelist 配置",
-    "HarmonyOS 字体支持"
-  ]
+  `
 };
+var define_process_default = {};
 const install = (app) => {
+  if (typeof define_process_default === "undefined") {
+    window.process = { env: {} };
+    globalThis.process = { env: {} };
+  }
   if (typeof document !== "undefined") {
     const style = document.createElement("style");
     style.textContent = generateCSSVariables();
@@ -22167,70 +17411,62 @@ const install = (app) => {
   app.use(install$2);
 };
 export {
-  _sfc_main$l as AccountCreate,
-  _sfc_main$N as Backdrop,
-  _sfc_main$6 as BrandSelect,
+  _sfc_main$e as AccountCreate,
+  _sfc_main$G as Backdrop,
   Button,
   ButtonGroup,
   Catalog,
   Checkbox,
-  _sfc_main$K as Color,
-  _sfc_main$q as DarkChange,
+  _sfc_main$D as Color,
+  _sfc_main$j as DarkChange,
   Date$1 as Date,
-  _sfc_main$D as Drawer,
-  _sfc_main$F as Dropdown,
+  _sfc_main$w as Drawer,
+  _sfc_main$y as Dropdown,
   install$5 as Element,
-  _sfc_main$t as File,
+  _sfc_main$m as File,
   Footer,
   Form,
-  _sfc_main$z as FormItem,
-  _sfc_main$n as FullScreen,
+  _sfc_main$s as FormItem,
+  _sfc_main$g as FullScreen,
   _sfc_main$3 as Header,
-  _sfc_main$O as Icon,
+  _sfc_main$H as Icon,
   Input,
-  _sfc_main$c as InterlinkDetail,
+  _sfc_main$5 as InterlinkDetail,
   Label,
-  _sfc_main$r as LanguageSelect,
+  _sfc_main$k as LanguageSelect,
   install$1 as Layout,
-  _sfc_main$o as Markdown,
-  _sfc_main$b as MaterialSelect,
-  _sfc_main$7 as MemberSelect,
+  _sfc_main$h as Markdown,
   Menu,
   MessageWithMethods as Message,
   Modal,
   install$2 as Model,
   _sfc_main$2 as Navbar,
-  _sfc_main$J as Palette,
-  _sfc_main$j as PartDetail,
+  _sfc_main$C as Palette,
+  _sfc_main$c as PartDetail,
   install$3 as Pattern,
-  _sfc_main$k as ProjectCreate,
-  _sfc_main$f as ProjectDetail,
-  _sfc_main$5 as ProjectSelect,
+  _sfc_main$d as ProjectCreate,
+  _sfc_main$8 as ProjectDetail,
   install$4 as Section,
-  _sfc_main$i as SectionDetail,
-  _sfc_main$y as Select,
+  _sfc_main$b as SectionDetail,
+  _sfc_main$r as Select,
   _sfc_main$1 as Sidebar,
-  _sfc_main$h as SourceDetail,
-  _sfc_main$g as StandardDetail,
-  _sfc_main$8 as StandardSelect,
-  _sfc_main$d as StorageDetail,
+  _sfc_main$a as SourceDetail,
+  _sfc_main$9 as StandardDetail,
+  _sfc_main$6 as StorageDetail,
   Store,
-  _sfc_main$9 as SurfaceSelect,
-  _sfc_main$a as SymbolSelect,
-  _sfc_main$v as TabPane,
+  _sfc_main$o as TabPane,
   Table,
-  _sfc_main$w as Tabs,
-  _sfc_main$m as TaskCreate,
-  _sfc_main$e as TaskDetail,
+  _sfc_main$p as Tabs,
+  _sfc_main$f as TaskCreate,
+  _sfc_main$7 as TaskDetail,
   Textarea,
-  _sfc_main$s as ThemeSelect,
+  _sfc_main$l as ThemeSelect,
   Toggle,
   _sfc_main as Toolbar,
   Transition,
-  _sfc_main$u as Upload,
+  UnoConfig,
+  _sfc_main$n as Upload,
   configInfo,
-  install as default,
-  sectumUnoConfig,
-  setRouterPushCallback
+  install as default
 };
 //# sourceMappingURL=sectum.es.js.map
