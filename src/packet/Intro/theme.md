@@ -166,8 +166,8 @@ initTheme();
 ```
 src/plugin/theme/
 ├── theme.ts          # 主题颜色定义
-├── generateTheme.ts  # 主题生成逻辑
-├── functions.ts      # 颜色处理函数
+├── generator.ts      # 主题生成逻辑
+├── color.ts          # 颜色处理函数
 └── getconfig.ts      # 配置获取
 ```
 
@@ -213,7 +213,7 @@ const themes = {
 ```typescript
 // uno.config.ts
 import { defineConfig, presetUno } from 'unocss'
-import { getTheme } from './src/plugin/theme/generateTheme'
+import { getTheme } from './src/plugin/theme/generator'
 
 export default defineConfig({
   presets: [presetUno()],

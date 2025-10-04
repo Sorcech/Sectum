@@ -1,7 +1,14 @@
 import axios from "axios";
-import router from "~/router";
 import { Store } from "../packet/Util/storage";
 import { showMessage } from "./status";
+
+// 路由跳转回调函数
+let routerPushCallback: ((path: string) => void) | null = null
+
+// 设置路由跳转回调
+export const setRouterPushCallback = (callback: (path: string) => void) => {
+  routerPushCallback = callback
+}
 
 //接口超时时间
 axios.defaults.timeout = 60000;
@@ -25,7 +32,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     if (response.data.code == 5000) {
-      router.push('/login')
+      // 使用回调函数进行路由跳转
+      if (routerPushCallback) {
+        routerPushCallback('/login')
+      } else {
+        console.warn('Router callback not set, please call setRouterPushCallback to handle authentication redirect')
+      }
     }
     return response
   },

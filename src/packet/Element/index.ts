@@ -13,6 +13,11 @@ import Palette from './Color/Palette.vue'
 import Message from './Message/Message'
 
 
+// 导出所有组件
+export {
+  Button, Label, Input, Checkbox, Toggle, Icon, Backdrop, Textarea, Transition, Color, Palette, Message
+}
+
 const install = (app: App) => {
   app.component('btn', Button);//按钮
   app.component('lab', Label);//标签

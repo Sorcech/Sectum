@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
           formats: ['es', 'umd']
         },
         rollupOptions: {
-          // 排除 markdown 文件和外部依赖
+          // 排除 markdown 文件、路由配置和外部依赖
           external: (id) => {
             if (id.includes('.md')) return true
             return ['vue', 'vue-router'].includes(id)
@@ -89,7 +89,6 @@ export default defineConfig(({ mode }) => {
       Markdown({}),// 移除wrapperComponent，因为我们使用自定义的auto-wrap-plugin
       Components({
         resolvers: [ElementPlusResolver()],
-        dts: true,
         include: [/\.vue$/, /\.vue\?vue/],
       })
     ],

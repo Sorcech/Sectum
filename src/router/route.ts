@@ -6,6 +6,7 @@ const route = [
     },
     {
       path: '/section',
+      component: () => import('~/view/index.vue'),
       meta: { title: 'Section' },
       children: [
         {

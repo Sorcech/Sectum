@@ -197,4 +197,54 @@ const themes = {
   }
 }
 
+// 生成 CSS 变量的函数
+export const generateCSSVariables = (themeName: string = 'blue') => {
+  const theme = themes[themeName as keyof typeof themes] || themes.blue
+  let css = ''
+  
+  // 生成 :root 选择器的变量
+  css += ':root {\n'
+  for (const [key, value] of Object.entries(theme)) {
+    if (!key.includes('dark-') && !key.includes('rounded-')) {
+      css += `  --${key}: ${value};\n`
+    }
+  }
+  css += '}\n\n'
+  
+  // 生成主题类选择器
+  for (const [themeKey, themeData] of Object.entries(themes)) {
+    css += `.theme-${themeKey} {\n`
+    for (const [key, value] of Object.entries(themeData)) {
+      if (!key.includes('dark-') && !key.includes('rounded-')) {
+        css += `  --${key}: ${value};\n`
+      }
+    }
+    css += '}\n\n'
+  }
+  
+  // 生成深色模式变量
+  css += '.dark {\n'
+  for (const [key, value] of Object.entries(theme)) {
+    if (key.includes('dark-')) {
+      const baseKey = key.replace('dark-', '')
+      css += `  --${baseKey}: ${value};\n`
+    }
+  }
+  css += '}\n\n'
+  
+  // 生成深色模式主题类
+  for (const [themeKey, themeData] of Object.entries(themes)) {
+    css += `.dark.theme-${themeKey} {\n`
+    for (const [key, value] of Object.entries(themeData)) {
+      if (key.includes('dark-')) {
+        const baseKey = key.replace('dark-', '')
+        css += `  --${baseKey}: ${value};\n`
+      }
+    }
+    css += '}\n\n'
+  }
+  
+  return css
+}
+
 export { themes }

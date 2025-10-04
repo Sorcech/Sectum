@@ -1,21 +1,10 @@
 import { defineConfig, presetUno } from 'unocss'
-import { getTheme } from './src/packet/Pattern/Theme/generateTheme'
+import { getTheme } from './src/packet/Pattern/Theme/generator'
 
 export default defineConfig({
   presets: [
     presetUno(), // 支持基本的 Tailwind 类名（bg-*, text-*, hover:* 等）
   ],
-  
-  // Section主题配置
-  SectionThemes: {
-    themes: [
-      'blue',
-      'teal',
-      'rose',
-      'violet',
-      'orange',
-    ],
-  },
   preflights: [
     {
       getCSS: () => {

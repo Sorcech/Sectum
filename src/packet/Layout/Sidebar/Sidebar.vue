@@ -22,9 +22,9 @@
           <Menu v-if="menu.children && menu.children.length > 1" v-for="parent in menu.children" :key="parent.meta?.title"
             class="w-full bg-base-200">
             <span class="menu-title">{{ parent.meta.title }}</span>
-            <btn size="sm" clean variant="transparent" v-for="child in parent.children" :key="child.path" tag="RouterLink"
-              :to="child.path"
-              :class="[router.meta.title === child.meta.title ? 'border-l-2 border-primary bg-base-300 dark:bg-base-100' : '']">
+            <btn size="sm" clean variant="transparent" v-for="child in parent.children" :key="child.path" 
+              @click="props.onNavigate ? props.onNavigate(child.path) : null"
+              :class="[route?.meta?.title === child.meta.title ? 'border-l-2 border-primary bg-base-300 dark:bg-base-100' : '']">
               {{ child.meta.title }}
             </btn>
           </Menu>
@@ -34,28 +34,41 @@
   </aside>
 </template>
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { inject, ref } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { windowWidth } from '~/packet/Util/window-width'
-import { computed } from 'vue'
 
 // Props 定义
 const props = defineProps<{
   routes?: any[]
+  onNavigate?: (path: string) => void
 }>()
 
-// 从父组件注入侧边栏状态
-const sidebar = inject<{
-  isOpen: any
-  toggleSidebar: () => void
-}>('sidebar', {
-  isOpen: ref(false),
-  toggleSidebar: () => {}
+// 侧边栏状态管理 - 完全由 Sidebar 自己管理
+const isOpen = ref<boolean>(false)
+
+const toggleSidebar = () => {
+  isOpen.value = !isOpen.value;
+}
+
+// 监听全局事件
+const handleToggleSidebar = () => {
+  toggleSidebar()
+}
+
+onMounted(() => {
+  // 监听来自 Header 的切换事件
+  window.addEventListener('toggle-sidebar', handleToggleSidebar)
 })
-const isOpen = sidebar?.isOpen
-const toggleSidebar = sidebar?.toggleSidebar
+
+onUnmounted(() => {
+  window.removeEventListener('toggle-sidebar', handleToggleSidebar)
+})
 
 const { isLgSize } = windowWidth();
-let router = useRoute()
-const isHome = computed(() => router.meta.title === 'Index');
+
+// 使用路由功能（在 Sectum 项目中）
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const isHome = computed(() => route?.meta?.title === 'Index')
 </script>

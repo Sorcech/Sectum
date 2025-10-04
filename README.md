@@ -1,6 +1,7 @@
 # Sectum UI
 
 <div align="center">
+  <img src="https://img.shields.io/badge/Version-0.1.2-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/UnoCSS-66.x-333333?style=for-the-badge&logo=unocss&logoColor=white" alt="UnoCSS" />
@@ -22,6 +23,11 @@
 - 🔧 **TypeScript** - 完整的类型定义
 - 🎯 **灵活配置** - 支持主题定制和组件属性配置
 - 📚 **丰富组件** - 包含 Element、Section、Model、Pattern、Layout 五大类组件
+- 🌈 **动态主题** - 运行时动态生成 CSS 变量，支持多主题切换
+- 🌙 **深色模式** - 内置深色模式支持，可动态切换
+- 🌍 **国际化** - 内置多语言支持
+- 💾 **存储工具** - 内置 localStorage、sessionStorage、Cookie 管理工具
+- 🔄 **路由集成** - 与 Vue Router 无缝集成，支持路由跳转回调
 
 ## 📦 安装
 
@@ -36,12 +42,21 @@ yarn add sectum
 pnpm add sectum
 ```
 
+## 🔧 环境要求
+
+- Vue 3.0+
+- Node.js 16.0+ (必需)
+- TypeScript 4.5+ (必需)
+- UnoCSS 0.50+
+
+> **注意**: 由于组件库使用了动态主题生成功能，用户项目必须是 Node.js 和 TypeScript 环境。
+
 ## 🚀 快速开始
 
 ### 1. 安装依赖
 
 ```bash
-npm install sectum unocss vue@^3.0.0
+npm install sectum unocss vue@^3.0.0 vue-router@^4.0.0 vue-i18n@^11.0.0
 ```
 
 ### 2. 配置 UnoCSS
@@ -61,7 +76,45 @@ export default defineConfig({
 })
 ```
 
-创建 `uno.config.js`：
+#### 方法一：使用 sectum 提供的配置（推荐）
+
+创建 `uno.config.ts`：
+
+```typescript
+import { defineConfig } from 'unocss'
+import { sectumUnoConfig } from 'sectum'
+
+export default defineConfig({
+  presets: [
+    presetUno(),
+    ...sectumUnoConfig.presets
+  ],
+  rules: [
+    ...sectumUnoConfig.rules,
+    // 你的自定义规则
+  ],
+  safelist: [
+    ...sectumUnoConfig.safelist,
+    // 你的其他类名
+  ],
+  theme: {
+    ...sectumUnoConfig.theme,
+    // 你的主题扩展
+  }
+})
+```
+
+#### 方法二：复制配置文件
+
+将 `node_modules/sectum/dist/sectum-uno.config.ts` 复制到你的项目根目录，重命名为 `uno.config.ts`：
+
+```bash
+cp node_modules/sectum/dist/sectum-uno.config.ts uno.config.ts
+```
+
+#### 方法三：手动配置
+
+如果你需要自定义配置，可以参考以下配置：
 
 ```javascript
 import { defineConfig, presetUno } from 'unocss'
@@ -69,6 +122,32 @@ import { defineConfig, presetUno } from 'unocss'
 export default defineConfig({
   presets: [
     presetUno()
+  ],
+  rules: [
+    // 支持 sectum 组件的 CSS 变量
+    [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { 'background-color': `var(--${color})` }
+    }],
+    [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
+      return { 'color': `var(--${color}-content)` }
+    }],
+    [/^border-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { 'border-color': `var(--${color})` }
+    }],
+    [/^bg-base-(\d+)$/, ([, num]) => {
+      return { 'background-color': `var(--base-${num})` }
+    }],
+    [/^text-base-content$/, () => {
+      return { 'color': `var(--base-content)` }
+    }]
+  ],
+  safelist: [
+    // 确保 sectum 组件相关的类名被生成
+    'bg-primary', 'bg-secondary', 'bg-success', 'bg-warning', 'bg-error',
+    'text-primary-content', 'text-secondary-content', 'text-success-content',
+    'text-warning-content', 'text-error-content', 'text-base-content',
+    'border-primary', 'border-secondary', 'border-success', 'border-warning', 'border-error',
+    'bg-base-100', 'bg-base-200', 'bg-base-300'
   ]
 })
 ```
@@ -79,6 +158,7 @@ export default defineConfig({
 
 ```javascript
 import 'sectum/dist/style.css'
+import 'uno.css'  // 引入 UnoCSS
 ```
 
 ### 4. 使用组件
@@ -87,11 +167,63 @@ import 'sectum/dist/style.css'
 
 ```javascript
 import { createApp } from 'vue'
-import Sectum from 'sectum'
+import { createRouter, createWebHistory } from 'vue-router'
+import { createI18n } from 'vue-i18n'
+import Sectum, { Store, setRouterPushCallback } from 'sectum'
+import 'sectum/dist/style.css'
+import 'uno.css'
 import App from './App.vue'
 
+// 配置路由
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', component: () => import('./views/Home.vue') }
+  ]
+})
+
+// 配置国际化
+const i18n = createI18n({
+  locale: 'zh-CN',
+  fallbackLocale: 'en-US',
+  legacy: false,
+  messages: {
+    'zh-CN': {
+      theme: {
+        blue: '蓝色',
+        teal: '青色',
+        rose: '玫瑰色',
+        violet: '紫色',
+        orange: '橙色'
+      }
+    },
+    'en-US': {
+      theme: {
+        blue: 'Blue',
+        teal: 'Teal',
+        rose: 'Rose',
+        violet: 'Violet',
+        orange: 'Orange'
+      }
+    }
+  }
+})
+
+// 设置路由跳转回调（用于组件库内部的路由跳转）
+setRouterPushCallback((path) => {
+  router.push(path)
+})
+
+// 创建全局对象供组件库使用
+if (typeof window !== 'undefined') {
+  window.Store = Store
+  window.I18n = i18n
+}
+
 const app = createApp(App)
+app.use(i18n)
 app.use(Sectum)
+app.use(router)
 app.mount('#app')
 ```
 
@@ -99,14 +231,29 @@ app.mount('#app')
 
 ```javascript
 import { createApp } from 'vue'
-import { Button, Input, Header, Sidebar } from 'sectum'
+import { 
+  Button, Input, Header, Sidebar, 
+  ThemeSelect, DarkChange, LanguageSelect,
+  Store, setRouterPushCallback 
+} from 'sectum'
 import App from './App.vue'
 
 const app = createApp(App)
+
+// 注册组件
 app.component('Button', Button)
 app.component('Input', Input)
 app.component('Header', Header)
 app.component('Sidebar', Sidebar)
+app.component('ThemeSelect', ThemeSelect)
+app.component('DarkChange', DarkChange)
+app.component('LanguageSelect', LanguageSelect)
+
+// 设置全局工具
+if (typeof window !== 'undefined') {
+  window.Store = Store
+}
+
 app.mount('#app')
 ```
 
@@ -163,6 +310,17 @@ app.mount('#app')
 | ThemeSelect    | `ThemeSelect`    | 主题选择组件     |
 | LanguageSelect | `LanguageSelect` | 语言选择组件     |
 | DarkChange     | `DarkChange`     | 深色模式切换组件 |
+| Markdown       | `Markdown`       | Markdown 渲染组件 |
+| Catalog        | `Catalog`        | 目录组件         |
+| FullScreen     | `FullScreen`     | 全屏组件         |
+
+### 工具函数
+内置工具函数，提供常用功能。
+
+| 函数/类        | 描述                     |
+| -------------- | ------------------------ |
+| `Store`        | 存储工具类（localStorage、sessionStorage、Cookie） |
+| `setRouterPushCallback` | 设置路由跳转回调函数 |
 
 ## 📖 使用示例
 
@@ -172,9 +330,9 @@ app.mount('#app')
 <template>
   <div>
     <btn>默认按钮</btn>
-    <btn variant="primary">主要按钮</btn>
-    <btn variant="secondary">次要按钮</btn>
-    <btn variant="outline">轮廓按钮</btn>
+    <btn color="primary">主要按钮</btn>
+    <btn color="secondary">次要按钮</btn>
+    <btn color="outline">轮廓按钮</btn>
   </div>
 </template>
 ```
@@ -259,7 +417,118 @@ const routes = [
 </template>
 ```
 
+### 存储工具使用
+
+```vue
+<template>
+  <div>
+    <btn @click="saveData">保存数据</btn>
+    <btn @click="loadData">加载数据</btn>
+    <btn @click="clearData">清除数据</btn>
+    <p>当前数据: {{ data }}</p>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { Store } from 'sectum'
+
+const data = ref('')
+
+const saveData = () => {
+  Store.setLocalStorage('myData', { message: 'Hello World', timestamp: Date.now() })
+  data.value = '数据已保存'
+}
+
+const loadData = () => {
+  const saved = Store.getLocalStorage('myData')
+  data.value = saved ? JSON.stringify(saved) : '没有数据'
+}
+
+const clearData = () => {
+  Store.removeLocalStorage('myData')
+  data.value = '数据已清除'
+}
+</script>
+```
+
+### 路由集成
+
+```vue
+<template>
+  <div>
+    <Header 
+      project-name="My App"
+      :theme-component="ThemeSelect"
+      :dark-component="DarkChange"
+      :language-component="LanguageSelect"
+      :on-navigate="handleNavigate"
+    />
+    <div class="flex">
+      <Sidebar :routes="routes" :on-navigate="handleNavigate" />
+      <main class="flex-1">
+        <RouterView />
+      </main>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { Header, Sidebar, ThemeSelect, DarkChange, LanguageSelect } from 'sectum'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const handleNavigate = (path) => {
+  router.push(path)
+}
+
+const routes = [
+  {
+    path: '/',
+    meta: { title: '首页' },
+    children: [
+      {
+        path: '/dashboard',
+        meta: { title: '仪表盘' }
+      }
+    ]
+  }
+]
+</script>
+```
+
 ## 🎯 高级用法
+
+### 动态主题系统
+
+Sectum 内置了动态主题系统，支持运行时主题切换：
+
+```javascript
+// 主题会自动注入到页面中，无需额外配置
+// 支持的主题：blue, teal, rose, violet, orange
+// 深色模式会自动应用对应的深色主题变量
+```
+
+### 存储工具高级用法
+
+```javascript
+import { Store } from 'sectum'
+
+// localStorage 操作
+Store.setLocalStorage('user', { name: 'John', age: 30 })
+const user = Store.getLocalStorage('user')
+Store.removeLocalStorage('user')
+
+// sessionStorage 操作
+Store.setSessionStorage('temp', 'temporary data')
+const temp = Store.getSessionStorage('temp')
+
+// Cookie 操作
+Store.setCookie('token', 'abc123', 24) // 24小时过期
+const token = Store.getCookie('token')
+Store.removeCookie('token')
+```
 
 ### 组件属性配置
 
@@ -272,7 +541,12 @@ const routes = [
     :theme-component="CustomThemeComponent"
     :dark-component="CustomDarkComponent"
     :language-component="CustomLanguageComponent"
+    :on-navigate="handleNavigate"
     user-link="/custom-profile"
+  />
+  <Sidebar 
+    :routes="customRoutes" 
+    :on-navigate="handleNavigate"
   />
 </template>
 ```

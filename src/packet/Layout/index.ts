@@ -6,6 +6,11 @@ import Sidebar from './Sidebar/Sidebar.vue'
 import Toolbar from './Toolbar/Toolbar.vue'
 
 
+// 导出所有组件
+export {
+  Footer, Header, Navbar, Sidebar, Toolbar
+}
+
 const install = (app: App) => {
   app.component('Footer', Footer)//页脚
   app.component('Header', Header)//页眉

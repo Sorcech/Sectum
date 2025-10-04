@@ -15,6 +15,11 @@ import Upload from './Upload/Upload.vue'
 import File from './File/File.vue'
 //import Preview from './Preview/Preview.vue'
 
+// 导出所有组件
+export {
+  ButtonGroup, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, Date, Tabs, TabPane, Upload, File
+}
+
 const install = (app: App) => {
   app.component('ButtonGroup', ButtonGroup)//组合按钮
   app.component('Menu', Menu);//菜单

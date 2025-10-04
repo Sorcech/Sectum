@@ -20,6 +20,13 @@ import BrandSelect from './Select/BrandSelect.vue'
 import ProjectSelect from './Select/ProjectSelect.vue'
 
 
+// 导出所有组件
+export {
+  TaskCreate, AccountCreate, ProjectCreate,
+  PartDetail, SectionDetail, SourceDetail, StandardDetail, ProjectDetail, TaskDetail, StorageDetail, InterlinkDetail,
+  MaterialSelect, SymbolSelect, SurfaceSelect, StandardSelect, MemberSelect, BrandSelect, ProjectSelect
+}
+
 const install = (app: App) => {
   app.component('TaskCreate', TaskCreate)//任务创建表单
   app.component('AccountCreate', AccountCreate)//账户创建表单

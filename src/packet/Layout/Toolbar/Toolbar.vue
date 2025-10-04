@@ -106,15 +106,16 @@
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import I18n from '~/locale'
-import router from '~/router'
 import { Store } from '~/packet/Util/storage'
 import { Task } from '~/store/project/task'
 import { Project } from '~/store/project/project'
+
 // Props 定义
 const props = defineProps<{
   onLogout?: () => void | Promise<void>
   onThemeChange?: (theme: string) => void
   onLanguageChange?: (locale: 'zh-CN' | 'en-US') => void
+  onNavigate?: (path: string) => void
   onTaskCreate?: () => void
   onAccountCreate?: () => void
   onNoticeClick?: () => void
@@ -144,12 +145,18 @@ const setLanguage = (locale: 'zh-CN' | 'en-US') => {
 }
 
 const Logout = () => {
-  router.push('/')
   // 调用父组件传入的登出回调
   props.onLogout?.()
   Store.removeLocalStorage('Token')
   Store.removeLocalStorage('Expire')
   Store.clearLocalStorage()
+  
+  // 使用回调函数进行路由跳转
+  if (props.onNavigate) {
+    props.onNavigate('/')
+  } else {
+    console.warn('Navigation callback not provided, please set onNavigate prop to handle redirect')
+  }
 }
 
 const isShowPlus = ref(false)

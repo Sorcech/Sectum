@@ -25,8 +25,6 @@
   </nav>
 </template>
 <script setup lang="ts">
-import { ref, inject } from 'vue'
-
 // Props 定义
 const props = defineProps<{
   projectName?: string
@@ -36,14 +34,8 @@ const props = defineProps<{
   userLink?: string
 }>()
 
-// 从父组件注入侧边栏状态
-const sidebar = inject<{
-  isOpen: any
-  toggleSidebar: () => void
-}>('sidebar', {
-  isOpen: ref(false),
-  toggleSidebar: () => {}
-})
-const isOpen = sidebar?.isOpen
-const toggleSidebar = sidebar?.toggleSidebar
+// 发送切换侧边栏事件
+const toggleSidebar = () => {
+  window.dispatchEvent(new CustomEvent('toggle-sidebar'))
+}
 </script>

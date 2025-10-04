@@ -4,6 +4,7 @@ import Section from './Section'
 import Pattern from './Pattern'
 import Model from './Model'
 import Layout from './Layout'
+import { generateCSSVariables } from './Pattern/Theme/theme'
 
 // 重新导出所有子模块的组件
 export * from './Element'
@@ -12,7 +13,20 @@ export * from './Pattern'
 export * from './Layout'
 export * from './Model'
 
+// 导出路由相关功能
+export { setRouterPushCallback } from '../store/axios'
+
+// 导出存储功能
+export { Store } from './Util/storage'
+
 const install = (app: App) => {
+  // 动态注入 CSS 变量
+  if (typeof document !== 'undefined') {
+    const style = document.createElement('style')
+    style.textContent = generateCSSVariables()
+    document.head.appendChild(style)
+  }
+  
   app.use(Element);//元素
   app.use(Section);//组件
   app.use(Pattern);//部件

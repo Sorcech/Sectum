@@ -1,6 +1,6 @@
 import { definePreset } from 'unocss'
 import type { Preset } from 'unocss'
-import { getTheme } from './generateTheme'
+import { getTheme } from './generator'
 
 /**
  * Section Theme UnoCSS 预设
