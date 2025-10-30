@@ -51,13 +51,15 @@ const computedType = computed(() => {
 // 基础按钮样式
 const baseClasses = computed(() => {
   if (props.clean || props.item) {
-    return 'bg-transparent border-none p-0 m-0 font-inherit text-inherit cursor-pointer'
+    return 'bg-transparent border-none p-0 m-0 font-inherit text-inherit cursor-pointer no-underline hover:no-underline focus:no-underline'
   }
   
   return [
     // 基础样式 - 重置浏览器默认样式
     'border-none outline-none bg-transparent',
     'font-semibold inline-flex items-center justify-center select-none relative overflow-hidden',
+    // 链接态去下划线
+    'no-underline hover:no-underline focus:no-underline',
     // 动画和过渡 + 自定义动画类
     'transition-all duration-200 ease-out transform scale-100 btn-animate btn-ripple',
     'hover:scale-105 hover:shadow-lg',
@@ -88,7 +90,7 @@ const colorVariantClasses = computed(() => {
   
   const variants = {
     default: (color: string) => `bg-${color} text-${color}-content shadow-md hover:bg-${color}-focus hover:shadow-${color}/15`,
-    outline: (color: string) => `text-${color} border-2 border-${color} border-solid bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`,
+    outline: (color: string) => `text-${color} ring-2 ring-${color} ring-inset bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`,
     transparent: (color: string) => `text-${color} bg-transparent hover:bg-${color}/10`,
     link: (color: string) => `text-${color} bg-transparent hover:underline`
   }
@@ -108,38 +110,31 @@ const stateClasses = computed(() => {
   if (props.loading) {
     classes.push('cursor-wait')
   }
-  
   if (props.active) {
     classes.push('scale-95')
   }
-  
   return classes.join(' ')
 })
 
 // 响应式样式
 const responsiveClasses = computed(() => {
   const classes = []
-  
   if (props.sm) {
     const size = props.sm as keyof typeof responsiveSizes
     classes.push(`sm:${responsiveSizes[size]}`)
   }
-  
   if (props.md) {
     const size = props.md as keyof typeof responsiveSizes
     classes.push(`md:${responsiveSizes[size]}`)
   }
-  
   if (props.lg) {
     const size = props.lg as keyof typeof responsiveSizes
     classes.push(`lg:${responsiveSizes[size]}`)
   }
-  
   if (props.xl) {
     const size = props.xl as keyof typeof responsiveSizes
     classes.push(`xl:${responsiveSizes[size]}`)
   }
-  
   return classes.join(' ')
 })
 

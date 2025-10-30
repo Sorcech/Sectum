@@ -8476,8 +8476,8 @@ const _hoisted_3$6 = { class: "text-sm truncate" };
 const _hoisted_4$4 = ["href"];
 const _hoisted_5$2 = ["onClick"];
 const _hoisted_6$2 = ["multiple"];
-const _hoisted_7$1 = { class: "px-1" };
-const _hoisted_8$1 = ["onClick"];
+const _hoisted_7 = { class: "px-1" };
+const _hoisted_8 = ["onClick"];
 const _sfc_main$n = /* @__PURE__ */ defineComponent({
   __name: "Upload",
   props: {
@@ -8589,7 +8589,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
                 }, null, 512), [
                   [vShow, __props.icon]
                 ]),
-                createElementVNode("span", _hoisted_7$1, toDisplayString$1(__props.button), 1)
+                createElementVNode("span", _hoisted_7, toDisplayString$1(__props.button), 1)
               ]),
               _: 1
             })
@@ -8610,7 +8610,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
                     light: "",
                     lg: ""
                   })
-                ], 8, _hoisted_8$1)
+                ], 8, _hoisted_8)
               ]);
             }), 128))
           ], 512), [
@@ -9100,37 +9100,29 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1$g = { class: "site-toc order-last hidden flex-shrink-0 px-4 text-sm xl:block" };
+const _hoisted_1$g = { class: "site-toc order-last hidden flex-shrink-0 text-sm xl:block h-full" };
 const _hoisted_2$5 = {
-  ref: "tocContent",
-  class: "max-h-[calc(100vh-4rem-env(safe-area-inset-bottom))] !border-l z-0 overflow-x-hidden overflow-y-hidden"
+  key: 0,
+  class: "!list-none pt-2 m-0"
 };
-const _hoisted_3$5 = {
+const _hoisted_3$5 = { class: "mb-2 font-semibold tracking-tight dark:text-gray-300 pl-2" };
+const _hoisted_4$3 = ["href", "aria-selected", "onClick"];
+const _hoisted_5$1 = {
   key: 0,
   class: "!list-none p-0 m-0"
 };
-const _hoisted_4$3 = { class: "mb-4 font-semibold tracking-tight dark:text-gray-300" };
-const _hoisted_5$1 = ["href", "aria-selected", "onClick"];
-const _hoisted_6$1 = {
-  key: 0,
-  class: "!list-none p-0 m-0"
-};
-const _hoisted_7 = ["href", "aria-selected", "onClick"];
-const _hoisted_8 = {
-  key: 0,
-  class: "!list-none !p-0 !m-0"
-};
-const _hoisted_9 = ["href", "aria-selected", "onClick"];
+const _hoisted_6$1 = ["href", "aria-selected", "onClick"];
 const _sfc_main$i = /* @__PURE__ */ defineComponent({
   __name: "Catalog",
   props: {
     toc: { type: Array, default: () => [] },
     index: { type: String, default: "" }
   },
-  setup(__props) {
+  setup(__props, { expose: __expose }) {
     const { t } = useI18n();
     const route = useRoute();
     const props = __props;
+    const catalogContainer = ref(null);
     const hasHeadings = computed(() => props.toc.length > 0);
     const headingCssClassMap = {
       1: "",
@@ -9141,14 +9133,15 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
       6: "ml-8"
     };
     const isActiveItem = (slug) => {
+      if (props.index) return props.index === slug;
       return route.hash === `#${decodeURIComponent(slug)}`;
     };
     const getLinkClasses = (level, slug) => {
-      const isActive = props.index === slug;
+      const isActive = isActiveItem(slug);
       return [
-        "inline-block no-underline py-1",
+        "inline-block no-underline py-1 w-full rounded transition-colors duration-200",
         headingCssClassMap[level] || "",
-        isActive ? "text-primary-500 subpixel-antialiased border-l-2 border-primary bg-base-gray-300 dark:bg-base-gray-600 px-3.5" : "text-gray-700 hover:bg-base-gray-300 dark:text-gray-400 dark:hover:text-gray-400 dark:hover:bg-base-gray-600 px-4"
+        isActive ? "text-primary-500 subpixel-antialiased border-l-2 border-primary bg-blue-50 dark:bg-blue-900/30 px-3.5" : "text-gray-700 hover:bg-base-gray-300 dark:text-gray-400 dark:hover:text-gray-400 dark:hover:bg-base-gray-600 px-4"
       ];
     };
     const handleLinkClick = (event, slug) => {
@@ -9159,70 +9152,91 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
           behavior: "smooth",
           block: "start"
         });
+        history.pushState(null, "", `#${slug}`);
       }
     };
+    __expose({
+      scrollToRatio: (ratio) => {
+        if (catalogContainer.value) {
+          const maxScrollTop = catalogContainer.value.scrollHeight - catalogContainer.value.clientHeight;
+          catalogContainer.value.scrollTop = ratio * maxScrollTop;
+        }
+      },
+      // 滚动到指定的标题项
+      scrollToItem: (slug) => {
+        if (catalogContainer.value) {
+          const element = catalogContainer.value.querySelector(`[href="#${slug}"]`);
+          if (element) {
+            const containerRect = catalogContainer.value.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            const elementTop = elementRect.top - containerRect.top + catalogContainer.value.scrollTop;
+            const scrollTo = elementTop - catalogContainer.value.clientHeight / 2 + elementRect.height / 2;
+            catalogContainer.value.scrollTop = scrollTo;
+          }
+        }
+      },
+      getScrollRatio: () => {
+        if (catalogContainer.value) {
+          const scrollTop = catalogContainer.value.scrollTop;
+          const maxScrollTop = catalogContainer.value.scrollHeight - catalogContainer.value.clientHeight;
+          return maxScrollTop > 0 ? scrollTop / maxScrollTop : 0;
+        }
+        return 0;
+      }
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$g, [
-        createElementVNode("div", _hoisted_2$5, [
-          hasHeadings.value ? (openBlock(), createElementBlock("ul", _hoisted_3$5, [
-            createElementVNode("p", _hoisted_4$3, toDisplayString$1(unref(t)("home.tableOfContent")), 1),
-            (openBlock(true), createElementBlock(Fragment, null, renderList(__props.toc, (heading) => {
-              return openBlock(), createElementBlock("li", {
-                key: heading.slug,
-                class: normalizeClass([headingCssClassMap[heading.level], "!list-none m-0 pl-0 relative"])
-              }, [
-                createElementVNode("a", {
-                  href: `#${heading.slug}`,
-                  class: normalizeClass([getLinkClasses(heading.level, heading.slug), "block no-underline transition-all duration-200 ease-in-out hover:no-underline"]),
-                  "aria-selected": isActiveItem(heading.slug),
-                  onClick: ($event) => handleLinkClick($event, heading.slug)
-                }, toDisplayString$1(heading.title), 11, _hoisted_5$1),
-                heading.children && heading.children.length > 0 ? (openBlock(), createElementBlock("ul", _hoisted_6$1, [
-                  (openBlock(true), createElementBlock(Fragment, null, renderList(heading.children, (child) => {
-                    return openBlock(), createElementBlock("li", {
-                      key: child.slug,
-                      class: normalizeClass([headingCssClassMap[child.level], "!list-none !m-0 !pl-0 relative group"])
-                    }, [
-                      createElementVNode("a", {
-                        href: `#${child.slug}`,
-                        class: normalizeClass([getLinkClasses(child.level, child.slug), "block no-underline transition-all duration-200 ease-in-out hover:no-underline"]),
-                        "aria-selected": isActiveItem(child.slug),
-                        onClick: ($event) => handleLinkClick($event, child.slug)
-                      }, toDisplayString$1(child.title), 11, _hoisted_7),
-                      child.children && child.children.length > 0 ? (openBlock(), createElementBlock("ul", _hoisted_8, [
-                        (openBlock(true), createElementBlock(Fragment, null, renderList(child.children, (grandchild) => {
-                          return openBlock(), createElementBlock("li", {
-                            key: grandchild.slug,
-                            class: normalizeClass([headingCssClassMap[grandchild.level], "!list-none !m-0 !pl-0 relative group"])
-                          }, [
-                            createElementVNode("a", {
-                              href: `#${grandchild.slug}`,
-                              class: normalizeClass([getLinkClasses(grandchild.level, grandchild.slug), "block no-underline transition-all duration-200 ease-in-out hover:no-underline"]),
-                              "aria-selected": isActiveItem(grandchild.slug),
-                              onClick: ($event) => handleLinkClick($event, grandchild.slug)
-                            }, toDisplayString$1(grandchild.title), 11, _hoisted_9)
-                          ], 2);
-                        }), 128))
-                      ])) : createCommentVNode("", true)
-                    ], 2);
-                  }), 128))
-                ])) : createCommentVNode("", true)
-              ], 2);
-            }), 128))
-          ])) : createCommentVNode("", true)
+        createElementVNode("div", {
+          ref_key: "catalogContainer",
+          ref: catalogContainer,
+          class: "h-full z-0 overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar"
+        }, [
+          createElementVNode("div", null, [
+            hasHeadings.value ? (openBlock(), createElementBlock("ul", _hoisted_2$5, [
+              createElementVNode("p", _hoisted_3$5, toDisplayString$1(unref(t)("home.tableOfContent")), 1),
+              (openBlock(true), createElementBlock(Fragment, null, renderList(__props.toc, (heading) => {
+                return openBlock(), createElementBlock("li", {
+                  key: heading.slug,
+                  class: normalizeClass([headingCssClassMap[heading.level], "!list-none m-0 pl-0 relative"])
+                }, [
+                  createElementVNode("a", {
+                    href: `#${heading.slug}`,
+                    class: normalizeClass(getLinkClasses(heading.level, heading.slug)),
+                    "aria-selected": isActiveItem(heading.slug),
+                    onClick: ($event) => handleLinkClick($event, heading.slug)
+                  }, toDisplayString$1(heading.title), 11, _hoisted_4$3),
+                  heading.children && heading.children.length > 0 ? (openBlock(), createElementBlock("ul", _hoisted_5$1, [
+                    (openBlock(true), createElementBlock(Fragment, null, renderList(heading.children, (child) => {
+                      return openBlock(), createElementBlock("li", {
+                        key: child.slug,
+                        class: normalizeClass([headingCssClassMap[child.level], "!list-none !m-0 !pl-0 relative group"])
+                      }, [
+                        createElementVNode("a", {
+                          href: `#${child.slug}`,
+                          class: normalizeClass(getLinkClasses(child.level, child.slug)),
+                          "aria-selected": isActiveItem(child.slug),
+                          onClick: ($event) => handleLinkClick($event, child.slug)
+                        }, toDisplayString$1(child.title), 11, _hoisted_6$1)
+                      ], 2);
+                    }), 128))
+                  ])) : createCommentVNode("", true)
+                ], 2);
+              }), 128))
+            ])) : createCommentVNode("", true)
+          ])
         ], 512)
       ]);
     };
   }
 });
-const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-eb228acc"]]);
-const _hoisted_1$f = { class: "h-screen overflow-y-auto w-full" };
-const _hoisted_2$4 = { class: "flex flex-row px-10 pt-10 min-w-0 h-full" };
-const _hoisted_3$4 = { class: "lg:w-5/6 w-full lg:pr-10" };
-const _hoisted_4$2 = {
+const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-d16e5869"]]);
+const _hoisted_1$f = { class: "flex flex-row flex-1 min-h-0 px-10" };
+const _hoisted_2$4 = { class: "lg:w-4/5 w-full lg:pr-10" };
+const _hoisted_3$4 = {
   key: 0,
   class: "hidden xl:block xl:row-span-3"
 };
+const _hoisted_4$2 = { class: "sticky top-5 h-[calc(100vh-4rem)]" };
 const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "Markdown",
   props: {
@@ -9232,19 +9246,42 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
     const props = __props;
     const toc = ref([]);
     const currentIndex = ref("");
-    const list = [];
+    const catalogRef = ref(null);
+    let scrollTimer = null;
+    const getContentContainer = () => {
+      const markdownBody = document.querySelector(".markdown-body");
+      if (markdownBody) return markdownBody;
+      const docContainer = document.querySelector(".doc");
+      if (docContainer) return docContainer;
+      return document.documentElement;
+    };
     const handleScroll = () => {
-      let a = document.getElementsByClassName("doc")[0];
-      for (let i = 0; i < list.length; i++) {
-        let b = document.getElementById(list[i]);
-        let e = document.getElementById(list[i + 1]);
-        if (a.scrollTop >= b?.offsetTop && a.scrollTop < e?.offsetTop) {
-          currentIndex.value = list[i];
-        }
-        if (a.scrollTop >= e?.offsetTop) {
-          currentIndex.value = list[i + 1];
-        }
+      if (scrollTimer) {
+        window.clearTimeout(scrollTimer);
       }
+      scrollTimer = window.setTimeout(() => {
+        const headers = toc.value.map((item) => {
+          return {
+            id: item.slug,
+            element: document.getElementById(item.slug)
+          };
+        }).filter((item) => item.element);
+        let currentId = "";
+        for (let i = headers.length - 1; i >= 0; i--) {
+          const header = headers[i];
+          const rect = header.element.getBoundingClientRect();
+          if (rect.top <= 100) {
+            currentId = header.id;
+            break;
+          }
+        }
+        if (currentId !== currentIndex.value) {
+          currentIndex.value = currentId;
+          if (catalogRef.value && typeof catalogRef.value.scrollToItem === "function") {
+            catalogRef.value.scrollToItem(currentId);
+          }
+        }
+      }, 100);
     };
     const showTop = ref(false);
     const showRight = ref(false);
@@ -9365,6 +9402,11 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
       toc.value = convertTocToMarkdownItHeaders(headerData);
       debugInfo.value.domStatus = `解析完成，找到 ${headerData.length} 个项目`;
     }
+    watch(currentIndex, (newIndex) => {
+      if (catalogRef.value && typeof catalogRef.value.scrollToItem === "function") {
+        catalogRef.value.scrollToItem(newIndex);
+      }
+    });
     onMounted(async () => {
       debugInfo.value.domStatus = "组件已挂载";
       if (props.content) {
@@ -9386,31 +9428,33 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
         }
       }
       await nextTick();
-      var tocElements = document.querySelectorAll(".site-toc li a");
-      list.length = 0;
-      for (let i = 0; i < tocElements.length; i++) {
-        const href = tocElements[i].getAttribute("href");
-        if (href) {
-          list.push(href.substr(1));
-        }
-      }
-      window.addEventListener("scroll", handleScroll, true);
+      const contentContainer = getContentContainer();
+      contentContainer.addEventListener("scroll", handleScroll, { capture: true, passive: true });
       currentIndex.value = "";
+    });
+    onUnmounted(() => {
+      const contentContainer = getContentContainer();
+      contentContainer.removeEventListener("scroll", handleScroll, true);
+      if (scrollTimer) {
+        window.clearTimeout(scrollTimer);
+      }
     });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$f, [
         createElementVNode("div", _hoisted_2$4, [
-          createElementVNode("div", _hoisted_3$4, [
-            renderSlot(_ctx.$slots, "default")
-          ]),
-          toc.value && toc.value.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$2, [
+          renderSlot(_ctx.$slots, "default")
+        ]),
+        toc.value && toc.value.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_3$4, [
+          createElementVNode("div", _hoisted_4$2, [
             createVNode(Catalog, {
               toc: toc.value,
               index: currentIndex.value,
-              class: "max-h-[calc(100vh-4rem-env(safe-area-inset-bottom))] fixed border-l h-screen"
+              class: "h-full",
+              ref_key: "catalogRef",
+              ref: catalogRef
             }, null, 8, ["toc", "index"])
-          ])) : createCommentVNode("", true)
-        ])
+          ])
+        ])) : createCommentVNode("", true)
       ]);
     };
   }
@@ -11186,8 +11230,8 @@ function windowWidth() {
   });
   return { isMdSize, isLgSize };
 }
-const _hoisted_1$1 = { class: "lg:hidden flex items-center justify-between h-$navbar-height bg-primary-200/10 px-2" };
-const _hoisted_2$1 = { class: "overflow-y-auto h-full max-w-2xs lg:fixed lg:mx-2 lg:w-60" };
+const _hoisted_1$1 = { class: "lg:hidden flex items-center justify-between bg-primary-200/10 px-2" };
+const _hoisted_2$1 = { class: "max-w-2xs lg:mx-2 lg:w-60" };
 const _hoisted_3$1 = {
   class: "px-1 pl-3 text-base lg:(text-sm pb-10 h-(screen-18))",
   "aria-label": "Docs navigation"
@@ -11229,7 +11273,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           show: isOpen.value
         }, null, 8, ["show"])) : createCommentVNode("", true),
         withDirectives(createElementVNode("aside", {
-          class: normalizeClass([{ "!lg:hidden": isHome.value }, "fixed inset-0 z-10 flex-none w-72 h-screen bg-base-200 border-r lg:(z-0 static h-auto overflow-y-visible w-60 block)"])
+          class: normalizeClass([{ "!lg:hidden": isHome.value }, "flex-none w-65 bg-base-200 border-r"])
         }, [
           createElementVNode("div", _hoisted_1$1, [
             createVNode(_component_btn, {
@@ -17169,7 +17213,7 @@ const SectumTheme = definePreset$3(() => {
           let css = "";
           css += `* {
 `;
-          css += `  font-family: 'HarmonyOS Sans';
+          css += `  font-family: 'HarmonyOS Sans', 'HarmonyOS Sans SC', 'HarmonyOS Sans UI', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
 `;
           css += `}
 
@@ -17374,23 +17418,23 @@ const configInfo = {
   version: "0.1.4",
   description: "UnoCSS configuration for Sectum UI component library, including presets, rules, theme extensions, and safelist.",
   usage: `
-// In your uno.config.js:
-import { defineConfig } from 'unocss'
-import { UnoConfig } from 'sectum/dist/uno.config.js' // For JS projects
+    // In your uno.config.js:
+    import { defineConfig } from 'unocss'
+    import { UnoConfig } from 'sectum/dist/uno.config.js' // For JS projects
 
-export default defineConfig({
-  ...UnoConfig,
-  // Your other configurations
-})
+    export default defineConfig({
+      ...UnoConfig,
+      // Your other configurations
+    })
 
-// In your uno.config.ts (for internal development or TS projects):
-import { defineConfig } from 'unocss'
-import { UnoConfig } from 'sectum/src/packet/Config' // For TS projects
+    // In your uno.config.ts (for internal development or TS projects):
+    import { defineConfig } from 'unocss'
+    import { UnoConfig } from 'sectum/src/packet/Config' // For TS projects
 
-export default defineConfig({
-  ...UnoConfig,
-  // Your other configurations
-})
+    export default defineConfig({
+      ...UnoConfig,
+      // Your other configurations
+    })
   `
 };
 var define_process_default = {};

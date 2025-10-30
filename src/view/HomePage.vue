@@ -7,8 +7,8 @@
       Component library for VUE 3 using UnoCSS, most components are using daisyUI styles.
     </p>
     <div class="mt-10 flex space-x-4 ">
-      <btn tag="RouterLink" to="/section/started" size="md">{{ t("home.started") }}</btn>
-      <btn tag="RouterLink" to="/section/button" variant="outline" size="md">{{ t("home.components") }}</btn>
+      <btn tag="RouterLink" to="/section/started"  size="md" class="no-underline hover:no-underline focus:no-underline">{{ t("home.started") }}</btn>
+      <btn tag="RouterLink" to="/section/button" variant="outline" size="md" class="no-underline hover:no-underline focus:no-underline">{{ t("home.components") }}</btn>
     </div>
   </div>
 </template>

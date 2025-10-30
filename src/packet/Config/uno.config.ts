@@ -30,6 +30,13 @@ export const UnoConfig = {
     [/^border-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
       return { 'border-color': `var(--${color}-focus)` }
     }],
+    // Ring 颜色（主题色）
+    [/^ring-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
+      return { '--un-ring-color': `var(--${color})` }
+    }],
+    [/^ring-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
+      return { '--un-ring-color': `var(--${color}-focus)` }
+    }],
     // 透明度支持
     [/^bg-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]: RuleParams) => {
       return { 'background-color': `rgba(var(--${color}), ${parseInt(opacity!) / 100})` }
@@ -75,6 +82,13 @@ export const UnoConfig = {
     }],
     [/^border-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--base-${num})` }
+    }],
+    // Ring 颜色需要设置 UnoCSS 使用的变量 --un-ring-color
+    [/^ring-base-(\d+)$/, ([, num]: RuleParams) => {
+      return { '--un-ring-color': `var(--base-${num})` }
+    }],
+    [/^ring-dark-base-(\d+)$/, ([, num]: RuleParams) => {
+      return { '--un-ring-color': `var(--dark-base-${num})` }
     }],
     [/^border-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--dark-base-${num})` }
@@ -156,6 +170,13 @@ export const UnoConfig = {
     for (const color of colors) {
       classes.push(`border-2`, `border-${color}`, `border-solid`)
     }
+    
+    // 添加 ring 相关类（为动态模板字符串提供静态 safelist）
+    for (const color of colors) {
+      classes.push(`ring-${color}`, `ring-${color}-focus`)
+      classes.push(`hover:ring-${color}-focus`)
+    }
+    classes.push('ring-1', 'ring-2', 'ring-inset', 'ring-offset-1', 'ring-offset-2', 'ring-offset-white', 'ring-offset-transparent')
     
     // 添加 base 颜色类
     const baseNumbers = ['100', '200', '300']

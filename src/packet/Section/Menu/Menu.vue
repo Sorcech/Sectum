@@ -99,7 +99,6 @@ const menuClasses = computed(() => {
   text-decoration: none !important;
   color: var(--base-content);
   padding: 0.5rem 1rem;
-  margin: 0.125rem 0;
 }
 
 .menu li > *:not(.disabled, .menu-title):hover {
@@ -348,7 +347,6 @@ const menuClasses = computed(() => {
   font-size: 1.125rem;
   font-weight: 700;
   color: rgba(75, 85, 99, 0.7);
-  margin-bottom: 0.25rem;
 }
 
 .dark .menu .menu-title {

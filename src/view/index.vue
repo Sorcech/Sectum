@@ -11,21 +11,21 @@
     </div>
     <div class="flex flex-col min-h-0 flex-1">
       <div class="flex flex-1 min-h-0">
-      <Sidebar :routes="routeConfig" :on-navigate="handleNavigate" />
-      <main class="flex-1 min-w-0 lg:ml-10">
-        <div class="flex flex-col h-full min-h-0" :class="contentClass">
-          <!-- 首页内容 -->
-          <template v-if="isHomePage">
-            <HomePage />
-            <HomeExample />
-            <Footer />
-          </template>
-          <!-- 文档页面内容 -->
-          <template v-else>
-            <Menual />
-          </template>
-        </div>
-      </main>
+        <Sidebar :routes="routeConfig" :on-navigate="handleNavigate" />
+        <main class="flex-1 min-w-0 lg:ml-10">
+          <div class="flex flex-col h-full min-h-0 overflow-y-auto" :class="contentClass">
+            <!-- 首页内容 -->
+            <template v-if="isHomePage">
+              <HomePage />
+              <HomeExample />
+              <Footer />
+            </template>
+            <!-- 文档页面内容 -->
+            <template v-else>
+              <Menual />
+            </template>
+          </div>
+        </main>
     </div>
     </div>
   </div>

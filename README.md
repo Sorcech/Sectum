@@ -581,6 +581,28 @@ npm run publish:minor
 npm run publish:major
 ```
 
+### package.json
+- dev: vite --port 3000 --open
+  - 启动本地开发服务器，端口 3000，启动后自动在浏览器打开。
+- dev:http: vite --host localhost --port 3000
+  - 启动 HTTP 开发服务器，显式绑定到 localhost:3000（便于网络/Host 相关调试）。
+- dev:https: cross-env VITE_HTTPS=true vite --host localhost --port 3000
+  - 通过环境变量 VITE_HTTPS=true 启动 HTTPS 开发服务器，主机 localhost，端口 3000。
+- dev:secure: vite --https --host localhost --port 3000
+  - 使用 Vite 自带的 --https 开关启动 HTTPS 开发服务器（与上面等价但不依赖环境变量）。
+- build: rimraf dist && vite build
+  - 先用 rimraf 删除旧的 dist（跨平台 rm -rf），再执行 Vite 生产构建，产出打包文件到 dist/。
+- preview: vite preview
+  - 以“生产模式”预览 dist（启动本地静态服务器查看打包结果）。
+- prepublishOnly: npm run build:lib
+  - 在执行 npm publish 之前自动触发（npm 的发布前钩子）。这里会调用库打包命令（需在项目里实现 build:lib 脚本）。
+- publish:patch: npm version patch && npm publish
+  - 版本号自增补丁位（x.y.z → x.y.(z+1)），打标签并提交，然后发布到 npm。
+- publish:minor: npm version minor && npm publish
+  - 版本号自增次要位（x.y.z → x.(y+1).0），然后发布到 npm。
+- publish:major: npm version major && npm publish
+  - 版本号自增主要位（x.y.z → (x+1).0.0），然后发布到 npm。
+
 ## ❓ 常见问题
 
 ### Q: 出现 `process is not defined` 错误怎么办？

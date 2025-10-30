@@ -100,7 +100,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="site-toc order-last hidden flex-shrink-0 text-sm xl:block h-full">
+  <div class="site-toc order-last hidden flex-shrink-0 text-xs xl:block h-full">
     <div ref="catalogContainer" class="h-full z-0 overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar">
       <div>
         <ul v-if="hasHeadings" class="!list-none pt-2 m-0">
@@ -168,7 +168,7 @@ defineExpose({
 
 /* 目录容器左边框（避免被 markdown.css 影响）*/
 .site-toc {
-  border-left: 2px solid var(--base-200) !important;
+  border-left: 1px solid var(--base-200) !important;
 }
 
 .dark .site-toc {

@@ -1,9 +1,9 @@
 <template>
-  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-100 h-18">
+  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-100 h-18 shadow-md">
     <div class="flex justify-between items-center px-5 lg:px-30 mx-auto w-full">
       <div class="flex items-center">
-        <btn @click.prevent="toggleSidebar" clean type="button" size="xl"
-          class="px-2 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
+        <btn v-if="!isHomePage" @click.prevent="toggleSidebar" clean type="button" size="xl"
+          class="px-5 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
           <icn name="bars" regular xl />
         </btn>
         <a href="/"
@@ -25,6 +25,8 @@
   </nav>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 // Props 定义
 const props = defineProps<{
   projectName?: string
@@ -33,6 +35,10 @@ const props = defineProps<{
   languageComponent?: any
   userLink?: string
 }>()
+
+// 当前是否为首页
+const route = useRoute()
+const isHomePage = computed(() => route.path === '/' || (route.name && String(route.name).toLowerCase().includes('home')))
 
 // 发送切换侧边栏事件
 const toggleSidebar = () => {

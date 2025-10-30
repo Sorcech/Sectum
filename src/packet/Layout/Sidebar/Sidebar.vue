@@ -6,7 +6,7 @@
   <aside 
     v-show="isOpen || isLgSize" 
     :class="{ '!lg:hidden': isHome }"
-    class="flex-none w-65 bg-base-200 border-r"
+    class="flex-none w-70 bg-base-200 border-r min-h-0 overflow-y-auto hidden-scrollbar"
   >
     <!-- 移动端头部 -->
     <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-2">
@@ -16,15 +16,19 @@
     </div>
     
     <!-- 侧边栏内容 -->
-    <div class="max-w-2xs lg:mx-2 lg:w-60">
-      <nav class="px-1 pl-3 text-base lg:(text-sm pb-10 h-(screen-18))" aria-label="Docs navigation">
+    <div class="max-w-2xs lg:mx-2 lg:w-60 min-h-0 mt-5 ">
+      <nav aria-label="Docs navigation">
         <template v-for="menu in props.routes" :key="menu.meta?.title">
           <Menu v-if="menu.children && menu.children.length > 1" v-for="parent in menu.children" :key="parent.meta?.title"
-            class="w-full bg-base-200">
-            <span class="menu-title">{{ parent.meta.title }}</span>
-            <btn size="sm" clean variant="transparent" v-for="child in parent.children" :key="child.path" 
+            class="w-full bg-base-200 ">
+            <span class="menu-title block text-base text-md font-bold bg-base-300  p-3">{{ parent.meta.title }}</span>
+            <btn size="xs" clean variant="transparent" v-for="child in parent.children" :key="child.path" 
               @click="props.onNavigate ? props.onNavigate(child.path) : null"
-              :class="[route?.meta?.title === child.meta.title ? 'border-l-2 border-primary bg-base-300 dark:bg-base-100' : '']">
+              :class="['block w-full text-left px-3',                 // 占满与内边距
+                    route?.meta?.title === child.meta.title
+                      ? '!border-l-2 !border-y-0 !border-r-0 !border-solid !border-primary bg-base-100'
+                      : '!border-l-2 !border-y-0 !border-r-0 !border-transparent'               // 未激活时占位，可选
+                  ]">
               {{ child.meta.title }}
             </btn>
           </Menu>
