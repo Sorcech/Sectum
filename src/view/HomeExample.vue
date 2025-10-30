@@ -9,21 +9,19 @@ const themes = [
 ]
 </script>
 <template>
-  <div class="my-14 ">
-    <div class="flex flex-wrap my-20 gap-15">
+    <div class="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 my-10">
       <div v-for="theme in themes" :class="[theme]"
-        class="shadow-sm h-auto border rounded-lg flex flex-wrap gap-3 (w-60 px-5 py-9) md:(w-48  px-6 py-7)">
-        <div class="flex w-full justify-between">
+        class="shadow-sm h-auto border rounded-lg flex flex-wrap gap-1 (w-full px-5 py-9) md:(px-6 py-7) bg-base-100 py-5">
+        <div class="flex w-full justify-between my-2">
           <btn circle size="xs">
             <icn name="xmark" regular xl></icn>
           </btn>
           <tgl checked />
           <ckb checked />
         </div>
-        <btn size="sm" class="w-full"> Primary </btn>
-        <btn size="sm" variant="transparent" class="w-full"> Transparent </btn>
-        <btn size="sm" variant="outline" class="w-full"> Outline </btn>
+        <btn size="sm" class="w-full my-2"> Primary </btn>
+        <btn size="sm" variant="transparent" class="w-full my-2"> Transparent </btn>
+        <btn size="sm" variant="outline" class="w-full my-2"> Outline </btn>
       </div>
     </div>
-  </div>
 </template>

@@ -1,6 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto w-full ">
-    <div class="flex flex-row px-10 pt-10  min-w-0 h-full">
+    <div class="flex flex-row flex-1 h-full min-h-0 overflow-y-auto px-10">>
       <div class="lg:w-5/6 w-full lg:pr-10">
           <slot />
       </div>
@@ -8,7 +7,6 @@
         <Catalog :toc="toc" :index="currentIndex" class="max-h-[calc(100vh-4rem-env(safe-area-inset-bottom))] fixed border-l h-screen" />
       </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

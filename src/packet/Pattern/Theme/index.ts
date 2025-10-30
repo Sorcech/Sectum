@@ -3,7 +3,7 @@ import type { Preset } from 'unocss'
 import { getTheme } from './generator'
 
 /**
- * Section Theme UnoCSS 预设
+ * Sectum Theme UnoCSS 预设
  */
 const SectumTheme = definePreset((): Preset => {
   return {
@@ -14,9 +14,9 @@ const SectumTheme = definePreset((): Preset => {
           // 添加基础样式
           let css = ''
           
-          // 全局字体设置
+          // 全局字体设置（本地字体优先，零网络请求）
           css += `* {\n`
-          css += `  font-family: 'HarmonyOS Sans';\n`
+          css += `  font-family: 'HarmonyOS Sans', 'HarmonyOS Sans SC', 'HarmonyOS Sans UI', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;\n`
           css += `}\n\n`
           
           // 全局背景色设置，防止白框

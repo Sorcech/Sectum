@@ -1,16 +1,19 @@
 <template>
-  <div class="antialiased text-base-content" :class="bgClass">
-    <Header 
-      project-name="Section"
-      :theme-component="ThemeSelect"
-      :dark-component="DarkChange"
-      :language-component="LanguageSelect"
-      user-link="/login"
-    />
-    <div class="flex min-h-screen">
+  <div class="flex flex-col h-screen overflow-hidden text-base-content" :class="bgClass">
+    <div class="sticky top-0 z-50">
+      <Header 
+        project-name="Sectum"
+        :theme-component="ThemeSelect"
+        :dark-component="DarkChange"
+        :language-component="LanguageSelect"
+        user-link="/login"
+      />
+    </div>
+    <div class="flex flex-col min-h-0 flex-1">
+      <div class="flex flex-1 min-h-0">
       <Sidebar :routes="routeConfig" :on-navigate="handleNavigate" />
-      <main class="flex-1 min-w-0 overflow-hidden lg:ml-10">
-        <div class="h-full overflow-y-auto" :class="contentClass">
+      <main class="flex-1 min-w-0 lg:ml-10">
+        <div class="flex flex-col h-full min-h-0" :class="contentClass">
           <!-- 首页内容 -->
           <template v-if="isHomePage">
             <HomePage />
@@ -23,6 +26,7 @@
           </template>
         </div>
       </main>
+    </div>
     </div>
   </div>
 </template>

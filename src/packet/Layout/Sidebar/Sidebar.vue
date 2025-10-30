@@ -6,17 +6,17 @@
   <aside 
     v-show="isOpen || isLgSize" 
     :class="{ '!lg:hidden': isHome }"
-    class="fixed inset-0 z-10 flex-none w-72 h-screen bg-base-200 border-r lg:(z-0 static h-auto overflow-y-visible w-60 block)"
+    class="flex-none w-65 bg-base-200 border-r"
   >
     <!-- 移动端头部 -->
-    <div class="lg:hidden flex items-center justify-between h-$navbar-height bg-primary-200/10 px-2">
+    <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-2">
       <btn @click="toggleSidebar" variant="transparent" color="secondary" class="!fill-base-text">
         <icn name="arrow-left" regular xl />
       </btn>
     </div>
     
     <!-- 侧边栏内容 -->
-    <div class="overflow-y-auto h-full max-w-2xs lg:fixed lg:mx-2 lg:w-60">
+    <div class="max-w-2xs lg:mx-2 lg:w-60">
       <nav class="px-1 pl-3 text-base lg:(text-sm pb-10 h-(screen-18))" aria-label="Docs navigation">
         <template v-for="menu in props.routes" :key="menu.meta?.title">
           <Menu v-if="menu.children && menu.children.length > 1" v-for="parent in menu.children" :key="parent.meta?.title"

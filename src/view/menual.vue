@@ -1,7 +1,5 @@
 <template>
-  <div class="doc">
     <component :is="currentComponent" v-if="currentComponent" />
-  </div>
 </template>
 
 <script setup lang="ts">

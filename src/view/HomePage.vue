@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="antialiased font-extrabold text-4xl leading-8 sm:text-5xl lg:text-6xl tracking-tight sm:leading-16">
-      Section UI
+      Sectum UI
     </h1>
     <p class="m-0 mt-10 text-lg opacity-75 leading-6 font-medium">
       Component library for VUE 3 using UnoCSS, most components are using daisyUI styles.
