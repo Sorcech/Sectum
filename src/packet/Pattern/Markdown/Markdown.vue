@@ -1,10 +1,12 @@
 <template>
-    <div class="flex flex-row flex-1 h-full min-h-0 overflow-y-auto px-10">>
-      <div class="lg:w-5/6 w-full lg:pr-10">
+    <div class="flex flex-row flex-1 min-h-0 px-10">
+      <div class="lg:w-4/5 w-full lg:pr-10">
           <slot />
       </div>
-      <div v-if="toc && toc.length > 0" class="hidden xl:block xl:row-span-3 ">
-        <Catalog :toc="toc" :index="currentIndex" class="max-h-[calc(100vh-4rem-env(safe-area-inset-bottom))] fixed border-l h-screen" />
+      <div v-if="toc && toc.length > 0" class="hidden xl:block xl:row-span-3">
+        <div class="sticky top-5 h-[calc(100vh-4rem)]">
+          <Catalog :toc="toc" :index="currentIndex" class="h-full" ref="catalogRef" />
+        </div>
       </div>
     </div>
 </template>
@@ -12,7 +14,7 @@
 <script setup lang="ts">
 import type { TocItem as Item } from '~/packet/Pattern/Markdown/catalog'
 import type { MarkdownItHeader } from '@mdit-vue/types'
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, onUnmounted, watch } from 'vue'
 import Catalog from './Catalog.vue'
 import './markdown.css';
 
@@ -23,23 +25,58 @@ interface Props {
 const props = defineProps<Props>()
 const toc = ref<MarkdownItHeader[]>([])
 const currentIndex = ref('')
+const catalogRef = ref<InstanceType<typeof Catalog> | null>(null)
 
 // 滚动监听
-const list: any[] = []
+let scrollTimer: number | null = null
+
+// 获取 Markdown 内容滚动容器（优先 markdown-body，其次 .doc，最后 documentElement）
+const getContentContainer = (): HTMLElement => {
+  const markdownBody = document.querySelector('.markdown-body') as HTMLElement | null
+  if (markdownBody) return markdownBody
+  const docContainer = document.querySelector('.doc') as HTMLElement | null
+  if (docContainer) return docContainer
+  return document.documentElement
+}
 
 // 滚动处理函数
 const handleScroll = () => {
-  let a = document.getElementsByClassName('doc')[0]
-  for (let i = 0; i < list.length; i++) {
-    let b: any = document.getElementById(list[i])
-    let e: any = document.getElementById(list[i + 1])
-    if (a.scrollTop >= b?.offsetTop && a.scrollTop < e?.offsetTop) {
-      currentIndex.value = list[i]
-    }
-    if (a.scrollTop >= e?.offsetTop) {
-      currentIndex.value = list[i + 1]
-    }
+  // 防抖处理
+  if (scrollTimer) {
+    window.clearTimeout(scrollTimer)
   }
+  scrollTimer = window.setTimeout(() => {
+    // 获取所有标题元素
+    const headers = toc.value.map(item => {
+      return {
+        id: item.slug,
+        element: document.getElementById(item.slug)
+      }
+    }).filter(item => item.element) as {id: string, element: HTMLElement}[]
+    
+    // 查找当前视口中的标题
+    let currentId = ''
+    for (let i = headers.length - 1; i >= 0; i--) {
+      const header = headers[i]
+      const rect = header.element.getBoundingClientRect()
+      
+      // 如果标题在视口上方或刚好在视口顶部，则认为是当前标题
+      if (rect.top <= 100) {
+        currentId = header.id
+        break
+      }
+    }
+    
+    // 只有当当前ID改变时才更新
+    if (currentId !== currentIndex.value) {
+      currentIndex.value = currentId
+      
+      // 滚动目录到当前标题项
+      if (catalogRef.value && typeof (catalogRef.value as any).scrollToItem === 'function') {
+        (catalogRef.value as any).scrollToItem(currentId)
+      }
+    }
+  }, 100)
 }
 
 // 为文档示例定义的响应式变量 - 必须在defineProps之后定义
@@ -206,6 +243,13 @@ function parseDOMHeaders() {
   debugInfo.value.domStatus = `解析完成，找到 ${headerData.length} 个项目`
 }
 
+// 监听 currentIndex 的变化
+watch(currentIndex, (newIndex) => {
+  // 当 currentIndex 改变时，滚动目录到对应的标题项
+  if (catalogRef.value && typeof (catalogRef.value as any).scrollToItem === 'function') {
+    (catalogRef.value as any).scrollToItem(newIndex)
+  }
+})
 
 onMounted(async () => {
   debugInfo.value.domStatus = '组件已挂载'
@@ -228,17 +272,19 @@ onMounted(async () => {
   
   // 设置滚动监听
   await nextTick()
-  var tocElements = document.querySelectorAll(".site-toc li a")
-  list.length = 0
-  for (let i = 0; i < tocElements.length; i++) {
-    const href = tocElements[i].getAttribute('href')
-    if (href) {
-      list.push(href.substr(1)) // 移除 # 符号
-    }
-  }
-  window.addEventListener('scroll', handleScroll, true)
+  const contentContainer = getContentContainer()
+  contentContainer.addEventListener('scroll', handleScroll, { capture: true, passive: true } as any)
   
   // 初始化当前索引
   currentIndex.value = ''
+})
+
+onUnmounted(() => {
+  const contentContainer = getContentContainer()
+  contentContainer.removeEventListener('scroll', handleScroll, true)
+  
+  if (scrollTimer) {
+    window.clearTimeout(scrollTimer)
+  }
 })
 </script>
