@@ -16,7 +16,6 @@ import type { TocItem as Item } from '~/packet/Pattern/Markdown/catalog'
 import type { MarkdownItHeader } from '@mdit-vue/types'
 import { ref, onMounted, nextTick, onUnmounted, watch } from 'vue'
 import Catalog from './catalog.vue'
-import Code from '~/packet/Element/Code/Code.vue'
 import './markdown.css';
 
 interface Props {

@@ -14,8 +14,11 @@ export function autoWrapPlugin(): Plugin {
         return null
       }
       // 自动添加Markdown包装
+      // 在开头和结尾添加换行符，确保内容不会被当作缩进处理
       const wrappedCode = `<Markdown>
-        ${code}
+
+${code}
+
 </Markdown>`
       console.log(`Auto-wrapped markdown file: ${id}`)
       return {
