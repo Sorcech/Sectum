@@ -6,7 +6,8 @@ import Markdown from 'unplugin-vue-markdown/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import UnoCSS from 'unocss/vite'
-import { createAutoWrapPlugin } from './src/packet/Pattern/Markdown/auto-wrap-plugin'
+import { autoWrapPlugin } from './src/packet/Pattern/Markdown/Markdown'
+import { codePlugin } from './src/packet/Pattern/Markdown/code-plugin'
 import { resolve as pathResolve } from 'node:path'
 import { copyFileSync, existsSync } from 'node:fs'
 import { UnoConfig } from './src/packet/Config'
@@ -139,11 +140,52 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       UnoCSS({ configFile: false, ...UnoConfig } as any), // UnoCSS插件，使用配置
-      createAutoWrapPlugin(), // 自动包装Markdown文件
+      autoWrapPlugin(), // 自动包装Markdown文件
       VuePlugin({
         include: [/\.vue$/, /\.md$/],
       }),
-      Markdown({}),// 移除wrapperComponent，因为我们使用自定义的auto-wrap-plugin
+      Markdown({
+        // 自定义代码块渲染
+        markdownItSetup(md) {
+          // 覆盖代码块的渲染函数
+          md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+            const token = tokens[idx]
+            const info = token.info ? token.info.trim() : ''
+            const langName = info.split(/\s+/g)[0]
+            const code = token.content
+            
+            // 转义 HTML 特殊字符，保持代码的原始格式（包括换行和缩进）
+            const escapedCode = code
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;')
+            
+            // 使用普通属性传递代码，Vue 会自动处理字符串
+            // 使用 v-text 或直接在组件内部处理
+            return `<cod code="${escapedCode}" ${langName ? `language="${langName}"` : ''} :trim="false"></cod>\n`
+          }
+          
+          // 覆盖行内代码的渲染函数
+          md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
+            const token = tokens[idx]
+            const code = token.content.trim()
+            
+            // 转义 HTML 特殊字符
+            const escapedCode = code
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;')
+            
+            // 返回行内 Code 组件
+            return `<cod inline code="${escapedCode}"></cod>`
+          }
+        }
+      }),// 移除wrapperComponent，因为我们使用自定义的auto-wrap-plugin
+      codePlugin(), // Code组件插件，将pre和code转换为Code组件（必须在Markdown之后）
       Components({
         resolvers: [ElementPlusResolver()],
         include: [/\.vue$/, /\.vue\?vue/],

@@ -11,11 +11,12 @@ import Transition from './Transition/Transition.vue'
 import Color from './Color/Color.vue'
 import Palette from './Color/Palette.vue'
 import Message from './Message/Message'
+import Code from './Code/Code.vue'
 
 
 // 导出所有组件
 export {
-  Button, Label, Input, Checkbox, Toggle, Icon, Backdrop, Textarea, Transition, Color, Palette, Message
+  Button, Label, Input, Checkbox, Toggle, Icon, Backdrop, Textarea, Transition, Color, Palette, Message, Code
 }
 
 const install = (app: App) => {
@@ -28,6 +29,7 @@ const install = (app: App) => {
   app.component('bkd', Backdrop);//背景遮罩
   app.component('txa', Textarea)//文本域
   app.component('tst', Transition)//动画
+  app.component('cod', Code)//代码
   app.component('Color', Color)
   app.component('Palette', Palette)
   

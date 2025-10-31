@@ -3,7 +3,7 @@ import ThemeSelect from './Theme/ThemeSelect.vue'
 import LanguageSelect from './Language/LanguageSelect.vue'
 import DarkChange from './Dark/DarkChange.vue'
 import Markdown from './Markdown/Markdown.vue'
-import Catalog from './Markdown/Catalog.vue'
+import Catalog from './Markdown/catalog.vue'
 import FullScreen from './FullScreen/FullScreen.vue'
 
 // 导出所有组件

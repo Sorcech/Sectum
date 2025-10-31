@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-row flex-1 min-h-0 px-10">
-      <div class="lg:w-4/5 w-full lg:pr-10">
+      <div class="flex-1 w-full lg:pr-10">
           <slot />
       </div>
-      <div v-if="toc && toc.length > 0" class="hidden xl:block xl:row-span-3">
+      <div v-if="toc && toc.length > 0" class="hidden xl:block xl:row-span-3 flex-shrink-0">
         <div class="sticky top-5 h-[calc(100vh-4rem)]">
           <Catalog :toc="toc" :index="currentIndex" class="h-full" ref="catalogRef" />
         </div>
@@ -15,7 +15,8 @@
 import type { TocItem as Item } from '~/packet/Pattern/Markdown/catalog'
 import type { MarkdownItHeader } from '@mdit-vue/types'
 import { ref, onMounted, nextTick, onUnmounted, watch } from 'vue'
-import Catalog from './Catalog.vue'
+import Catalog from './catalog.vue'
+import Code from '~/packet/Element/Code/Code.vue'
 import './markdown.css';
 
 interface Props {

@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-200 h-18 shadow-md">
+  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-200 h-12 shadow-md">
     <div class="flex justify-between items-center px-5 lg:px-30 mx-auto w-full">
       <div class="flex items-center">
         <btn v-if="!isHomePage" @click.prevent="toggleSidebar" clean type="button" size="xl"
@@ -17,9 +17,12 @@
         <component :is="props.themeComponent" v-if="props.themeComponent" />
         <component :is="props.darkComponent" v-if="props.darkComponent" />
         <component :is="props.languageComponent" v-if="props.languageComponent" />
-        <btn clean class="text-base-content hover:text-primary" v-if="props.userLink">
-          <RouterLink :to="props.userLink">
-            <icn name="user" light xl></icn>
+        <btn v-if="props.userLink" clean class="transition-colors duration-200">
+          <a v-if="isExternalLink(props.userLink)" :href="props.userLink" target="_blank" rel="noopener noreferrer" class="inline-flex items-center group">
+            <icn :name="props.userIcon || 'user'" :brand="props.userIconBrand || false" :light="props.userIconLight !== false && !props.userIconBrand" xl class="text-base-content group-hover:text-primary transition-colors duration-200"></icn>
+          </a>
+          <RouterLink v-else :to="props.userLink" class="inline-flex items-center group">
+            <icn :name="props.userIcon || 'user'" :brand="props.userIconBrand || false" :light="props.userIconLight !== false && !props.userIconBrand" xl class="text-base-content group-hover:text-primary transition-colors duration-200"></icn>
           </RouterLink>
         </btn>
       </div>
@@ -36,11 +39,20 @@ const props = defineProps<{
   darkComponent?: any
   languageComponent?: any
   userLink?: string
+  userIcon?: string  // 用户图标名称，默认 'user'
+  userIconLight?: boolean  // 图标样式是否为 light，默认 true
+  userIconBrand?: boolean  // 图标样式是否为 brand（品牌图标），默认 false
 }>()
 
 // 当前是否为首页
 const route = useRoute()
 const isHomePage = computed(() => route.path === '/' || (route.name && String(route.name).toLowerCase().includes('home')))
+
+// 判断是否为外部链接
+const isExternalLink = (url: string | undefined): boolean => {
+  if (!url) return false
+  return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
+}
 
 // 发送切换侧边栏事件
 const toggleSidebar = () => {

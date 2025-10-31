@@ -18,20 +18,15 @@ const route = [
               component: () => import('~/packet/Intro/started.md'),
               meta: { title: 'Started' },
             },
-            {
-              path: '/section/usage',
-              component: () => import('~/packet/Intro/usage.md'),
-              meta: { title: 'Usage' },
+                        {
+              path: '/section/color',
+              component: () => import('~/packet/Intro/color.md'),
+              meta: { title: 'Color' },
             },
             {
               path: '/section/theme',
               component: () => import('~/packet/Intro/theme.md'),
               meta: { title: 'Theme' },
-            },
-            {
-              path: '/section/color',
-              component: () => import('~/packet/Intro/color.md'),
-              meta: { title: 'Color' },
             },
           ]
         },

@@ -16,58 +16,58 @@
 <Palette/>
 
 <div>
-  <h2 class="font-semibold text-sm mt-10">主题颜色展示</h2>
+  <h2 class="font-semibold text-sm mt-10 mb-4">主题颜色展示</h2>
   <div class="box-component">
-    <div class="flex flex-wrap gap-2">
-      <div>
-        <div class="h-15 w-30 bg-primary flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-primary-content text-sm">primary</div>
+    <div class="flex flex-wrap gap-3">
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-primary flex justify-center items-center rounded-t-lg">
+          <div class="text-primary-content text-sm font-medium">primary</div>
         </div>
-        <div class="h-15 w-30 bg-primary-focus flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-primary-content text-sm">primary-focus</div>
-        </div>
-      </div>
-      <div>
-        <div class="h-15 w-30 bg-secondary flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-secondary-content text-sm">secondary</div>
-        </div>
-        <div class="h-15 w-30 bg-secondary-focus flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-secondary-content text-sm">secondary-focus</div>
+        <div class="h-12 w-32 bg-primary-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-primary-content text-sm font-medium">primary-focus</div>
         </div>
       </div>
-      <div>
-        <div class="h-15 w-30 bg-success flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-success-content text-sm">success</div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-secondary flex justify-center items-center rounded-t-lg">
+          <div class="text-secondary-content text-sm font-medium">secondary</div>
         </div>
-        <div class="h-15 w-30 bg-success-focus flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-success-content text-sm">success-focus</div>
-        </div>
-      </div>
-      <div>
-        <div class="h-15 w-30 bg-error flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-error-content text-sm">error</div>
-        </div>
-        <div class="h-15 w-30 bg-error-focus flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-error-content text-sm">error-focus</div>
+        <div class="h-12 w-32 bg-secondary-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-secondary-content text-sm font-medium">secondary-focus</div>
         </div>
       </div>
-      <div>
-        <div class="h-15 w-30 bg-warning flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-warning-content text-sm">warning</div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-success flex justify-center items-center rounded-t-lg">
+          <div class="text-success-content text-sm font-medium">success</div>
         </div>
-        <div class="h-15 w-30 bg-warning-focus flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-warning-content text-sm">warning-focus</div>
+        <div class="h-12 w-32 bg-success-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-success-content text-sm font-medium">success-focus</div>
         </div>
       </div>
-      <div>
-        <div class="h-10 w-30 bg-base-100 flex justify-center items-center rounded-t-$rounded-btn">
-          <div class="text-base-content text-sm">base-100</div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-error flex justify-center items-center rounded-t-lg">
+          <div class="text-error-content text-sm font-medium">error</div>
         </div>
-        <div class="h-10 w-30 bg-base-200 flex justify-center items-center">
-          <div class="text-base-content text-sm">base-200</div>
+        <div class="h-12 w-32 bg-error-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-error-content text-sm font-medium">error-focus</div>
         </div>
-        <div class="h-10 w-30 bg-base-300 flex justify-center items-center rounded-b-$rounded-btn">
-          <div class="text-base-content text-sm">base-300</div>
+      </div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-warning flex justify-center items-center rounded-t-lg">
+          <div class="text-warning-content text-sm font-medium">warning</div>
+        </div>
+        <div class="h-12 w-32 bg-warning-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-warning-content text-sm font-medium">warning-focus</div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-base-100 flex justify-center items-center rounded-t-lg border border-base-300">
+          <div class="text-base-content text-sm font-medium">base-100</div>
+        </div>
+        <div class="h-12 w-32 bg-base-200 flex justify-center items-center border-x border-base-300">
+          <div class="text-base-content text-sm font-medium">base-200</div>
+        </div>
+        <div class="h-12 w-32 bg-base-300 flex justify-center items-center rounded-b-lg border border-base-300">
+          <div class="text-base-content text-sm font-medium">base-300</div>
         </div>
       </div>
     </div>

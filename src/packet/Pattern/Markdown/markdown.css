@@ -148,7 +148,9 @@
   border-radius: 0.125rem; /* rounded-sm */
 }
 
-.markdown-body pre {
+/* Code 组件样式 - 替代原来的 pre 和 code 样式 */
+.markdown-body .code--block,
+.markdown-body pre.code--block {
   font-size: 0.875rem; /* text-sm */
   padding-left: 1.25rem; /* px-5 */
   padding-right: 1.25rem; /* px-5 */
@@ -170,17 +172,8 @@
   -ms-user-select: text;
 }
 
-.markdown-body pre::selection {
-  background-color: rgba(59, 130, 246, 0.3); /* blue-500 with opacity */
-  color: inherit;
-}
-
-.markdown-body pre::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
-
-.markdown-body code {
+.markdown-body .code--inline,
+.markdown-body code.code--inline {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; /* font-mono */
   font-size: 0.875rem; /* text-sm */
   background-color: var(--base-200); /* bg-base-200 */
@@ -198,22 +191,30 @@
   -ms-user-select: text;
 }
 
-.markdown-body code::selection {
+/* Code 组件选择高亮 */
+.markdown-body .code::selection,
+.markdown-body .code ::selection {
   background-color: rgba(59, 130, 246, 0.3);
   color: inherit;
 }
 
-.markdown-body code::-moz-selection {
+.markdown-body .code::-moz-selection,
+.markdown-body .code ::-moz-selection {
   background-color: rgba(59, 130, 246, 0.3);
   color: inherit;
 }
 
-.markdown-body pre code {
+/* 代码块内的 code 元素样式（Code 组件内部使用） */
+.markdown-body .code--block code.__code__ {
   background-color: transparent; /* bg-transparent */
   padding: 0; /* p-0 */
   border: none; /* border-none */
   border-radius: 0; /* rounded-none */
   color: inherit; /* text-inherit color-inherit */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre; /* 保持代码的原始格式，包括换行和缩进 */
   /* 代码块内代码选择高亮 */
   user-select: text;
   -webkit-user-select: text;
@@ -221,18 +222,23 @@
   -ms-user-select: text;
 }
 
-.markdown-body pre code::selection {
+.markdown-body .code--block code.__code__::selection {
   background-color: rgba(59, 130, 246, 0.3);
   color: inherit;
 }
 
-.markdown-body pre code::-moz-selection {
+.markdown-body .code--block code.__code__::-moz-selection {
   background-color: rgba(59, 130, 246, 0.3);
   color: inherit;
 }
 
+/* 表格样式 - 支持 .markdown-body 和 .markdown-container.markdown-body */
+/* 使用更高特异性的选择器来覆盖 UnoCSS presetUno 的默认样式 */
+.markdown-body > table,
+.markdown-body table,
+.markdown-container.markdown-body > table,
 .markdown-container.markdown-body table {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.75rem; /* text-xs - 减小字体 */
   font-weight: 300; /* font-light */
   width: 100%; /* w-full */
   border-collapse: collapse; /* border-collapse */
@@ -241,41 +247,61 @@
   border-radius: 0.5rem; /* rounded-lg */
   overflow: hidden; /* overflow-hidden */
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow-sm */
-  border: 2px solid var(--base-200); /* border-2 border-base-200 */
+  border: 1px solid var(--base-300); /* border border-base-300 - 增强边框 */
+  border-style: solid; /* 确保边框样式 */
 }
 
-.markdown-container.markdown-body table th {
-  border: 1px solid var(--base-300); /* border border-base-300 */
-  border-right: 1px solid var(--base-300); /* border-r border-base-300 */
-  border-bottom: 1px solid var(--base-300); /* border-b border-base-300 */
-  font-size: 0.875rem; /* text-sm */
+.markdown-body > table > thead > tr > th,
+.markdown-body table th,
+.markdown-body > table > tbody > tr > th,
+.markdown-container.markdown-body > table > thead > tr > th,
+.markdown-container.markdown-body table th,
+.markdown-container.markdown-body > table > tbody > tr > th {
+  border: 1px solid var(--base-300); /* border border-base-300 - 确保所有边框 */
+  border-top: 1px solid var(--base-300); /* border-t */
+  border-right: 1px solid var(--base-300); /* border-r */
+  border-bottom: 1px solid var(--base-300); /* border-b */
+  border-left: 1px solid var(--base-300); /* border-l */
+  border-style: solid; /* 确保边框样式 */
+  font-size: 0.75rem; /* text-xs - 减小字体 */
   font-weight: 600; /* font-semibold */
   background-color: var(--base-100); /* bg-base-100 */
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem; /* px-4 */
-  padding-top: 0.75rem; /* py-3 */
-  padding-bottom: 0.75rem; /* py-3 */
+  padding-left: 0.75rem; /* px-3 - 减小内边距 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 - 减小内边距 */
+  padding-bottom: 0.5rem; /* py-2 */
   text-align: left; /* text-left */
   color: var(--base-content); /* color-base-content */
 }
 
-.markdown-container.markdown-body table td {
+.markdown-body > table > tbody > tr > td,
+.markdown-body table td,
+.markdown-body > table > tfoot > tr > td,
+.markdown-container.markdown-body > table > tbody > tr > td,
+.markdown-container.markdown-body table td,
+.markdown-container.markdown-body > table > tfoot > tr > td {
+  font-size: 0.75rem; /* text-xs - 减小字体 */
   font-weight: 400; /* font-normal */
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem; /* px-4 */
-  padding-top: 0.75rem; /* py-3 */
-  padding-bottom: 0.75rem; /* py-3 */
-  border: 1px solid var(--base-300); /* border border-base-300 */
-  border-right: 1px solid var(--base-300); /* border-r border-base-300 */
-  border-bottom: 1px solid var(--base-300); /* border-b border-base-300 */
+  padding-left: 0.75rem; /* px-3 - 减小内边距 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 - 减小内边距 */
+  padding-bottom: 0.5rem; /* py-2 */
+  border: 1px solid var(--base-300); /* border border-base-300 - 确保所有边框 */
+  border-top: 1px solid var(--base-300); /* border-t */
+  border-right: 1px solid var(--base-300); /* border-r */
+  border-bottom: 1px solid var(--base-300); /* border-b */
+  border-left: 1px solid var(--base-300); /* border-l */
+  border-style: solid; /* 确保边框样式 */
   background-color: var(--base-200); /* bg-base-200 */
   color: var(--base-content); /* color-base-content */
 }
 
+.markdown-body table tr:nth-child(even) td,
 .markdown-container.markdown-body table tr:nth-child(even) td {
   background-color: var(--base-100); /* bg-base-100 */
 }
 
+.markdown-body table tr:hover td,
 .markdown-container.markdown-body table tr:hover td {
   background-color: var(--base-300); /* bg-base-300 */
 }
@@ -310,73 +336,100 @@
   color: var(--dark-base-content, #f9fafb); /* 暗色主题列表项文字颜色 - 浅灰色 */
 }
 
-.dark .markdown-body pre {
+/* Code 组件暗色主题样式 */
+.dark .markdown-body .code--block,
+.dark .markdown-body pre.code--block {
   background-color: var(--dark-base-200); /* bg-dark-base-200 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题代码块文字颜色 - 浅灰色 */
   border-color: var(--dark-base-100); /* border-dark-base-100 */
 }
 
-.dark .markdown-body code {
+.dark .markdown-body .code--inline,
+.dark .markdown-body code.code--inline {
   background-color: var(--dark-base-200); /* bg-dark-base-200 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题行内代码文字颜色 - 浅灰色 */
   border-color: var(--dark-base-100); /* border-dark-base-100 */
 }
 
 /* 暗色主题代码选择高亮 */
-.dark .markdown-body pre::selection {
+.dark .markdown-body .code::selection,
+.dark .markdown-body .code ::selection {
   background-color: rgba(59, 130, 246, 0.4); /* 暗色主题下稍微更亮一些 */
   color: inherit;
 }
 
-.dark .markdown-body pre::-moz-selection {
+.dark .markdown-body .code::-moz-selection,
+.dark .markdown-body .code ::-moz-selection {
   background-color: rgba(59, 130, 246, 0.4);
   color: inherit;
 }
 
-.dark .markdown-body code::selection {
+.dark .markdown-body .code--block code.__code__::selection {
   background-color: rgba(59, 130, 246, 0.4);
   color: inherit;
 }
 
-.dark .markdown-body code::-moz-selection {
+.dark .markdown-body .code--block code.__code__::-moz-selection {
   background-color: rgba(59, 130, 246, 0.4);
   color: inherit;
 }
 
-.dark .markdown-body pre code::selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: inherit;
-}
-
-.dark .markdown-body pre code::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: inherit;
-}
-
+.dark .markdown-body > table,
+.dark .markdown-body table,
+.dark .markdown-container.markdown-body > table,
 .dark .markdown-container.markdown-body table {
-  border: 2px solid var(--dark-base-200); /* border-2 border-dark-base-200 */
+  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 增强边框 */
+  border-style: solid; /* 确保边框样式 */
 }
 
-.dark .markdown-container.markdown-body table th {
+.dark .markdown-body > table > thead > tr > th,
+.dark .markdown-body table th,
+.dark .markdown-body > table > tbody > tr > th,
+.dark .markdown-container.markdown-body > table > thead > tr > th,
+.dark .markdown-container.markdown-body table th,
+.dark .markdown-container.markdown-body > table > tbody > tr > th {
   background-color: var(--dark-base-100); /* bg-dark-base-100 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题表格标题文字颜色 - 浅灰色 */
-  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 */
-  border-right: 1px solid var(--dark-base-300); /* border-r border-dark-base-300 */
-  border-bottom: 1px solid var(--dark-base-300); /* border-b border-dark-base-300 */
+  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 确保所有边框 */
+  border-top: 1px solid var(--dark-base-300); /* border-t */
+  border-right: 1px solid var(--dark-base-300); /* border-r */
+  border-bottom: 1px solid var(--dark-base-300); /* border-b */
+  border-left: 1px solid var(--dark-base-300); /* border-l */
+  border-style: solid; /* 确保边框样式 */
+  font-size: 0.75rem; /* text-xs - 减小字体 */
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
 }
 
-.dark .markdown-container.markdown-body table td {
+.dark .markdown-body > table > tbody > tr > td,
+.dark .markdown-body table td,
+.dark .markdown-body > table > tfoot > tr > td,
+.dark .markdown-container.markdown-body > table > tbody > tr > td,
+.dark .markdown-container.markdown-body table td,
+.dark .markdown-container.markdown-body > table > tfoot > tr > td {
   background-color: var(--dark-base-200); /* bg-dark-base-200 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题表格单元格文字颜色 - 浅灰色 */
-  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 */
-  border-right: 1px solid var(--dark-base-300); /* border-r border-dark-base-300 */
-  border-bottom: 1px solid var(--dark-base-300); /* border-b border-dark-base-300 */
+  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 确保所有边框 */
+  border-top: 1px solid var(--dark-base-300); /* border-t */
+  border-right: 1px solid var(--dark-base-300); /* border-r */
+  border-bottom: 1px solid var(--dark-base-300); /* border-b */
+  border-left: 1px solid var(--dark-base-300); /* border-l */
+  border-style: solid; /* 确保边框样式 */
+  font-size: 0.75rem; /* text-xs - 减小字体 */
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
 }
 
+.dark .markdown-body table tr:nth-child(even) td,
 .dark .markdown-container.markdown-body table tr:nth-child(even) td {
   background-color: var(--dark-base-100); /* bg-dark-base-100 */
 }
 
+.dark .markdown-body table tr:hover td,
 .dark .markdown-container.markdown-body table tr:hover td {
   background-color: var(--dark-base-300); /* bg-dark-base-300 */
 }
