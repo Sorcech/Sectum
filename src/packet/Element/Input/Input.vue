@@ -48,7 +48,6 @@ const baseClasses = computed(() => {
   
   return [
     'bg-base-100 transition-all duration-200 ease-in-out',
-    'outline-none focus:outline-1 focus:outline-base-gray-300 focus:outline-offset-1',
     'min-w-0 flex-shrink-0', // 防止溢出
     // 圆角
     props.pills ? 'rounded-full' : 
@@ -75,7 +74,9 @@ const colorVariantClasses = computed(() => {
   if (props.clean) return ''
   
   const variants = {
-    default: () => props.bordered ? 'border border-base-gray-300/60' : '',
+    // default: 默认透明边框（保持大小不变），聚焦时显示边框（不受 bordered 影响）
+    default: () => 'border border-transparent focus:border-base-300 focus:outline-2 focus:outline-base-300 focus:outline-offset-2',
+    // 其他颜色: 一直显示边框，聚焦时显示外围边框（需要 bordered 为 true）
     primary: () => props.bordered ? 'border border-primary focus:outline-2 focus:outline-primary focus:outline-offset-2' : '',
     secondary: () => props.bordered ? 'border border-secondary focus:outline-2 focus:outline-secondary focus:outline-offset-2' : '',
     success: () => props.bordered ? 'border border-success focus:outline-2 focus:outline-success focus:outline-offset-2' : '',
@@ -198,22 +199,3 @@ const validationClasses = computed(() => {
   </div>
 </template>
 
-<style scoped>
-/* 输入框动画效果 */
-@keyframes input-focus {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* 输入框聚焦时的动画 */
-input:focus {
-  animation: input-focus 0.2s ease-out;
-}
-</style>

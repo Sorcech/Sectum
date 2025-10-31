@@ -2,41 +2,6 @@
 
 Menu 是一个灵活的菜单组件，支持垂直和水平布局、响应式设计、多种样式变体等功能。
 
-## 目录
-
-- [Menu 菜单组件](#menu-菜单组件)
-  - [目录](#目录)
-  - [安装](#安装)
-  - [基础用法](#基础用法)
-  - [快速开始](#快速开始)
-  - [示例展示](#示例展示)
-    - [Basic](#basic)
-    - [Hover border](#hover-border)
-    - [Rounded](#rounded)
-    - [Compact](#compact)
-    - [Compact responsive](#compact-responsive)
-    - [Horizontal](#horizontal)
-    - [Horizontal responsive](#horizontal-responsive)
-    - [Only icons](#only-icons)
-    - [Menu title](#menu-title)
-    - [Disabled](#disabled)
-  - [API 参考](#api-参考)
-    - [Props 属性](#props-属性)
-    - [响应式断点](#响应式断点)
-    - [使用示例](#使用示例)
-      - [基础菜单](#基础菜单)
-      - [带图标的菜单](#带图标的菜单)
-      - [水平菜单](#水平菜单)
-      - [响应式菜单](#响应式菜单)
-      - [带标题的分组菜单](#带标题的分组菜单)
-      - [悬停边框效果](#悬停边框效果)
-    - [样式类名](#样式类名)
-    - [自定义样式](#自定义样式)
-    - [Dark 模式支持](#dark-模式支持)
-    - [事件](#事件)
-    - [注意事项](#注意事项)
-    - [最佳实践](#最佳实践)
-
 ## 安装
 
 ```bash

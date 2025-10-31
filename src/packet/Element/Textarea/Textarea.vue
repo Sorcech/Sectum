@@ -60,7 +60,6 @@ const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
 const baseClasses = computed(() => {
   return [
     'w-full max-w-sm bg-base-100 transition-all duration-200 ease-in-out',
-    'outline-none focus:outline-1 focus:outline-base-gray-300 focus:outline-offset-1',
     'min-w-0 flex-shrink-0',
     'rounded-$rounded-btn'
   ].join(' ')
@@ -81,12 +80,12 @@ const sizeClasses = computed(() => {
 // 颜色和变体样式
 const colorVariantClasses = computed(() => {
   const variants = {
-    default: () => props.bordered ? 'border border-base-gray-300/60' : '',
-    primary: () => props.bordered ? 'border border-primary focus:outline-2 focus:outline-primary focus:outline-offset-2' : '',
-    secondary: () => props.bordered ? 'border border-secondary focus:outline-2 focus:outline-secondary focus:outline-offset-2' : '',
-    success: () => props.bordered ? 'border border-success focus:outline-2 focus:outline-success focus:outline-offset-2' : '',
-    error: () => props.bordered ? 'border border-error focus:outline-2 focus:outline-error focus:outline-offset-2' : '',
-    warning: () => props.bordered ? 'border border-warning focus:outline-2 focus:outline-warning focus:outline-offset-2' : ''
+    default: () => props.bordered ? 'border border-base-300 focus:outline-2 focus:outline-offset-2 focus:outline-base-300' : '',
+    primary: () => props.bordered ? 'border border-primary focus:outline-2 focus:outline-offset-2 focus:outline-primary' : '',
+    secondary: () => props.bordered ? 'border border-secondary focus:outline-2 focus:outline-offset-2 focus:outline-secondary' : '',
+    success: () => props.bordered ? 'border border-success focus:outline-2 focus:outline-offset-2 focus:outline-success' : '',
+    error: () => props.bordered ? 'border border-error focus:outline-2 focus:outline-offset-2 focus:outline-error' : '',
+    warning: () => props.bordered ? 'border border-warning focus:outline-2 focus:outline-offset-2 focus:outline-warning' : ''
   }
   
   const variantFn = variants[props.color as keyof typeof variants]
@@ -191,6 +190,31 @@ const blur = (e: any) => {
 </script>
 
 <style scoped>
+/* 文本域边框颜色设置 - 使用 CSS 变量确保纯色 */
+textarea.border-base-300 {
+  border-color: var(--base-300);
+}
+
+textarea.border-primary {
+  border-color: var(--primary);
+}
+
+textarea.border-secondary {
+  border-color: var(--secondary);
+}
+
+textarea.border-success {
+  border-color: var(--success);
+}
+
+textarea.border-error {
+  border-color: var(--error);
+}
+
+textarea.border-warning {
+  border-color: var(--warning);
+}
+
 /* 文本域聚焦时的动画 */
 @keyframes textarea-focus {
   0% {

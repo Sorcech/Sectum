@@ -70,12 +70,14 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     });
     const baseClasses = computed(() => {
       if (props.clean || props.item) {
-        return "bg-transparent border-none p-0 m-0 font-inherit text-inherit cursor-pointer";
+        return "bg-transparent border-none p-0 m-0 font-inherit text-inherit cursor-pointer no-underline hover:no-underline focus:no-underline";
       }
       return [
         // 基础样式 - 重置浏览器默认样式
         "border-none outline-none bg-transparent",
         "font-semibold inline-flex items-center justify-center select-none relative overflow-hidden",
+        // 链接态去下划线
+        "no-underline hover:no-underline focus:no-underline",
         // 动画和过渡 + 自定义动画类
         "transition-all duration-200 ease-out transform scale-100 btn-animate btn-ripple",
         "hover:scale-105 hover:shadow-lg",
@@ -99,7 +101,7 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
       if (props.clean || props.item) return "";
       const variants2 = {
         default: (color) => `bg-${color} text-${color}-content shadow-md hover:bg-${color}-focus hover:shadow-${color}/15`,
-        outline: (color) => `text-${color} border-2 border-${color} border-solid bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`,
+        outline: (color) => `text-${color} ring-2 ring-${color} ring-inset bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`,
         transparent: (color) => `text-${color} bg-transparent hover:bg-${color}/10`,
         link: (color) => `text-${color} bg-transparent hover:underline`
       };
@@ -186,7 +188,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const Button = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["__scopeId", "data-v-8cb75963"]]);
+const Button = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["__scopeId", "data-v-31f68421"]]);
 const _sfc_main$L = /* @__PURE__ */ defineComponent({
   __name: "Label",
   props: {
@@ -391,7 +393,6 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
       }
       return [
         "bg-base-100 transition-all duration-200 ease-in-out",
-        "outline-none focus:outline-1 focus:outline-base-gray-300 focus:outline-offset-1",
         "min-w-0 flex-shrink-0",
         // 防止溢出
         // 圆角
@@ -412,7 +413,9 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
     const colorVariantClasses = computed(() => {
       if (props.clean) return "";
       const variants2 = {
-        default: () => props.bordered ? "border border-base-gray-300/60" : "",
+        // default: 默认透明边框（保持大小不变），聚焦时显示边框（不受 bordered 影响）
+        default: () => "border border-transparent focus:border-base-300 focus:outline-2 focus:outline-base-300 focus:outline-offset-2",
+        // 其他颜色: 一直显示边框，聚焦时显示外围边框（需要 bordered 为 true）
         primary: () => props.bordered ? "border border-primary focus:outline-2 focus:outline-primary focus:outline-offset-2" : "",
         secondary: () => props.bordered ? "border border-secondary focus:outline-2 focus:outline-secondary focus:outline-offset-2" : "",
         success: () => props.bordered ? "border border-success focus:outline-2 focus:outline-success focus:outline-offset-2" : "",
@@ -522,7 +525,6 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Input = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["__scopeId", "data-v-ce64b9ed"]]);
 const _hoisted_1$u = ["disabled"];
 const _sfc_main$J = /* @__PURE__ */ defineComponent({
   __name: "Checkbox",
@@ -895,7 +897,6 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     const baseClasses = computed(() => {
       return [
         "w-full max-w-sm bg-base-100 transition-all duration-200 ease-in-out",
-        "outline-none focus:outline-1 focus:outline-base-gray-300 focus:outline-offset-1",
         "min-w-0 flex-shrink-0",
         "rounded-$rounded-btn"
       ].join(" ");
@@ -912,12 +913,12 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     });
     const colorVariantClasses = computed(() => {
       const variants2 = {
-        default: () => props.bordered ? "border border-base-gray-300/60" : "",
-        primary: () => props.bordered ? "border border-primary focus:outline-2 focus:outline-primary focus:outline-offset-2" : "",
-        secondary: () => props.bordered ? "border border-secondary focus:outline-2 focus:outline-secondary focus:outline-offset-2" : "",
-        success: () => props.bordered ? "border border-success focus:outline-2 focus:outline-success focus:outline-offset-2" : "",
-        error: () => props.bordered ? "border border-error focus:outline-2 focus:outline-error focus:outline-offset-2" : "",
-        warning: () => props.bordered ? "border border-warning focus:outline-2 focus:outline-warning focus:outline-offset-2" : ""
+        default: () => props.bordered ? "border border-base-300 focus:outline-2 focus:outline-offset-2 focus:outline-base-300" : "",
+        primary: () => props.bordered ? "border border-primary focus:outline-2 focus:outline-offset-2 focus:outline-primary" : "",
+        secondary: () => props.bordered ? "border border-secondary focus:outline-2 focus:outline-offset-2 focus:outline-secondary" : "",
+        success: () => props.bordered ? "border border-success focus:outline-2 focus:outline-offset-2 focus:outline-success" : "",
+        error: () => props.bordered ? "border border-error focus:outline-2 focus:outline-offset-2 focus:outline-error" : "",
+        warning: () => props.bordered ? "border border-warning focus:outline-2 focus:outline-offset-2 focus:outline-warning" : ""
       };
       const variantFn = variants2[props.color];
       return variantFn ? variantFn() : "";
@@ -1019,7 +1020,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["__scopeId", "data-v-87a6e8a0"]]);
+const Textarea = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["__scopeId", "data-v-d533ebeb"]]);
 const _sfc_main$E = /* @__PURE__ */ defineComponent({
   __name: "Transition",
   props: {
@@ -1349,7 +1350,7 @@ function setTop(vm) {
 const install$5 = (app) => {
   app.component("btn", Button);
   app.component("lab", Label);
-  app.component("ipt", Input);
+  app.component("ipt", _sfc_main$K);
   app.component("tgl", Toggle);
   app.component("ckb", Checkbox);
   app.component("icn", _sfc_main$H);
@@ -1556,7 +1557,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["__scopeId", "data-v-7560be56"]]);
+const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["__scopeId", "data-v-175d1f05"]]);
 function useClickOutside(target, callback) {
   if (!target)
     return;
@@ -9061,11 +9062,13 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
         isDark.value = Store.getLocalStorage("dark") === "dark";
       document.documentElement.classList.add(isDark.value ? "dark" : "light");
     });
+    watch(isDark, (newVal) => {
+      document.documentElement.classList.remove(newVal ? "light" : "dark");
+      document.documentElement.classList.add(newVal ? "dark" : "light");
+      Store.setLocalStorage("dark", newVal ? "dark" : "light");
+    });
     function setDark() {
-      document.documentElement.classList.remove(isDark.value ? "dark" : "light");
       isDark.value = !isDark.value;
-      document.documentElement.classList.add(isDark.value ? "dark" : "light");
-      Store.setLocalStorage("dark", isDark.value ? "dark" : "light");
     }
     return (_ctx, _cache) => {
       const _component_icn = resolveComponent("icn");
@@ -9100,7 +9103,7 @@ const _sfc_main$j = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1$g = { class: "site-toc order-last hidden flex-shrink-0 text-sm xl:block h-full" };
+const _hoisted_1$g = { class: "site-toc order-last hidden flex-shrink-0 text-xs xl:block h-full" };
 const _hoisted_2$5 = {
   key: 0,
   class: "!list-none pt-2 m-0"
@@ -9229,7 +9232,7 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-d16e5869"]]);
+const Catalog = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["__scopeId", "data-v-a77bdd57"]]);
 const _hoisted_1$f = { class: "flex flex-row flex-1 min-h-0 px-10" };
 const _hoisted_2$4 = { class: "lg:w-4/5 w-full lg:pr-10" };
 const _hoisted_3$4 = {
@@ -11038,7 +11041,7 @@ function _sfc_render(_ctx, _cache) {
   ])]);
 }
 const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render]]);
-const _hoisted_1$3 = { class: "flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-100 h-18" };
+const _hoisted_1$3 = { class: "flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-200 h-18 shadow-md" };
 const _hoisted_2$3 = { class: "flex justify-between items-center px-5 lg:px-30 mx-auto w-full" };
 const _hoisted_3$3 = { class: "flex items-center" };
 const _hoisted_4$1 = {
@@ -11058,6 +11061,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     const props = __props;
+    const route = useRoute();
+    const isHomePage = computed(() => route.path === "/" || route.name && String(route.name).toLowerCase().includes("home"));
     const toggleSidebar = () => {
       window.dispatchEvent(new CustomEvent("toggle-sidebar"));
     };
@@ -11068,12 +11073,13 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("nav", _hoisted_1$3, [
         createElementVNode("div", _hoisted_2$3, [
           createElementVNode("div", _hoisted_3$3, [
-            createVNode(_component_btn, {
+            !isHomePage.value ? (openBlock(), createBlock(_component_btn, {
+              key: 0,
               onClick: withModifiers(toggleSidebar, ["prevent"]),
               clean: "",
               type: "button",
               size: "xl",
-              class: "px-2 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10"
+              class: "px-5 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10"
             }, {
               default: withCtx(() => [
                 createVNode(_component_icn, {
@@ -11083,7 +11089,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
                 })
               ]),
               _: 1
-            }),
+            })) : createCommentVNode("", true),
             createElementVNode("a", _hoisted_4$1, [
               createElementVNode("span", _hoisted_5, toDisplayString$1(props.projectName || "Cloud"), 1)
             ])
@@ -11231,12 +11237,9 @@ function windowWidth() {
   return { isMdSize, isLgSize };
 }
 const _hoisted_1$1 = { class: "lg:hidden flex items-center justify-between bg-primary-200/10 px-2" };
-const _hoisted_2$1 = { class: "max-w-2xs lg:mx-2 lg:w-60" };
-const _hoisted_3$1 = {
-  class: "px-1 pl-3 text-base lg:(text-sm pb-10 h-(screen-18))",
-  "aria-label": "Docs navigation"
-};
-const _hoisted_4 = { class: "menu-title" };
+const _hoisted_2$1 = { class: "max-w-2xs lg:mx-2 lg:w-60 min-h-0 mt-5" };
+const _hoisted_3$1 = { "aria-label": "Docs navigation" };
+const _hoisted_4 = { class: "menu-title block text-base text-md font-bold bg-base-100 p-3" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "Sidebar",
   props: {
@@ -11273,7 +11276,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           show: isOpen.value
         }, null, 8, ["show"])) : createCommentVNode("", true),
         withDirectives(createElementVNode("aside", {
-          class: normalizeClass([{ "!lg:hidden": isHome.value }, "flex-none w-65 bg-base-200 border-r"])
+          class: normalizeClass([{ "!lg:hidden": isHome.value }, "flex-none w-70 bg-base-200 border-r min-h-0 overflow-y-auto hidden-scrollbar"])
         }, [
           createElementVNode("div", _hoisted_1$1, [
             createVNode(_component_btn, {
@@ -11307,12 +11310,17 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                         createElementVNode("span", _hoisted_4, toDisplayString$1(parent.meta.title), 1),
                         (openBlock(true), createElementBlock(Fragment, null, renderList(parent.children, (child) => {
                           return openBlock(), createBlock(_component_btn, {
-                            size: "sm",
+                            size: "xs",
                             clean: "",
                             variant: "transparent",
                             key: child.path,
                             onClick: ($event) => props.onNavigate ? props.onNavigate(child.path) : null,
-                            class: normalizeClass([unref(route)?.meta?.title === child.meta.title ? "border-l-2 border-primary bg-base-300 dark:bg-base-100" : ""])
+                            class: normalizeClass([
+                              "block w-full text-left px-3",
+                              // 占满与内边距
+                              unref(route)?.meta?.title === child.meta.title ? "!border-l-2 !border-y-0 !border-r-0 !border-solid !border-primary bg-base-100" : "!border-l-2 !border-y-0 !border-r-0 !border-transparent"
+                              // 未激活时占位，可选
+                            ])
                           }, {
                             default: withCtx(() => [
                               createTextVNode(toDisplayString$1(child.meta.title), 1)
@@ -17251,6 +17259,133 @@ const SectumTheme = definePreset$3(() => {
             css += `}
 `;
           }
+          css += `
+/* scrollbar styles */
+`;
+          css += `html body::-webkit-scrollbar {
+`;
+          css += `  display: none;
+`;
+          css += `}
+
+`;
+          css += `html *::-webkit-scrollbar {
+`;
+          css += `  background: var(--base-300); /* Light模式：base-300轨道 */
+`;
+          css += `  width: 8px;
+`;
+          css += `  height: 8px;
+`;
+          css += `}
+
+`;
+          css += `html *::-webkit-scrollbar-track {
+`;
+          css += `  background: var(--base-300); /* Light模式：base-300轨道 */
+`;
+          css += `}
+
+`;
+          css += `html * {
+`;
+          css += `  scrollbar-width: thin;
+`;
+          css += `  scrollbar-color: #6b7280 var(--base-300); /* Firefox: 滑块颜色 轨道颜色 */
+`;
+          css += `}
+
+`;
+          css += `html *::-webkit-scrollbar-thumb {
+`;
+          css += `  transition: background 0.2s ease-in-out;
+`;
+          css += `  border: 2px solid transparent; /* 增加边框宽度以产生浮动效果 */
+`;
+          css += `  background: #6b7280; /* 深灰色滑块（在base-300轨道上可见） */
+`;
+          css += `  border-radius: 9999px;
+`;
+          css += `  background-clip: content-box; /* 让边框透明，产生浮动效果 */
+`;
+          css += `}
+
+`;
+          css += `html *::-webkit-scrollbar-thumb:hover {
+`;
+          css += `  background: #4b5563; /* hover 时更深的灰色 */
+`;
+          css += `}
+
+`;
+          css += `html *::-webkit-scrollbar-corner {
+`;
+          css += `  background: var(--base-300); /* 角落也使用base-300 */
+`;
+          css += `}
+
+`;
+          css += `/* Dark mode scrollbar */
+`;
+          css += `.dark html *::-webkit-scrollbar,
+`;
+          css += `.dark html *::-webkit-scrollbar-track,
+`;
+          css += `.dark html *::-webkit-scrollbar-corner {
+`;
+          css += `  background: var(--dark-base-300); /* 暗色模式：dark-base-300轨道 */
+`;
+          css += `}
+
+`;
+          css += `.dark html * {
+`;
+          css += `  scrollbar-color: #4b5563 var(--dark-base-300); /* Firefox 暗色模式 */
+`;
+          css += `}
+
+`;
+          css += `.dark html *::-webkit-scrollbar-thumb {
+`;
+          css += `  background: #4b5563; /* 暗色模式：稍亮的滑块 */
+`;
+          css += `}
+
+`;
+          css += `.dark html *::-webkit-scrollbar-thumb:hover {
+`;
+          css += `  background: #6b7280; /* 暗色模式 hover */
+`;
+          css += `}
+
+`;
+          css += `/* hidden-scrollbar utility class */
+`;
+          css += `.hidden-scrollbar {
+`;
+          css += `  -ms-overflow-style: none; /* IE and Edge */
+`;
+          css += `  scrollbar-width: none; /* Firefox */
+`;
+          css += `}
+
+`;
+          css += `.hidden-scrollbar::-webkit-scrollbar {
+`;
+          css += `  display: none; /* Chrome, Safari, Opera */
+`;
+          css += `}
+
+`;
+          css += `input, textarea {
+`;
+          css += `  border-style: solid;
+`;
+          css += `  border-image: none;
+`;
+          css += `}
+
+`;
           return css;
         }
       }
@@ -17263,6 +17398,8 @@ const UnoConfig = {
     presetUno(),
     SectumTheme
   ],
+  // 确保 dark mode 使用 class 策略
+  darkMode: "class",
   rules: [
     // 自定义颜色规则 - 处理项目特有的颜色名
     [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
@@ -17282,6 +17419,20 @@ const UnoConfig = {
     }],
     [/^border-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
       return { "border-color": `var(--${color}-focus)` };
+    }],
+    // Outline 颜色（用于聚焦时的外围边框）
+    [/^outline-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { "outline-color": `var(--${color})` };
+    }],
+    [/^outline-base-(\d+)$/, ([, num]) => {
+      return { "outline-color": `var(--base-${num})` };
+    }],
+    // Ring 颜色（主题色）
+    [/^ring-(primary|secondary|success|warning|error)$/, ([, color]) => {
+      return { "--un-ring-color": `var(--${color})` };
+    }],
+    [/^ring-(primary|secondary|success|warning|error)-focus$/, ([, color]) => {
+      return { "--un-ring-color": `var(--${color}-focus)` };
     }],
     // 透明度支持
     [/^bg-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity2]) => {
@@ -17307,10 +17458,11 @@ const UnoConfig = {
     [/^hover:text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
       return { "color": `var(--${color}-content)` };
     }],
-    // Base 颜色规则
+    // Base 颜色规则 - 必须在 bg-dark-base 之前
     [/^bg-base-(\d+)$/, ([, num]) => {
       return { "background-color": `var(--base-${num})` };
     }],
+    // bg-dark-base 规则：直接使用 dark-base 变量，主要用于 dark variant
     [/^bg-dark-base-(\d+)$/, ([, num]) => {
       return { "background-color": `var(--dark-base-${num})` };
     }],
@@ -17328,6 +17480,13 @@ const UnoConfig = {
     }],
     [/^border-base-(\d+)$/, ([, num]) => {
       return { "border-color": `var(--base-${num})` };
+    }],
+    // Ring 颜色需要设置 UnoCSS 使用的变量 --un-ring-color
+    [/^ring-base-(\d+)$/, ([, num]) => {
+      return { "--un-ring-color": `var(--base-${num})` };
+    }],
+    [/^ring-dark-base-(\d+)$/, ([, num]) => {
+      return { "--un-ring-color": `var(--dark-base-${num})` };
     }],
     [/^border-dark-base-(\d+)$/, ([, num]) => {
       return { "border-color": `var(--dark-base-${num})` };
@@ -17398,9 +17557,15 @@ const UnoConfig = {
     for (const color of colors2) {
       classes.push(`border-2`, `border-${color}`, `border-solid`);
     }
+    for (const color of colors2) {
+      classes.push(`ring-${color}`, `ring-${color}-focus`);
+      classes.push(`hover:ring-${color}-focus`);
+    }
+    classes.push("ring-1", "ring-2", "ring-inset", "ring-offset-1", "ring-offset-2", "ring-offset-white", "ring-offset-transparent");
     const baseNumbers = ["100", "200", "300"];
     for (const num of baseNumbers) {
       classes.push(`bg-base-${num}`, `bg-dark-base-${num}`, `text-base-${num}`, `text-dark-base-${num}`, `border-base-${num}`, `border-dark-base-${num}`);
+      classes.push(`dark:bg-dark-base-${num}`, `dark:border-dark-base-${num}`);
     }
     classes.push("color-base-content", "color-dark-base-content");
     classes.push("border-2", "border-collapse", "border-solid");
@@ -17415,7 +17580,7 @@ const UnoConfig = {
 };
 const configInfo = {
   name: "Sectum UI UnoCSS Configuration",
-  version: "0.1.4",
+  version: "0.1.6",
   description: "UnoCSS configuration for Sectum UI component library, including presets, rules, theme extensions, and safelist.",
   usage: `
     // In your uno.config.js:
@@ -17474,7 +17639,7 @@ export {
   _sfc_main$g as FullScreen,
   _sfc_main$3 as Header,
   _sfc_main$H as Icon,
-  Input,
+  _sfc_main$K as Input,
   _sfc_main$5 as InterlinkDetail,
   Label,
   _sfc_main$k as LanguageSelect,

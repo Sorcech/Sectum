@@ -41,10 +41,18 @@ const generateTheme = (theme: Theme) => {
   for (const key in themeColor) {
     // 保持原始 hex 颜色值，不转换为 RGB
     // separate light colors  from dark
-    if (key.includes('dark'))
-      generatedTheme.dark[`--${key.replace('dark-', '')}`] = themeColor[key]
-    else
+    if (key.includes('dark')) {
+      const baseKey = key.replace('dark-', '')
+      // 在 dark 模式下，同时生成 --base-* 和 --dark-base-* 变量
+      // --base-* 用于常规使用，--dark-base-* 用于明确引用 dark 模式值（避免被主题类覆盖）
+      generatedTheme.dark[`--${baseKey}`] = themeColor[key]
+      // 只为 base-* 相关的变量生成 --dark-base-* 别名
+      if (baseKey.startsWith('base-')) {
+        generatedTheme.dark[`--dark-${baseKey}`] = themeColor[key]
+      }
+    } else {
       generatedTheme.light[`--${key}`] = themeColor[key]
+    }
   }
 
   return generatedTheme

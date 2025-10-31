@@ -10,6 +10,9 @@ export const UnoConfig = {
     SectumTheme,
   ],
 
+  // 确保 dark mode 使用 class 策略
+  darkMode: 'class',
+
   rules: [
     // 自定义颜色规则 - 处理项目特有的颜色名
     [/^bg-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
@@ -29,6 +32,20 @@ export const UnoConfig = {
     }],
     [/^border-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
       return { 'border-color': `var(--${color}-focus)` }
+    }],
+    // Outline 颜色（用于聚焦时的外围边框）
+    [/^outline-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
+      return { 'outline-color': `var(--${color})` }
+    }],
+    [/^outline-base-(\d+)$/, ([, num]: RuleParams) => {
+      return { 'outline-color': `var(--base-${num})` }
+    }],
+    // Ring 颜色（主题色）
+    [/^ring-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
+      return { '--un-ring-color': `var(--${color})` }
+    }],
+    [/^ring-(primary|secondary|success|warning|error)-focus$/, ([, color]: RuleParams) => {
+      return { '--un-ring-color': `var(--${color}-focus)` }
     }],
     // 透明度支持
     [/^bg-(primary|secondary|success|warning|error)\/([0-9]+)$/, ([, color, opacity]: RuleParams) => {
@@ -54,10 +71,11 @@ export const UnoConfig = {
     [/^hover:text-(primary|secondary|success|warning|error)-content$/, ([, color]: RuleParams) => {
       return { 'color': `var(--${color}-content)` }
     }],
-    // Base 颜色规则
+    // Base 颜色规则 - 必须在 bg-dark-base 之前
     [/^bg-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'background-color': `var(--base-${num})` }
     }],
+    // bg-dark-base 规则：直接使用 dark-base 变量，主要用于 dark variant
     [/^bg-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'background-color': `var(--dark-base-${num})` }
     }],
@@ -75,6 +93,13 @@ export const UnoConfig = {
     }],
     [/^border-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--base-${num})` }
+    }],
+    // Ring 颜色需要设置 UnoCSS 使用的变量 --un-ring-color
+    [/^ring-base-(\d+)$/, ([, num]: RuleParams) => {
+      return { '--un-ring-color': `var(--base-${num})` }
+    }],
+    [/^ring-dark-base-(\d+)$/, ([, num]: RuleParams) => {
+      return { '--un-ring-color': `var(--dark-base-${num})` }
     }],
     [/^border-dark-base-(\d+)$/, ([, num]: RuleParams) => {
       return { 'border-color': `var(--dark-base-${num})` }
@@ -157,10 +182,19 @@ export const UnoConfig = {
       classes.push(`border-2`, `border-${color}`, `border-solid`)
     }
     
+    // 添加 ring 相关类（为动态模板字符串提供静态 safelist）
+    for (const color of colors) {
+      classes.push(`ring-${color}`, `ring-${color}-focus`)
+      classes.push(`hover:ring-${color}-focus`)
+    }
+    classes.push('ring-1', 'ring-2', 'ring-inset', 'ring-offset-1', 'ring-offset-2', 'ring-offset-white', 'ring-offset-transparent')
+    
     // 添加 base 颜色类
     const baseNumbers = ['100', '200', '300']
     for (const num of baseNumbers) {
       classes.push(`bg-base-${num}`, `bg-dark-base-${num}`, `text-base-${num}`, `text-dark-base-${num}`, `border-base-${num}`, `border-dark-base-${num}`)
+      // 添加 dark variant 的版本
+      classes.push(`dark:bg-dark-base-${num}`, `dark:border-dark-base-${num}`)
     }
     classes.push('color-base-content', 'color-dark-base-content')
     

@@ -9,7 +9,7 @@
         user-link="/login"
       />
     </div>
-    <div class="flex flex-col min-h-0 flex-1">
+    <div class="flex flex-col min-h-0 flex-1 bg-base-300">
       <div class="flex flex-1 min-h-0">
         <Sidebar :routes="routeConfig" :on-navigate="handleNavigate" />
         <main class="flex-1 min-w-0 lg:ml-10">

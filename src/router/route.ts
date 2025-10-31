@@ -45,6 +45,11 @@ const route = [
               meta: { title: 'Button' },
             },
             {
+              path: '/section/label',
+              component: () => import('~/packet/Element/Label/label.md'),
+              meta: { title: 'Label' },
+            },
+            {
               path: '/section/icon',
               component: () => import('~/packet/Element/Icon/Icon.md'),
               meta: { title: 'Icon' },

@@ -9,7 +9,7 @@
   </btn>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Store } from '~/packet/Util/storage'
 const isDark = ref<boolean>(false)
 onMounted(() => {
@@ -17,10 +17,15 @@ onMounted(() => {
     isDark.value = Store.getLocalStorage('dark') === 'dark'
   document.documentElement.classList.add(isDark.value ? 'dark' : 'light')
 })
+
+// 监听isDark的变化，确保DOM类名正确更新
+watch(isDark, (newVal) => {
+  document.documentElement.classList.remove(newVal ? 'light' : 'dark');
+  document.documentElement.classList.add(newVal ? 'dark' : 'light');
+  Store.setLocalStorage('dark', newVal ? 'dark' : 'light');
+})
+
 function setDark() {
-  document.documentElement.classList.remove(isDark.value ? 'dark' : 'light');
   isDark.value = !isDark.value;
-  document.documentElement.classList.add(isDark.value ? 'dark' : 'light');
-  Store.setLocalStorage('dark', isDark.value ? 'dark' : 'light');
 }
 </script>

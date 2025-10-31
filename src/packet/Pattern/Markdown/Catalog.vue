@@ -14,17 +14,17 @@ const props = defineProps({
 })
 
 // 添加目录容器引用
-const catalogContainer = ref<HTMLElement | null>(null)
+const catalog = ref<HTMLElement | null>(null)
 const hasHeadings = computed(() => props.toc.length > 0)
 
-// 标题层级样式映射
+// 标题层级样式映射 - 控制目录缩进
 const headingCssClassMap: Record<number, string> = {
-  1: '',
-  2: '',
-  3: '',
-  4: 'ml-4',
-  5: 'ml-6',
-  6: 'ml-8',
+  1: '',      // H1 无缩进
+  2: 'ml-1',  // H2 缩进 0.5rem (8px)
+  3: 'ml-2',  // H3 缩进 1rem (16px)
+  4: 'ml-3',  // H4 缩进 1.5rem (24px)
+  5: 'ml-4',  // H5 缩进 2rem (32px)
+  6: 'ml-5', // H6 缩进 2.5rem (40px)
 }
 
 // 检查是否为活动项（优先使用滚动同步过来的 index，退化到 hash）
@@ -37,11 +37,11 @@ const isActiveItem = (slug: string) => {
 const getLinkClasses = (level: number, slug: string) => {
   const isActive = isActiveItem(slug)
   return [
-    'inline-block no-underline py-1 w-full rounded transition-colors duration-200',
+    'toc-link inline-block no-underline w-full transition-colors duration-200 text-sm py-1',
     headingCssClassMap[level] || '',
     isActive
-      ? 'text-primary-500 subpixel-antialiased border-l-2 border-primary bg-blue-50 dark:bg-blue-900/30 px-3.5'
-      : 'text-gray-700 hover:bg-base-gray-300 dark:text-gray-400 dark:hover:text-gray-400 dark:hover:bg-base-gray-600 px-4',
+      ? 'text-primary border-l-2 border-l-solid border-primary bg-base-200 dark:bg-dark-base-200 px-3.5'
+      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 px-4',
   ]
 }
 
@@ -65,32 +65,32 @@ const handleLinkClick = (event: Event, slug: string) => {
 // 暴露方法给父组件调用
 defineExpose({
   scrollToRatio: (ratio: number) => {
-    if (catalogContainer.value) {
-      const maxScrollTop = catalogContainer.value.scrollHeight - catalogContainer.value.clientHeight
-      catalogContainer.value.scrollTop = ratio * maxScrollTop
+    if (catalog.value) {
+      const maxScrollTop = catalog.value.scrollHeight - catalog.value.clientHeight
+      catalog.value.scrollTop = ratio * maxScrollTop
     }
   },
   // 滚动到指定的标题项
   scrollToItem: (slug: string) => {
-    if (catalogContainer.value) {
-      const element = catalogContainer.value.querySelector(`[href="#${slug}"]`)
+    if (catalog.value) {
+      const element = catalog.value.querySelector(`[href="#${slug}"]`)
       if (element) {
-        const containerRect = catalogContainer.value.getBoundingClientRect()
+        const containerRect = catalog.value.getBoundingClientRect()
         const elementRect = element.getBoundingClientRect()
         
         // 计算元素在容器中的位置
-        const elementTop = elementRect.top - containerRect.top + catalogContainer.value.scrollTop
+        const elementTop = elementRect.top - containerRect.top + catalog.value.scrollTop
         
         // 将元素滚动到容器中间位置
-        const scrollTo = elementTop - (catalogContainer.value.clientHeight / 2) + (elementRect.height / 2)
-        catalogContainer.value.scrollTop = scrollTo
+        const scrollTo = elementTop - (catalog.value.clientHeight / 2) + (elementRect.height / 2)
+        catalog.value.scrollTop = scrollTo
       }
     }
   },
   getScrollRatio: () => {
-    if (catalogContainer.value) {
-      const scrollTop = catalogContainer.value.scrollTop
-      const maxScrollTop = catalogContainer.value.scrollHeight - catalogContainer.value.clientHeight
+    if (catalog.value) {
+      const scrollTop = catalog.value.scrollTop
+      const maxScrollTop = catalog.value.scrollHeight - catalog.value.clientHeight
       return maxScrollTop > 0 ? scrollTop / maxScrollTop : 0
     }
     return 0
@@ -100,14 +100,14 @@ defineExpose({
 </script>
 
 <template>
-  <div class="site-toc order-last hidden flex-shrink-0 text-xs xl:block h-full">
-    <div ref="catalogContainer" class="h-full z-0 overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar">
-      <div>
-        <ul v-if="hasHeadings" class="!list-none pt-2 m-0">
-          <p class="mb-2 font-semibold tracking-tight dark:text-gray-300 pl-2">
+  <!-- 使用 UnoCSS 原子类，通过 .toc 前缀保持隔离 -->
+  <div class="toc order-last hidden flex-shrink-0 border-l border-l-solid pl-2 border-base-200 dark:border-dark-base-200 xl:block h-full">
+    <div ref="catalog" class="h-full z-0 overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar">
+        <ul v-if="hasHeadings" class="toc-list list-none m-0 p-0 pt-2">
+          <p class="toc-title text-base font-semibold my-4 mb-2 tracking-tight text-gray-900 dark:text-gray-300">
             {{ t("home.tableOfContent") }}
           </p>
-          <li v-for="heading in toc" :key="heading.slug" :class="[headingCssClassMap[heading.level], '!list-none m-0 pl-0 relative']">
+          <li v-for="heading in toc" :key="heading.slug" :class="[headingCssClassMap[heading.level], 'toc-item list-none']">
             <a 
               :href="`#${heading.slug}`" 
               :class="getLinkClasses(heading.level, heading.slug)"
@@ -118,8 +118,8 @@ defineExpose({
             </a>
             
             <!-- 递归渲染子项 -->
-            <ul v-if="heading.children && heading.children.length > 0" class="!list-none p-0 m-0">
-              <li v-for="child in heading.children" :key="child.slug" :class="[headingCssClassMap[child.level], '!list-none !m-0 !pl-0 relative group']">
+            <ul v-if="heading.children && heading.children.length > 0" class="toc-nested-list list-none m-0 p-0">
+              <li v-for="child in heading.children" :key="child.slug" :class="[headingCssClassMap[child.level], 'toc-nested-item list-none']">
                 <a 
                   :href="`#${child.slug}`" 
                   :class="getLinkClasses(child.level, child.slug)"
@@ -133,12 +133,11 @@ defineExpose({
           </li>
         </ul>
       </div>
-    </div>
   </div>
 </template>
 
 <style scoped>
-/* 隐藏滚动条 */
+/* 隐藏滚动条 - 无法用 UnoCSS 表达 */
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -148,30 +147,4 @@ defineExpose({
   display: none; /* Chrome, Safari, Opera */
 }
 
-/* 确保 hover 背景色覆盖整个目录宽度 - 只对嵌套的 li 应用 */
-.site-toc li li.group:hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -2rem; /* 扩展到左侧 padding */
-  right: -2rem; /* 扩展到右侧 padding */
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.05);
-  z-index: -1;
-  width: calc(100% + 2rem); /* 确保宽度正确计算 */
-  max-width: calc(100% + 2rem); /* 防止超出容器 */
-}
-
-.dark .site-toc li li.group:hover::before {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* 目录容器左边框（避免被 markdown.css 影响）*/
-.site-toc {
-  border-left: 1px solid var(--base-200) !important;
-}
-
-.dark .site-toc {
-  border-left-color: var(--dark-base-200) !important;
-}
 </style>

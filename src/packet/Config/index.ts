@@ -4,7 +4,7 @@ export { UnoConfig } from './uno.config'
 // 导出配置说明
 export const configInfo = {
   name: 'Sectum UI UnoCSS Configuration',
-  version: '0.1.4',
+  version: '0.1.6',
   description: 'UnoCSS configuration for Sectum UI component library, including presets, rules, theme extensions, and safelist.',
   usage: `
     // In your uno.config.js:

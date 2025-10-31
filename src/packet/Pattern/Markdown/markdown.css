@@ -48,38 +48,43 @@
 }
 
 .markdown-body h6 {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.75rem; /* text-xs */
   font-weight: 300; /* font-light */
   margin-top: 0.75rem; /* my-3 */
   margin-bottom: 0.5rem; /* mb-2 */
   color: var(--base-content); /* color-base-content */
 }
 
-.markdown-body ul:not(.menu) {
-  font-size: 1rem; /* text-base */
-  font-weight: 400; /* font-normal */
-  margin-top: 1rem; /* my-4 */
-  margin-bottom: 1rem; /* my-4 */
-  padding-left: 1.5rem; /* pl-6 */
-}
-
-.markdown-body ul:not(.menu) li {
-  margin-top: 0.5rem; /* my-2 */
-  margin-bottom: 0.5rem; /* my-2 */
-  list-style-type: disc; /* list-disc */
-  list-style-position: outside; /* list-outside */
-  line-height: 1.625; /* leading-relaxed */
-}
-
-.markdown-body ul:not(.menu) li ul {
+/* 排除 .toc 和 .menu，确保不影响 Catalog 组件和菜单 */
+/* 基础选择器：一级 ul 列表 */
+.markdown-body ul:not(.menu):not(.toc-list):not(.toc-nested-list) {
   font-size: 0.875rem; /* text-sm */
   font-weight: 400; /* font-normal */
   margin-top: 0.5rem; /* my-2 */
   margin-bottom: 0.5rem; /* my-2 */
-  padding-left: 1rem; /* pl-4 */
+  padding-left: 0.5rem; /* pl-2 */
 }
 
-.markdown-body ul:not(.menu) li ul li {
+/* 一级 ul 下的 li */
+.markdown-body ul:not(.menu):not(.toc-list):not(.toc-nested-list) > li:not(.toc-item):not(.toc-nested-item) {
+  margin-top: 0.5rem; /* my-2 */
+  margin-bottom: 0.5rem; /* my-2 */
+  list-style-type: disc; /* list-disc */
+  list-style-position: outside; /* list-outside */
+  line-height: 1; /* leading-relaxed */
+}
+
+/* 嵌套 ul（二级及更深层级） */
+.markdown-body ul:not(.menu):not(.toc-list):not(.toc-nested-list) ul:not(.toc-list):not(.toc-nested-list) {
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 400; /* font-normal */
+  margin-top: 0.5rem; /* my-2 */
+  margin-bottom: 0.5rem; /* my-2 */
+  padding-left: 0.5rem; /* pl-2 */
+}
+
+/* 嵌套 ul 下的 li */
+.markdown-body ul:not(.menu):not(.toc-list):not(.toc-nested-list) ul:not(.toc-list):not(.toc-nested-list) > li:not(.toc-item):not(.toc-nested-item) {
   margin-top: 0.25rem; /* my-1 */
   margin-bottom: 0.25rem; /* my-1 */
 }
@@ -87,18 +92,19 @@
 .markdown-body ol {
   font-size: 1rem; /* text-base */
   font-weight: 400; /* font-normal */
-  margin-top: 1rem; /* my-4 */
-  margin-bottom: 1rem; /* my-4 */
-  padding-left: 1.5rem; /* pl-6 */
-}
-
-.markdown-body ol li {
   margin-top: 0.5rem; /* my-2 */
   margin-bottom: 0.5rem; /* my-2 */
-  line-height: 1.625; /* leading-relaxed */
+  padding-left: 0.5rem; /* pl-2 */
 }
 
-.markdown-body p {
+.markdown-body ol li:not(.toc-item):not(.toc-nested-item) {
+  margin-top: 0.5rem; /* my-2 */
+  margin-bottom: 0.5rem; /* my-2 */
+  line-height: 1; /* leading-relaxed */
+}
+
+/* 排除 .toc-title，确保不影响 Catalog 组件的标题 */
+.markdown-body p:not(.toc-title) {
   font-size: 1rem; /* text-base */
   font-weight: 400; /* font-normal */
   margin-top: 1rem; /* my-4 */

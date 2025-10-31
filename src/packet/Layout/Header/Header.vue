@@ -1,13 +1,15 @@
 <template>
-  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-100 h-18 shadow-md">
+  <nav class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b bg-base-200 h-18 shadow-md">
     <div class="flex justify-between items-center px-5 lg:px-30 mx-auto w-full">
       <div class="flex items-center">
         <btn v-if="!isHomePage" @click.prevent="toggleSidebar" clean type="button" size="xl"
           class="px-5 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
           <icn name="bars" regular xl />
         </btn>
+        
         <a href="/"
-          class="inline-flex items-center text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
+          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
+          <icn name="section" solid xl color="primary" style="font-size: 2rem;" />
           <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
         </a>
       </div>

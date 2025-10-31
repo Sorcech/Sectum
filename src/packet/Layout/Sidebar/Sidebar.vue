@@ -21,7 +21,7 @@
         <template v-for="menu in props.routes" :key="menu.meta?.title">
           <Menu v-if="menu.children && menu.children.length > 1" v-for="parent in menu.children" :key="parent.meta?.title"
             class="w-full bg-base-200 ">
-            <span class="menu-title block text-base text-md font-bold bg-base-300  p-3">{{ parent.meta.title }}</span>
+            <span class="menu-title block text-base text-md font-bold bg-base-100  p-3">{{ parent.meta.title }}</span>
             <btn size="xs" clean variant="transparent" v-for="child in parent.children" :key="child.path" 
               @click="props.onNavigate ? props.onNavigate(child.path) : null"
               :class="['block w-full text-left px-3',                 // 占满与内边距
