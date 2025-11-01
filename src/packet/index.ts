@@ -15,7 +15,7 @@ export * from './Model'
 
 
 // 导出存储功能
-export { Store } from './Util/storage'
+export { Store } from './Config/storage'
 
 // 导出 UnoCSS 配置
 export * from './Config'

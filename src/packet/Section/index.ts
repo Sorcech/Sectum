@@ -13,11 +13,12 @@ import Tabs from './Tabs/Tabs.vue'
 import TabPane from './Tabs/TabPane.vue'
 import Upload from './Upload/Upload.vue'
 import File from './File/File.vue'
-//import Preview from './Preview/Preview.vue'
+import Carousel from './Carousel/Carousel.vue'
+
 
 // 导出所有组件
 export {
-  ButtonGroup, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, Date, Tabs, TabPane, Upload, File
+  ButtonGroup, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, Date, Tabs, TabPane, Upload, File, Carousel
 }
 
 const install = (app: App) => {
@@ -35,7 +36,7 @@ const install = (app: App) => {
   app.component('TabPane', TabPane)
   app.component('Upload', Upload)//上传
   app.component('File',File)//文件
-  //app.component('Preview', Preview)//预览
+  app.component('Carousel', Carousel)//轮播图
 }
 
 export default install //全局引用

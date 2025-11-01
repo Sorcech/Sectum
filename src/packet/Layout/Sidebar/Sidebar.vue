@@ -3,45 +3,58 @@
   <bkd @click="toggleSidebar" :show="isOpen" v-if="!isLgSize" />
   
   <!-- 侧边栏容器 -->
-  <aside 
-    v-show="isOpen || isLgSize" 
-    :class="{ '!lg:hidden': isHome }"
-    class="fixed lg:relative z-100 flex-none w-70 bg-base-200 border-r min-h-0 overflow-y-auto hidden-scrollbar"
-    style="height: 100vh; left: 0; top: 0;"
+  <aside v-show="isOpen || isLgSize" 
+    :class="{ '!lg:hidden': isHome, 'z-100': isOpen, 'z-0': !isOpen }"
+    class="fixed lg:relative flex flex-col flex-none w-70 bg-base-200 border-r"
+    :style="{height: '100vh',maxHeight: '100vh'}"
     @click.stop
   >
     <!-- 移动端头部 -->
-    <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-5 pt-5">
+    <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-5  flex-shrink-0">
       <btn @click="toggleSidebar" variant="transparent" color="secondary" class="!fill-base-text">
         <icn name="arrow-left" regular xl />
       </btn>
     </div>
     
-    <!-- 侧边栏内容 -->
-    <div class="max-w-2xs lg:mx-2 lg:w-60 min-h-0 mt-5 ">
+    <!-- 侧边栏内容 - 可滚动区域 -->
+    <div class="overflow-y-auto overflow-x-hidden hidden-scrollbar" 
+      :style="{
+        height: isLgSize ? '100%' : 'calc(100vh - 60px)',
+        minHeight: 0,
+        WebkitOverflowScrolling: 'touch'
+      }"
+    >
+      <div class="max-w-2xs lg:mx-2 lg:w-60" style="padding: 1.25rem 0 6rem 0;">
       <nav aria-label="Docs navigation">
-        <template v-for="menu in props.routes" :key="menu.meta?.title">
-          <Menu v-if="menu.children && menu.children.length > 1" v-for="parent in menu.children" :key="parent.meta?.title"
-            class="w-full bg-base-200 ">
-            <span class="menu-title block text-base text-md font-bold bg-base-100  p-3">{{ parent.meta.title }}</span>
-            <btn size="xs" clean variant="transparent" v-for="child in parent.children" :key="child.path" 
+        <Menu 
+          v-for="(parent, index) in menuGroups" 
+          :key="parent.meta?.title || parent.path || index"
+          class="w-full bg-base-200">
+          <span class="menu-title block text-base text-md font-bold bg-base-100  p-3">
+            {{ parent.meta?.title }}
+          </span>
+          <template v-if="parent.children && parent.children.length > 0">
+            <btn size="xs" clean variant="transparent" 
+              v-for="(child, childIndex) in parent.children" 
+              :key="child.path || childIndex" 
               @click="props.onNavigate ? props.onNavigate(child.path) : null"
-              :class="['block w-full text-left px-3',                 // 占满与内边距
-                    route?.meta?.title === child.meta.title
+              :class="['block w-full text-left px-3',
+                    route?.meta?.title === child.meta?.title
                       ? '!border-l-2 !border-y-0 !border-r-0 !border-solid !border-primary bg-base-100'
-                      : '!border-l-2 !border-y-0 !border-r-0 !border-transparent'               // 未激活时占位，可选
+                      : '!border-l-2 !border-y-0 !border-r-0 !border-transparent'
                   ]">
-              {{ child.meta.title }}
+              {{ child.meta?.title }}
             </btn>
-          </Menu>
-        </template>
+          </template>
+        </Menu>
       </nav>
+      </div>
     </div>
   </aside>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { windowWidth } from '~/packet/Util/window-width'
+import { windowWidth } from '~/packet/Config/window-width'
 
 // Props 定义
 const props = defineProps<{
@@ -77,4 +90,25 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const isHome = computed(() => route?.meta?.title === 'Index')
+
+// 获取实际的路由分组数据
+const menuGroups = computed(() => {
+  if (!props.routes || !Array.isArray(props.routes)) {
+    return []
+  }
+  
+  // 找到 /sectum 路由
+  const sectumRoute = props.routes.find(r => r.path === '/sectum')
+  if (!sectumRoute || !sectumRoute.children) {
+    return []
+  }
+  
+  // 返回所有分组，包括只有一个子项的分组
+  return sectumRoute.children.filter((group: any) => 
+    group.meta?.title && 
+    group.children && 
+    Array.isArray(group.children) && 
+    group.children.length > 0
+  )
+})
 </script>

@@ -16,7 +16,7 @@
 ## 安装
 
 ```ts
-import { Button } from 'sectum'
+import { btn } from 'sectum'
 // 或者
 import btn from 'sectum'
 ```
@@ -227,12 +227,12 @@ import btn from 'sectum'
   <Button>点击我</Button>
   
   <!-- 带颜色 -->
-  <Button color="success">成功</Button>
+  <Button color="success">成功</btn>
   
   <!-- 不同变体 -->
-  <Button variant="outline">轮廓按钮</Button>
-  <Button variant="transparent">透明按钮</Button>
-  <Button variant="link">链接按钮</Button>
+  <btn variant="outline">轮廓按钮</btn>
+  <btn variant="transparent">透明按钮</btn>
+  <btn variant="link">链接按钮</btn>
 </template>
 ```
 
@@ -241,19 +241,19 @@ import btn from 'sectum'
 ```vue
 <template>
   <!-- 不同尺寸 -->
-  <Button size="xs">超小</Button>
-  <Button size="sm">小</Button>
-  <Button size="md">中等</Button>
-  <Button size="lg">大</Button>
-  <Button size="xl">超大</Button>
+  <btn size="xs">超小</btn>
+  <btn size="sm">小</btn>
+  <btn size="md">中等</btn>
+  <btn size="lg">大</btn>
+  <btn size="xl">超大</btn>
   
   <!-- 圆角按钮 -->
-  <Button pills>圆角按钮</Button>
+  <btn pills>圆角按钮</btn>
   
   <!-- 圆形按钮 -->
-  <Button circle>
+  <btn circle>
     <Icon name="plus" />
-  </Button>
+  </btn>
 </template>
 ```
 
@@ -262,13 +262,13 @@ import btn from 'sectum'
 ```vue
 <template>
   <!-- 加载状态 -->
-  <Button loading>加载中...</Button>
+  <btn loading>加载中...</btn>
   
   <!-- 禁用状态 -->
-  <Button disabled>禁用按钮</Button>
+  <btn disabled>禁用按钮</btn>
   
   <!-- 激活状态 -->
-  <Button active>激活按钮</Button>
+  <btn active>激活按钮</btn>
 </template>
 ```
 
@@ -277,9 +277,9 @@ import btn from 'sectum'
 ```vue
 <template>
   <!-- 响应式尺寸 -->
-  <Button size="sm" md="lg" lg="xl">
+  <btn size="sm" md="lg" lg="xl">
     响应式按钮
-  </Button>
+  </btn>
 </template>
 ```
 
@@ -288,12 +288,12 @@ import btn from 'sectum'
 ```vue
 <template>
   <!-- 链接按钮 -->
-  <Button tag="a" href="/home">
+  <btn tag="a" href="/home">
     首页链接
-  </Button>
+  </btn>
   
   <!-- 输入按钮 -->
-  <Button tag="input" type="submit" value="提交" />
+  <btn tag="input" type="submit" value="提交" />
 </template>
 ```
 
@@ -301,9 +301,9 @@ import btn from 'sectum'
 
 ```vue
 <template>
-  <Button @click="handleClick">
+  <btn @click="handleClick">
     点击处理
-  </Button>
+  </btn>
 </template>
 
 <script setup>

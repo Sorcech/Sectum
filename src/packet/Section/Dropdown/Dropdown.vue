@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { useClickOutside } from '~/packet/Util/useClickOutside'
+import { useClickOutside } from '~/packet/Config/useClickOutside'
 
 const props = defineProps({
   placement: {

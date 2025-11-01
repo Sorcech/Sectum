@@ -106,7 +106,7 @@
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import I18n from '~/locale'
-import { Store } from '~/packet/Util/storage'
+import { Store } from '~/packet/Config/storage'
 // 移除业务逻辑相关的 store 导入
 
 // Props 定义

@@ -36,10 +36,10 @@ import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
 
 ## 支持的语言
 
-| 语言代码 | 显示名称 | 说明 |
-|----------|----------|------|
-| `zh-CN` | 中文 | 简体中文 |
-| `en-US` | English | 美式英语 |
+| 语言代码 | 显示名称 | 说明     |
+| -------- | -------- | -------- |
+| `zh-CN`  | 中文     | 简体中文 |
+| `en-US`  | English  | 美式英语 |
 
 ## 组件结构
 
@@ -102,7 +102,7 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
   <div class="settings-page">
     <h2>{{ $t('settings.title') }}</h2>
     
-    <div class="setting-section">
+    <div class="setting-sectum">
       <h3>{{ $t('settings.language') }}</h3>
       <div class="setting-item">
         <span>{{ $t('settings.currentLanguage') }}</span>

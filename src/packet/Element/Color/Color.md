@@ -23,43 +23,58 @@
         <div class="h-12 w-32 bg-primary flex justify-center items-center rounded-t-lg">
           <div class="text-primary-content text-sm font-medium">primary</div>
         </div>
-        <div class="h-12 w-32 bg-primary-focus flex justify-center items-center rounded-b-lg">
+        <div class="h-12 w-32 bg-primary-focus flex justify-center items-center">
           <div class="text-primary-content text-sm font-medium">primary-focus</div>
+        </div>
+        <div class="h-12 w-32 bg-primary-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-primary-content text-sm font-medium">primary-content</div>
         </div>
       </div>
       <div class="flex flex-col">
         <div class="h-12 w-32 bg-secondary flex justify-center items-center rounded-t-lg">
           <div class="text-secondary-content text-sm font-medium">secondary</div>
         </div>
-        <div class="h-12 w-32 bg-secondary-focus flex justify-center items-center rounded-b-lg">
+        <div class="h-12 w-32 bg-secondary-focus flex justify-center items-center">
           <div class="text-secondary-content text-sm font-medium">secondary-focus</div>
+        </div>
+        <div class="h-12 w-32 bg-secondary-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-secondary-content text-sm font-medium">secondary-content</div>
         </div>
       </div>
       <div class="flex flex-col">
         <div class="h-12 w-32 bg-success flex justify-center items-center rounded-t-lg">
           <div class="text-success-content text-sm font-medium">success</div>
         </div>
-        <div class="h-12 w-32 bg-success-focus flex justify-center items-center rounded-b-lg">
+        <div class="h-12 w-32 bg-success-focus flex justify-center items-center">
           <div class="text-success-content text-sm font-medium">success-focus</div>
+        </div>
+        <div class="h-12 w-32 bg-success-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-success-content text-sm font-medium">success-content</div>
         </div>
       </div>
       <div class="flex flex-col">
         <div class="h-12 w-32 bg-error flex justify-center items-center rounded-t-lg">
           <div class="text-error-content text-sm font-medium">error</div>
         </div>
-        <div class="h-12 w-32 bg-error-focus flex justify-center items-center rounded-b-lg">
+        <div class="h-12 w-32 bg-error-focus flex justify-center items-center">
           <div class="text-error-content text-sm font-medium">error-focus</div>
+        </div>
+        <div class="h-12 w-32 bg-error-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-error-content text-sm font-medium">error-content</div>
         </div>
       </div>
       <div class="flex flex-col">
         <div class="h-12 w-32 bg-warning flex justify-center items-center rounded-t-lg">
           <div class="text-warning-content text-sm font-medium">warning</div>
         </div>
-        <div class="h-12 w-32 bg-warning-focus flex justify-center items-center rounded-b-lg">
+        <div class="h-12 w-32 bg-warning-focus flex justify-center items-center">
           <div class="text-warning-content text-sm font-medium">warning-focus</div>
         </div>
+        <div class="h-12 w-32 bg-warning-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-warning-content text-sm font-medium">warning-content</div>
+        </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col border-solid border-2 rounded-lg">
         <div class="h-12 w-32 bg-base-100 flex justify-center items-center rounded-t-lg border border-base-300">
           <div class="text-base-content text-sm font-medium">base-100</div>
         </div>
@@ -190,9 +205,9 @@ document.documentElement.style.setProperty('--primary', '#ff0000');
 
 ```html
 <!-- 悬停效果 -->
-<button class="bg-primary hover:bg-primary-focus">
+<btn class="bg-primary hover:bg-primary-focus">
   悬停按钮
-</button>
+</btn>
 
 <div class="text-primary hover:text-primary-focus">
   悬停文字

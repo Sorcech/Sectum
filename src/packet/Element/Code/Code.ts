@@ -84,7 +84,7 @@ export function codePlugin(): Plugin {
         }
       )
 
-      // 最后处理行内代码 <code>...</code>（排除已经在 pre 内的）
+      // 最后处理行内代码 <code>...</code>（排除已经在 pre 内的和已经有 inline-code 类的）
       code = code.replace(
         /<code([^>]*)>([\s\S]*?)<\/code>/gi,
         (match, attrs, content) => {
@@ -94,6 +94,16 @@ export function codePlugin(): Plugin {
             attrs.includes("class='language-") || 
             attrs.includes('class=language-') ||
             attrs.includes('language-')
+          )) {
+            return match
+          }
+          
+          // 如果已经有 inline-code 类，说明已经被 markdown-it 处理过，跳过
+          if (attrs && (
+            attrs.includes('class="inline-code') || 
+            attrs.includes("class='inline-code") || 
+            attrs.includes('class=inline-code') ||
+            attrs.includes('inline-code')
           )) {
             return match
           }

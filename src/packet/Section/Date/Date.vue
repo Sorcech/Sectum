@@ -105,7 +105,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
-import { useClickOutside } from '~/packet/Util/useClickOutside'
+import { useClickOutside } from '~/packet/Config/useClickOutside'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

@@ -27,7 +27,7 @@ export default [{
   icon: 'blog',
   path: '/blog'
 }, {
-  title: 'Section',
-  icon: 'section',
+  title: 'Sectum',
+  icon: 'sectum',
   path: '/sectum/'
 }]

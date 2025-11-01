@@ -5,125 +5,185 @@ const route = [
       meta: { title: 'Index' },
     },
     {
-      path: '/section',
+      path: '/sectum',
       component: () => import('~/view/index.vue'),
-      meta: { title: 'Section' },
       children: [
         {
-          path: '/section/',
+          path: '/sectum/',
           meta: { title: 'Introduce' },
           children: [
             {
-              path: '/section/started',
-              component: () => import('~/packet/Intro/started.md'),
+              path: '/sectum/started',
+              component: () => import('~/packet/Config/Started.md'),
               meta: { title: 'Started' },
-            },
-                        {
-              path: '/section/color',
-              component: () => import('~/packet/Intro/color.md'),
-              meta: { title: 'Color' },
-            },
-            {
-              path: '/section/theme',
-              component: () => import('~/packet/Intro/theme.md'),
-              meta: { title: 'Theme' },
             },
           ]
         },
         {
-          path: '/section/',
+          path: '/sectum/',
           meta: { title: 'Element' },
           children: [
             {
-              path: '/section/button',
-              component: () => import('~/packet/Element/Button/button.md'),
+              path: '/sectum/color',
+              component: () => import('~/packet/Element/Color/Color.md'),
+              meta: { title: 'Color' },
+            },
+            {
+              path: '/sectum/button',
+              component: () => import('~/packet/Element/Button/Button.md'),
               meta: { title: 'Button' },
             },
             {
-              path: '/section/label',
-              component: () => import('~/packet/Element/Label/label.md'),
+              path: '/sectum/label',
+              component: () => import('~/packet/Element/Label/Label.md'),
               meta: { title: 'Label' },
             },
             {
-              path: '/section/icon',
+              path: '/sectum/icon',
               component: () => import('~/packet/Element/Icon/Icon.md'),
               meta: { title: 'Icon' },
             },
             {
-              path: '/section/input',
-              component: () => import('~/packet/Element/Input/input.md'),
+              path: '/sectum/input',
+              component: () => import('~/packet/Element/Input/Input.md'),
               meta: { title: 'Input' },
             },
             {
-              path: '/section/checkbox',
-              component: () => import('~/packet/Element/Checkbox/checkbox.md'),
+              path: '/sectum/checkbox',
+              component: () => import('~/packet/Element/Checkbox/Checkbox.md'),
               meta: { title: 'Checkbox' },
             },
             {
-              path: '/section/toggle',
-              component: () => import('~/packet/Element/Toggle/toggle.md'),
+              path: '/sectum/toggle',
+              component: () => import('~/packet/Element/Toggle/Toggle.md'),
               meta: { title: 'Toggle' },
             }
           ]
         },
         {
-          path: '/section/',
+          path: '/sectum/',
           meta: { title: 'Section' },
           children: [
             {
-              path: '/section/buttongroup',
+              path: '/sectum/buttongroup',
               component: () => import('~/packet/Section/ButtonGroup/ButtonGroup.md'),
               meta: { title: 'ButtonGroup' },
             },
             {
-              path: '/section/menu',
-              component: () => import('~/packet/Section/Menu/menu.md'),
+              path: '/sectum/menu',
+              component: () => import('~/packet/Section/Menu/Menu.md'),
               meta: { title: 'Menu' },
             },
             {
-              path: '/section/dropdown',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
+              path: '/sectum/dropdown',
+              component: () => import('~/packet/Section/Dropdown/Dropdown.md'),
               meta: { title: 'Dropdown' },
             },
             {
-              path: '/section/modal',
-              component: () => import('~/packet/Section/Modal/modal.md'),
+              path: '/sectum/modal',
+              component: () => import('~/packet/Section/Modal/Modal.md'),
               meta: { title: 'Modal' },
             },
-          ]
-        },
-        {
-          path: '/section/',
-          meta: { title: 'Pattern' },
-          children: [
             {
-              path: '/section/dropdown',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
+              path: '/sectum/table',
+              component: () => import('~/packet/Section/Table/Table.md'),
+              meta: { title: 'Table' },
+            },
+            {
+              path: '/sectum/tabs',
+              component: () => import('~/packet/Section/Tabs/Tabs.md'),
+              meta: { title: 'Tabs' },
+            },
+            {
+              path: '/sectum/upload',
+              component: () => import('~/packet/Section/Upload/Upload.md'),
+              meta: { title: 'Upload' },
+            },
+            {
+              path: '/sectum/file',
+              component: () => import('~/packet/Section/File/File.md'),
+              meta: { title: 'File' },
+            },
+            {
+              path: '/sectum/form',
+              component: () => import('~/packet/Section/Form/Form.md'),
               meta: { title: 'Form' },
             },
             {
-              path: '/section/menu',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
+              path: '/sectum/select',
+              component: () => import('~/packet/Section/Select/Select.md'),
+              meta: { title: 'Select' },
+            },
+            {
+              path: '/sectum/date',
+              component: () => import('~/packet/Section/Date/Date.md'),
+              meta: { title: 'Date' },
+            },
+            {
+              path: '/sectum/drawer',
+              component: () => import('~/packet/Section/Drawer/Drawer.md'),
               meta: { title: 'Drawer' },
+            },
+            {
+              path: '/sectum/carousel',
+              component: () => import('~/packet/Section/Carousel/Carousel.md'),
+              meta: { title: 'Carousel' },
             }
           ]
         },
         {
-          path: '/section/',
-          meta: { title: 'Template' },
+          path: '/sectum/',
+          meta: { title: 'Pattern' },
           children: [
             {
-              path: '/section/dropdown',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
-              meta: { title: 'Blog' },
+              path: '/sectum/theme',
+              component: () => import('~/packet/Pattern/Theme/Theme.md'),
+              meta: { title: 'Theme' },
             },
             {
-              path: '/section/menu',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
-              meta: { title: 'Document' },
+              path: '/sectum/darkchange',
+              component: () => import('~/packet/Pattern/Dark/Darkchange.md'),
+              meta: { title: 'Darkchange' },
+            },
+            {
+              path: '/sectum/language',
+              component: () => import('~/packet/Pattern/Language/LanguageSelect.md'),
+              meta: { title: 'Language' },
+            },
+            {
+              path: '/sectum/markdown',
+              component: () => import('~/packet/Pattern/Markdown/Markdown.md'),
+              meta: { title: 'Markdown' },
+            },
+            {
+              path: '/sectum/fullscreen',
+              component: () => import('~/packet/Pattern/Fullscreen/Fullscreen.md'),
+              meta: { title: 'Fullscreen' },
+            },
+          ]
+        },
+        {
+          path: '/sectum/',
+          meta: { title: 'Model' },
+          children: [
+            {
+              path: '/sectum/form',
+              component: () => import('~/packet/Section/Form/Form.md'),
+              meta: { title: 'Form' },
             }
           ]
         },
+        {
+          path: '/sectum/',
+          meta: { title: 'Layout' },
+          children: [
+            {
+              path: '/sectum/dropdown',
+              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
+              meta: { title: 'Blog' },
+            }
+          ]
+        }
       ]
     }
   ]

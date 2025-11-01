@@ -42,7 +42,7 @@ const state = reactive({
   options: [
     { label: computed(() => t('project.order')), value: 0 },
     { label: computed(() => t('project.train')), value: 1 },
-    { label: computed(() => t('project.section')), value: 2 },
+    { label: computed(() => t('project.sectum')), value: 2 },
     { label: computed(() => t('project.assembly')), value: 3 },
     { label: computed(() => t('project.source')), value: 4 },
     { label: computed(() => t('project.machine')), value: 5 },

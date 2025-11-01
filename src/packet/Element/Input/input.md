@@ -18,7 +18,7 @@
 ## 安装
 
 ```ts
-import { Input } from 'sectum'
+import { ipt } from 'sectum'
 // 或者
 import ipt from 'sectum'
 ```
@@ -264,13 +264,13 @@ import ipt from 'sectum'
 ```vue
 <template>
   <!-- 基础输入框 -->
-  <Input v-model="value" placeholder="请输入内容" />
+  <ipt v-model="value" placeholder="请输入内容" />
   
   <!-- 带标签 -->
-  <Input v-model="name" label="姓名" placeholder="请输入姓名" />
+  <ipt v-model="name" label="姓名" placeholder="请输入姓名" />
   
   <!-- 带验证 -->
-  <Input 
+  <ipt 
     v-model="email" 
     label="邮箱" 
     type="email" 
@@ -293,10 +293,10 @@ const emailError = ref('')
 
 ```vue
 <template>
-  <Input color="primary" placeholder="主要输入框" />
-  <Input color="success" placeholder="成功输入框" />
-  <Input color="warning" placeholder="警告输入框" />
-  <Input color="error" placeholder="错误输入框" />
+  <ipt color="primary" placeholder="主要输入框" />
+  <ipt color="success" placeholder="成功输入框" />
+  <ipt color="warning" placeholder="警告输入框" />
+  <ipt color="error" placeholder="错误输入框" />
 </template>
 ```
 
@@ -305,17 +305,17 @@ const emailError = ref('')
 ```vue
 <template>
   <!-- 不同尺寸 -->
-  <Input size="xs" placeholder="超小" />
-  <Input size="sm" placeholder="小" />
-  <Input size="md" placeholder="中等" />
-  <Input size="lg" placeholder="大" />
-  <Input size="xl" placeholder="超大" />
+  <ipt size="xs" placeholder="超小" />
+  <ipt size="sm" placeholder="小" />
+  <ipt size="md" placeholder="中等" />
+  <ipt size="lg" placeholder="大" />
+  <ipt size="xl" placeholder="超大" />
   
   <!-- 圆角输入框 -->
-  <Input pills placeholder="圆角输入框" />
+  <ipt pills placeholder="圆角输入框" />
   
   <!-- 圆形输入框 -->
-  <Input circle placeholder="●" />
+  <ipt circle placeholder="●" />
 </template>
 ```
 
@@ -324,13 +324,13 @@ const emailError = ref('')
 ```vue
 <template>
   <!-- 加载状态 -->
-  <Input loading placeholder="加载中..." />
+  <ipt loading placeholder="加载中..." />
   
   <!-- 禁用状态 -->
-  <Input disabled placeholder="禁用输入框" />
+  <ipt disabled placeholder="禁用输入框" />
   
   <!-- 错误状态 -->
-  <Input 
+  <ipt 
     color="error" 
     error="此字段为必填项" 
     placeholder="错误输入框" 
@@ -343,7 +343,7 @@ const emailError = ref('')
 ```vue
 <template>
   <!-- 响应式尺寸 -->
-  <Input 
+  <ipt 
     size="sm" 
     md="lg" 
     lg="xl" 
@@ -357,7 +357,7 @@ const emailError = ref('')
 ```vue
 <template>
   <!-- 复杂组合 -->
-  <Input 
+  <ipt 
     v-model="search"
     color="primary" 
     size="lg" 
@@ -368,20 +368,20 @@ const emailError = ref('')
   
   <!-- 表单组合 -->
   <div class="space-y-4">
-    <Input 
+    <ipt 
       v-model="form.name"
       label="姓名" 
       placeholder="请输入姓名"
       :error="errors.name"
     />
-    <Input 
+    <ipt 
       v-model="form.email"
       label="邮箱" 
       type="email"
       placeholder="请输入邮箱"
       :error="errors.email"
     />
-    <Input 
+    <ipt 
       v-model="form.password"
       label="密码" 
       type="password"

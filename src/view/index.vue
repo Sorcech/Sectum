@@ -9,6 +9,7 @@
         user-link="https://github.com/Sorcech/Sectum"
         user-icon="github"
         :user-icon-brand="true"
+        :background-opacity="0.5"
       />
     </div>
     <div class="flex flex-col min-h-0 flex-1 bg-base-300">

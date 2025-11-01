@@ -5,13 +5,13 @@ Menu 是一个灵活的菜单组件，支持垂直和水平布局、响应式设
 ## 安装
 
 ```bash
-npm install sectionui
+npm install sectum
 ```
 
 ## 基础用法
 
 ```javascript
-import { Menu } from 'sectionui'
+import { Menu } from 'sectum'
 ```
 
 ## 快速开始
@@ -252,14 +252,14 @@ Horizontal by default and vertical on small screen (sm).
 
 ### Props 属性
 
-| 属性名 | 类型 | 默认值 | 说明 |
-|--------|------|--------|------|
-| `compact` | `Boolean \| String` | `false` | 紧凑模式，支持响应式断点 `sm`、`md`、`lg`、`xl` |
-| `horizontal` | `Boolean \| String` | `false` | 水平布局，支持响应式断点 `sm`、`md`、`lg`、`xl` |
-| `shadow` | `Boolean` | `false` | 是否显示阴影效果 |
-| `rounded` | `Boolean` | `false` | 是否显示圆角边框 |
-| `padding` | `Boolean` | `false` | 是否添加内边距，并为菜单项添加圆角 |
-| `hoverBorder` | `Boolean` | `false` | 是否在悬停时显示左侧边框 |
+| 属性名        | 类型                | 默认值  | 说明                                            |
+| ------------- | ------------------- | ------- | ----------------------------------------------- |
+| `compact`     | `Boolean \| String` | `false` | 紧凑模式，支持响应式断点 `sm`、`md`、`lg`、`xl` |
+| `horizontal`  | `Boolean \| String` | `false` | 水平布局，支持响应式断点 `sm`、`md`、`lg`、`xl` |
+| `shadow`      | `Boolean`           | `false` | 是否显示阴影效果                                |
+| `rounded`     | `Boolean`           | `false` | 是否显示圆角边框                                |
+| `padding`     | `Boolean`           | `false` | 是否添加内边距，并为菜单项添加圆角              |
+| `hoverBorder` | `Boolean`           | `false` | 是否在悬停时显示左侧边框                        |
 
 ### 响应式断点
 

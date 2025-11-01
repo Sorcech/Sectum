@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
     return {
       define,
       build: {
+        outDir: 'lib', // 组件库输出到 lib 目录
         lib: {
           entry: pathResolve(__dirname, 'src/index.ts'),
           name: 'Sectum',
@@ -100,12 +101,12 @@ export default defineConfig(({ mode }) => {
         VuePlugin({
           include: [/\.vue$/],
         }),
-        // 复制配置文件到 dist 目录
+        // 复制配置文件到 lib 目录
         {
           name: 'copy-config',
           writeBundle() {
             const configSource = 'src/packet/Config/uno.config.ts'
-            const configDest = 'dist/uno.config.ts'
+            const configDest = 'lib/uno.config.ts'
             if (existsSync(configSource)) {
               copyFileSync(configSource, configDest)
             }
@@ -134,7 +135,7 @@ export default defineConfig(({ mode }) => {
       cors: true
     },
     build: {
-      outDir: mode === 'production' ? 'dist-site' : 'dist', // 生产模式输出到 dist-site，避免与组件库构建冲突
+      outDir: 'dist', // 网页版本输出到 dist 目录
       assetsDir: 'assets',
       sourcemap: false, // 生产环境不生成 sourcemap，减小体积
       minify: 'terser', // 使用 terser 压缩
@@ -186,20 +187,20 @@ export default defineConfig(({ mode }) => {
         '~/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`,
         // 在生产构建时，将 Node.js 专用模块替换为虚拟模块（这些模块只被构建时插件使用，不应该出现在最终 bundle 中）
         ...(mode === 'production' ? {
-          'tinyexec': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'local-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'mlly': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          '@antfu/install-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'pkg-types': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'package-manager-detector': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          '@iconify/utils/lib/loader/fs': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          '@iconify/utils/lib/loader/install-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'tinyexec': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'local-pkg': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'mlly': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          '@antfu/install-pkg': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'pkg-types': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'package-manager-detector': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          '@iconify/utils/lib/loader/fs': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          '@iconify/utils/lib/loader/install-pkg': pathResolve(__dirname, 'vite.virtual.empty.js'),
           // 也替换 @iconify/utils 使用的其他依赖
-          '@antfu/utils': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'kolorist': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          '@antfu/utils': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'kolorist': pathResolve(__dirname, 'vite.virtual.empty.js'),
           // 替换 Node.js 内置模块 fs（包含 promises API）
-          'fs': pathResolve(__dirname, 'vite-virtual-empty.js'),
-          'fs/promises': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'fs': pathResolve(__dirname, 'vite.virtual.empty.js'),
+          'fs/promises': pathResolve(__dirname, 'vite.virtual.empty.js'),
         } : {}),
       },
     },
@@ -245,8 +246,9 @@ export default defineConfig(({ mode }) => {
               .replace(/"/g, '&quot;')
               .replace(/'/g, '&#39;')
             
-            // 返回行内 Code 组件
-            return `<cod inline code="${escapedCode}"></cod>`
+            // 对于行内代码，直接使用 HTML code 标签，不转换为 Vue 组件
+            // 这样可以确保在表格单元格中也能正常渲染
+            return `<code class="inline-code">${escapedCode}</code>`
           }
         }
       }),// 移除wrapperComponent，因为我们使用自定义的auto-wrap-plugin

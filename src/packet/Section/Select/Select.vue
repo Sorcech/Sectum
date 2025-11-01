@@ -26,7 +26,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watch, computed } from 'vue'
-import { useClickOutside } from '~/packet/Util/useClickOutside'
+import { useClickOutside } from '~/packet/Config/useClickOutside'
 
 // 定义选项接口
 interface SelectOption {

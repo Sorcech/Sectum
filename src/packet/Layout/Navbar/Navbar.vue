@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Store } from '~/packet/Util/storage'
+import { Store } from '~/packet/Config/storage'
 import navbar from '~/packet/Layout/Navbar/navbar'
 
 let ind = ref(0)

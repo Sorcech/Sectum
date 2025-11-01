@@ -37,13 +37,13 @@ import ThemeSelect from '~/packet/Pattern/Theme/ThemeSelect.vue'
 
 ## 支持的主题
 
-| 主题代码 | 显示名称 | 色彩预览 | 说明 |
-|----------|----------|----------|------|
-| `theme-default` | 蓝色主题 | 🔵 | 默认蓝色主题 |
-| `theme-teal` | 青色主题 | 🟢 | 青绿色主题 |
-| `theme-rose` | 玫瑰主题 | 🌹 | 玫瑰红色主题 |
-| `theme-violet` | 紫色主题 | 🟣 | 紫罗兰主题 |
-| `theme-orange` | 橙色主题 | 🟠 | 橙色主题 |
+| 主题代码        | 显示名称 | 色彩预览 | 说明         |
+| --------------- | -------- | -------- | ------------ |
+| `theme-default` | 蓝色主题 | 🔵        | 默认蓝色主题 |
+| `theme-teal`    | 青色主题 | 🟢        | 青绿色主题   |
+| `theme-rose`    | 玫瑰主题 | 🌹        | 玫瑰红色主题 |
+| `theme-violet`  | 紫色主题 | 🟣        | 紫罗兰主题   |
+| `theme-orange`  | 橙色主题 | 🟠        | 橙色主题     |
 
 ## 组件结构
 
@@ -108,7 +108,7 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
   <div class="settings-page">
     <h2>{{ $t('settings.title') }}</h2>
     
-    <div class="setting-section">
+    <div class="setting-sectum">
       <h3>{{ $t('settings.appearance') }}</h3>
       <div class="setting-item">
         <span>{{ $t('settings.theme') }}</span>

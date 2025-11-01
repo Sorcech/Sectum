@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  checked: { type: Boolean, default: false, required: true },
+  checked: { type: Boolean, default: false, required: false },
   color: {
     type: String, default: 'primary',
     validator: (value: string) => {

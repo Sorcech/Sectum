@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import I18n from '~/locale'
-import { Store } from '~/packet/Util/storage'
+import { Store } from '~/packet/Config/storage'
 
 const setLanguage = (locale: 'zh-CN' | 'en-US') => {
   if (locale !== I18n.global.locale.value) {
