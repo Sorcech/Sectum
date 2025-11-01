@@ -3,7 +3,7 @@
   "type": "module",
   "sideEffects": false,
   "private": false,
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts",
   "keywords": [
     "vue3",
