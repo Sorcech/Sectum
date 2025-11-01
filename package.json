@@ -46,11 +46,28 @@
     "dev:secure": "vite --https --host localhost --port 3000",
     "build": "rimraf dist && vite build",
     "build:lib": "rimraf dist && vite build --mode library",
+    "build:site": "rimraf dist-site && vite build --mode production",
     "preview": "vite preview",
+    "preview:site": "vite preview dist-site",
     "prepublishOnly": "npm run build:lib",
     "publish:patch": "npm version patch && npm publish",
     "publish:minor": "npm version minor && npm publish",
     "publish:major": "npm version major && npm publish"
+  },
+  "_scripts_comments": {
+    "dev": "启动开发服务器,端口 3000,自动打开浏览器",
+    "dev:http": "启动开发服务器(HTTP),监听 localhost",
+    "dev:https": "启动开发服务器(HTTPS),通过环境变量启用",
+    "dev:secure": "启动开发服务器(HTTPS),直接启用 SSL",
+    "build": "构建项目(默认模式,用于网页版本)",
+    "build:lib": "构建组件库(用于 npm 发布)",
+    "build:site": "构建网页版本(输出到 dist-site 目录,用于网站部署)",
+    "preview": "预览构建后的文件(默认 dist 目录)",
+    "preview:site": "预览构建后的网页版本(dist-site 目录)",
+    "prepublishOnly": "npm publish 前自动执行的钩子,确保发布前构建组件库",
+    "publish:patch": "发布补丁版本(0.1.7 -> 0.1.8)",
+    "publish:minor": "发布次要版本(0.1.7 -> 0.2.0)",
+    "publish:major": "发布主要版本(0.1.7 -> 1.0.0)"
   },
   "peerDependencies": {
     "vue": "^3.0.0",

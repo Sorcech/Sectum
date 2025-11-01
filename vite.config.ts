@@ -12,6 +12,9 @@ import { resolve as pathResolve } from 'node:path'
 import { copyFileSync, existsSync } from 'node:fs'
 import { UnoConfig } from './src/packet/Config'
 
+// 获取当前文件的目录路径（ES 模块中的 __dirname 替代方案）
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 export default defineConfig(({ mode }) => {
   // 根据环境变量决定是否使用HTTPS
   const useHttps = process.env.VITE_HTTPS === 'true'
@@ -112,9 +115,10 @@ export default defineConfig(({ mode }) => {
     }
   }
   
-  // 开发环境配置
+  // 网页构建配置（非 library 模式）
   return {
     define,
+    base: mode === 'production' ? './' : '/', // 生产模式使用相对路径，开发模式使用绝对路径
     server: {
       ...(useHttps ? {
         https: {
@@ -130,12 +134,73 @@ export default defineConfig(({ mode }) => {
       cors: true
     },
     build: {
+      outDir: mode === 'production' ? 'dist-site' : 'dist', // 生产模式输出到 dist-site，避免与组件库构建冲突
+      assetsDir: 'assets',
+      sourcemap: false, // 生产环境不生成 sourcemap，减小体积
+      minify: 'terser', // 使用 terser 压缩
       chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          // 手动分割代码块，优化加载性能
+          manualChunks: {
+            'vue-vendor': ['vue', 'vue-router', 'vue-i18n'],
+            'markdown-vendor': ['unplugin-vue-markdown', 'markdown-it'],
+          }
+        },
+        onwarn(warning, warn) {
+          // 忽略 Node.js 模块外部化的警告（这些模块只被构建时插件使用，不应该出现在最终 bundle 中）
+          if (warning.code === 'EXTERNALIZED_MODULE') {
+            return
+          }
+          // 忽略无法解析的 Node.js 内置模块（它们只被构建时插件使用）
+          if (warning.code === 'UNRESOLVED_IMPORT' && (
+            warning.id?.startsWith('node:') ||
+            warning.id === 'fs' || warning.id === 'path' || warning.id === 'util' ||
+            warning.id === 'stream' || warning.id === 'child_process' || warning.id === 'readline' ||
+            warning.id?.includes('tinyexec') || warning.id?.includes('local-pkg') ||
+            warning.id?.includes('mlly') || warning.id?.includes('@antfu/install-pkg') ||
+            warning.id?.includes('pkg-types') || warning.id?.includes('package-manager-detector') ||
+            warning.id?.includes('@iconify/utils')
+          )) {
+            return
+          }
+          warn(warning)
+        }
+      },
+      commonjsOptions: {
+        // 排除这些 Node.js 专用的模块，它们不应该被打包
+        exclude: [
+          'tinyexec',
+          'local-pkg',
+          'mlly',
+          '@antfu/install-pkg',
+          'pkg-types',
+          'package-manager-detector',
+          '@iconify/utils'
+        ]
+      },
       //copyPublicDir: false// 忽略 public 文件夹，不复制到 dist 目录
     },
     resolve: {
       alias: {
         '~/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`,
+        // 在生产构建时，将 Node.js 专用模块替换为虚拟模块（这些模块只被构建时插件使用，不应该出现在最终 bundle 中）
+        ...(mode === 'production' ? {
+          'tinyexec': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'local-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'mlly': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          '@antfu/install-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'pkg-types': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'package-manager-detector': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          '@iconify/utils/lib/loader/fs': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          '@iconify/utils/lib/loader/install-pkg': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          // 也替换 @iconify/utils 使用的其他依赖
+          '@antfu/utils': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'kolorist': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          // 替换 Node.js 内置模块 fs（包含 promises API）
+          'fs': pathResolve(__dirname, 'vite-virtual-empty.js'),
+          'fs/promises': pathResolve(__dirname, 'vite-virtual-empty.js'),
+        } : {}),
       },
     },
     plugins: [

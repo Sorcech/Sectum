@@ -6,10 +6,12 @@
   <aside 
     v-show="isOpen || isLgSize" 
     :class="{ '!lg:hidden': isHome }"
-    class="flex-none w-70 bg-base-200 border-r min-h-0 overflow-y-auto hidden-scrollbar"
+    class="fixed lg:relative z-100 flex-none w-70 bg-base-200 border-r min-h-0 overflow-y-auto hidden-scrollbar"
+    style="height: 100vh; left: 0; top: 0;"
+    @click.stop
   >
     <!-- 移动端头部 -->
-    <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-2">
+    <div class="lg:hidden flex items-center justify-between bg-primary-200/10 px-5 pt-5">
       <btn @click="toggleSidebar" variant="transparent" color="secondary" class="!fill-base-text">
         <icn name="arrow-left" regular xl />
       </btn>
