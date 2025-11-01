@@ -148,89 +148,7 @@
   border-radius: 0.125rem; /* rounded-sm */
 }
 
-/* Code 组件样式 - 替代原来的 pre 和 code 样式 */
-.markdown-body .code--block,
-.markdown-body pre.code--block {
-  font-size: 0.875rem; /* text-sm */
-  padding-left: 1.25rem; /* px-5 */
-  padding-right: 1.25rem; /* px-5 */
-  padding-top: 1rem; /* py-4 */
-  padding-bottom: 1rem; /* py-4 */
-  background-color: var(--base-200); /* bg-base-200 */
-  border-radius: 0.5rem; /* rounded-lg */
-  border: 1px solid var(--base-100); /* border border-base-100 */
-  overflow-x: auto; /* overflow-x-auto */
-  margin-top: 1rem; /* my-4 */
-  margin-bottom: 1rem; /* my-4 */
-  line-height: 1.5; /* leading-normal */
-  color: var(--base-content); /* color-base-content */
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; /* font-mono */
-  /* 代码块选择高亮 */
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-}
-
-.markdown-body .code--inline,
-.markdown-body code.code--inline {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; /* font-mono */
-  font-size: 0.875rem; /* text-sm */
-  background-color: var(--base-200); /* bg-base-200 */
-  padding-left: 0.375rem; /* px-1.5 */
-  padding-right: 0.375rem; /* px-1.5 */
-  padding-top: 0.125rem; /* py-0.5 */
-  padding-bottom: 0.125rem; /* py-0.5 */
-  border-radius: 0.25rem; /* rounded */
-  border: 1px solid var(--base-100); /* border border-base-100 */
-  color: var(--base-content); /* color-base-content */
-  /* 行内代码选择高亮 */
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-}
-
-/* Code 组件选择高亮 */
-.markdown-body .code::selection,
-.markdown-body .code ::selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
-
-.markdown-body .code::-moz-selection,
-.markdown-body .code ::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
-
-/* 代码块内的 code 元素样式（Code 组件内部使用） */
-.markdown-body .code--block code.__code__ {
-  background-color: transparent; /* bg-transparent */
-  padding: 0; /* p-0 */
-  border: none; /* border-none */
-  border-radius: 0; /* rounded-none */
-  color: inherit; /* text-inherit color-inherit */
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  white-space: pre; /* 保持代码的原始格式，包括换行和缩进 */
-  /* 代码块内代码选择高亮 */
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-}
-
-.markdown-body .code--block code.__code__::selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
-
-.markdown-body .code--block code.__code__::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
+/* Code 组件样式已迁移到 Code.vue 组件中 */
 
 /* 表格样式 - 支持 .markdown-body 和 .markdown-container.markdown-body */
 /* 使用更高特异性的选择器来覆盖 UnoCSS presetUno 的默认样式 */
@@ -336,43 +254,7 @@
   color: var(--dark-base-content, #f9fafb); /* 暗色主题列表项文字颜色 - 浅灰色 */
 }
 
-/* Code 组件暗色主题样式 */
-.dark .markdown-body .code--block,
-.dark .markdown-body pre.code--block {
-  background-color: var(--dark-base-200); /* bg-dark-base-200 */
-  color: var(--dark-base-content, #f9fafb); /* 暗色主题代码块文字颜色 - 浅灰色 */
-  border-color: var(--dark-base-100); /* border-dark-base-100 */
-}
-
-.dark .markdown-body .code--inline,
-.dark .markdown-body code.code--inline {
-  background-color: var(--dark-base-200); /* bg-dark-base-200 */
-  color: var(--dark-base-content, #f9fafb); /* 暗色主题行内代码文字颜色 - 浅灰色 */
-  border-color: var(--dark-base-100); /* border-dark-base-100 */
-}
-
-/* 暗色主题代码选择高亮 */
-.dark .markdown-body .code::selection,
-.dark .markdown-body .code ::selection {
-  background-color: rgba(59, 130, 246, 0.4); /* 暗色主题下稍微更亮一些 */
-  color: inherit;
-}
-
-.dark .markdown-body .code::-moz-selection,
-.dark .markdown-body .code ::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: inherit;
-}
-
-.dark .markdown-body .code--block code.__code__::selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: inherit;
-}
-
-.dark .markdown-body .code--block code.__code__::-moz-selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: inherit;
-}
+/* Code 组件暗色主题样式已迁移到 Code.vue 组件中 */
 
 .dark .markdown-body > table,
 .dark .markdown-body table,

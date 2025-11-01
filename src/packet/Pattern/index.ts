@@ -16,7 +16,7 @@ const install = (app: App) => {
   app.component('Language', LanguageSelect);//语言选择
   app.component('Dark', DarkChange);//黑白主题切换
   app.component('Markdown', Markdown);//Markdown文档解析
-  app.component('Toc', Catalog);//目录组件
+  app.component('Catalog', Catalog);//目录组件
   app.component('FullScreen', FullScreen);//全屏切换
 }
 
