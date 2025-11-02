@@ -11,6 +11,7 @@ import { codePlugin } from './src/packet/Element/Code/Code'
 import { resolve as pathResolve } from 'node:path'
 import { copyFileSync, existsSync } from 'node:fs'
 import { UnoConfig } from './src/packet/Config'
+import dts from 'vite-plugin-dts'
 
 // 获取当前文件的目录路径（ES 模块中的 __dirname 替代方案）
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -101,7 +102,26 @@ export default defineConfig(({ mode }) => {
         VuePlugin({
           include: [/\.vue$/],
         }),
-        // 复制配置文件到 lib 目录
+        // 生成 TypeScript 类型声明文件
+        dts({
+          outDir: 'lib',
+          include: ['src/**/*.ts', 'src/**/*.vue'],
+          exclude: [
+            'src/**/*.md', 
+            'src/**/route.ts', 
+            'src/**/*.test.ts'
+          ],
+          copyDtsFiles: true,
+          insertTypesEntry: true,
+          logLevel: 'info',  // 日志级别：'silent' | 'error' | 'warn' | 'info'
+          compilerOptions: {
+            baseUrl: '.',
+            paths: {
+              '~/*': ['src/*']
+            }
+          }
+        }),
+        // 复制配置文件和 icon.js 到 lib 目录
         {
           name: 'copy-config',
           writeBundle() {
@@ -109,6 +129,13 @@ export default defineConfig(({ mode }) => {
             const configDest = 'lib/uno.config.ts'
             if (existsSync(configSource)) {
               copyFileSync(configSource, configDest)
+            }
+            
+            // 复制 icon.js 到 lib 目录
+            const iconSource = 'public/icon.js'
+            const iconDest = 'lib/icon.js'
+            if (existsSync(iconSource)) {
+              copyFileSync(iconSource, iconDest)
             }
           }
         }

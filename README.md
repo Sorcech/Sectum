@@ -1,7 +1,7 @@
 # Sectum UI
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-0.1.7-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-0.1.14-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/UnoCSS-66.x-333333?style=for-the-badge&logo=unocss&logoColor=white" alt="UnoCSS" />
@@ -29,6 +29,7 @@
 - 💾 **存储工具** - 内置 localStorage、sessionStorage、Cookie 管理工具
 - 🔄 **路由集成** - 与 Vue Router 无缝集成，支持路由跳转回调
 - 🛠️ **自动修复** - 自动处理 UnoCSS 在浏览器环境中的 process 对象问题
+- 📦 **自动资源加载** - 内置 Vite 插件，自动加载 icon.js，无需手动配置
 
 ## 📦 安装
 
@@ -60,23 +61,28 @@ pnpm add sectum
 npm install sectum unocss vue@^3.0.0 vue-router@^4.0.0 vue-i18n@^11.0.0
 ```
 
-### 2. 配置 UnoCSS
+### 2. 配置 Vite
 
-在你的 `vite.config.ts` 中配置 UnoCSS：
+在你的 `vite.config.ts` 中配置 UnoCSS 和 Icon 加载插件：
 
 ```typescript
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
-import { UnoConfig } from 'sectum'
+import { UnoConfig, sectumIconLoader } from 'sectum'
 
 export default defineConfig({
   plugins: [
     vue(),
-    UnoCSS(UnoConfig)
+    UnoCSS(UnoConfig),
+    sectumIconLoader()  // 自动加载 icon.js（推荐）
   ]
 })
 ```
+
+> **💡 自动加载 icon.js**
+>
+> `sectumIconLoader()` 插件会自动将 `/icon.js` 请求映射到 `node_modules/sectum/lib/icon.js`，无需手动复制文件。开发环境自动服务，生产构建时自动复制到 `dist` 目录。
 
 #### 方法一：使用 sectum 提供的配置（推荐）
 
@@ -259,22 +265,22 @@ app.mount('#app')
 ### Pattern 组件
 模式组件，提供特定功能模式。
 
-| 组件           | 标签名           | 描述             |
-| -------------- | ---------------- | ---------------- |
-| ThemeSelect    | `ThemeSelect`    | 主题选择组件     |
-| LanguageSelect | `LanguageSelect` | 语言选择组件     |
-| DarkChange     | `DarkChange`     | 深色模式切换组件 |
+| 组件           | 标签名           | 描述              |
+| -------------- | ---------------- | ----------------- |
+| ThemeSelect    | `ThemeSelect`    | 主题选择组件      |
+| LanguageSelect | `LanguageSelect` | 语言选择组件      |
+| DarkChange     | `DarkChange`     | 深色模式切换组件  |
 | Markdown       | `Markdown`       | Markdown 渲染组件 |
-| Catalog        | `Catalog`        | 目录组件         |
-| FullScreen     | `FullScreen`     | 全屏组件         |
+| Catalog        | `Catalog`        | 目录组件          |
+| FullScreen     | `FullScreen`     | 全屏组件          |
 
 ### 工具函数
 内置工具函数，提供常用功能。
 
-| 函数/类        | 描述                     |
-| -------------- | ------------------------ |
-| `Store`        | 存储工具类（localStorage、sessionStorage、Cookie） |
-| `setRouterPushCallback` | 设置路由跳转回调函数 |
+| 函数/类                 | 描述                                               |
+| ----------------------- | -------------------------------------------------- |
+| `Store`                 | 存储工具类（localStorage、sessionStorage、Cookie） |
+| `setRouterPushCallback` | 设置路由跳转回调函数                               |
 
 ## 📖 使用示例
 
@@ -327,6 +333,7 @@ const submit = () => {
   <div class="min-h-screen">
     <Header 
       project-name="My App"
+      logo-icon="section"
       :theme-component="ThemeSelect"
       :dark-component="DarkChange"
       :language-component="LanguageSelect"
@@ -492,6 +499,7 @@ Store.removeCookie('token')
 <template>
   <Header 
     project-name="自定义项目名"
+    logo-icon="section"
     :theme-component="CustomThemeComponent"
     :dark-component="CustomDarkComponent"
     :language-component="CustomLanguageComponent"
@@ -604,6 +612,48 @@ npm run publish:major
   - 版本号自增主要位（x.y.z → (x+1).0.0），然后发布到 npm。
 
 ## ❓ 常见问题
+
+### Q: Icon 组件无法显示（Failed to load FontAwesome）？
+
+**A:** 如果遇到 `Failed to load FontAwesome` 错误，请确保：
+
+1. **使用 sectumIconLoader 插件（推荐）**
+   
+   在 `vite.config.ts` 中添加插件：
+   
+   ```typescript
+   import { sectumIconLoader } from 'sectum'
+   
+   export default defineConfig({
+     plugins: [
+       // ... 其他插件
+       sectumIconLoader()
+     ]
+   })
+   ```
+   
+   该插件会自动将 `/icon.js` 请求映射到 `node_modules/sectum/lib/icon.js`，无需手动复制文件。
+
+2. **手动配置（备选方案）**
+   
+   如果不想使用插件，可以手动将 `node_modules/sectum/lib/icon.js` 复制到项目的 `public` 目录。
+
+3. **检查路径**
+   
+   确保 Icon 组件能够访问到 `/icon.js` 路径（开发环境或生产环境的 `dist/icon.js`）。
+
+### Q: Icon 组件重复注册警告？
+
+**A:** 如果看到 `Component "icn" has already been registered` 警告，说明 Icon 组件被重复注册了。Sectum 插件已经自动注册了 `icn` 组件，无需在 `main.ts` 中手动注册：
+
+```typescript
+// ❌ 不需要这样做
+import { Icon } from 'sectum'
+app.component('icn', Icon)
+
+// ✅ Sectum 插件已自动注册
+app.use(Sectum)  // 这已经包含了 Icon 组件的注册
+```
 
 ### Q: 出现 `process is not defined` 错误怎么办？
 

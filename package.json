@@ -3,7 +3,7 @@
   "type": "module",
   "sideEffects": false,
   "private": false,
-  "version": "0.1.9",
+  "version": "0.1.14",
   "description": "A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts",
   "keywords": [
     "vue3",
@@ -23,8 +23,10 @@
   "license": "MIT",
   "main": "./lib/sectum.umd.js",
   "module": "./lib/sectum.es.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/sectum.es.js",
       "require": "./lib/sectum.umd.js"
     },
@@ -51,9 +53,12 @@
     "preview:site": "vite preview dist",
     "prepublishOnly": "npm run build:lib",
     "version:update-readme": "node script/update-version.js",
-    "publish:patch": "npm version patch && npm run version:update-readme && npm publish",
-    "publish:minor": "npm version minor && npm run version:update-readme && npm publish",
-    "publish:major": "npm version major && npm run version:update-readme && npm publish"
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version",
+    "publish:patch": "npm run version:patch && npm run version:update-readme && npm publish",
+    "publish:minor": "npm run version:minor && npm run version:update-readme && npm publish",
+    "publish:major": "npm run version:major && npm run version:update-readme && npm publish"
   },
   "_scripts_comments": {
     "dev": "启动开发服务器,端口 3000,自动打开浏览器",
@@ -67,9 +72,12 @@
     "preview:site": "预览构建后的网页版本(dist 目录)",
     "prepublishOnly": "npm publish 前自动执行的钩子,确保发布前构建组件库",
     "version:update-readme": "自动更新 README.md 中的版本号徽章",
-    "publish:patch": "发布补丁版本(自动更新 package.json 和 README.md 版本号, 0.1.7 -> 0.1.8)",
-    "publish:minor": "发布次要版本(自动更新 package.json 和 README.md 版本号, 0.1.7 -> 0.2.0)",
-    "publish:major": "发布主要版本(自动更新 package.json 和 README.md 版本号, 0.1.7 -> 1.0.0)"
+    "version:patch": "仅更新 package.json 版本号(补丁版本, 不创建 git commit 和 tag)",
+    "version:minor": "仅更新 package.json 版本号(次要版本, 不创建 git commit 和 tag)",
+    "version:major": "仅更新 package.json 版本号(主要版本, 不创建 git commit 和 tag)",
+    "publish:patch": "发布补丁版本(更新 package.json 和 README.md 版本号, 不自动创建 git commit/tag)",
+    "publish:minor": "发布次要版本(更新 package.json 和 README.md 版本号, 不自动创建 git commit/tag)",
+    "publish:major": "发布主要版本(更新 package.json 和 README.md 版本号, 不自动创建 git commit/tag)"
   },
   "peerDependencies": {
     "vue": "^3.0.0",

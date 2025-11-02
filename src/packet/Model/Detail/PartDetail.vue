@@ -37,7 +37,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { PartDetail } from '~/type/Sheet'
+import type { PartDetail } from '~/type/Sheet'
 import { useI18n } from 'vue-i18n'
 import { ref, watch } from 'vue';
 const { t } = useI18n()

@@ -14,10 +14,50 @@
         
         <a href="/"
           class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
-          <icn name="section" solid xl color="primary" style="font-size: 2rem;" />
+          <icn 
+            v-if="props.logoIcon" 
+            :name="props.logoIcon" 
+            solid 
+            xl 
+            color="primary" 
+            style="font-size: 2rem;" 
+          />
           <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
         </a>
       </div>
+      
+      <!-- 中间导航菜单 -->
+      <nav v-if="navItems.length > 0" class="hidden md:flex items-center gap-6 flex-1 justify-center">
+        <template v-for="(item, index) in navItems" :key="index">
+          <a
+            v-if="isExternalLink(item.path)"
+            :href="item.path"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-base font-medium transition-colors duration-200 no-underline"
+            :class="[
+              isActiveNav(item.path) 
+                ? 'text-primary' 
+                : 'text-base-content hover:text-primary'
+            ]"
+          >
+            {{ item.title }}
+          </a>
+          <RouterLink
+            v-else
+            :to="item.path"
+            class="text-base font-medium transition-colors duration-200 no-underline"
+            :class="[
+              isActiveNav(item.path) 
+                ? 'text-primary' 
+                : 'text-base-content hover:text-primary'
+            ]"
+          >
+            {{ item.title }}
+          </RouterLink>
+        </template>
+      </nav>
+      
       <div class="flex space-x-5">
         <component :is="props.themeComponent" v-if="props.themeComponent" />
         <component :is="props.darkComponent" v-if="props.darkComponent" />
@@ -37,9 +77,17 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
+
+// 导航项类型定义
+export interface NavItem {
+  title: string  // 导航项标题
+  path: string    // 路由路径或外部链接
+}
+
 // Props 定义
 const props = defineProps<{
   projectName?: string
+  logoIcon?: string  // Logo 图标名称，如果未提供则不显示图标
   themeComponent?: any
   darkComponent?: any
   languageComponent?: any
@@ -48,6 +96,8 @@ const props = defineProps<{
   userIconLight?: boolean  // 图标样式是否为 light，默认 true
   userIconBrand?: boolean  // 图标样式是否为 brand（品牌图标），默认 false
   backgroundOpacity?: number  // 背景透明度，范围 0-1，默认 1（完全不透明）
+  navItems?: NavItem[]  // 导航菜单项数组，支持通过配置文件导入
+  routes?: any[]  // 路由配置，如果提供，将从路由中提取导航项（可选）
 }>()
 
 // 当前是否为首页
@@ -65,11 +115,62 @@ const toggleSidebar = () => {
   window.dispatchEvent(new CustomEvent('toggle-sidebar'))
 }
 
+// 从路由配置中提取导航项
+const extractNavItemsFromRoutes = (routes: any[]): NavItem[] => {
+  const items: NavItem[] = []
+  
+  const traverseRoutes = (routes: any[], parentPath = '') => {
+    routes.forEach((route) => {
+      // 只提取有 meta.title 的一级路由
+      if (route.meta?.title && route.path && !route.path.includes('/:')) {
+        const fullPath = parentPath ? `${parentPath}${route.path}` : route.path
+        // 排除首页和特殊路由
+        if (fullPath !== '/' && !fullPath.includes('/:') && !route.children) {
+          items.push({
+            title: route.meta.title,
+            path: fullPath
+          })
+        }
+      }
+      
+      // 递归处理子路由
+      if (route.children && Array.isArray(route.children)) {
+        const parent = parentPath ? `${parentPath}${route.path}` : route.path
+        traverseRoutes(route.children, parent)
+      }
+    })
+  }
+  
+  traverseRoutes(routes)
+  return items
+}
+
+// 导航菜单项（优先使用 props.navItems，其次从路由提取，最后为空数组）
+const navItems = computed<NavItem[]>(() => {
+  if (props.navItems && props.navItems.length > 0) {
+    return props.navItems
+  }
+  
+  if (props.routes && Array.isArray(props.routes) && props.routes.length > 0) {
+    return extractNavItemsFromRoutes(props.routes)
+  }
+  
+  return []
+})
+
+// 判断导航项是否激活（当前路由匹配）
+const isActiveNav = (path: string): boolean => {
+  if (path === '/') {
+    return route.path === '/'
+  }
+  // 精确匹配或路径开头匹配
+  return route.path === path || route.path.startsWith(path + '/')
+}
+
 // 背景色类和样式计算
 const backgroundOpacity = computed(() => {
   const opacity = props.backgroundOpacity ?? 1
-  // 确保透明度在 0-1 范围内
-  return Math.max(0, Math.min(1, opacity))
+  return Math.max(0, Math.min(1, opacity))  // 确保透明度在 0-1 范围内
 })
 
 const navRef = ref<HTMLElement | null>(null)
@@ -77,9 +178,7 @@ const backgroundColorWithOpacity = ref<string>('')
 
 // 将十六进制颜色转换为 rgba
 const hexToRgba = (hex: string, opacity: number): string => {
-  // 移除 # 号
-  hex = hex.replace('#', '')
-  
+  hex = hex.replace('#', '')  // 移除 # 号
   // 处理 3 位十六进制
   if (hex.length === 3) {
     hex = hex.split('').map(char => char + char).join('')
@@ -111,8 +210,7 @@ const updateBackgroundColor = () => {
   // 如果获取失败，尝试从nav元素本身的计算样式获取
   if ((!base200Color || base200Color === 'none' || base200Color === '') && navRef.value) {
     const navComputedStyle = window.getComputedStyle(navRef.value)
-    // 尝试获取背景色
-    const navBg = navComputedStyle.backgroundColor
+    const navBg = navComputedStyle.backgroundColor // 尝试获取背景色
     if (navBg && navBg !== 'rgba(0, 0, 0, 0)' && navBg !== 'transparent') {
       base200Color = navBg
     }

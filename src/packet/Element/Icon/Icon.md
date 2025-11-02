@@ -437,7 +437,24 @@ Icon 组件使用 FontAwesome 图标库，你可以访问以下资源查找可�
 
 ## 注意事项
 
-1. **FontAwesome 加载**：组件会自动加载 FontAwesome 库（`/icon.js`），确保该文件在 `public` 目录下存在
+1. **FontAwesome 加载**：组件会自动加载 FontAwesome 库（`/icon.js`）
+   
+   **推荐方式（自动加载）**：使用 `sectumIconLoader` Vite 插件，无需手动配置：
+   
+   ```typescript
+   // vite.config.ts
+   import { sectumIconLoader } from 'sectum'
+   
+   export default defineConfig({
+     plugins: [
+       // ... 其他插件
+       sectumIconLoader()  // 自动将 /icon.js 映射到 node_modules/sectum/lib/icon.js
+     ]
+   })
+   ```
+   
+   **备选方式（手动配置）**：将 `node_modules/sectum/lib/icon.js` 复制到项目的 `public` 目录。
+
 2. **图标名称**：使用 FontAwesome 的原生图标名称，不需要 `fa-` 前缀（组件会自动添加）
 3. **动画性能**：过多动画可能影响性能，建议谨慎使用
 4. **样式优先级**：多个样式属性同时设置时，优先级从高到低：`brand` > `duotone` > `thin` > `light` > `regular` > `solid`（默认）

@@ -14,4 +14,13 @@ export default {
     changelog: "更新日志",
     download: "下载",
   },
+  toolbar: {
+    plus: '添加',
+    account: '账户',
+    logout: '登出',
+    setting: '设置',
+  },
+  task: {
+    task: '任务',
+  },
 };

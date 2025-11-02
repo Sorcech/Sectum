@@ -10,9 +10,14 @@ export function autoWrapPlugin(): Plugin {
         return null
       }
       // 检查是否已经包含Markdown包装
-      if (code.includes('<Markdown>')) {
+      // 排除代码块中的 <Markdown> 标签（这些只是示例代码）
+      const hasMarkdownWrapper = code.includes('<Markdown>') && 
+        !code.match(/```[\s\S]*?<Markdown>[\s\S]*?```/g)
+      
+      if (hasMarkdownWrapper && !code.trim().startsWith('<Markdown>')) {
         return null
       }
+      
       // 自动添加Markdown包装
       // 在开头和结尾添加换行符，确保内容不会被当作缩进处理
       const wrappedCode = `<Markdown>
@@ -20,7 +25,6 @@ export function autoWrapPlugin(): Plugin {
 ${code}
 
 </Markdown>`
-      console.log(`Auto-wrapped markdown file: ${id}`)
       return {
         code: wrappedCode,
         map: null

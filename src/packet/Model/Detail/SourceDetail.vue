@@ -25,7 +25,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { SourceDetail } from '~/type/Sheet'
+import type { SourceDetail } from '~/type/Sheet'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 defineProps<{

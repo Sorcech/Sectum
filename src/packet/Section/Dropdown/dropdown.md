@@ -1,14 +1,24 @@
 # Dropdown 下拉菜单组件
 
+Dropdown 下拉菜单组件提供灵活的下拉菜单功能，支持点击和悬停两种触发方式，可自定义位置和内容，适用于导航菜单、操作菜单、用户菜单等场景。
+
+## 特性
+
+- 🎯 **多种位置** - 支持上下左右四个方向，每个方向支持起始和结束对齐
+- 🖱️ **触发方式** - 支持点击触发和悬停触发两种模式
+- 🎨 **动画效果** - 流畅的过渡动画，提升用户体验
+- 📱 **响应式** - 自动适配不同屏幕尺寸
+- 🎭 **灵活内容** - 通过插槽自定义触发器和菜单内容
+- 🔒 **外部点击关闭** - 自动检测外部点击并关闭菜单
+- 🌙 **深色模式** - 完全支持深色模式
+
 ## 安装
 
 ```ts
-import Dropdown from "~/packet/Section/Dropdown/Dropdown.vue"
+import { Dropdown } from 'sectum'
+// 或者
+import Dropdown from 'sectum'
 ```
-
-## 基础用法
-
-Dropdown 是一个灵活的下拉菜单组件，支持多种触发方式和位置配置。
 
 <div class="flex flex-wrap items-center gap-3">
   <Dropdown placement="bottom-start">

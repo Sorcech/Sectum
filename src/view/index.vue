@@ -3,6 +3,7 @@
     <div class="sticky top-0 z-50">
       <Header 
         project-name="Sectum"
+        logo-icon="section"
         :theme-component="ThemeSelect"
         :dark-component="DarkChange"
         :language-component="LanguageSelect"

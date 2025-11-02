@@ -74,4 +74,4 @@ const ProjectCreate = async (project: ProjectCreate) => {
     }
   }
 }
-</script>~/type/type~/type/type
+</script>

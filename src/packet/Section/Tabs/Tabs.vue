@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { h, ref, useSlots } from 'vue'
+import { h, ref, useSlots, Slots } from 'vue'
 const globalProps = defineProps<{
   name: string
   default?: string
 }>()
-const slots = useSlots()
+const slots = useSlots() as Slots
 let currentTab = ref<string>(globalProps.default || '')
 const renderOneButton = (name: string, tab: string, index: number) => h(
   'label',
@@ -30,12 +30,12 @@ const renderOneButton = (name: string, tab: string, index: number) => h(
 const renderTabBar = () => h(
   'div',
   { class: 'flex flex-warp overflow-x-scroll' },
-  slots.default && slots.default().map((it, index) => {
+  slots.default && slots.default().map((it: any, index: number) => {
     return renderOneButton(it.props?.name, it.props?.tab, index)
   })
 )
 const renderContent = () => {
-  return slots.default && slots.default().find(it => {
+  return slots.default && slots.default().find((it: any) => {
     if (currentTab.value === '') {
       return true
     }

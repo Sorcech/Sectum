@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
-import { Store } from '~/packet/Config/storage'
+import { Store } from '../../Config/storage'
 const { t } = useI18n();
 
 const isTheme = ref<string>('theme-blue')

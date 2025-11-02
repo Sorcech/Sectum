@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { StorageDetail } from '~/type/Sheet'
+import type { StorageDetail } from '~/type/Sheet'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 defineProps<{

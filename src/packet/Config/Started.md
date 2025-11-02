@@ -57,18 +57,19 @@ cp node_modules/sectum/dist/uno.config.ts uno.config.ts
 
 ### 2. 配置 Vite
 
-在你的 `vite.config.ts` 中引入 UnoCSS 插件：
+在你的 `vite.config.ts` 中引入 UnoCSS 插件和 Icon 加载插件：
 
 ```typescript
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
-import { UnoConfig } from 'sectum/dist/uno.config'
+import { UnoConfig, sectumIconLoader } from 'sectum'
 
 export default defineConfig({
   plugins: [
     vue(),
-    UnoCSS(UnoConfig)  // 或 UnoCSS()，如果你已经创建了 uno.config.ts
+    UnoCSS(UnoConfig),  // 或 UnoCSS()，如果你已经创建了 uno.config.ts
+    sectumIconLoader()  // 自动加载 icon.js（推荐）
   ]
 })
 ```
@@ -76,6 +77,10 @@ export default defineConfig({
 > **💡 自动处理 process 对象**
 >
 > Sectum 组件库已经内置了 `process` 对象的自动定义，解决了 UnoCSS 在浏览器环境中的 `process is not defined` 错误。你不需要在项目中手动配置 `define` 或安装额外的 polyfill 插件。
+
+> **💡 自动加载 icon.js**
+>
+> `sectumIconLoader()` 插件会自动将 `/icon.js` 请求映射到 `node_modules/sectum/lib/icon.js`，无需手动复制文件到 `public` 目录。该插件在开发环境和生产构建时都会自动工作。
 
 ### 3. 引入样式
 
@@ -237,3 +242,9 @@ Sectum 已经内置了 `process` 对象的处理，如果你仍然遇到此错�
 ### 组件未注册？
 
 确保你已经调用 `app.use(Sectum)` 或在组件中正确导入了需要的组件。
+
+### Icon 组件无法显示（Failed to load FontAwesome）？
+
+1. 确保已在 `vite.config.ts` 中添加 `sectumIconLoader()` 插件
+2. 或者在项目的 `public` 目录中手动放置 `icon.js` 文件
+3. 检查浏览器控制台是否有相关错误信息

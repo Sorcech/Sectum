@@ -14,9 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { Store } from '~/packet/Config/storage'
 import navbar from '~/packet/Layout/Navbar/navbar'
+
+// Props 定义
+const props = defineProps<{
+  items?: Array<{
+    title: string
+    icon: string
+    path: string
+  }>
+}>()
 
 let ind = ref(0)
 onMounted(() => {
@@ -27,7 +36,9 @@ onMounted(() => {
   }
 })
 
-const Nav = ref(navbar)
+// 使用传入的 items 或默认的 navbar 配置
+const Nav = computed(() => props.items || navbar)
+
 const setNav = (index: number) => {
   ind.value = index
   Store.setLocalStorage('Nav', index)

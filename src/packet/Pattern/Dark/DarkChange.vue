@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
-import { Store } from '~/packet/Config/storage'
+import { Store } from '../../Config/storage'
 const isDark = ref<boolean>(false)
 onMounted(() => {
   if (Store.getLocalStorage('dark'))

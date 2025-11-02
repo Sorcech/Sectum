@@ -1,20 +1,31 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import I18n from '~/locale'
-import { Store } from '~/packet/Config/storage'
+import { Store } from '../../Config/storage'
+
+// 从全局对象获取 I18n（由使用 sectum 的项目提供）
+const getI18n = () => {
+  if (typeof window !== 'undefined' && (window as any).globalUtils?.I18n) {
+    return (window as any).globalUtils.I18n
+  }
+  console.warn('I18n not found. Please ensure vue-i18n is configured and globalUtils.I18n is set in window.globalUtils.')
+  return null
+}
 
 const setLanguage = (locale: 'zh-CN' | 'en-US') => {
+  const I18n = getI18n()
+  if (!I18n) return false
+  
   if (locale !== I18n.global.locale.value) {
     Store.setLocalStorage('locale', locale)
     I18n.global.locale.value = locale
     return true
-  } {
-    return false
   }
+  return false
 }
 
 onMounted(() => {
-  if (Store.getLocalStorage('locale')) {
+  const I18n = getI18n()
+  if (I18n && Store.getLocalStorage('locale')) {
     I18n.global.locale.value = Store.getLocalStorage('locale')
   }
 })
@@ -22,7 +33,7 @@ onMounted(() => {
 </script>
 <template>
   <Dropdown placement="bottom" hover>
-    <template #trigger="{ active }">
+    <template #trigger>
       <btn item class="hover:text-primary">
         <icn name="language" light xl></icn>
       </btn>

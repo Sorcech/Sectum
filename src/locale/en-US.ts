@@ -14,4 +14,13 @@ export default {
     changelog: "changelog",
     download: "download",
   },
+  toolbar: {
+    plus: 'Plus',
+    account: 'Account',
+    logout: 'Logout',
+    setting: 'Setting',
+  },
+  task: {
+    task: 'Task',
+  },
 };

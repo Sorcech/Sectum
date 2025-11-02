@@ -1,14 +1,24 @@
 # Modal 模态框组件
 
+Modal 模态框组件是一个功能完整的弹窗组件，支持多种尺寸、样式和交互方式。适用于确认对话框、表单弹窗、信息展示等场景。
+
+## 特性
+
+- 📏 **多种尺寸** - 支持预设尺寸（sm/md/lg）和自定义尺寸
+- 🎨 **灵活样式** - 支持圆角、阴影、背景模糊等样式
+- 🎯 **多种关闭方式** - 支持点击外部关闭、关闭按钮、ESC 键关闭
+- 🔘 **插槽支持** - 提供 header、body、footer 三个插槽
+- 🌙 **深色模式** - 完全支持深色模式
+- 📱 **响应式** - 自适应不同屏幕尺寸
+- ♿ **无障碍** - 支持键盘导航和焦点管理
+
 ## 安装
 
 ```ts
-import Modal from "~/packet/Section/Modal/Modal.vue"
+import { Modal } from 'sectum'
+// 或者
+import Modal from 'sectum'
 ```
-
-## 基础用法
-
-Modal 是一个功能完整的模态框组件，支持多种尺寸、样式和交互方式。提供直观的弹窗界面和灵活的配置选项。
 
 <div class="flex flex-wrap items-center gap-3">
   <btn @click="modal.basic = true">基础模态框</btn>

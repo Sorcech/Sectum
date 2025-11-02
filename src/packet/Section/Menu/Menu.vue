@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useSlots, Slots } from 'vue'
+
+const slots = useSlots() as Slots
 
 const props = defineProps({
   compact: {    // Menu compact if set true or responsive
@@ -67,8 +69,8 @@ const menuClasses = computed(() => {
 
 <template>
   <ul :class="menuClasses">
-    <template v-if="$slots.default">
-      <li v-for="(slot, key) in $slots.default()" :key="key" class="menu-item list-none p-0 m-0">
+    <template v-if="slots.default">
+      <li v-for="(slot, key) in slots.default()" :key="key" class="menu-item list-none p-0 m-0">
         <component :is="slot" />
       </li>
     </template>

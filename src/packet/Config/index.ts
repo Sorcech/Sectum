@@ -1,6 +1,9 @@
 // 导出 UnoCSS 配置
 export { UnoConfig } from './uno.config'
 
+// 导出 Vite 插件
+export { sectumIconLoader } from './vite-icon-plugin'
+
 // 导出配置说明
 export const configInfo = {
   name: 'Sectum UI UnoCSS Configuration',

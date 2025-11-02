@@ -142,7 +142,7 @@ const route = [
             },
             {
               path: '/sectum/darkchange',
-              component: () => import('~/packet/Pattern/Dark/Darkchange.md'),
+              component: () => import('~/packet/Pattern/Dark/DarkChange.md'),
               meta: { title: 'Darkchange' },
             },
             {
@@ -157,7 +157,7 @@ const route = [
             },
             {
               path: '/sectum/fullscreen',
-              component: () => import('~/packet/Pattern/Fullscreen/Fullscreen.md'),
+              component: () => import('~/packet/Pattern/FullScreen/FullScreen.md'),
               meta: { title: 'Fullscreen' },
             },
           ]
@@ -178,9 +178,29 @@ const route = [
           meta: { title: 'Layout' },
           children: [
             {
-              path: '/sectum/dropdown',
-              component: () => import('~/packet/Section/Dropdown/dropdown.md'),
-              meta: { title: 'Blog' },
+              path: '/sectum/header',
+              component: () => import('~/packet/Layout/Header/Header.md'),
+              meta: { title: 'Header' },
+            },
+            {
+              path: '/sectum/footer',
+              component: () => import('~/packet/Layout/Footer/Footer.md'),
+              meta: { title: 'Footer' },
+            },
+            {
+              path: '/sectum/navbar',
+              component: () => import('~/packet/Layout/Navbar/Navbar.md'),
+              meta: { title: 'Navbar' },
+            },
+            {
+              path: '/sectum/sidebar',
+              component: () => import('~/packet/Layout/Sidebar/Sidebar.md'),
+              meta: { title: 'Sidebar' },
+            },
+            {
+              path: '/sectum/toolbar',
+              component: () => import('~/packet/Layout/Toolbar/Toolbar.md'),
+              meta: { title: 'Toolbar' },
             }
           ]
         }

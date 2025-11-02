@@ -46,7 +46,7 @@
               {{ child.meta?.title }}
             </btn>
           </template>
-        </Menu>
+          </Menu>
       </nav>
       </div>
     </div>

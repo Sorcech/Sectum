@@ -5,6 +5,8 @@ import Navbar from './Navbar/Navbar.vue'
 import Sidebar from './Sidebar/Sidebar.vue'
 import Toolbar from './Toolbar/Toolbar.vue'
 
+// 导出类型
+export type { NavItem } from './Header/Header.vue'
 
 // 导出所有组件
 export {

@@ -21,7 +21,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { InterlinkDetail } from '~/type/Sheet'
+import type { InterlinkDetail } from '~/type/Sheet'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 defineProps<{
