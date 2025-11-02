@@ -1,6 +1,6 @@
-# ButtonGroup 按钮组组件
+# Group 按钮组组件
 
-ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提供统一的样式、间距和交互效果。支持多种布局方向、尺寸、颜色和变体。
+Group 是一个用于将多个按钮组合在一起的容器组件，提供统一的样式、间距和交互效果。支持多种布局方向、尺寸、颜色和变体。
 
 ## 特性
 
@@ -17,150 +17,150 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 ### 水平按钮组
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup>
+  <Group>
     <btn color="primary">1</btn>
     <btn color="primary">2</btn>
     <btn color="primary" active>3</btn>
     <btn color="primary">4</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup variant="outline">
+  <Group variant="outline">
     <btn variant="outline" color="primary">1</btn>
     <btn variant="outline" color="primary">2</btn>
     <btn variant="outline" color="primary" active>3</btn>
     <btn variant="outline" color="primary">4</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup variant="transparent">
+  <Group variant="transparent">
     <btn variant="transparent" color="primary">1</btn>
     <btn variant="transparent" color="primary">2</btn>
     <btn variant="transparent" color="primary" active>3</btn>
     <btn variant="transparent" color="primary">4</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ### 垂直按钮组
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup direction="vertical">
+  <Group direction="vertical">
     <btn color="primary">1</btn>
     <btn color="primary">2</btn>
     <btn color="primary" active>3</btn>
     <btn color="primary">4</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup direction="vertical" variant="outline">
+  <Group direction="vertical" variant="outline">
     <btn variant="outline" color="primary">1</btn>
     <btn variant="outline" color="primary">2</btn>
     <btn variant="outline" color="primary" active>3</btn>
     <btn variant="outline" color="primary">4</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## 尺寸变体
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup size="xs">
+  <Group size="xs">
     <btn color="primary" size="xs">XS</btn>
     <btn color="primary" size="xs">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup size="sm">
+  <Group size="sm">
     <btn color="primary" size="sm">SM</btn>
     <btn color="primary" size="sm">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup size="md">
+  <Group size="md">
     <btn color="primary" size="md">MD</btn>
     <btn color="primary" size="md">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup size="lg">
+  <Group size="lg">
     <btn color="primary" size="lg">LG</btn>
     <btn color="primary" size="lg">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup size="xl">
+  <Group size="xl">
     <btn color="primary" size="xl">XL</btn>
     <btn color="primary" size="xl">按钮</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## 颜色变体
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup color="primary">
+  <Group color="primary">
     <btn color="primary">Primary</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup color="secondary">
+  <Group color="secondary">
     <btn color="secondary">Secondary</btn>
     <btn color="secondary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup color="success">
+  <Group color="success">
     <btn color="success">Success</btn>
     <btn color="success">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup color="warning">
+  <Group color="warning">
     <btn color="warning">Warning</btn>
     <btn color="warning">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup color="error">
+  <Group color="error">
     <btn color="error">Error</btn>
     <btn color="error">按钮</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## 形状变体
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup shape="rounded">
+  <Group shape="rounded">
     <btn color="primary">Rounded</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup shape="square">
+  <Group shape="square">
     <btn color="primary">Square</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup shape="circle">
+  <Group shape="circle">
     <btn color="primary">●</btn>
     <btn color="primary">●</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## 间距变体
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup spacing="none">
+  <Group spacing="none">
     <btn color="primary">无间距</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup spacing="xs">
+  <Group spacing="xs">
     <btn color="primary">XS间距</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup spacing="sm">
+  <Group spacing="sm">
     <btn color="primary">SM间距</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup spacing="md">
+  <Group spacing="md">
     <btn color="primary">MD间距</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
   
-  <ButtonGroup spacing="lg">
+  <Group spacing="lg">
     <btn color="primary">LG间距</btn>
     <btn color="primary">按钮</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## 高级功能
@@ -168,44 +168,44 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 ### 最大按钮数量限制
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup :maxButtons="3">
+  <Group :maxButtons="3">
     <btn color="primary">1</btn>
     <btn color="primary">2</btn>
     <btn color="primary">3</btn>
     <btn color="primary">4</btn>
     <btn color="primary">5</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ### 分隔线
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup showDivider>
+  <Group showDivider>
     <btn color="primary">选项1</btn>
     <btn color="primary">选项2</btn>
     <btn color="primary">选项3</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ### 可折叠（响应式）
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup collapsible>
+  <Group collapsible>
     <btn color="primary">首页</btn>
     <btn color="primary">产品</btn>
     <btn color="primary">服务</btn>
     <btn color="primary">关于</btn>
     <btn color="primary">联系</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ### 禁用状态
 
 <div class="flex flex-wrap gap-4 mb-6">
-  <ButtonGroup disabled>
+  <Group disabled>
     <btn color="primary">禁用</btn>
     <btn color="primary">按钮组</btn>
-  </ButtonGroup>
+  </Group>
 </div>
 
 ## API
@@ -247,12 +247,12 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 
 ```vue
 <template>
-  <ButtonGroup>
+  <Group>
     <btn color="primary">选项1</btn>
     <btn color="primary">选项2</btn>
     <btn color="primary" active>选项3</btn>
     <btn color="primary">选项4</btn>
-  </ButtonGroup>
+  </Group>
 </template>
 ```
 
@@ -260,11 +260,11 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 
 ```vue
 <template>
-  <ButtonGroup direction="vertical" spacing="sm">
+  <Group direction="vertical" spacing="sm">
     <btn color="primary">上</btn>
     <btn color="primary">中</btn>
     <btn color="primary">下</btn>
-  </ButtonGroup>
+  </Group>
 </template>
 ```
 
@@ -272,7 +272,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 
 ```vue
 <template>
-  <ButtonGroup 
+  <Group 
     size="lg" 
     color="success" 
     shape="square" 
@@ -282,7 +282,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
     <btn color="success" size="lg">保存</btn>
     <btn color="success" size="lg">发布</btn>
     <btn color="success" size="lg">分享</btn>
-  </ButtonGroup>
+  </Group>
 </template>
 ```
 
@@ -290,7 +290,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 
 ```vue
 <template>
-  <ButtonGroup 
+  <Group 
     collapsible 
     :maxButtons="3"
     customClass="my-button-group"
@@ -300,7 +300,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
     <btn color="primary">服务</btn>
     <btn color="primary">关于</btn>
     <btn color="primary">联系</btn>
-  </ButtonGroup>
+  </Group>
 </template>
 ```
 
@@ -308,7 +308,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
 
 ```vue
 <template>
-  <ButtonGroup ref="buttonGroupRef">
+  <Group ref="buttonGroupRef">
     <btn 
       v-for="(option, index) in options" 
       :key="index"
@@ -317,7 +317,7 @@ ButtonGroup 是一个用于将多个按钮组合在一起的容器组件，提�
     >
       {{ option }}
     </btn>
-  </ButtonGroup>
+  </Group>
 </template>
 
 <script setup>

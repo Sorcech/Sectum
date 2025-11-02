@@ -5,7 +5,7 @@ import Input from './Input/Input.vue'
 import Checkbox from './Checkbox/Checkbox.vue'
 import Toggle from './Toggle/Toggle.vue'
 import Icon from './Icon/Icon.vue'
-import Backdrop from './Backdrop/Backdrop.vue'
+import Mask from './Mask/Mask.vue'
 import Textarea from './Textarea/Textarea.vue'
 import Transition from './Transition/Transition.vue'
 import Color from './Color/Color.vue'
@@ -16,7 +16,7 @@ import Code from './Code/Code.vue'
 
 // 导出所有组件
 export {
-  Button, Label, Input, Checkbox, Toggle, Icon, Backdrop, Textarea, Transition, Color, Palette, Message, Code
+  Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Message, Code
 }
 
 const install = (app: App) => {
@@ -26,7 +26,7 @@ const install = (app: App) => {
   app.component('tgl', Toggle);//切换开关
   app.component('ckb', Checkbox);//复选框
   app.component('icn', Icon);//图标
-  app.component('bkd', Backdrop);//背景遮罩
+  app.component('msk', Mask);//背景遮罩
   app.component('txa', Textarea)//文本域
   app.component('tst', Transition)//动画
   app.component('cod', Code)//代码

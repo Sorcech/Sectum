@@ -1,12 +1,68 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
+import hljs from 'highlight.js/lib/core'
+// 导入 highlight.js 样式（使用 atom-one-dark 主题，视觉效果更好的暗色主题）
+// 其他可选主题：'monokai', 'dracula', 'vs2015', 'github', 'github-dark', 'tomorrow-night', 'ocean' 等
+import 'highlight.js/styles/atom-one-dark.css'
+// 动态导入常用语言的语法高亮
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
+import python from 'highlight.js/lib/languages/python'
+import java from 'highlight.js/lib/languages/java'
+import csharp from 'highlight.js/lib/languages/csharp'
+import css from 'highlight.js/lib/languages/css'
+import scss from 'highlight.js/lib/languages/scss'
+import xml from 'highlight.js/lib/languages/xml'
+import json from 'highlight.js/lib/languages/json'
+import markdown from 'highlight.js/lib/languages/markdown'
+import bash from 'highlight.js/lib/languages/bash'
+import shell from 'highlight.js/lib/languages/shell'
+import sql from 'highlight.js/lib/languages/sql'
+import yaml from 'highlight.js/lib/languages/yaml'
+import dockerfile from 'highlight.js/lib/languages/dockerfile'
+import go from 'highlight.js/lib/languages/go'
+import rust from 'highlight.js/lib/languages/rust'
+import php from 'highlight.js/lib/languages/php'
+import vue from 'highlight.js/lib/languages/xml' // Vue 使用 HTML 语法
+
+// 注册语言
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('js', javascript)
+hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('ts', typescript)
+hljs.registerLanguage('python', python)
+hljs.registerLanguage('py', python)
+hljs.registerLanguage('java', java)
+hljs.registerLanguage('csharp', csharp)
+hljs.registerLanguage('cs', csharp)
+hljs.registerLanguage('css', css)
+hljs.registerLanguage('scss', scss)
+hljs.registerLanguage('html', xml) // HTML 使用 XML 语法高亮
+hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('json', json)
+hljs.registerLanguage('markdown', markdown)
+hljs.registerLanguage('md', markdown)
+hljs.registerLanguage('bash', bash)
+hljs.registerLanguage('shell', shell)
+hljs.registerLanguage('sh', shell)
+hljs.registerLanguage('sql', sql)
+hljs.registerLanguage('yaml', yaml)
+hljs.registerLanguage('yml', yaml)
+hljs.registerLanguage('dockerfile', dockerfile)
+hljs.registerLanguage('docker', dockerfile)
+hljs.registerLanguage('go', go)
+hljs.registerLanguage('rust', rust)
+hljs.registerLanguage('rs', rust)
+hljs.registerLanguage('php', php)
+hljs.registerLanguage('vue', vue)
 
 const props = defineProps({
   code: {type: String,default: ''},// 代码内容
   language: {type: String,default: ''},// 编程语言
   inline: {type: Boolean,default: false},// 是否为行内代码
   wordWrap: {type: Boolean,default: false},// 是否自动换行
-  trim: {type: Boolean,default: true}// 是否去除首尾空白
+  trim: {type: Boolean,default: true},// 是否去除首尾空白
+  highlight: {type: Boolean,default: true}// 是否启用代码高亮
 })
 
 const codeRef = ref<HTMLElement | null>(null)
@@ -37,6 +93,33 @@ const decodeHtmlEntities = (text: string): string => {
     isCodeExpanded.value = !isCodeExpanded.value
   }
 
+// 获取高亮后的代码 HTML
+const getHighlightedCode = (code: string, lang: string): string => {
+  if (!props.highlight || props.inline) {
+    return code
+  }
+
+  try {
+    if (lang) {
+      // 使用指定语言进行高亮
+      const result = hljs.highlight(code, { language: lang, ignoreIllegals: true })
+      return result.value
+    } else {
+      // 自动检测语言
+      const result = hljs.highlightAuto(code, ['javascript', 'typescript', 'python', 'java', 'html', 'css', 'json', 'xml', 'bash', 'sql'])
+      if (result.relevance > 2) {
+        return result.value
+      }
+    }
+  } catch (e) {
+    // 如果高亮失败，返回原始代码
+    console.warn('代码高亮失败:', e)
+    return code
+  }
+
+  return code
+}
+
 // 设置代码内容
 const setCode = () => {
   if (!codeRef.value) return
@@ -52,21 +135,36 @@ const setCode = () => {
     if (!codeEl) {
       codeEl = document.createElement('code')
       codeEl.className = '_code'
-              //查找 code-slot-container div
+      //查找 code-slot-container div
       const slotContainer = codeRef.value.querySelector('.code-slot-container')
-        if (slotContainer) {
-          // 清空容器内容并将 code 插入其中
-          slotContainer.innerHTML = ''
-          slotContainer.appendChild(codeEl)
-        } else {
-          // 如果都没找到，直接添加到 pre 末尾
-          codeRef.value.appendChild(codeEl)
-        }
-
+      if (slotContainer) {
+        // 清空容器内容并将 code 插入其中
+        slotContainer.innerHTML = ''
+        slotContainer.appendChild(codeEl)
+      } else {
+        // 如果都没找到，直接添加到 pre 末尾
+        codeRef.value.appendChild(codeEl)
+      }
     }
     
     if (codeEl) {
-      codeEl.textContent = codeContent// 使用 textContent 保持原始格式（包括换行和空格）
+      if (props.highlight) {
+        // 使用代码高亮
+        const highlightedCode = getHighlightedCode(codeContent, props.language)
+        codeEl.innerHTML = highlightedCode
+        // 添加 highlight.js 的类名
+        codeEl.classList.add('hljs')
+        // 移除可能存在的 language-xxx 类，添加正确的
+        codeEl.classList.remove(...Array.from(codeEl.classList).filter(c => c.startsWith('language-')))
+        if (props.language) {
+          codeEl.classList.add(`language-${props.language}`)
+        }
+      } else {
+        // 不使用高亮，直接设置文本
+        codeEl.textContent = codeContent
+        codeEl.classList.remove('hljs')
+        codeEl.classList.remove(...Array.from(codeEl.classList).filter(c => c.startsWith('language-')))
+      }
     }
   }
 }
@@ -102,6 +200,7 @@ onMounted(() => {
 watch(() => props.code, setCode)
 watch(() => props.language, setCode)
 watch(() => props.inline, setCode)
+watch(() => props.highlight, setCode)
 </script>
 
 <template>
@@ -131,12 +230,14 @@ watch(() => props.inline, setCode)
     </div>
     <pre v-show="isCodeExpanded" ref="codeRef"
       :class="[
-        'font-mono text-sm leading-normal text-base-content select-text',
+        'font-mono text-sm leading-normal select-text',
         'block bg-base-200 rounded-b-lg border border-t-0 border-base-100 px-5 overflow-x-auto m-0',
-        'dark:bg-dark-base-200 dark:border-dark-base-100 dark:text-dark-base-content',
+        'dark:bg-dark-base-200 dark:border-dark-base-100',
         {
           'code-word-wrap whitespace-pre-wrap break-words': wordWrap,
-          [`code-${language}`]: language
+          [`code-${language}`]: language,
+          // 只有在不高亮时才应用 text-base-content，避免覆盖 highlight.js 的颜色
+          'text-base-content dark:text-dark-base-content': !highlight
         }
       ]"
       style="white-space: pre; margin-top: 0;"
@@ -146,6 +247,23 @@ watch(() => props.inline, setCode)
       </div>
     </pre>
   </div>
-
 </template>
+
+<style scoped>
+/* 确保 highlight.js 样式在组件中正确应用 */
+/* 不要覆盖 highlight.js 的颜色和背景，让高亮效果正常显示 */
+:deep(.hljs) {
+  display: block;
+  overflow-x: auto;
+  padding: 0;
+}
+
+/* 确保代码块内的样式正确，但不覆盖高亮颜色 */
+:deep(.code-slot-container .hljs) {
+  background: transparent;
+}
+
+/* 确保 pre 元素不会覆盖 highlight.js 的颜色 */
+/* highlight.js 的颜色样式会通过导入的 CSS 文件自动应用 */
+</style>
 

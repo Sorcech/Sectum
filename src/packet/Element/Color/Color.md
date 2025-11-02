@@ -123,7 +123,7 @@
 ### 1. UnoCSS 原子类
 
 #### 背景色
-```html
+```vue
 <!-- 主题颜色 -->
 <div class="bg-primary">主要背景</div>
 <div class="bg-secondary">次要背景</div>
@@ -140,7 +140,7 @@
 ```
 
 #### 文字颜色
-```html
+```vue
 <!-- 主题文字颜色 -->
 <div class="text-primary">主要文字</div>
 <div class="text-secondary">次要文字</div>
@@ -155,7 +155,7 @@
 ```
 
 #### 边框颜色
-```html
+```vue
 <!-- 主题边框 -->
 <div class="border border-primary">主要边框</div>
 <div class="border border-secondary">次要边框</div>
@@ -194,7 +194,7 @@ document.documentElement.style.setProperty('--primary', '#ff0000');
 
 ### 3. 透明度支持
 
-```html
+```vue
 <!-- 透明度变体 -->
 <div class="bg-primary/50">50% 透明度</div>
 <div class="bg-primary/20">20% 透明度</div>
@@ -203,7 +203,7 @@ document.documentElement.style.setProperty('--primary', '#ff0000');
 
 ### 4. 悬停状态
 
-```html
+```vue
 <!-- 悬停效果 -->
 <btn class="bg-primary hover:bg-primary-focus">
   悬停按钮
@@ -316,7 +316,7 @@ toggleDarkMode()  // 切换深色/浅色模式
 
 ### 3. 响应式颜色
 
-```html
+```vue
 <!-- 不同屏幕尺寸使用不同颜色 -->
 <div class="bg-primary sm:bg-secondary">
   响应式颜色

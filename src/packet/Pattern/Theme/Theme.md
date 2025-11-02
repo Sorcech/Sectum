@@ -1,620 +1,441 @@
-# 主题系统
+# ThemeSelect 主题选择组件
 
-本项目采用基于 CSS 变量的动态主题系统，支持多种预设主题和深色模式切换。通过 UnoCSS 集成实现高效的主题管理和运行时切换。
+主题选择组件提供多主题色彩切换功能，支持下拉菜单选择界面主题，自动保存用户偏好设置。
 
-## 主题切换控制
+## 基本用法
 
-<div class="flex flex-col gap-19 mb-8 p-6 bg-base-100 rounded-lg border border-base-300">
-  <!-- 主题模式切换 -->
-  <div class="flex items-center gap-4">
-    <span class="text-sm font-medium min-w-20">主题模式：</span>
-    <div class="flex gap-2">
-      <btn  @click="setThemeMode('light')" >
-        <icn name="sun-bright" light lg></icn>
-        Light
-      </btn>
-      <btn @click="setThemeMode('dark')" >
-        <icn name="moon-stars" light lg></icn>
-        Dark
-      </btn>
-    </div>
-  </div>
+### 导入组件
 
-  <!-- 主题颜色切换 -->
-  <div class="flex items-center gap-4">
-    <span class="text-sm font-medium min-w-20">主题颜色：</span>
-    <div class="flex gap-2 flex-wrap">
-      <btn 
-        v-for="theme in themeColors" 
-        :key="theme.name"
-        @click="setThemeColor(theme.name)" 
-          >
-        <div 
-          class="w-3 h-3 rounded-full border border-white/20" 
-          :style="{ backgroundColor: theme.color }"
-        ></div>
-        {{ theme.label }}
-      </btn>
-    </div>
-  </div>
+```typescript
+import ThemeSelect from '~/packet/Pattern/Theme/ThemeSelect.vue'
+```
 
-  <!-- 当前主题信息 -->
-  <div class="flex items-center gap-4 p-4 bg-base-200 rounded-lg">
-    <span class="text-sm font-medium">当前主题：</span>
-    <div class="flex items-center gap-2">
-      <div 
-        class="w-4 h-4 rounded-full border border-white/20" 
-        :style="{ backgroundColor: currentThemeInfo.color }"
-      ></div>
-      <span class="text-sm">{{ currentThemeInfo.label }} - {{ currentThemeMode === 'dark' ? '深色模式' : '浅色模式' }}</span>
-    </div>
-  </div>
-</div>
-
-## 特性
-
-- 🎨 **多主题支持** - 5 种预设主题（Blue、Teal、Rose、Violet、Orange）
-- 🌙 **深色模式** - 完整的深色模式支持
-- ⚡ **运行时切换** - 无需重新编译，动态切换主题
-- 🔧 **CSS 变量驱动** - 基于 CSS 变量的主题系统
-- 📱 **响应式设计** - 适配不同屏幕尺寸
-- 🎯 **语义化命名** - 直观的颜色命名系统
-- 💾 **本地存储** - 自动保存用户主题偏好
-
-## 预设主题
-
-### 1. Blue（默认主题）
-- **主色调**: 蓝色系 (#2563eb)
-- **特点**: 专业、稳重、商务风格
-- **适用场景**: 企业应用、管理系统、专业工具
-
-### 2. Teal（青绿主题）
-- **主色调**: 青绿色系 (#0d9488)
-- **特点**: 清新、现代、科技感
-- **适用场景**: 创意设计、年轻化产品、科技应用
-
-### 3. Rose（玫瑰主题）
-- **主色调**: 玫瑰色系 (#e11d48)
-- **特点**: 温暖、优雅、女性化
-- **适用场景**: 女性产品、艺术类应用、时尚品牌
-
-### 4. Violet（紫色主题）
-- **主色调**: 紫色系 (#7c3aed)
-- **特点**: 神秘、高端、创意
-- **适用场景**: 科技产品、高端应用、创意平台
-
-### 5. Orange（橙色主题）
-- **主色调**: 橙色系 (#ea580c)
-- **特点**: 活力、热情、积极
-- **适用场景**: 运动类、娱乐类、活力品牌
-
-## 主题切换
-
-### 1. 组件方式切换
-
-项目提供了主题切换组件，可以在界面中直接使用：
+### 基础示例
 
 ```vue
 <template>
-  <!-- 主题选择器 -->
-  <ThemeSelect />
-  
-  <!-- 深色模式切换器 -->
-  <DarkChange />
+  <div class="flex items-center gap-4">
+    <h3>主题设置</h3>
+    <ThemeSelect />
+  </div>
+</template>
+
+<script setup lang="ts">
+import ThemeSelect from '~/packet/Pattern/Theme/ThemeSelect.vue'
+</script>
+```
+
+## 功能特性
+
+- 🎨 **多主题支持** - 提供5种预设主题色彩
+- 🖼️ **可视化选择** - 每个主题都有对应的色彩预览方块
+- 📋 **下拉菜单** - 使用 Dropdown 组件提供优雅的选择界面
+- 💾 **状态持久化** - 自动保存用户选择到本地存储
+- 🔄 **自动初始化** - 组件挂载时自动读取保存的主题设置
+- 🌐 **国际化支持** - 主题名称支持多语言显示
+- 🎯 **智能显示** - 当前主题自动禁用并高亮显示
+- 🎨 **响应式设计** - 支持 hover 效果和主题色彩变量
+- 🌙 **深色模式** - 完全支持深色模式
+
+## 支持的主题
+
+| 主题代码        | 显示名称 | 色彩预览 | 说明         |
+| --------------- | -------- | -------- | ------------ |
+| `theme-default` | 蓝色主题 | 🔵        | 默认蓝色主题 |
+| `theme-teal`    | 青色主题 | 🟢        | 青绿色主题   |
+| `theme-rose`    | 玫瑰主题 | 🌹        | 玫瑰红色主题 |
+| `theme-violet`  | 紫色主题 | 🟣        | 紫罗兰主题   |
+| `theme-orange`  | 橙色主题 | 🟠        | 橙色主题     |
+
+## 组件结构
+
+### 模板结构
+
+```vue
+<template>
+  <Dropdown placement="bottom" hover>
+    <template #trigger>
+      <btn item class="hover:text-primary">
+        <icn name="swatchbook" light xl></icn>
+      </btn>
+    </template>
+    <Menu shadow rounded class="bg-base-300 dark:bg-base-100 w-auto min-w-32">
+      <btn 
+        v-for="item in themes" 
+        :key="item.theme"
+        clean 
+        :disabled="isCurrentTheme(item)"
+        @click="changeTheme(item.theme)" 
+        :class="[
+          'w-full flex items-center gap-3 whitespace-nowrap',
+          isCurrentTheme(item) ? 'text-primary font-semibold' : ''
+        ]"
+      >
+        <span :class="[item.class, 'rounded-$rounded-btn', item.bg, 'h-6 w-6 flex-shrink-0']"></span>
+        {{ t(item.key) }}
+      </btn>
+    </Menu>
+  </Dropdown>
 </template>
 ```
 
-### 2. 编程方式切换
+### 核心功能特性
 
-#### 切换主题
-```javascript
-// 切换主题
-function changeTheme(themeName) {
-  document.documentElement.classList.remove('theme-blue', 'theme-teal', 'theme-rose', 'theme-violet', 'theme-orange');
-  document.documentElement.classList.add(`theme-${themeName}`);
-  
-  // 保存到本地存储
-  localStorage.setItem('theme', `theme-${themeName}`);
-}
+1. **使用 v-for 循环**：通过 `themes` 数组循环生成所有主题选项
+2. **当前主题标识**：
+   - 当前主题会被禁用（`:disabled="isCurrentTheme(item)"`）
+   - 当前主题会高亮显示（`text-primary font-semibold`）
+   - 禁用状态不会影响选项的尺寸和位置
+3. **主题切换**：调用 `changeTheme` 方法切换界面主题
+4. **DOM 操作**：动态添加/移除主题类到 `document.documentElement`
+5. **状态同步**：实时更新组件内部状态和 DOM 类名
+6. **持久化存储**：使用 `Store.setLocalStorage` 保存用户选择
 
-// 使用示例
-changeTheme('rose');  // 切换到玫瑰主题
-changeTheme('violet'); // 切换到紫色主题
+
+## 使用场景
+
+### 导航栏集成
+
+```vue
+<template>
+  <header class="navbar bg-base-100 shadow-lg">
+    <div class="flex-1">
+      <h1 class="text-xl font-bold">我的应用</h1>
+    </div>
+    <div class="flex-none gap-2">
+      <ThemeSelect />
+      <LanguageSelect />
+      <DarkToggle />
+    </div>
+  </header>
+</template>
+
+<script setup lang="ts">
+import ThemeSelect from '~/packet/Pattern/Theme/ThemeSelect.vue'
+import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
+import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
+</script>
 ```
 
-#### 切换深色模式
-```javascript
-// 切换深色模式
-function toggleDarkMode() {
-  const isDark = document.documentElement.classList.contains('dark');
+### 设置页面
+
+```vue
+<template>
+  <div class="settings-page">
+    <h2>{{ $t('settings.title') }}</h2>
+    
+    <div class="setting-sectum">
+      <h3>{{ $t('settings.appearance') }}</h3>
+      <div class="setting-item">
+        <span>{{ $t('settings.theme') }}</span>
+        <ThemeSelect />
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+### 个性化面板
+
+```vue
+<template>
+  <div class="personalization-panel">
+    <h3>{{ $t('personalization.title') }}</h3>
+    
+    <div class="theme-grid">
+      <div class="theme-option">
+        <label>{{ $t('personalization.colorTheme') }}</label>
+        <ThemeSelect />
+      </div>
+      
+      <div class="theme-option">
+        <label>{{ $t('personalization.darkMode') }}</label>
+        <DarkToggle />
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+### 当前主题显示效果
+
+当用户打开下拉菜单时：
+
+- ✅ **当前主题**：会被禁用（不可点击），并使用 `text-primary font-semibold` 高亮显示
+- ✅ **其他主题**：正常可点击，鼠标悬停时显示悬停效果
+- ✅ **尺寸一致**：所有选项保持相同的尺寸和位置，禁用状态不会影响布局
+
+```vue
+<!-- 组件会自动处理，无需额外配置 -->
+<ThemeSelect />
+```
+
+下拉菜单会自动显示：
+- 蓝色主题 ✅（当前，已禁用并高亮）
+- 青色主题
+- 玫瑰主题
+- 紫色主题
+- 橙色主题
+
+## 技术实现
+
+### 主题列表配置
+
+```typescript
+const themes = [
+  { theme: 'theme-default', class: 'theme-blue', bg: 'bg-blue-700', key: 'theme.blue' },
+  { theme: 'theme-teal', class: 'theme-teal', bg: 'bg-teal-700', key: 'theme.teal' },
+  { theme: 'theme-rose', class: 'theme-rose', bg: 'bg-rose-700', key: 'theme.rose' },
+  { theme: 'theme-violet', class: 'theme-violet', bg: 'bg-violet-700', key: 'theme.violet' },
+  { theme: 'theme-orange', class: 'theme-orange', bg: 'bg-orange-700', key: 'theme.orange' }
+]
+```
+
+### 主题切换逻辑
+
+```typescript
+const isTheme = ref<string>('theme-default')
+
+// 获取主题对应的 CSS 类名
+function getThemeClass(theme: string): string {
+  const themeItem = themes.find(t => t.theme === theme || t.class === theme)
+  return themeItem?.class || 'theme-blue'
+}
+
+function changeTheme(color: string) {
+  // 获取旧主题的 CSS 类名并移除
+  const oldThemeClass = getThemeClass(isTheme.value)
+  document.documentElement.classList.remove(oldThemeClass)
   
-  if (isDark) {
-    document.documentElement.classList.remove('dark');
-    document.documentElement.classList.add('light');
-  } else {
-    document.documentElement.classList.remove('light');
-    document.documentElement.classList.add('dark');
+  // 更新主题
+  isTheme.value = color
+  
+  // 获取新主题的 CSS 类名并添加
+  const newThemeClass = getThemeClass(isTheme.value)
+  document.documentElement.classList.add(newThemeClass)
+  
+  // 保存到本地存储
+  Store.setLocalStorage('theme', isTheme.value)
+}
+```
+
+### 当前主题检测
+
+```typescript
+// 检查是否为当前主题
+function isCurrentTheme(item: typeof themes[0]): boolean {
+  // 直接匹配 theme 值
+  if (item.theme === isTheme.value) {
+    return true
+  }
+  // 兼容旧版本的存储值（可能存储的是 class 值）
+  if (item.class === isTheme.value) {
+    return true
+  }
+  return false
+}
+```
+
+组件会自动检测当前主题，并在下拉菜单中：
+
+1. **禁用当前主题**：使用 `:disabled="isCurrentTheme(item)"` 禁用当前主题选项
+2. **高亮显示**：使用 `text-primary font-semibold` 类高亮显示当前主题
+3. **保持尺寸**：禁用状态不会影响选项的尺寸和位置
+
+### 自动初始化
+
+```typescript
+onMounted(() => {
+  // 读取本地存储的主题设置
+  const savedTheme = Store.getLocalStorage('theme')
+  if (savedTheme) {
+    isTheme.value = savedTheme
   }
   
-  // 保存到本地存储
-  localStorage.setItem('dark', isDark ? 'light' : 'dark');
-}
-```
-
-### 3. 初始化主题
-
-```javascript
-// 页面加载时初始化主题
-function initTheme() {
-  // 获取保存的主题
-  const savedTheme = localStorage.getItem('theme') || 'theme-blue';
-  const savedDark = localStorage.getItem('dark') || 'light';
-  
-  // 应用主题
-  document.documentElement.classList.add(savedTheme);
-  document.documentElement.classList.add(savedDark);
-}
-
-// 页面加载时调用
-initTheme();
+  // 获取主题对应的 CSS 类名并应用
+  const themeClass = getThemeClass(isTheme.value)
+  document.documentElement.classList.add(themeClass)
+})
 ```
 
 ## 主题配置
 
-### 1. 主题文件结构
-
-```
-src/plugin/theme/
-├── theme.ts          # 主题颜色定义
-├── generator.ts      # 主题生成逻辑
-├── color.ts          # 颜色处理函数
-└── getconfig.ts      # 配置获取
-```
-
-### 2. 主题颜色定义
-
-```typescript
-// src/plugin/theme/theme.ts
-const themes = {
-  blue: {
-    'primary': '#2563eb',
-    'primary-focus': '#1d4ed8',
-    'primary-content': '#ffffff',
-    'secondary': '#374151',
-    'secondary-focus': '#1f2937',
-    'secondary-content': '#ffffff',
-    'success': '#059669',
-    'success-focus': '#047857',
-    'success-content': '#ffffff',
-    'warning': '#f97316',
-    'warning-focus': '#ea580c',
-    'warning-content': '#ffffff',
-    'error': '#dc2626',
-    'error-focus': '#b91c1c',
-    'error-content': '#ffffff',
-    'base-100': '#fcfcfc',
-    'base-200': '#f8f8f8',
-    'base-300': '#e8e8e8',
-    'base-content': '#1f2937',
-    'dark-base-100': '#374151',
-    'dark-base-200': '#1f2937',
-    'dark-base-300': '#111827',
-    'dark-base-content': '#f9fafb',
-    'rounded-box': '0.5rem',
-    'rounded-btn': '0.5rem',
-    'rounded-badge': '2.0rem',
-  },
-  // ... 其他主题
-}
-```
-
-### 3. UnoCSS 集成
-
-```typescript
-// uno.config.ts
-import { defineConfig, presetUno } from 'unocss'
-import { getTheme } from './src/plugin/theme/generator'
-
-export default defineConfig({
-  presets: [presetUno()],
-  preflights: [
-    {
-      getCSS: () => {
-        const theme = getTheme()
-        let css = ''
-        
-        for (const [selector, variables] of Object.entries(theme)) {
-          css += `${selector} {\n`
-          for (const [property, value] of Object.entries(variables)) {
-            css += `  ${property}: ${value};\n`
-          }
-          css += `}\n`
-        }
-        return css
-      }
-    }
-  ],
-  rules: [
-    // 自定义颜色规则
-    [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
-      return { 'background-color': `var(--${color})` }
-    }],
-    [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
-      return { 'color': `var(--${color}-content)` }
-    }],
-    // ... 更多规则
-  ]
-})
-```
-
-## 使用方法
-
-### 1. 在组件中使用主题
-
-```vue
-<template>
-  <div class="bg-primary text-primary-content">
-    <h1>主题化标题</h1>
-    <p class="text-secondary">次要文字</p>
-    <btn class="bg-success hover:bg-success-focus">
-      成功按钮
-    </btn>
-  </div>
-</template>
-```
-
-### 2. 响应式主题
-
-```vue
-<template>
-  <div class="bg-base-100 dark:bg-dark-base-100">
-    <p class="text-base-content dark:text-dark-base-content">
-      自适应主题文字
-    </p>
-  </div>
-</template>
-```
-
-### 3. 自定义主题样式
+### CSS主题定义
 
 ```css
-/* 自定义组件样式 */
-.custom-component {
-  background-color: var(--primary);
-  color: var(--primary-content);
-  border-radius: var(--rounded-btn);
-}
-
-/* 深色模式适配 */
-.dark .custom-component {
-  background-color: var(--dark-base-100);
-  color: var(--dark-base-content);
-}
-```
-
-### 4. JavaScript 中获取主题颜色
-
-```javascript
-// 获取当前主题颜色
-function getThemeColor(colorName) {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(`--${colorName}`)
-    .trim();
-}
-
-// 使用示例
-const primaryColor = getThemeColor('primary');
-const successColor = getThemeColor('success');
-```
-
-## 主题变量
-
-### 1. 颜色变量
-
-| 变量名 | 说明 | 示例值 |
-|--------|------|--------|
-| `--primary` | 主题主色 | #2563eb |
-| `--primary-focus` | 主题主色焦点状态 | #1d4ed8 |
-| `--primary-content` | 主题主色文字色 | #ffffff |
-| `--secondary` | 次要颜色 | #374151 |
-| `--secondary-focus` | 次要颜色焦点状态 | #1f2937 |
-| `--secondary-content` | 次要颜色文字色 | #ffffff |
-| `--success` | 成功颜色 | #059669 |
-| `--success-focus` | 成功颜色焦点状态 | #047857 |
-| `--success-content` | 成功颜色文字色 | #ffffff |
-| `--warning` | 警告颜色 | #f97316 |
-| `--warning-focus` | 警告颜色焦点状态 | #ea580c |
-| `--warning-content` | 警告颜色文字色 | #ffffff |
-| `--error` | 错误颜色 | #dc2626 |
-| `--error-focus` | 错误颜色焦点状态 | #b91c1c |
-| `--error-content` | 错误颜色文字色 | #ffffff |
-
-### 2. 基础颜色变量
-
-| 变量名 | 说明 | 示例值 |
-|--------|------|--------|
-| `--base-100` | 主要背景色 | #fcfcfc |
-| `--base-200` | 次要背景色 | #f8f8f8 |
-| `--base-300` | 边框和分割线色 | #e8e8e8 |
-| `--base-content` | 主要文字色 | #1f2937 |
-| `--dark-base-100` | 深色模式主要背景 | #374151 |
-| `--dark-base-200` | 深色模式次要背景 | #1f2937 |
-| `--dark-base-300` | 深色模式边框色 | #111827 |
-| `--dark-base-content` | 深色模式文字色 | #f9fafb |
-
-### 3. 圆角变量
-
-| 变量名 | 说明 | 示例值 |
-|--------|------|--------|
-| `--rounded-box` | 容器圆角 | 0.5rem |
-| `--rounded-btn` | 按钮圆角 | 0.5rem |
-| `--rounded-badge` | 徽章圆角 | 2.0rem |
-
-## 深色模式
-
-### 1. 自动检测系统偏好
-
-```javascript
-// 检测系统深色模式偏好
-function detectSystemTheme() {
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return 'dark';
-  }
-  return 'light';
-}
-
-// 监听系统主题变化
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  if (e.matches) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-});
-```
-
-### 2. 手动切换深色模式
-
-```javascript
-// 切换深色模式
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const isDark = html.classList.contains('dark');
-  
-  if (isDark) {
-    html.classList.remove('dark');
-    html.classList.add('light');
-  } else {
-    html.classList.remove('light');
-    html.classList.add('dark');
-  }
-  
-  // 保存用户偏好
-  localStorage.setItem('darkMode', !isDark);
-}
-```
-
-### 3. 深色模式样式
-
-```css
-/* 浅色模式（默认） */
-:root {
-  --primary: #2563eb;
-  --base-100: #fcfcfc;
-  --base-content: #1f2937;
-}
-
-/* 深色模式 */
-.dark {
+/* 蓝色主题 */
+.theme-blue {
   --primary: #3b82f6;
-  --base-100: #374151;
-  --base-content: #f9fafb;
+  --primary-content: #ffffff;
+  --secondary: #64748b;
+  --accent: #06b6d4;
+  --neutral: #1e293b;
+  --base-100: #ffffff;
+  --base-200: #f1f5f9;
+  --base-300: #e2e8f0;
 }
 
-/* 主题特定深色模式 */
-.dark.theme-rose {
+/* 青色主题 */
+.theme-teal {
+  --primary: #14b8a6;
+  --primary-content: #ffffff;
+  --secondary: #64748b;
+  --accent: #06b6d4;
+  --neutral: #1e293b;
+  --base-100: #ffffff;
+  --base-200: #f1f5f9;
+  --base-300: #e2e8f0;
+}
+
+/* 玫瑰主题 */
+.theme-rose {
   --primary: #f43f5e;
-  --base-100: #1f1f23;
+  --primary-content: #ffffff;
+  --secondary: #64748b;
+  --accent: #ec4899;
+  --neutral: #1e293b;
+  --base-100: #ffffff;
+  --base-200: #f1f5f9;
+  --base-300: #e2e8f0;
 }
 ```
 
-## 自定义主题
-
-### 1. 创建新主题
+### 国际化配置
 
 ```typescript
-// 在 theme.ts 中添加新主题
-const themes = {
-  // ... 现有主题
-  custom: {
-    'primary': '#your-color',
-    'primary-focus': '#your-focus-color',
-    'primary-content': '#ffffff',
-    // ... 其他颜色定义
+// locale/zh-CN.ts
+export default {
+  theme: {
+    blue: '蓝色主题',
+    teal: '青色主题',
+    rose: '玫瑰主题',
+    violet: '紫色主题',
+    orange: '橙色主题'
+  }
+}
+
+// locale/en-US.ts
+export default {
+  theme: {
+    blue: 'Blue Theme',
+    teal: 'Teal Theme',
+    rose: 'Rose Theme',
+    violet: 'Violet Theme',
+    orange: 'Orange Theme'
   }
 }
 ```
 
-### 2. 主题继承
+## 样式定制
 
-```typescript
-// 基于现有主题创建新主题
-const themes = {
-  // ... 现有主题
-  'custom-blue': {
-    ...themes.blue,  // 继承蓝色主题
-    'primary': '#1e40af',  // 覆盖特定颜色
-    'primary-focus': '#1e3a8a',
-  }
-}
-```
+组件使用UnoCSS原子类和主题色彩变量：
 
-### 3. 动态主题生成
+- **触发器按钮**：`btn item` - 使用项目按钮组件
+- **悬停效果**：`hover:text-primary` - 使用主题主色
+- **下拉菜单**：`Menu shadow rounded` - 圆角阴影菜单
+- **主题适配**：`bg-base-300 dark:bg-base-100` - 支持深色模式
+- **色彩预览**：`rounded-$rounded-btn bg-{color}-700 h-6 w-6` - 圆角色彩方块
+- **图标尺寸**：`xl` - 大尺寸调色板图标
 
-```typescript
-// 动态生成主题
-function generateCustomTheme(baseColor: string) {
-  return {
-    'primary': baseColor,
-    'primary-focus': brighten(baseColor, -10),
-    'primary-content': mostReadable(baseColor),
-    // ... 其他颜色
-  }
-}
-```
+## 扩展主题支持
 
-## 最佳实践
+### 添加新主题
 
-### 1. 主题选择原则
-
-- **品牌一致性**: 选择与品牌形象一致的主题
-- **用户体验**: 考虑目标用户群体的偏好
-- **可访问性**: 确保颜色对比度符合 WCAG 标准
-- **功能适配**: 根据应用功能选择合适的主题
-
-### 2. 性能优化
-
-- **按需加载**: 只加载使用的主题
-- **缓存策略**: 合理使用本地存储
-- **CSS 变量**: 利用 CSS 变量的高效性
-- **避免频繁切换**: 减少不必要的主题切换
-
-### 3. 开发建议
-
-- **语义化命名**: 使用有意义的颜色名称
-- **文档维护**: 及时更新主题文档
-- **测试覆盖**: 在所有主题下测试应用
-- **向后兼容**: 保持主题 API 的稳定性
-
-## 技术实现
-
-### 1. CSS 变量系统
+1. **定义CSS变量**：
 
 ```css
-/* 主题变量定义 */
-:root {
-  --primary: #2563eb;
-  --primary-focus: #1d4ed8;
+/* 绿色主题 */
+.theme-green {
+  --primary: #22c55e;
   --primary-content: #ffffff;
-}
-
-/* 主题特定变量 */
-.theme-rose {
-  --primary: #e11d48;
-  --primary-focus: #be123c;
-  --primary-content: #ffffff;
-}
-
-/* 深色模式变量 */
-.dark {
-  --base-100: #374151;
-  --base-content: #f9fafb;
+  --secondary: #64748b;
+  --accent: #84cc16;
+  --neutral: #1e293b;
+  --base-100: #ffffff;
+  --base-200: #f1f5f9;
+  --base-300: #e2e8f0;
 }
 ```
 
-### 2. UnoCSS 规则
+2. **更新组件**（添加到 themes 数组）：
 
 ```typescript
-// 颜色规则
-rules: [
-  [/^bg-(primary|secondary|success|warning|error)$/, ([, color]) => {
-    return { 'background-color': `var(--${color})` }
-  }],
-  [/^text-(primary|secondary|success|warning|error)-content$/, ([, color]) => {
-    return { 'color': `var(--${color}-content)` }
-  }],
-  [/^border-(primary|secondary|success|warning|error)$/, ([, color]) => {
-    return { 'border-color': `var(--${color})` }
-  }]
+const themes = [
+  // 现有主题...
+  { theme: 'theme-green', class: 'theme-green', bg: 'bg-green-700', key: 'theme.green' }
 ]
 ```
 
-### 3. 主题生成逻辑
+组件会自动通过 v-for 渲染新主题，无需修改模板代码。
+
+3. **添加国际化**：
 
 ```typescript
-// 主题生成函数
-function generateTheme(themeConfig: Theme) {
-  const lightTheme = {}
-  const darkTheme = {}
-  
-  // 生成浅色主题变量
-  for (const [key, value] of Object.entries(themeConfig)) {
-    if (key.startsWith('dark-')) {
-      darkTheme[key.replace('dark-', '')] = value
-    } else {
-      lightTheme[key] = value
-    }
-  }
-  
-  return {
-    ':root': lightTheme,
-    '.dark': darkTheme
+// locale/zh-CN.ts
+export default {
+  theme: {
+    // 现有主题...
+    green: '绿色主题'
   }
 }
 ```
 
+## 高级用法
+
+### 主题预览
+
+```vue
+<template>
+  <div class="theme-preview">
+    <h3>{{ $t('theme.preview') }}</h3>
+    <div class="preview-cards">
+      <div 
+        v-for="theme in themes" 
+        :key="theme.code"
+        class="preview-card"
+        :class="{ active: currentTheme === theme.code }"
+        @click="changeTheme(theme.code)"
+      >
+        <div class="theme-preview-colors">
+          <div class="color primary" :style="{ backgroundColor: theme.colors.primary }"></div>
+          <div class="color secondary" :style="{ backgroundColor: theme.colors.secondary }"></div>
+          <div class="color accent" :style="{ backgroundColor: theme.colors.accent }"></div>
+        </div>
+        <span>{{ t(`theme.${theme.name}`) }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const themes = [
+  { code: 'theme-blue', name: 'blue', colors: { primary: '#3b82f6', secondary: '#64748b', accent: '#06b6d4' } },
+  { code: 'theme-teal', name: 'teal', colors: { primary: '#14b8a6', secondary: '#64748b', accent: '#06b6d4' } },
+  // 其他主题...
+]
+
+const currentTheme = ref('theme-blue')
+</script>
+```
+
+## 依赖要求
+
+- Vue 3 Composition API
+- vue-i18n 国际化库
+- 项目Store工具类（用于本地存储）
+- 项目Dropdown组件
+- 项目Menu组件
+- 项目Button组件
+- 项目Icon组件
+- UnoCSS主题系统
+
 ## 注意事项
 
-1. **浏览器兼容性**: CSS 变量需要现代浏览器支持
-2. **性能考虑**: 避免频繁的主题切换
-3. **存储管理**: 合理使用本地存储空间
-4. **测试覆盖**: 在所有主题下测试应用功能
-5. **文档同步**: 保持主题文档与实际实现同步
-
-## 更新日志
-
-### v1.0.0
-- 初始主题系统建立
-- 支持 5 种预设主题
-- 集成深色模式支持
-- 完整的主题切换功能
-- UnoCSS 集成和优化
-
----
-
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-
-// 主题状态
-const currentThemeMode = ref('light')
-const currentThemeColor = ref('blue')
-
-// 主题颜色配置
-const themeColors = ref([
-  { name: 'blue', label: 'Blue', color: '#2563eb' },
-  { name: 'teal', label: 'Teal', color: '#0d9488' },
-  { name: 'rose', label: 'Rose', color: '#e11d48' },
-  { name: 'violet', label: 'Violet', color: '#7c3aed' },
-  { name: 'orange', label: 'Orange', color: '#ea580c' }
-])
-
-// 当前主题信息
-const currentThemeInfo = computed(() => {
-  return themeColors.value.find(theme => theme.name === currentThemeColor.value) || themeColors.value[0]
-})
-
-// 设置主题模式
-const setThemeMode = (mode) => {
-  currentThemeMode.value = mode
-  document.documentElement.classList.remove('light', 'dark')
-  document.documentElement.classList.add(mode)
-  localStorage.setItem('theme-mode', mode)
-}
-
-// 设置主题颜色
-const setThemeColor = (color) => {
-  currentThemeColor.value = color
-  document.documentElement.classList.remove('theme-blue', 'theme-teal', 'theme-rose', 'theme-violet', 'theme-orange')
-  document.documentElement.classList.add(`theme-${color}`)
-  localStorage.setItem('theme-color', color)
-}
-
-// 初始化主题
-onMounted(() => {
-  const savedMode = localStorage.getItem('theme-mode') || 'light'
-  const savedColor = localStorage.getItem('theme-color') || 'blue'
-  
-  setThemeMode(savedMode)
-  setThemeColor(savedColor)
-})
-</script>
+1. **主题系统**：确保项目中已正确配置 UnoCSS 主题系统
+2. **CSS 变量**：主题 CSS 变量需要在全局样式中定义（通常在 `theme.ts` 文件中）
+3. **本地存储**：组件依赖项目的 Store 工具类进行本地存储
+4. **图标支持**：图标组件需要支持 `swatchbook` 图标
+5. **国际化**：主题名称需要配置对应的国际化文本（在 locale 文件中）
+6. **初始化**：建议在应用启动时初始化主题设置
+7. **当前主题**：当前主题会被自动禁用并高亮显示，用户无法重复选择当前主题
+8. **圆角功能**：Menu 组件的 `rounded` 属性会自动为第一个和最后一个选项添加圆角

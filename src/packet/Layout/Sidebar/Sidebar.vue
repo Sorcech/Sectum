@@ -1,6 +1,6 @@
 <template>
   <!-- 移动端遮罩层 -->
-  <bkd @click="toggleSidebar" :show="isOpen" v-if="!isLgSize" />
+  <msk @click="toggleSidebar" :show="isOpen" v-if="!isLgSize" />
   
   <!-- 侧边栏容器 -->
   <aside v-show="isOpen || isLgSize" 
@@ -26,7 +26,34 @@
     >
       <div class="max-w-2xs lg:mx-2 lg:w-60" style="padding: 1.25rem 0 6rem 0;">
       <nav aria-label="Docs navigation">
+        <!-- 使用简单的 items 数组 -->
+        <Menu v-if="props.items && props.items.length > 0" class="w-full bg-base-200">
+          <span v-if="props.title" class="menu-title block text-base text-md font-bold bg-base-100 p-3">
+            {{ props.title }}
+          </span>
+          <template v-for="(item, index) in props.items" :key="index">
+            <btn 
+              v-if="item.path"
+              size="xs" 
+              clean 
+              variant="transparent"
+              @click="handleItemClick(item.path)"
+              :class="['block w-full text-left px-3',
+                    isActiveItem(item.path)
+                      ? '!border-l-2 !border-y-0 !border-r-0 !border-solid !border-primary bg-base-100'
+                      : '!border-l-2 !border-y-0 !border-r-0 !border-transparent'
+                  ]">
+              {{ item.title }}
+            </btn>
+            <span v-else class="menu-title block text-base text-md font-bold bg-base-100 p-3">
+              {{ item.title }}
+            </span>
+          </template>
+        </Menu>
+        
+        <!-- 使用路由配置（向后兼容） -->
         <Menu 
+          v-else-if="menuGroups.length > 0"
           v-for="(parent, index) in menuGroups" 
           :key="parent.meta?.title || parent.path || index"
           class="w-full bg-base-200">
@@ -37,7 +64,7 @@
             <btn size="xs" clean variant="transparent" 
               v-for="(child, childIndex) in parent.children" 
               :key="child.path || childIndex" 
-              @click="props.onNavigate ? props.onNavigate(child.path) : null"
+              @click="handleItemClick(child.path)"
               :class="['block w-full text-left px-3',
                     route?.meta?.title === child.meta?.title
                       ? '!border-l-2 !border-y-0 !border-r-0 !border-solid !border-primary bg-base-100'
@@ -46,7 +73,7 @@
               {{ child.meta?.title }}
             </btn>
           </template>
-          </Menu>
+        </Menu>
       </nav>
       </div>
     </div>
@@ -56,9 +83,17 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { windowWidth } from '~/packet/Config/window-width'
 
+// 侧边栏菜单项类型定义
+export interface SidebarItem {
+  title: string  // 菜单项标题
+  path?: string   // 路由路径（可选，如果不提供则仅作为标题显示）
+}
+
 // Props 定义
 const props = defineProps<{
-  routes?: any[]
+  routes?: any[]  // 路由配置（旧版格式，向后兼容）
+  items?: SidebarItem[]  // 简单的菜单项数组（新版格式）
+  title?: string  // 侧边栏标题（当使用 items 时）
   onNavigate?: (path: string) => void
 }>()
 
@@ -86,12 +121,32 @@ onUnmounted(() => {
 const { isLgSize } = windowWidth();
 
 // 使用路由功能（在 Sectum 项目中）
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const isHome = computed(() => route?.meta?.title === 'Index')
 
-// 获取实际的路由分组数据
+// 处理菜单项点击
+const handleItemClick = (path: string) => {
+  if (props.onNavigate) {
+    props.onNavigate(path)
+  } else if (path) {
+    // 默认使用 vue-router 导航
+    router.push(path)
+  }
+}
+
+// 判断菜单项是否激活
+const isActiveItem = (path: string): boolean => {
+  if (!path) return false
+  if (path === '/') {
+    return route.path === '/'
+  }
+  return route.path === path || route.path.startsWith(path + '/')
+}
+
+// 获取实际的路由分组数据（向后兼容）
 const menuGroups = computed(() => {
   if (!props.routes || !Array.isArray(props.routes)) {
     return []

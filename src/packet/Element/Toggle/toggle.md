@@ -30,7 +30,7 @@ import tgl from 'sectum'
   <tgl checked color="error" />
 </div>
 
-```ts
+```vue
 <tgl checked />
 <tgl checked color="secondary" />
 <tgl checked color="success" />
@@ -48,7 +48,7 @@ import tgl from 'sectum'
   <tgl checked size="xl" />
 </div>
 
-```ts
+```vue
 <tgl checked size="xs" />
 <tgl checked size="sm" />
 <tgl checked />
@@ -63,7 +63,7 @@ import tgl from 'sectum'
   <tgl disabled checked />
 </div>
 
-```ts
+```vue
 <tgl disabled />
 <tgl disabled checked />
 ```
@@ -79,7 +79,7 @@ import tgl from 'sectum'
   </div>
 </div>
 
-```ts
+```vue
 <div class="flex flex-col w-32">
   <label class="cursor-pointer flex select-none content-center py-2 px-1 justify-between">
     <span class="label-text">Label</span>
@@ -144,7 +144,7 @@ box-shadow: var(--handleoffset) 0 0 2px #fcfcfc inset,
 
 组件完全支持响应式设计，可以配合 UnoCSS 的响应式前缀使用：
 
-```ts
+```vue
 <tgl class="sm:w-16 md:w-20 lg:w-24" />
 ```
 

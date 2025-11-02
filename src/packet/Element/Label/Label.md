@@ -31,7 +31,7 @@ import lab from 'sectum'
   <lab variant="link">Link</lab>
 </div>
 
-```ts
+```vue
   <lab>Primary</lab>
   <lab loading>Loading</lab>
   <lab disabled>Disabled</lab>
@@ -50,7 +50,7 @@ import lab from 'sectum'
   <lab color="warning">Warning </lab>
 </div>
 
-```ts
+```vue
   <lab color="primary">Primary </lab>
   <lab color="secondary">Secondary </lab>
   <lab color="success">Success </lab>
@@ -68,7 +68,7 @@ import lab from 'sectum'
   <lab color="warning" variant="outline">Warning </lab>
 </div>
 
-```ts
+```vue
   <lab color="primary" variant="outline">Primary </lab>
   <lab color="secondary" variant="outline">Secondary </lab>
   <lab color="success" variant="outline">Success </lab>
@@ -86,7 +86,7 @@ import lab from 'sectum'
   <lab color="warning" variant="transparent">Warning </lab>
 </div>
 
-```ts
+```vue
   <lab color="primary" variant="transparent">Primary </lab>
   <lab color="secondary" variant="transparent">Secondary </lab>
   <lab color="success" variant="transparent">Success </lab>
@@ -104,7 +104,7 @@ import lab from 'sectum'
   <lab color="warning" pills>Warning </lab>
 </div>
 
-```ts
+```vue
   <lab color="primary" pills>Primary </lab>
   <lab color="secondary" pills>Secondary </lab>
   <lab color="success" pills>Success </lab>
@@ -122,7 +122,7 @@ import lab from 'sectum'
   <lab size="xl">Extra-large </lab>
 </div>
 
-```ts
+```vue
   <lab size="xs">Extra-small </lab>
   <lab size="sm">Small </lab>
   <lab>normal </lab>
@@ -137,7 +137,7 @@ import lab from 'sectum'
   <lab size="lg" md="xs">Default(lg) md(xs)</lab>
 </div>
 
-```ts
+```vue
   <lab size="sm" md="lg">Default(sm) md(lg)</lab>
   <lab size="lg" md="xs">Default(lg) md(xs)</lab>
 ```
@@ -152,7 +152,7 @@ import lab from 'sectum'
   <lab color="warning" variant="link">Warning </lab>
 </div>
 
-```ts
+```vue
   <lab color="primary" variant="link">Primary </lab>
   <lab color="secondary" variant="link">Secondary </lab>
   <lab color="success" variant="link">Success </lab>
@@ -171,7 +171,7 @@ import lab from 'sectum'
   </lab>
 </div>
 
-```ts
+```vue
   <lab circle>
     <icn name="bell" solid xl/>
   </lab>

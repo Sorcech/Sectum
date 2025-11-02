@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useSlots, Slots } from 'vue'
+import { computed, useSlots, Slots, VNode } from 'vue'
 
 const slots = useSlots() as Slots
 
@@ -21,6 +21,61 @@ const props = defineProps({
   padding: { type: Boolean, default: false, required: false },// Menu with padding and list with rounded border
   hoverBorder: { type: Boolean, default: false, required: false }, // List with left border colored on hover
 })
+
+// 检测 slot 中的子元素数量（用于 v-for 情况）
+const getDirectChildren = (slot: VNode[] | VNode | undefined): VNode[] => {
+  if (!slot) return []
+  
+  // 如果 slot 是数组，直接返回
+  if (Array.isArray(slot)) {
+    return slot.filter((node): node is VNode => 
+      node && typeof node === 'object' && 'type' in node
+    )
+  }
+  
+  // 单个 slot，检查是否有多个 children（v-for 会创建 Fragment）
+  const node = slot as VNode
+  if (node.children && Array.isArray(node.children)) {
+    // 过滤出有效的 VNode（排除文本节点）
+    return node.children.filter((child: any): child is VNode =>
+      child && typeof child === 'object' && 'type' in child
+    )
+  }
+  
+  // 单个元素
+  return [node]
+}
+
+// 获取菜单项样式（用于 v-for 情况）
+const getMenuItemStyle = (index: number, total: number) => {
+  if (!props.rounded) return {}
+  
+  // 第一个选项：只有顶部圆角
+  if (index === 0) {
+    return {
+      borderTopLeftRadius: 'var(--rounded-btn)',
+      borderTopRightRadius: 'var(--rounded-btn)',
+      borderBottomLeftRadius: '0',
+      borderBottomRightRadius: '0'
+    }
+  }
+  // 最后一个选项：只有底部圆角
+  if (index === total - 1) {
+    return {
+      borderTopLeftRadius: '0',
+      borderTopRightRadius: '0',
+      borderBottomLeftRadius: 'var(--rounded-btn)',
+      borderBottomRightRadius: 'var(--rounded-btn)'
+    }
+  }
+  // 中间选项：完全无圆角
+  return {
+    borderTopLeftRadius: '0',
+    borderTopRightRadius: '0',
+    borderBottomLeftRadius: '0',
+    borderBottomRightRadius: '0'
+  }
+}
 
 // 基础菜单样式
 const baseClasses = computed(() => {
@@ -70,9 +125,23 @@ const menuClasses = computed(() => {
 <template>
   <ul :class="menuClasses">
     <template v-if="slots.default">
-      <li v-for="(slot, key) in slots.default()" :key="key" class="menu-item list-none p-0 m-0">
+      <template v-for="(slot, key) in slots.default()" :key="key">
+        <!-- 检测 slot 是否包含多个直接子元素（v-for 情况） -->
+        <template v-if="props.rounded && getDirectChildren(slot).length > 1">
+          <template v-for="(child, childIndex) in getDirectChildren(slot)" :key="childIndex">
+            <li class="menu-item list-none p-0 m-0">
+              <component 
+                :is="child" 
+                :style="getMenuItemStyle(childIndex, getDirectChildren(slot).length)"
+              />
+            </li>
+          </template>
+        </template>
+        <!-- 单个 slot 情况（手动添加），使用原有的 CSS 选择器 -->
+        <li v-else class="menu-item list-none p-0 m-0">
         <component :is="slot" />
       </li>
+      </template>
     </template>
   </ul>
 </template>

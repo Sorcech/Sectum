@@ -34,7 +34,7 @@ import ipt from 'sectum'
   <ipt clean placeholder="Clean style" />
 </div>
 
-```ts
+```vue
 <ipt placeholder="Type here..." />
 <ipt loading placeholder="Loading..." />
 <ipt disabled placeholder="Disabled" />
@@ -53,7 +53,7 @@ import ipt from 'sectum'
   <ipt color="error" placeholder="Error" />
 </div>
 
-```ts
+```vue
 <ipt color="primary" placeholder="Primary" />
 <ipt color="secondary" placeholder="Secondary" />
 <ipt color="success" placeholder="Success" />
@@ -71,7 +71,7 @@ import ipt from 'sectum'
   <ipt size="xl" placeholder="Extra large" />
 </div>
 
-```ts
+```vue
 <ipt size="xs" placeholder="Extra small" />
 <ipt size="sm" placeholder="Small" />
 <ipt size="md" placeholder="Medium" />
@@ -88,7 +88,7 @@ import ipt from 'sectum'
   <ipt color="primary" placeholder="Primary bordered" />
 </div>
 
-```ts
+```vue
 <ipt placeholder="Default bordered" />
 <ipt color="primary" placeholder="Primary bordered" />
 ```
@@ -100,7 +100,7 @@ import ipt from 'sectum'
   <ipt ghost color="primary" placeholder="Primary ghost" />
 </div>
 
-```ts
+```vue
 <ipt ghost placeholder="Ghost input" />
 <ipt ghost color="primary" placeholder="Primary ghost" />
 ```
@@ -112,7 +112,7 @@ import ipt from 'sectum'
   <ipt clean color="primary" placeholder="Primary clean" />
 </div>
 
-```ts
+```vue
 <ipt clean placeholder="Clean input" />
 <ipt clean color="primary" placeholder="Primary clean" />
 ```
@@ -126,7 +126,7 @@ import ipt from 'sectum'
   <ipt pills color="primary" placeholder="Primary pills" />
 </div>
 
-```ts
+```vue
 <ipt pills placeholder="Pills input" />
 <ipt pills color="primary" placeholder="Primary pills" />
 ```
@@ -138,7 +138,7 @@ import ipt from 'sectum'
   <ipt circle color="primary" placeholder="●" />
 </div>
 
-```ts
+```vue
 <ipt circle placeholder="●" />
 <ipt circle color="primary" placeholder="●" />
 ```
@@ -151,7 +151,7 @@ import ipt from 'sectum'
   <ipt label="Password" type="password" placeholder="Enter password" />
 </div>
 
-```ts
+```vue
 <ipt label="Your name" placeholder="Enter your name" />
 <ipt label="Email" type="email" placeholder="Enter your email" />
 <ipt label="Password" type="password" placeholder="Enter password" />
@@ -164,7 +164,7 @@ import ipt from 'sectum'
   <ipt color="error" error="Invalid email format" placeholder="Error with color" />
 </div>
 
-```ts
+```vue
 <ipt error="This field is required" placeholder="Error input" />
 <ipt color="error" error="Invalid email format" placeholder="Error with color" />
 ```
@@ -177,7 +177,7 @@ import ipt from 'sectum'
   <ipt disabled value="Disabled with value" />
 </div>
 
-```ts
+```vue
 <ipt loading placeholder="Loading..." />
 <ipt disabled placeholder="Disabled" />
 <ipt disabled value="Disabled with value" />
@@ -190,7 +190,7 @@ import ipt from 'sectum'
   <ipt size="lg" md="xs" placeholder="Large on mobile, small on desktop" />
 </div>
 
-```ts
+```vue
 <ipt size="sm" md="lg" placeholder="Small on mobile, large on desktop" />
 <ipt size="lg" md="xs" placeholder="Large on mobile, small on desktop" />
 ```
@@ -206,7 +206,7 @@ import ipt from 'sectum'
   <ipt type="url" placeholder="URL input" />
 </div>
 
-```ts
+```vue
 <ipt type="text" placeholder="Text input" />
 <ipt type="email" placeholder="Email input" />
 <ipt type="password" placeholder="Password input" />

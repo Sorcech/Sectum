@@ -12,6 +12,7 @@ Carousel 轮播图组件用于在有限空间内展示多个内容项，支持�
 - 🎨 **灵活配置** - 支持多种自定义选项
 - 📐 **响应式** - 自适应不同屏幕尺寸
 - ♿ **无障碍** - 完整的键盘导航和 ARIA 支持
+- 🖼️ **图片数组** - 支持通过图片链接数组快速创建轮播图
 
 ## 安装
 
@@ -173,36 +174,65 @@ import { Carousel } from 'sectum'
 </Carousel>
 ```
 
-## 图片轮播示例
+## 图片轮播
 
-实际应用中，常用于图片展示：
+### 方式一：使用图片数组（推荐）
+
+通过 `images` prop 传入图片链接数组，组件会自动渲染图片轮播：
+
+```vue
+<template>
+  <Carousel 
+    :images="imageList"
+    :autoplay="true"
+    :interval="3000"
+    height="400px"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const imageList = ref([
+  'https://via.placeholder.com/800x400?text=Image+1',
+  'https://via.placeholder.com/800x400?text=Image+2',
+  'https://via.placeholder.com/800x400?text=Image+3'
+])
+</script>
+```
+
+使用图片数组的优势：
+- ✅ 简洁：无需手动编写模板代码
+- ✅ 灵活：可以动态更新图片列表
+- ✅ 自动：组件自动处理图片渲染和布局
+
+### 方式二：使用 slot（自定义内容）
+
+如果需要自定义每张幻灯片的内容（如图片 + 文字叠加），可以使用 slot：
 
 ```vue
 <template>
   <Carousel :autoplay="true" :interval="3000" height="400px">
-    <div class="w-full h-full">
+    <div v-for="(item, index) in slides" :key="index" class="relative w-full h-full">
       <img 
-        src="https://via.placeholder.com/800x400?text=Image+1" 
-        alt="图片 1"
+        :src="item.image" 
+        :alt="item.title"
         class="w-full h-full object-cover"
       />
-    </div>
-    <div class="w-full h-full">
-      <img 
-        src="https://via.placeholder.com/800x400?text=Image+2" 
-        alt="图片 2"
-        class="w-full h-full object-cover"
-      />
-    </div>
-    <div class="w-full h-full">
-      <img 
-        src="https://via.placeholder.com/800x400?text=Image+3" 
-        alt="图片 3"
-        class="w-full h-full object-cover"
-      />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/30">
+        <h2 class="text-white text-4xl font-bold">{{ item.title }}</h2>
+      </div>
     </div>
   </Carousel>
 </template>
+
+<script setup>
+const slides = [
+  { image: '/image1.jpg', title: '标题 1' },
+  { image: '/image2.jpg', title: '标题 2' },
+  { image: '/image3.jpg', title: '标题 3' }
+]
+</script>
 ```
 
 ## 响应式轮播
@@ -262,10 +292,11 @@ const handleChange = (index) => {
 | `showArrows` | `boolean` | `true` | 是否显示箭头导航 |
 | `showIndicators` | `boolean` | `true` | 是否显示指示器 |
 | `indicatorsPosition` | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | 指示器位置 |
-| `height` | `string` | `'auto'` | 轮播图高度 |
+| `height` | `string` | `'20rem'` | 轮播图高度（默认约20行，320px） |
 | `duration` | `number` | `500` | 过渡动画时长（毫秒） |
 | `touchable` | `boolean` | `true` | 是否支持触摸滑动 |
 | `pauseOnHover` | `boolean` | `true` | 鼠标悬停时是否暂停播放 |
+| `images` | `string[]` | `undefined` | 图片链接数组，如果提供则自动渲染图片轮播 |
 
 ### Events
 
@@ -277,7 +308,9 @@ const handleChange = (index) => {
 
 | 插槽名 | 说明 |
 |--------|------|
-| `default` | 轮播内容，每个直接子元素作为一张幻灯片 |
+| `default` | 轮播内容，每个直接子元素作为一张幻灯片。当未提供 `images` prop 时使用 |
+
+> **注意**: 如果同时提供了 `images` prop 和 slot 内容，`images` 优先级更高，slot 内容将被忽略。
 
 ## 使用示例
 
@@ -299,20 +332,49 @@ const handleChange = (index) => {
 </template>
 ```
 
-### 自动播放轮播
+### 使用图片数组的自动播放轮播
+
+```vue
+<template>
+  <Carousel 
+    :images="imageUrls"
+    :autoplay="true" 
+    :interval="4000"
+    :pause-on-hover="true"
+    height="500px"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const imageUrls = ref([
+  '/images/banner1.jpg',
+  '/images/banner2.jpg',
+  '/images/banner3.jpg'
+])
+</script>
+```
+
+### 带文字叠加的自定义轮播
+
+如果需要图片 + 文字叠加效果，使用 slot 方式：
 
 ```vue
 <template>
   <Carousel 
     :autoplay="true" 
     :interval="4000"
-    :pauseOnHover="true"
+    :pause-on-hover="true"
     height="500px"
   >
-    <div v-for="(item, index) in slides" :key="index" class="relative">
+    <div v-for="(item, index) in slides" :key="index" class="relative w-full h-full">
       <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
       <div class="absolute inset-0 flex items-center justify-center bg-black/30">
-        <h2 class="text-white text-4xl font-bold">{{ item.title }}</h2>
+        <div class="text-center">
+          <h2 class="text-white text-4xl font-bold mb-4">{{ item.title }}</h2>
+          <p class="text-white text-xl">{{ item.description }}</p>
+        </div>
       </div>
     </div>
   </Carousel>
@@ -322,9 +384,9 @@ const handleChange = (index) => {
 import { ref } from 'vue'
 
 const slides = ref([
-  { image: '/image1.jpg', title: '标题 1' },
-  { image: '/image2.jpg', title: '标题 2' },
-  { image: '/image3.jpg', title: '标题 3' }
+  { image: '/image1.jpg', title: '标题 1', description: '描述 1' },
+  { image: '/image2.jpg', title: '标题 2', description: '描述 2' },
+  { image: '/image3.jpg', title: '标题 3', description: '描述 3' }
 ])
 </script>
 ```
@@ -388,15 +450,20 @@ const handleSlideChange = (index) => {
 4. **触摸支持**: 在移动端确保启用触摸滑动功能
 5. **指示器**: 在幻灯片数量较多时，始终显示指示器
 6. **无障碍**: 为图片添加 alt 属性，为导航按钮添加 aria-label
+7. **图片数组**: 对于纯图片轮播，优先使用 `images` prop，代码更简洁
+8. **自定义内容**: 需要图片 + 文字叠加等复杂布局时，使用 slot 方式
 
 ## 注意事项
 
 1. **子元素宽度**: 每个直接子元素会占据 100% 宽度，确保正确布局
-2. **高度设置**: 如果内容高度不一致，建议设置固定高度
+2. **高度设置**: 如果内容高度不一致，建议设置固定高度（使用 `height` prop）
 3. **自动播放**: 自动播放时建议启用 `pauseOnHover`，提升用户体验
 4. **触摸事件**: 触摸滑动功能在移动端表现更好
 5. **循环播放**: 循环播放时，从最后一张到第一张会有平滑过渡
 6. **性能**: 避免在轮播中包含过多复杂组件，可能影响性能
+7. **图片数组**: 使用 `images` prop 时，图片会自动应用 `object-cover` 样式，确保正确填充
+8. **优先级**: 如果同时提供 `images` 和 slot，`images` 优先级更高
+9. **响应式更新**: `images` 数组变化时会自动更新轮播图内容
 
 ## 技术实现
 
@@ -417,6 +484,12 @@ const handleSlideChange = (index) => {
 - 圆角: `rounded-$rounded-box`
 
 ## 更新日志
+
+### v1.1.0
+- ✨ 新增 `images` prop，支持通过图片链接数组快速创建图片轮播
+- 🐛 修复循环模式下左箭头不显示的问题
+- 🐛 修复轮播图高度继承问题，确保子元素正确显示高度
+- 📚 完善文档，添加图片数组使用说明和示例
 
 ### v1.0.0
 - 初始版本发布

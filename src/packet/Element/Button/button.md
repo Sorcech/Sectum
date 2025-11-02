@@ -31,7 +31,7 @@ import btn from 'sectum'
   <btn variant="link">Link</btn>
 </div>
 
-```ts
+```vue
   <btn>Primary</btn>
   <btn loading>Loading</btn>
   <btn disabled>Disabled</btn>
@@ -50,7 +50,7 @@ import btn from 'sectum'
   <btn color="warning">Warning </btn>
 </div>
 
-```ts
+```vue
   <btn color="primary">Primary </btn>
   <btn color="secondary">Secondary </btn>
   <btn color="success">Success </btn>
@@ -68,7 +68,7 @@ import btn from 'sectum'
   <btn color="warning" variant="outline">Warning </btn>
 </div>
 
-```ts
+```vue
   <btn color="primary" variant="outline">Primary </btn>
   <btn color="secondary" variant="outline">Secondary </btn>
   <btn color="success" variant="outline">Success </btn>
@@ -86,7 +86,7 @@ import btn from 'sectum'
   <btn color="warning" variant="transparent">Warning </btn>
 </div>
 
-```ts
+```vue
   <btn color="primary" variant="transparent">Primary </btn>
   <btn color="secondary" variant="transparent">Secondary </btn>
   <btn color="success" variant="transparent">Success </btn>
@@ -104,7 +104,7 @@ import btn from 'sectum'
   <btn color="warning" pills>Warning </btn>
 </div>
 
-```ts
+```vue
   <btn color="primary" pills>Primary </btn>
   <btn color="secondary" pills>Secondary </btn>
   <btn color="success" pills>Success </btn>
@@ -122,7 +122,7 @@ import btn from 'sectum'
   <btn size="xl">Extra-large </btn>
 </div>
 
-```ts
+```vue
   <btn size="xs">Extra-small </btn>
   <btn size="sm">Small </btn>
   <btn>normal </btn>
@@ -137,7 +137,7 @@ import btn from 'sectum'
   <btn size="lg" md="xs">Default(lg) md(xs)</btn>
 </div>
 
-```ts
+```vue
   <btn size="sm" md="lg">Default(sm) md(lg)</btn>
   <btn size="lg" md="xs">Default(lg) md(xs)</btn>
 ```
@@ -152,7 +152,7 @@ import btn from 'sectum'
   <btn color="warning" variant="link">Warning </btn>
 </div>
 
-```ts
+```vue
   <btn color="primary" variant="link">Primary </btn>
   <btn color="secondary" variant="link">Secondary </btn>
   <btn color="success" variant="link">Success </btn>
@@ -171,7 +171,7 @@ import btn from 'sectum'
   </btn>
 </div>
 
-```ts
+```vue
   <btn circle>
     <icn name="bell" solid xl/>
   </btn>

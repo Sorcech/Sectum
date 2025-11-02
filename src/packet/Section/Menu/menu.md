@@ -10,6 +10,7 @@ Menu 是一个灵活的菜单组件，支持垂直和水平布局、响应式设
 - 🌙 **深色模式** - 完全支持深色模式，自动适配主题
 - ♿ **无障碍** - 支持键盘导航和屏幕阅读器
 - 🎭 **灵活配置** - 通过 props 轻松配置各种样式和行为
+- 🔄 **自动圆角** - 当 `rounded` 为 `true` 时，自动为菜单项添加圆角样式（第一个顶部圆角，最后一个底部圆角）
 
 ## 安装
 
@@ -71,6 +72,15 @@ Menu 组件的基本用法非常简单，只需要在 `<Menu>` 标签内添加�
 
 ### Rounded
 
+当 `rounded` 为 `true` 时，Menu 组件会自动为菜单项添加圆角样式：
+- **第一个选项**：只有顶部圆角（`border-top-left-radius` 和 `border-top-right-radius`）
+- **最后一个选项**：只有底部圆角（`border-bottom-left-radius` 和 `border-bottom-right-radius`）
+- **中间选项**：完全无圆角
+
+支持两种使用方式：
+1. **手动添加**：每个菜单项作为独立的 slot，自动应用 CSS 选择器
+2. **v-for 循环**：使用 v-for 生成多个菜单项，组件会自动检测并应用圆角样式
+
 <div class="flex flex-wrap items-center gap-3">
   <Menu rounded shadow>
     <btn clean>
@@ -89,21 +99,48 @@ Menu 组件的基本用法非常简单，只需要在 `<Menu>` 标签内添加�
 </div>
 
 ```
-  <Menu rounded padding shadow>
+  <Menu rounded shadow>
     <btn clean>
       <icn name="user" light lg />
-        Item 1
+      Item 1
     </btn>
     <btn clean>
       <icn name="timer" light lg />
-        Item 2
+      Item 2
     </btn>
     <btn clean>
       <icn name="gem" light lg />
-        Item 3
+      Item 3
     </btn>
   </Menu>
 ```
+
+#### 使用 v-for 循环（自动圆角）
+
+```vue
+<template>
+  <Menu rounded shadow>
+    <btn 
+      v-for="item in menuItems" 
+      :key="item.id"
+      clean
+      @click="handleClick(item)"
+    >
+      {{ item.name }}
+    </btn>
+  </Menu>
+</template>
+
+<script setup>
+const menuItems = [
+  { id: 1, name: 'Item 1' },
+  { id: 2, name: 'Item 2' },
+  { id: 3, name: 'Item 3' }
+]
+</script>
+```
+
+> **注意**：使用 v-for 时，组件会自动检测并应用圆角样式，第一个选项会有顶部圆角，最后一个选项会有底部圆角。
 
 ### Compact
 
@@ -409,12 +446,60 @@ Menu 组件本身不触发事件，但菜单项（如 `<btn>` 组件）可以绑
 </Menu>
 ```
 
+### 自动圆角功能
+
+当 `rounded` 属性为 `true` 时，Menu 组件会自动为菜单项添加圆角样式：
+
+#### 工作原理
+
+1. **手动添加方式**（每个菜单项是独立的 slot）：
+   - 使用 CSS `:first-child` 和 `:last-child` 选择器
+   - 自动识别第一个和最后一个菜单项
+   - 应用相应的圆角样式
+
+2. **v-for 循环方式**（所有菜单项在一个 Fragment 中）：
+   - 组件自动检测 slot 中的多个子元素
+   - 计算每个子元素的索引和总数
+   - 动态为每个菜单项应用圆角样式（通过内联样式）
+
+#### 圆角规则
+
+- **第一个菜单项**：`border-top-left-radius` 和 `border-top-right-radius` 设置为 `var(--rounded-btn)`
+- **最后一个菜单项**：`border-bottom-left-radius` 和 `border-bottom-right-radius` 设置为 `var(--rounded-btn)`
+- **中间菜单项**：所有圆角半径设置为 `0`
+
+#### 示例
+
+```vue
+<!-- 手动添加方式 -->
+<Menu rounded shadow>
+  <btn clean>第一项</btn>
+  <btn clean>第二项</btn>
+  <btn clean>第三项</btn>
+</Menu>
+
+<!-- v-for 循环方式（同样有效） -->
+<Menu rounded shadow>
+  <btn 
+    v-for="(item, index) in items" 
+    :key="index"
+    clean
+  >
+    {{ item }}
+  </btn>
+</Menu>
+```
+
+两种方式都会自动应用相同的圆角效果，无需手动设置样式。
+
 ### 注意事项
 
 1. **菜单项内容**: 建议使用 `<btn clean>` 组件作为菜单项，以获得最佳的用户体验
 2. **响应式设计**: 使用响应式断点时，确保在不同屏幕尺寸下测试效果
 3. **无障碍访问**: 菜单项应该具有适当的 `aria-label` 或文本内容
 4. **键盘导航**: 菜单支持键盘导航，用户可以使用方向键在菜单项之间移动
+5. **圆角功能**: 只有在 `rounded` 为 `true` 时才会自动应用圆角样式
+6. **v-for 使用**: 使用 v-for 时，确保每个菜单项都有唯一的 `key` 属性
 
 ### 最佳实践
 

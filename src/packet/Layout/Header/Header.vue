@@ -27,7 +27,7 @@
       </div>
       
       <!-- 中间导航菜单 -->
-      <nav v-if="navItems.length > 0" class="hidden md:flex items-center gap-6 flex-1 justify-center">
+      <nav v-if="navItems.length > 0" class="hidden md:flex items-center flex-1 justify-center" :style="{ gap: navItemsGap }">
         <template v-for="(item, index) in navItems" :key="index">
           <a
             v-if="isExternalLink(item.path)"
@@ -85,7 +85,7 @@ export interface NavItem {
 }
 
 // Props 定义
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   projectName?: string
   logoIcon?: string  // Logo 图标名称，如果未提供则不显示图标
   themeComponent?: any
@@ -98,7 +98,10 @@ const props = defineProps<{
   backgroundOpacity?: number  // 背景透明度，范围 0-1，默认 1（完全不透明）
   navItems?: NavItem[]  // 导航菜单项数组，支持通过配置文件导入
   routes?: any[]  // 路由配置，如果提供，将从路由中提取导航项（可选）
-}>()
+  navItemsGap?: string  // 导航按钮间距，支持 CSS 间距值（如 '1rem', '24px', '1.5rem'），默认 '1.5rem' (24px)
+}>(), {
+  navItemsGap: '1.5rem'  // 默认间距 1.5rem (24px)
+})
 
 // 当前是否为首页
 const route = useRoute()

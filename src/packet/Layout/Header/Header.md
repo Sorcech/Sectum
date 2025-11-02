@@ -151,7 +151,7 @@ const navItems = [
     logo-icon="section"
     :nav-items="navItems"
     :theme-component="ThemeSelect"
-    :dark-component="DarkChange"
+    :dark-component="DarkToggle"
     :language-component="LanguageSelect"
     user-link="/profile"
     user-icon="user"
@@ -159,7 +159,7 @@ const navItems = [
 </template>
 
 <script setup>
-import { Header, ThemeSelect, DarkChange, LanguageSelect } from 'sectum'
+import { Header, ThemeSelect, DarkToggle, LanguageSelect } from 'sectum'
 
 const navItems = [
   { title: '产品中心', path: '/products' },

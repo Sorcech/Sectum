@@ -3,7 +3,7 @@
   "type": "module",
   "sideEffects": false,
   "private": false,
-  "version": "0.1.14",
+  "version": "0.1.18",
   "description": "A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts",
   "keywords": [
     "vue3",
@@ -16,7 +16,7 @@
     "responsive",
     "accessibility"
   ],
-  "homepage": "sectum.cc",
+  "homepage": "github.com/Sorcech/Sectum",
   "author": {
     "name": "Cesar.Studio"
   },

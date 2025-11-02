@@ -29,7 +29,7 @@ import bkd from 'sectum'
   </div>
 </div>
 
-```ts
+```vue
 <bkd :show="true" />
 ```
 
@@ -44,7 +44,7 @@ import bkd from 'sectum'
   </div>
 </div>
 
-```ts
+```vue
 <bkd :show="true" :blur="true" />
 ```
 
@@ -57,7 +57,7 @@ import bkd from 'sectum'
   </div>
 </div>
 
-```ts
+```vue
 <bkd :show="true" :loading="true" />
 ```
 
@@ -70,7 +70,7 @@ import bkd from 'sectum'
   </div>
 </div>
 
-```ts
+```vue
 <bkd :show="true" :blur="true" :loading="true" />
 ```
 
@@ -78,12 +78,11 @@ import bkd from 'sectum'
 
 ### 模态对话框
 
-```ts
+```vue
 <template>
   <div>
     <!-- 页面内容 -->
     <btn @click="showModal = true">打开模态框</btn>
-    
     <!-- 模态对话框 -->
     <div v-if="showModal" class="fixed inset-0 z-20 flex items-center justify-center">
       <bkd :show="true" :blur="true" @click="showModal = false" />
@@ -105,13 +104,12 @@ const showModal = ref(false)
 
 ### 加载遮罩
 
-```ts
+```vue
 <template>
   <div>
     <btn @click="loadData" :disabled="loading">
       {{ loading ? '加载中...' : '加载数据' }}
     </btn>
-    
     <bkd :show="loading" :loading="true" />
   </div>
 </template>
@@ -166,7 +164,7 @@ const loadData = async () => {
 
 使用 `tst` 组件提供过渡动画：
 
-```ts
+```vue
 <tst name="bloom">
   <!-- 遮罩内容 -->
 </tst>
@@ -176,7 +174,7 @@ const loadData = async () => {
 
 集成 `icn` 组件显示加载状态：
 
-```ts
+```vue
 <icn name="spinner" solid xl spinpulse></icn>
 ```
 
@@ -184,12 +182,11 @@ const loadData = async () => {
 
 ### 1. 配合模态框使用
 
-```ts
+```vue
 <template>
   <div class="relative">
     <!-- 触发按钮 -->
     <btn @click="openModal">打开模态框</btn>
-    
     <!-- 模态框 -->
     <teleport to="body">
       <div v-if="isOpen" class="fixed inset-0 z-50">
@@ -207,7 +204,7 @@ const loadData = async () => {
 
 ### 2. 全局加载状态
 
-```ts
+```vue
 // 在根组件中使用
 <template>
   <div id="app">
@@ -219,7 +216,7 @@ const loadData = async () => {
 
 ### 3. 条件渲染优化
 
-```ts
+```vue
 <template>
   <!-- 使用 v-show 而不是 v-if 来避免重复创建/销毁 -->
   <bkd v-show="show" :blur="blur" :loading="loading" />

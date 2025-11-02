@@ -8,25 +8,40 @@
     <!-- 轮播容器 -->
     <div 
       ref="carouselRef"
-      class="w-full flex transition-transform duration-500 ease-in-out [&>*]:flex-shrink-0 [&>*]:w-full"
+      class="w-full h-full flex transition-transform duration-500 ease-in-out [&>*]:flex-shrink-0 [&>*]:w-full [&>*]:h-full"
       :style="containerStyle"
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
     >
-      <slot />
+      <!-- 如果提供了图片数组，自动渲染图片 -->
+      <template v-if="images && images.length > 0">
+        <div 
+          v-for="(image, index) in images" 
+          :key="index"
+          class="relative w-full h-full"
+        >
+          <img 
+            :src="image" 
+            :alt="`轮播图 ${index + 1}`"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </template>
+      <!-- 否则使用 slot 内容 -->
+      <slot v-else />
     </div>
 
     <!-- 导航按钮 - 左右箭头 -->
     <template v-if="showArrows && itemsCount > 1">
       <button
-        v-if="!loop && currentIndex > 0"
+        v-if="loop || currentIndex > 0"
         class="cursor-pointer left-4"
         :class="arrowClasses"
         @click="goToPrev"
         aria-label="上一张"
       >
-        <icn name="angle-left" light xl />
+        <icn name="angle-left" light xl class="text-base-content dark:text-dark-base-content" />
       </button>
       <button
         v-if="loop || currentIndex < itemsCount - 1"
@@ -35,7 +50,7 @@
         @click="goToNext"
         aria-label="下一张"
       >
-        <icn name="angle-right" light xl />
+        <icn name="angle-right" light xl class="text-base-content dark:text-dark-base-content" />
       </button>
     </template>
 
@@ -59,28 +74,18 @@
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 
 interface Props {
-  // 初始显示的索引
-  initialIndex?: number
-  // 是否自动播放
-  autoplay?: boolean
-  // 自动播放间隔（毫秒）
-  interval?: number
-  // 是否循环播放
-  loop?: boolean
-  // 是否显示箭头导航
-  showArrows?: boolean
-  // 是否显示指示器
-  showIndicators?: boolean
-  // 指示器位置
-  indicatorsPosition?: 'bottom' | 'top' | 'left' | 'right'
-  // 高度
-  height?: string
-  // 过渡动画时长（毫秒）
-  duration?: number
-  // 触摸滑动切换
-  touchable?: boolean
-  // 是否暂停悬停
-  pauseOnHover?: boolean
+  initialIndex?: number  // 初始显示的索引
+  autoplay?: boolean  // 是否自动播放
+  interval?: number  // 自动播放间隔（毫秒）
+  loop?: boolean  // 是否循环播放
+  showArrows?: boolean  // 是否显示箭头导航
+  showIndicators?: boolean  // 是否显示指示器
+  indicatorsPosition?: 'bottom' | 'top' | 'left' | 'right'  // 指示器位置
+  height?: string  // 高度
+  duration?: number  // 过渡动画时长（毫秒）
+  touchable?: boolean  // 是否支持触摸滑动
+  pauseOnHover?: boolean  // 是否暂停悬停
+  images?: string[]  // 图片链接数组，如果提供则自动渲染图片
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -91,7 +96,7 @@ const props = withDefaults(defineProps<Props>(), {
   showArrows: true,
   showIndicators: true,
   indicatorsPosition: 'bottom',
-  height: 'auto',
+  height: '20rem', // 默认高度约20行 (320px)
   duration: 500,
   touchable: true,
   pauseOnHover: true
@@ -131,9 +136,9 @@ const containerStyle = computed(() => {
 const arrowClasses = computed(() => {
   return [
     'absolute top-1/2 -translate-y-1/2',
-    'bg-base-100/80 dark:bg-base-200/80',
-    'hover:bg-base-200 dark:hover:bg-base-300',
-    'text-base-content',
+    'bg-base-200 dark:bg-dark-base-200',
+    'hover:bg-base-300 dark:hover:bg-dark-base-300',
+    'text-base-content dark:text-dark-base-content',
     'rounded-full p-2',
     'shadow-lg',
     'transition-all duration-200',
@@ -160,7 +165,11 @@ const indicatorsClasses = computed(() => {
 // 计算子元素数量
 const updateItemsCount = () => {
   nextTick(() => {
-    if (carouselRef.value) {
+    // 如果提供了图片数组，使用数组长度
+    if (props.images && props.images.length > 0) {
+      itemsCount.value = props.images.length
+    } else if (carouselRef.value) {
+      // 否则从 DOM 子元素获取
       itemsCount.value = carouselRef.value.children.length
     }
   })
@@ -280,6 +289,11 @@ watch(() => props.initialIndex, (newIndex) => {
     currentIndex.value = newIndex
   }
 })
+
+// 监听图片数组变化
+watch(() => props.images, () => {
+  updateItemsCount()
+}, { deep: true })
 
 // 生命周期
 onMounted(() => {

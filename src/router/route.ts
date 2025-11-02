@@ -24,14 +24,19 @@ const route = [
           meta: { title: 'Element' },
           children: [
             {
-              path: '/sectum/color',
-              component: () => import('~/packet/Element/Color/Color.md'),
-              meta: { title: 'Color' },
-            },
-            {
               path: '/sectum/button',
               component: () => import('~/packet/Element/Button/Button.md'),
               meta: { title: 'Button' },
+            },
+            {
+              path: '/sectum/checkbox',
+              component: () => import('~/packet/Element/Checkbox/Checkbox.md'),
+              meta: { title: 'Checkbox' },
+            },
+            {
+              path: '/sectum/color',
+              component: () => import('~/packet/Element/Color/Color.md'),
+              meta: { title: 'Color' },
             },
             {
               path: '/sectum/label',
@@ -49,9 +54,9 @@ const route = [
               meta: { title: 'Input' },
             },
             {
-              path: '/sectum/checkbox',
-              component: () => import('~/packet/Element/Checkbox/Checkbox.md'),
-              meta: { title: 'Checkbox' },
+              path: '/sectum/mask',
+              component: () => import('~/packet/Element/Mask/Mask.md'),
+              meta: { title: 'Mask' },
             },
             {
               path: '/sectum/toggle',
@@ -65,19 +70,54 @@ const route = [
           meta: { title: 'Section' },
           children: [
             {
-              path: '/sectum/buttongroup',
-              component: () => import('~/packet/Section/ButtonGroup/ButtonGroup.md'),
-              meta: { title: 'ButtonGroup' },
+              path: '/sectum/card',
+              component: () => import('~/packet/Section/Card/Card.md'),
+              meta: { title: 'Card' },
             },
             {
-              path: '/sectum/menu',
-              component: () => import('~/packet/Section/Menu/Menu.md'),
-              meta: { title: 'Menu' },
+              path: '/sectum/carousel',
+              component: () => import('~/packet/Section/Carousel/Carousel.md'),
+              meta: { title: 'Carousel' },
+            },
+            {
+              path: '/sectum/date',
+              component: () => import('~/packet/Section/Calendar/Calendar.md'),
+              meta: { title: 'Calendar' },
+            },
+            {
+              path: '/sectum/drawer',
+              component: () => import('~/packet/Section/Drawer/Drawer.md'),
+              meta: { title: 'Drawer' },
             },
             {
               path: '/sectum/dropdown',
               component: () => import('~/packet/Section/Dropdown/Dropdown.md'),
               meta: { title: 'Dropdown' },
+            },
+            {
+              path: '/sectum/form',
+              component: () => import('~/packet/Section/Form/Form.md'),
+              meta: { title: 'Form' },
+            },
+            {
+              path: '/sectum/file',
+              component: () => import('~/packet/Section/File/File.md'),
+              meta: { title: 'File' },
+            },
+            {
+              path: '/sectum/Group',
+              component: () => import('~/packet/Section/Group/Group.md'),
+              meta: { title: 'Group' },
+            },
+            {
+              path: '/sectum/list',
+              component: () => import('~/packet/Section/List/List.md'),
+              meta: { title: 'List' },
+            },
+            {
+              path: '/sectum/menu',
+              component: () => import('~/packet/Section/Menu/Menu.md'),
+              meta: { title: 'Menu' },
             },
             {
               path: '/sectum/modal',
@@ -100,35 +140,10 @@ const route = [
               meta: { title: 'Upload' },
             },
             {
-              path: '/sectum/file',
-              component: () => import('~/packet/Section/File/File.md'),
-              meta: { title: 'File' },
-            },
-            {
-              path: '/sectum/form',
-              component: () => import('~/packet/Section/Form/Form.md'),
-              meta: { title: 'Form' },
-            },
-            {
               path: '/sectum/select',
               component: () => import('~/packet/Section/Select/Select.md'),
               meta: { title: 'Select' },
             },
-            {
-              path: '/sectum/date',
-              component: () => import('~/packet/Section/Date/Date.md'),
-              meta: { title: 'Date' },
-            },
-            {
-              path: '/sectum/drawer',
-              component: () => import('~/packet/Section/Drawer/Drawer.md'),
-              meta: { title: 'Drawer' },
-            },
-            {
-              path: '/sectum/carousel',
-              component: () => import('~/packet/Section/Carousel/Carousel.md'),
-              meta: { title: 'Carousel' },
-            }
           ]
         },
         {
@@ -141,13 +156,13 @@ const route = [
               meta: { title: 'Theme' },
             },
             {
-              path: '/sectum/darkchange',
-              component: () => import('~/packet/Pattern/Dark/DarkChange.md'),
-              meta: { title: 'Darkchange' },
+              path: '/sectum/darktoggle',
+              component: () => import('~/packet/Pattern/Dark/DarkToggle.md'),
+              meta: { title: 'DarkToggle' },
             },
             {
               path: '/sectum/language',
-              component: () => import('~/packet/Pattern/Language/LanguageSelect.md'),
+              component: () => import('~/packet/Pattern/Language/Language.md'),
               meta: { title: 'Language' },
             },
             {

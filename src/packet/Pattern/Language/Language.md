@@ -4,13 +4,15 @@ LanguageSelect 语言选择组件提供多语言切换功能，支持下拉菜�
 
 ## 特性
 
-- 🌍 **多语言支持** - 支持中文和英文切换，可扩展更多语言
+- 🌍 **多语言支持** - 支持中文、英文及更多语言切换，可扩展多种语言
 - 📋 **下拉菜单** - 使用 Dropdown 组件提供优雅的选择界面
 - 💾 **状态持久化** - 自动保存用户选择到本地存储
 - 🔄 **自动初始化** - 组件挂载时自动读取保存的语言设置
 - 🌐 **国际化集成** - 与 vue-i18n 完美集成
 - 🎨 **响应式设计** - 支持 hover 效果和主题色彩变量
 - 🌙 **深色模式** - 完全支持深色模式
+- 🎯 **智能显示** - 当前语言自动禁用并高亮显示
+- 🔀 **双模式** - 两种语言时使用单按钮切换，多于两种时使用下拉菜单
 
 ## 安装
 
@@ -52,36 +54,113 @@ import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
 - **国际化集成**：与vue-i18n完美集成
 - **响应式设计**：支持hover效果和主题色彩变量
 
+## 显示模式
+
+### 两种语言模式（单按钮切换）
+
+当可用语言只有两种时，组件会显示为一个紧凑的按钮，点击即可切换语言：
+
+```vue
+<!-- 显示为小按钮，点击切换语言 -->
+<LanguageSelect />
+```
+
+特点：
+- 按钮尺寸：1.5rem × 1.5rem
+- 显示当前语言的字符（右下角，大尺寸，主题色）
+- 显示非当前语言的字符（左上角，小尺寸，默认颜色）
+- 点击即可切换
+
+### 多语言模式（下拉菜单）
+
+当可用语言多于两种时，组件会显示为下拉菜单：
+
+```vue
+<!-- 显示为地球图标按钮，点击展开下拉菜单 -->
+<LanguageSelect />
+```
+
+特点：
+- 显示地球图标按钮
+- 右上角显示当前语言的字符标识
+- 点击展开下拉菜单，显示所有可用语言
+- 当前语言会被禁用并高亮显示
+
 ## 支持的语言
 
-| 语言代码 | 显示名称 | 说明     |
-| -------- | -------- | -------- |
-| `zh-CN`  | 中文     | 简体中文 |
-| `en-US`  | English  | 美式英语 |
+| 语言代码 | 显示名称   | 字符标识 | 说明     |
+| -------- | ---------- | -------- | -------- |
+| `zh-CN`  | 中文       | 文       | 简体中文 |
+| `en-US`  | English    | A        | 美式英语 |
+| `ja-JP`  | 日本語     | 日       | 日语     |
+| `ko-KR`  | 한국어     | 한       | 韩语     |
+| `fr-FR`  | Français   | F        | 法语     |
+| `de-DE`  | Deutsch    | D        | 德语     |
+| `es-ES`  | Español    | S        | 西班牙语 |
+| `ru-RU`  | Русский    | Р        | 俄语     |
+
+> **注意**：组件会自动从 vue-i18n 实例中获取可用语言列表，如果未配置则默认显示中文和英文。
 
 ## 组件结构
 
 ### 模板结构
 
+#### 两种语言模式（单按钮）
+
 ```vue
 <template>
-  <Dropdown placement="bottom-end" hover>
-    <template #trigger="{ active }">
-      <btn item class="hover:text-primary">
-        <icn name="language" light xl></icn>
+  <!-- 单按钮模式：直接点击切换 -->
+  <btn 
+    item 
+    @click="toggleLanguage" 
+    class="hover:text-primary relative p-0 border border-solid border-base-content/20 rounded-md overflow-visible"
+    style="min-width: 1.5rem; width: 1.5rem; height: 1.5rem;"
+  >
+    <!-- 显示两种语言的字符，当前语言突出显示 -->
+  </btn>
+</template>
+```
+
+#### 多语言模式（下拉菜单）
+
+```vue
+<template>
+  <!-- 下拉菜单模式：点击展开选择 -->
+  <Dropdown placement="bottom" hover>
+    <template #trigger>
+      <btn item class="hover:text-primary relative group">
+        <icn name="globe" light xl></icn>
+        <!-- 当前语言字符显示在图标右上方 -->
       </btn>
     </template>
-    <Menu rounded shadow class="bg-base-300 dark:bg-base-100">
-      <btn clean @click="setLanguage('en-US')">
-        English
-      </btn>
-      <btn clean @click="setLanguage('zh-CN')">
-        中文
+    <Menu shadow rounded class="bg-base-300 dark:bg-base-100 w-auto min-w-32">
+      <btn 
+        v-for="locale in availableLocales" 
+        :key="locale"
+        clean 
+        :disabled="currentLocale === locale"
+        @click="setLanguage(locale)"
+        :class="[
+          'w-full flex items-center gap-3 whitespace-nowrap',
+          currentLocale === locale ? 'text-primary font-semibold' : ''
+        ]"
+      >
+        {{ getLocaleName(locale) }}
       </btn>
     </Menu>
   </Dropdown>
 </template>
 ```
+
+### 核心功能特性
+
+1. **自动模式切换**：根据可用语言数量自动选择显示模式
+2. **当前语言标识**：
+   - 多语言模式下：下拉菜单中当前语言会被禁用并高亮显示（`text-primary font-semibold`）
+   - 单按钮模式下：当前语言字符显示在右下角，主题色高亮
+3. **状态同步**：实时更新 vue-i18n 的 locale 值
+4. **持久化存储**：使用 `Store.setLocalStorage` 保存用户选择
+5. **自动初始化**：组件挂载时读取本地存储的语言设置
 
 ### 核心功能
 
@@ -102,14 +181,14 @@ import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
     </div>
     <div class="flex-none gap-2">
       <LanguageSelect />
-      <DarkChange />
+      <DarkToggle />
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
-import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
+import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 </script>
 ```
 
@@ -154,20 +233,43 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
 ### 语言切换逻辑
 
 ```typescript
-const setLanguage = (locale: 'zh-CN' | 'en-US') => {
+const setLanguage = (locale: string) => {
+  const I18n = getI18n()
+  if (!I18n) return false
+  
   if (locale !== I18n.global.locale.value) {
     // 保存到本地存储
     Store.setLocalStorage('locale', locale)
     
-    // 更新vue-i18n语言
+    // 更新 vue-i18n 语言
     I18n.global.locale.value = locale
+    currentLocale.value = locale
     
     return true
-  } else {
-    return false
+  }
+  return false
+}
+
+// 两种语言模式下的切换（直接切换）
+const toggleLanguage = () => {
+  const I18n = getI18n()
+  if (!I18n || availableLocales.value.length !== 2) return
+  
+  // 获取另一种语言
+  const otherLocale = availableLocales.value.find(locale => locale !== currentLocale.value)
+  if (otherLocale) {
+    setLanguage(otherLocale)
   }
 }
 ```
+
+### 当前语言检测和禁用
+
+组件会自动检测当前语言，并在下拉菜单中：
+
+1. **禁用当前语言**：使用 `:disabled="currentLocale === locale"` 禁用当前语言选项
+2. **高亮显示**：使用 `text-primary font-semibold` 类高亮显示当前语言
+3. **保持尺寸**：禁用状态不会影响选项的尺寸和位置
 
 ### 自动初始化
 

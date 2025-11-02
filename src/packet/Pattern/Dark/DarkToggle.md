@@ -1,6 +1,6 @@
-# DarkChange 深色模式切换组件
+# DarkToggle 深色模式切换组件
 
-DarkChange 深色模式切换组件提供一键切换明暗主题的功能，支持本地存储用户偏好设置。组件自动管理 DOM 类名和状态同步，与 UnoCSS 主题系统完美集成。
+DarkToggle 深色模式切换组件提供一键切换明暗主题的功能，支持本地存储用户偏好设置。组件自动管理 DOM 类名和状态同步，与 UnoCSS 主题系统完美集成。
 
 ## 特性
 
@@ -14,9 +14,9 @@ DarkChange 深色模式切换组件提供一键切换明暗主题的功能，支
 ## 安装
 
 ```ts
-import { DarkChange } from 'sectum'
+import { DarkToggle } from 'sectum'
 // 或者
-import DarkChange from 'sectum'
+import DarkToggle from 'sectum'
 ```
 
 ## 基础用法
@@ -24,7 +24,7 @@ import DarkChange from 'sectum'
 ### 导入组件
 
 ```typescript
-import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
+import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 ```
 
 ### 基础示例
@@ -33,12 +33,12 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
 <template>
   <div class="flex items-center gap-4">
     <h3>主题切换</h3>
-    <DarkChange />
+    <DarkToggle />
   </div>
 </template>
 
 <script setup lang="ts">
-import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
+import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 </script>
 ```
 
@@ -85,7 +85,7 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
       <h1 class="text-xl font-bold">我的应用</h1>
     </div>
     <div class="flex-none gap-2">
-      <DarkChange />
+      <DarkToggle />
     </div>
   </header>
 </template>
@@ -99,7 +99,7 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
     <h3>外观设置</h3>
     <div class="setting-item">
       <span>深色模式</span>
-      <DarkChange />
+      <DarkToggle />
     </div>
   </div>
 </template>
@@ -112,7 +112,7 @@ import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
   <div class="toolbar flex gap-2">
     <btn>保存</btn>
     <btn>编辑</btn>
-    <DarkChange />
+    <DarkToggle />
   </div>
 </template>
 ```
@@ -136,19 +136,14 @@ onMounted(() => {
 
 ```typescript
 function setDark() {
-  // 移除当前主题类
-  document.documentElement.classList.remove(isDark.value ? 'dark' : 'light')
-  
-  // 切换状态
+  // 切换状态（通过 watch 自动处理 DOM 更新和存储）
   isDark.value = !isDark.value
-  
-  // 添加新主题类
-  document.documentElement.classList.add(isDark.value ? 'dark' : 'light')
-  
-  // 保存到本地存储
-  Store.setLocalStorage('dark', isDark.value ? 'dark' : 'light')
 }
 ```
+
+组件使用 `watch` 监听 `isDark` 的变化，自动处理：
+- DOM 类名的添加/移除
+- 本地存储的更新
 
 ## 样式定制
 
@@ -173,3 +168,6 @@ function setDark() {
 2. 深色模式样式需要在CSS中定义`.dark`类
 3. 组件依赖项目的Store工具类进行本地存储
 4. 图标组件需要支持`sun-bright`和`moon-stars`图标
+5. 组件会自动在`document.documentElement`上添加`dark`或`light`类名
+6. 本地存储键名为`dark`，值为`'dark'`或`'light'`
+

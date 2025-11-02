@@ -11,32 +11,20 @@
 import { computed } from 'vue'
 
 interface Props {
-  // 方向
-  direction?: 'horizontal' | 'vertical'
-  // 尺寸
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  // 颜色
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
-  // 变体
-  variant?: 'solid' | 'outline' | 'transparent'
-  // 形状
-  shape?: 'rounded' | 'square' | 'circle'
-  // 间距
-  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  // 是否禁用
-  disabled?: boolean
-  // 是否只读
-  readonly?: boolean
-  // 最大按钮数量
-  maxButtons?: number
-  // 是否显示分隔线
-  showDivider?: boolean
-  // 是否可折叠
-  collapsible?: boolean
-  // 是否显示数量
-  showCount?: boolean
-  // 自定义类名
-  customClass?: string
+  direction?: 'horizontal' | 'vertical'// 方向
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'// 尺寸
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'// 颜色
+  variant?: 'solid' | 'outline' | 'transparent'// 变体
+  shape?: 'rounded' | 'square' | 'circle'// 形状
+  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'// 间距
+  disabled?: boolean// 是否禁用
+  readonly?: boolean// 是否只读
+  maxButtons?: number// 最大按钮数量
+  showDivider?: boolean// 是否显示分隔线
+  collapsible?: boolean// 是否可折叠
+  showCount?: boolean// 是否显示数量
+  rounded?: boolean// 是否启用圆角
+  customClass?: string// 自定义类名
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -52,6 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
   showDivider: false,
   collapsible: false,
   showCount: false,
+  rounded: true,
   customClass: ''
 })
 
@@ -59,22 +48,17 @@ const props = withDefaults(defineProps<Props>(), {
 const baseClasses = computed(() => {
   return [
     'inline-flex relative align-middle',
-    // 方向
-    props.direction === 'vertical' ? 'flex-col' : 'flex-row',
-    // 可折叠
-    props.collapsible ? 'flex-wrap' : '',
-    // 状态
+    props.direction === 'vertical' ? 'flex-col' : 'flex-row',// 方向
+    props.collapsible ? 'flex-wrap' : '',// 可折叠
     props.disabled ? 'opacity-60' : '',
     props.readonly ? 'pointer-events-none' : '',
-    // 自定义类名
-    props.customClass
+    props.customClass// 自定义类名
   ].filter(Boolean).join(' ')
 })
 
 // 按钮间距样式
 const spacingClasses = computed(() => {
   if (props.spacing === 'none') return ''
-  
   const spacings = {
     xs: props.direction === 'vertical' ? 'space-y-0.5' : 'space-x-0.5',
     sm: props.direction === 'vertical' ? 'space-y-1' : 'space-x-1',
@@ -88,7 +72,6 @@ const spacingClasses = computed(() => {
 // 分隔线样式
 const dividerClasses = computed(() => {
   if (!props.showDivider) return ''
-  
   return props.direction === 'vertical' 
     ? 'divide-y divide-current/30' 
     : 'divide-x divide-current/30'
@@ -97,33 +80,38 @@ const dividerClasses = computed(() => {
 // 响应式折叠样式
 const responsiveClasses = computed(() => {
   if (!props.collapsible) return ''
-  
   return 'sm:flex-col sm:space-x-0 sm:space-y-1'
 })
 
 // 数量显示样式
 const countClasses = computed(() => {
   if (!props.showCount) return ''
-  
   return 'relative after:absolute after:-top-2 after:-right-2 after:bg-error after:text-error-content after:rounded-full after:w-6 after:h-6 after:flex after:items-center after:justify-center after:text-xs after:font-bold'
 })
 
 // 最大按钮数量限制样式
 const maxButtonsClasses = computed(() => {
   if (props.maxButtons <= 0) return ''
-  
   return `[&>*:nth-child(n+${props.maxButtons + 1})]:hidden`
+})
+
+// 圆角类名
+const roundedClasses = computed(() => {
+  if (!props.rounded) return ''
+  return 'group-rounded'
 })
 
 // 最终样式组合
 const buttonGroupClasses = computed(() => {
   return [
+    'group',
     baseClasses.value,
     spacingClasses.value,
     dividerClasses.value,
     responsiveClasses.value,
     countClasses.value,
-    maxButtonsClasses.value
+    maxButtonsClasses.value,
+    roundedClasses.value
   ].filter(Boolean).join(' ')
 })
 
@@ -171,79 +159,105 @@ defineExpose({
 </script>
 
 <style scoped>
-/* 按钮圆角处理 - 使用纯CSS */
-.btn-group :deep(.btn:first-child) {
-  border-top-left-radius: 0.375rem;
+/* 按钮圆角处理 - 横向排布 */
+.group.group-rounded.flex-row :deep(> *:first-child) {
+  border-top-left-radius: var(--rounded-btn, 0.5rem);
   border-top-right-radius: 0;
-  border-bottom-left-radius: 0.375rem;
+  border-bottom-left-radius: var(--rounded-btn, 0.5rem);
   border-bottom-right-radius: 0;
 }
 
-.btn-group :deep(.btn:not(:first-child):not(:last-child)) {
+.group.group-rounded.flex-row :deep(> *:not(:first-child):not(:last-child)) {
   border-radius: 0;
 }
 
-.btn-group :deep(.btn:last-child) {
+.group.group-rounded.flex-row :deep(> *:last-child) {
   border-top-left-radius: 0;
-  border-top-right-radius: 0.375rem;
+  border-top-right-radius: var(--rounded-btn, 0.5rem);
   border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0.375rem;
+  border-bottom-right-radius: var(--rounded-btn, 0.5rem);
 }
 
-.btn-group :deep(.btn:not(:first-child).btn-outline) {
+/* 按钮圆角处理 - 纵向排布 */
+.group.group-rounded.flex-col :deep(> *:first-child) {
+  border-top-left-radius: var(--rounded-btn, 0.5rem);
+  border-top-right-radius: var(--rounded-btn, 0.5rem);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.group.group-rounded.flex-col :deep(> *:not(:first-child):not(:last-child)) {
+  border-radius: 0;
+}
+
+.group.group-rounded.flex-col :deep(> *:last-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--rounded-btn, 0.5rem);
+  border-bottom-right-radius: var(--rounded-btn, 0.5rem);
+}
+
+/* Outline 变体的边框处理 */
+.group.group-rounded.flex-row :deep(> *:not(:first-child).btn-outline),
+.group.group-rounded.flex-row :deep(> *:not(:first-child)[variant="outline"]) {
   border-left: 0;
 }
 
-/* 垂直方向的圆角处理 */
-.btn-group.flex-col :deep(.btn:first-child) {
-  border-top-left-radius: 0.375rem;
-  border-top-right-radius: 0.375rem;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.btn-group.flex-col :deep(.btn:not(:first-child):not(:last-child)) {
-  border-radius: 0;
-}
-
-.btn-group.flex-col :deep(.btn:last-child) {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0.375rem;
-  border-bottom-right-radius: 0.375rem;
+.group.group-rounded.flex-col :deep(> *:not(:first-child).btn-outline),
+.group.group-rounded.flex-col :deep(> *:not(:first-child)[variant="outline"]) {
+  border-top: 0;
 }
 
 /* 焦点管理 */
-.btn-group :deep(.btn:focus) {
+.group :deep(> *:focus) {
   z-index: 10;
 }
 
-.btn-group :deep(.btn:hover) {
+.group :deep(> *:hover) {
   z-index: 10;
 }
 
-.btn-group :deep(.btn.active) {
+.group :deep(> *.active) {
   z-index: 20;
 }
 
 /* 过渡动画 */
-.btn-group :deep(.btn) {
+.group :deep(> *) {
   transition: all 0.2s ease-in-out;
 }
 
 /* 响应式设计 */
 @media (max-width: 640px) {
-  .btn-group.flex-wrap {
+  .group.flex-wrap {
     flex-direction: column;
   }
   
-  .btn-group.flex-wrap :deep(.btn) {
+  .group.flex-wrap :deep(> *) {
     width: 100%;
     margin-top: 0.25rem;
   }
   
-  .btn-group.flex-wrap :deep(.btn:first-child) {
+  .group.flex-wrap :deep(> *:first-child) {
     margin-top: 0;
+  }
+  
+  /* 响应式时圆角需要重新计算 */
+  .group.group-rounded.flex-wrap :deep(> *:first-child) {
+    border-top-left-radius: var(--rounded-btn, 0.5rem);
+    border-top-right-radius: var(--rounded-btn, 0.5rem);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .group.group-rounded.flex-wrap :deep(> *:not(:first-child):not(:last-child)) {
+    border-radius: 0;
+  }
+  
+  .group.group-rounded.flex-wrap :deep(> *:last-child) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: var(--rounded-btn, 0.5rem);
+    border-bottom-right-radius: var(--rounded-btn, 0.5rem);
   }
 }
 </style>

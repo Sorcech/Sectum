@@ -167,7 +167,7 @@ app.mount('#app')
 import { createApp } from 'vue'
 import { 
   Button, Input, Header, Sidebar, 
-  ThemeSelect, DarkChange, LanguageSelect,
+  ThemeSelect, DarkToggle, LanguageSelect,
   Store
 } from 'sectum'
 import 'sectum/dist/style.css'
@@ -182,7 +182,7 @@ app.component('Input', Input)
 app.component('Header', Header)
 app.component('Sidebar', Sidebar)
 app.component('ThemeSelect', ThemeSelect)
-app.component('DarkChange', DarkChange)
+app.component('DarkToggle', DarkToggle)
 app.component('LanguageSelect', LanguageSelect)
 
 // 设置全局工具（如果需要）
@@ -205,13 +205,13 @@ app.mount('#app')
     <Header 
       project-name="我的项目"
       :theme-component="ThemeSelect"
-      :dark-component="DarkChange"
+      :dark-component="DarkToggle"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Header, ThemeSelect, DarkChange } from 'sectum'
+import { Header, ThemeSelect, DarkToggle } from 'sectum'
 </script>
 ```
 

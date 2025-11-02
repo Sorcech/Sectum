@@ -25,7 +25,7 @@ import txa from 'sectum'
   <txa :show-counter="false" placeholder="隐藏计数器" />
 </div>
 
-```ts
+```vue
 <txa placeholder="请输入内容..." />
 <txa loading placeholder="加载中..." />
 <txa disabled placeholder="禁用状态" />
@@ -44,7 +44,7 @@ import txa from 'sectum'
   <txa color="error" placeholder="Error" />
 </div>
 
-```ts
+```vue
 <txa color="primary" placeholder="Primary" />
 <txa color="secondary" placeholder="Secondary" />
 <txa color="success" placeholder="Success" />
@@ -62,7 +62,7 @@ import txa from 'sectum'
   <txa size="xl" placeholder="Extra large" />
 </div>
 
-```ts
+```vue
 <txa size="xs" placeholder="Extra small" />
 <txa size="sm" placeholder="Small" />
 <txa size="md" placeholder="Medium" />
@@ -79,7 +79,7 @@ import txa from 'sectum'
   <txa color="primary" placeholder="Primary边框" />
 </div>
 
-```ts
+```vue
 <txa placeholder="默认边框" />
 <txa color="primary" placeholder="Primary边框" />
 ```
@@ -91,7 +91,7 @@ import txa from 'sectum'
   <txa ghost color="primary" placeholder="Primary透明" />
 </div>
 
-```ts
+```vue
 <txa ghost placeholder="透明背景" />
 <txa ghost color="primary" placeholder="Primary透明" />
 ```
@@ -105,7 +105,7 @@ import txa from 'sectum'
   <txa resize="resize-none" placeholder="不可调整" />
 </div>
 
-```ts
+```vue
 <txa resize="resize" placeholder="可调整大小" />
 <txa resize="resize-x" placeholder="水平调整" />
 <txa resize="resize-y" placeholder="垂直调整" />
@@ -120,7 +120,7 @@ import txa from 'sectum'
   <txa :maxlength="200" :show-counter="false" placeholder="隐藏计数器" />
 </div>
 
-```ts
+```vue
 <txa :maxlength="100" placeholder="最大100字符" />
 <txa :maxlength="50" :show-counter="true" placeholder="显示计数器" />
 <txa :maxlength="200" :show-counter="false" placeholder="隐藏计数器" />
@@ -135,7 +135,7 @@ import txa from 'sectum'
   <txa disabled value="禁用且有值" />
 </div>
 
-```ts
+```vue
 <txa loading placeholder="加载中..." />
 <txa disabled placeholder="禁用状态" />
 <txa readonly placeholder="只读状态" />
@@ -149,7 +149,7 @@ import txa from 'sectum'
   <txa :rows="3" :cols="40" placeholder="自定义行列" />
 </div>
 
-```ts
+```vue
 <txa sm="md" md="lg" lg="xl" placeholder="响应式尺寸" />
 <txa :rows="3" :cols="40" placeholder="自定义行列" />
 ```

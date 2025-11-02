@@ -4,9 +4,9 @@
       <Header 
         project-name="Sectum"
         logo-icon="section"
-        :theme-component="ThemeSelect"
-        :dark-component="DarkChange"
-        :language-component="LanguageSelect"
+        :theme-component="Theme"
+        :dark-component="DarkToggle"
+        :language-component="Language"
         user-link="https://github.com/Sorcech/Sectum"
         user-icon="github"
         :user-icon-brand="true"
@@ -43,9 +43,9 @@ import HomePage from './HomePage.vue'
 import HomeExample from './HomeExample.vue'
 import Footer from '~/packet/Layout/Footer/Footer.vue'
 import Menual from './menual.vue'
-import ThemeSelect from '~/packet/Pattern/Theme/ThemeSelect.vue'
-import DarkChange from '~/packet/Pattern/Dark/DarkChange.vue'
-import LanguageSelect from '~/packet/Pattern/Language/LanguageSelect.vue'
+import Theme from '~/packet/Pattern/Theme/Theme.vue'
+import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
+import Language from '~/packet/Pattern/Language/Language.vue'
 import routeConfig from '~/router/route'
 
 const route = useRoute()
