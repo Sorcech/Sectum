@@ -55,6 +55,122 @@ Drawer 组件支持从四个方向滑出：
 - **下方 (bottom)**：适合显示操作面板、工具栏等
 - **左侧 (left)**：适合显示导航菜单、侧边栏等
 
+<script setup>
+import { ref } from 'vue'
+
+// 定义所有 Drawer 示例使用的响应式变量
+const showTopDrawer = ref(false)
+const showRightDrawer = ref(false)
+const showBottomDrawer = ref(false)
+const showLeftDrawer = ref(false)
+const showSmallDrawer = ref(false)
+const showMediumDrawer = ref(false)
+const showLargeDrawer = ref(false)
+const showHeight32 = ref(false)
+const showHeight64 = ref(false)
+const showHeight96 = ref(false)
+const showScrollDrawer = ref(false)
+const showNoBackdrop = ref(false)
+</script>
+
+<div class="flex flex-wrap gap-3 mb-6">
+  <btn @click="showTopDrawer = true" color="primary">从上方滑出</btn>
+  <btn @click="showRightDrawer = true" color="primary">从右侧滑出</btn>
+  <btn @click="showBottomDrawer = true" color="primary">从下方滑出</btn>
+  <btn @click="showLeftDrawer = true" color="primary">从左侧滑出</btn>
+</div>
+
+<Drawer :isShow="showTopDrawer" @update:isShow="showTopDrawer = $event" title="上方抽屉" position="top" height="h-96">
+  <div class="p-4">
+    <p>这是从上方滑出的抽屉，适合显示通知、提示信息等。</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showRightDrawer" @update:isShow="showRightDrawer = $event" title="右侧抽屉" position="right" width="w-96">
+  <div class="p-4">
+    <p>这是从右侧滑出的抽屉，默认位置，适合显示设置面板、详情信息等。</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showBottomDrawer" @update:isShow="showBottomDrawer = $event" title="下方抽屉" position="bottom" height="h-96">
+  <div class="p-4">
+    <p>这是从下方滑出的抽屉，适合显示操作面板、工具栏等。</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showLeftDrawer" @update:isShow="showLeftDrawer = $event" title="左侧抽屉" position="left" width="w-80">
+  <div class="p-4">
+    <p>这是从左侧滑出的抽屉，适合显示导航菜单、侧边栏等。</p>
+  </div>
+</Drawer>
+
+```vue
+<template>
+  <div>
+    <btn @click="showTopDrawer = true" color="primary">从上方滑出</btn>
+    <btn @click="showRightDrawer = true" color="primary">从右侧滑出</btn>
+    <btn @click="showBottomDrawer = true" color="primary">从下方滑出</btn>
+    <btn @click="showLeftDrawer = true" color="primary">从左侧滑出</btn>
+    
+    <Drawer 
+      :isShow="showTopDrawer" 
+      @update:isShow="showTopDrawer = $event" 
+      title="上方抽屉" 
+      position="top" 
+      height="h-96"
+    >
+      <div class="p-4">
+        <p>这是从上方滑出的抽屉</p>
+      </div>
+    </Drawer>
+    
+    <Drawer 
+      :isShow="showRightDrawer" 
+      @update:isShow="showRightDrawer = $event" 
+      title="右侧抽屉" 
+      position="right" 
+      width="w-96"
+    >
+      <div class="p-4">
+        <p>这是从右侧滑出的抽屉</p>
+      </div>
+    </Drawer>
+    
+    <Drawer 
+      :isShow="showBottomDrawer" 
+      @update:isShow="showBottomDrawer = $event" 
+      title="下方抽屉" 
+      position="bottom" 
+      height="h-96"
+    >
+      <div class="p-4">
+        <p>这是从下方滑出的抽屉</p>
+      </div>
+    </Drawer>
+    
+    <Drawer 
+      :isShow="showLeftDrawer" 
+      @update:isShow="showLeftDrawer = $event" 
+      title="左侧抽屉" 
+      position="left" 
+      width="w-80"
+    >
+      <div class="p-4">
+        <p>这是从左侧滑出的抽屉</p>
+      </div>
+    </Drawer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showTopDrawer = ref(false)
+const showRightDrawer = ref(false)
+const showBottomDrawer = ref(false)
+const showLeftDrawer = ref(false)
+</script>
+```
 
 ## 不同宽度
 
@@ -64,20 +180,220 @@ Drawer 组件支持多种宽度设置：
 - **中等宽度 (w-96)**：适合一般的设置面板或详情信息
 - **大宽度 (w-1/2)**：适合复杂的表单或详细内容
 
+<div class="flex flex-wrap gap-3 mb-6">
+  <btn @click="showSmallDrawer = true" color="primary">小宽度 (w-64)</btn>
+  <btn @click="showMediumDrawer = true" color="primary">中等宽度 (w-96)</btn>
+  <btn @click="showLargeDrawer = true" color="primary">大宽度 (w-1/2)</btn>
+</div>
+
+<Drawer :isShow="showSmallDrawer" @update:isShow="showSmallDrawer = $event" title="小宽度抽屉" width="w-64">
+  <div class="p-4">
+    <p>这是小宽度抽屉 (w-64)，适合简单的设置项或快捷操作。</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showMediumDrawer" @update:isShow="showMediumDrawer = $event" title="中等宽度抽屉" width="w-96">
+  <div class="p-4">
+    <p>这是中等宽度抽屉 (w-96)，适合一般的设置面板或详情信息。</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showLargeDrawer" @update:isShow="showLargeDrawer = $event" title="大宽度抽屉" width="w-1/2">
+  <div class="p-4">
+    <p>这是大宽度抽屉 (w-1/2)，适合复杂的表单或详细内容。</p>
+  </div>
+</Drawer>
+
+```vue
+<template>
+  <div>
+    <btn @click="showSmallDrawer = true" color="primary">小宽度 (w-64)</btn>
+    <btn @click="showMediumDrawer = true" color="primary">中等宽度 (w-96)</btn>
+    <btn @click="showLargeDrawer = true" color="primary">大宽度 (w-1/2)</btn>
+    
+    <Drawer 
+      :isShow="showSmallDrawer" 
+      @update:isShow="showSmallDrawer = $event" 
+      title="小宽度抽屉" 
+      width="w-64"
+    >
+      <div class="p-4">
+        <p>这是小宽度抽屉</p>
+      </div>
+    </Drawer>
+    
+    <Drawer 
+      :isShow="showMediumDrawer" 
+      @update:isShow="showMediumDrawer = $event" 
+      title="中等宽度抽屉" 
+      width="w-96"
+    >
+      <div class="p-4">
+        <p>这是中等宽度抽屉</p>
+      </div>
+    </Drawer>
+    
+    <Drawer 
+      :isShow="showLargeDrawer" 
+      @update:isShow="showLargeDrawer = $event" 
+      title="大宽度抽屉" 
+      width="w-1/2"
+    >
+      <div class="p-4">
+        <p>这是大宽度抽屉</p>
+      </div>
+    </Drawer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showSmallDrawer = ref(false)
+const showMediumDrawer = ref(false)
+const showLargeDrawer = ref(false)
+</script>
+```
+
 
 ## 自定义高度
 
 Drawer 组件支持自定义高度设置，特别适用于上下位置的抽屉。
 
+<div class="flex flex-wrap gap-3 mb-6">
+  <btn @click="showHeight32 = true" color="primary">高度 h-32</btn>
+  <btn @click="showHeight64 = true" color="primary">高度 h-64</btn>
+  <btn @click="showHeight96 = true" color="primary">高度 h-96</btn>
+</div>
+
+<Drawer :isShow="showHeight32" @update:isShow="showHeight32 = $event" title="自定义高度" position="top" height="h-32">
+  <div class="p-4">
+    <p>这是高度为 h-32 的抽屉</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showHeight64" @update:isShow="showHeight64 = $event" title="自定义高度" position="top" height="h-64">
+  <div class="p-4">
+    <p>这是高度为 h-64 的抽屉</p>
+  </div>
+</Drawer>
+
+<Drawer :isShow="showHeight96" @update:isShow="showHeight96 = $event" title="自定义高度" position="top" height="h-96">
+  <div class="p-4">
+    <p>这是高度为 h-96 的抽屉</p>
+  </div>
+</Drawer>
+
+```vue
+<template>
+  <div>
+    <btn @click="showHeight = true" color="primary">打开自定义高度抽屉</btn>
+    
+    <Drawer 
+      :isShow="showHeight" 
+      @update:isShow="showHeight = $event" 
+      title="自定义高度" 
+      position="top" 
+      height="h-64"
+    >
+      <div class="p-4">
+        <p>这是自定义高度的抽屉</p>
+      </div>
+    </Drawer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showHeight = ref(false)
+</script>
+```
 
 ## 可滚动内容
 
 当抽屉内容较多时，可以设置 `overflow="true"` 来允许内容滚动。
 
+<div class="mb-6">
+  <btn @click="showScrollDrawer = true" color="primary">可滚动抽屉</btn>
+</div>
+
+<Drawer :isShow="showScrollDrawer" @update:isShow="showScrollDrawer = $event" title="可滚动内容" width="w-96" :overflow="true">
+  <div class="p-4 space-y-4">
+    <p>这是可滚动的内容区域。当内容超出抽屉高度时，会出现滚动条。</p>
+    <div v-for="i in 20" :key="i" class="p-4 bg-base-300 rounded">
+      <p>内容项 {{ i }}</p>
+    </div>
+  </div>
+</Drawer>
+
+```vue
+<template>
+  <div>
+    <btn @click="showScroll = true" color="primary">打开可滚动抽屉</btn>
+    
+    <Drawer 
+      :isShow="showScroll" 
+      @update:isShow="showScroll = $event" 
+      title="可滚动内容" 
+      width="w-96" 
+      :overflow="true"
+    >
+      <div class="p-4 space-y-4">
+        <div v-for="i in 20" :key="i" class="p-4 bg-base-300 rounded">
+          <p>内容项 {{ i }}</p>
+        </div>
+      </div>
+    </Drawer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showScroll = ref(false)
+</script>
+```
 
 ## 无背景遮罩
 
 通过设置 `backdrop="false"` 可以移除抽屉的背景遮罩。
+
+<div class="mb-6">
+  <btn @click="showNoBackdrop = true" color="primary">无背景遮罩</btn>
+</div>
+
+<Drawer :isShow="showNoBackdrop" @update:isShow="showNoBackdrop = $event" title="无背景遮罩" width="w-96" :backdrop="false">
+  <div class="p-4">
+    <p>这个抽屉没有背景遮罩，可以看到后面的内容。</p>
+  </div>
+</Drawer>
+
+```vue
+<template>
+  <div>
+    <btn @click="showNoBackdrop = true" color="primary">打开无遮罩抽屉</btn>
+    
+    <Drawer 
+      :isShow="showNoBackdrop" 
+      @update:isShow="showNoBackdrop = $event" 
+      title="无背景遮罩" 
+      width="w-96" 
+      :backdrop="false"
+    >
+      <div class="p-4">
+        <p>这个抽屉没有背景遮罩</p>
+      </div>
+    </Drawer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showNoBackdrop = ref(false)
+</script>
+```
 
 
 ## 实际使用示例
@@ -278,7 +594,7 @@ const showDetails = ref(false)
         </div>
         
         <div class="flex justify-end space-x-2 mt-6">
-          <btn type="btn" @click="showForm = false" class="btn btn-outline">取消</btn>
+          <btn type="button" @click="showForm = false" class="btn btn-outline">取消</btn>
           <btn type="submit" class="btn btn-primary">创建项目</btn>
         </div>
       </form>

@@ -5,10 +5,11 @@ import DarkToggle from './Dark/DarkToggle.vue'
 import Markdown from './Markdown/Markdown.vue'
 import Catalog from './Markdown/catalog.vue'
 import FullScreen from './FullScreen/FullScreen.vue'
+import Selector from './Selector/Selector.vue'
 
 // 导出所有组件
 export {
-  Theme, Language, DarkToggle, Markdown, Catalog, FullScreen
+  Theme, Language, DarkToggle, Markdown, Catalog, FullScreen,Selector
 }
 
 const install = (app: App) => {
@@ -18,6 +19,7 @@ const install = (app: App) => {
   app.component('Markdown', Markdown);//Markdown文档解析
   app.component('Catalog', Catalog);//目录组件
   app.component('FullScreen', FullScreen);//全屏切换
+  app.component('Selector', Selector);//选择器
 }
 
 export default install //全局引用

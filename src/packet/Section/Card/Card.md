@@ -117,7 +117,7 @@ Card 组件的基本用法非常简单：
     这是卡片的基本内容。底部有操作按钮区域。
     <template #footer>
       <btn size="sm">取消</btn>
-      <btn size="sm" type="primary">确认</btn>
+      <btn size="sm" color="primary">确认</btn>
     </template>
   </Card>
 </div>
@@ -127,7 +127,7 @@ Card 组件的基本用法非常简单：
     这是卡片的基本内容。底部有操作按钮区域。
     <template #footer>
       <btn size="sm">取消</btn>
-      <btn size="sm" type="primary">确认</btn>
+      <btn size="sm" color="primary">确认</btn>
     </template>
   </Card>
 ```
@@ -232,7 +232,7 @@ Card 组件的基本用法非常简单：
     </div>
     <template #footer>
       <btn size="sm">查看</btn>
-      <btn size="sm" type="primary">编辑</btn>
+      <btn size="sm" color="primary">编辑</btn>
     </template>
   </Card>
 </div>
@@ -261,7 +261,7 @@ Card 组件的基本用法非常简单：
     </div>
     <template #footer>
       <btn size="sm">查看</btn>
-      <btn size="sm" type="primary">编辑</btn>
+      <btn size="sm" color="primary">编辑</btn>
     </template>
   </Card>
 ```
@@ -327,7 +327,7 @@ Card 组件的基本用法非常简单：
   卡片内容
   <template #footer>
     <btn size="sm">取消</btn>
-    <btn size="sm" type="primary">确认</btn>
+    <btn size="sm" color="primary">确认</btn>
   </template>
 </Card>
 ```
@@ -370,7 +370,7 @@ Card 组件的基本用法非常简单：
   </div>
   <template #footer>
     <btn size="sm">加入购物车</btn>
-    <btn size="sm" type="primary">立即购买</btn>
+    <btn size="sm" color="primary">立即购买</btn>
   </template>
 </Card>
 ```

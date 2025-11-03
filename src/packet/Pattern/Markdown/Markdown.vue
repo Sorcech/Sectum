@@ -115,6 +115,19 @@ const showLarge = ref(false)
 const showHeightDrawer = ref(false)
 const showScrollDrawer = ref(false)
 const showNoBackdropDrawer = ref(false)
+const showNoBackdrop = ref(false) // 为了兼容 Drawer.md 中的使用
+
+// Drawer.md 中使用的变量
+const showTopDrawer = ref(false)
+const showRightDrawer = ref(false)
+const showBottomDrawer = ref(false)
+const showLeftDrawer = ref(false)
+const showSmallDrawer = ref(false)
+const showMediumDrawer = ref(false)
+const showLargeDrawer = ref(false)
+const showHeight32 = ref(false)
+const showHeight64 = ref(false)
+const showHeight96 = ref(false)
 
 // 将这些变量简单地暴露给全局作用域
 ;(window as any).showTop = showTop
@@ -127,6 +140,19 @@ const showNoBackdropDrawer = ref(false)
 ;(window as any).showHeightDrawer = showHeightDrawer
 ;(window as any).showScrollDrawer = showScrollDrawer
 ;(window as any).showNoBackdropDrawer = showNoBackdropDrawer
+;(window as any).showNoBackdrop = showNoBackdrop
+
+// 暴露 Drawer.md 中使用的变量
+;(window as any).showTopDrawer = showTopDrawer
+;(window as any).showRightDrawer = showRightDrawer
+;(window as any).showBottomDrawer = showBottomDrawer
+;(window as any).showLeftDrawer = showLeftDrawer
+;(window as any).showSmallDrawer = showSmallDrawer
+;(window as any).showMediumDrawer = showMediumDrawer
+;(window as any).showLargeDrawer = showLargeDrawer
+;(window as any).showHeight32 = showHeight32
+;(window as any).showHeight64 = showHeight64
+;(window as any).showHeight96 = showHeight96
 
 // 转换 TocItem 到 MarkdownItHeader
 function convertTocToMarkdownItHeaders(tocItems: Item[]): MarkdownItHeader[] {

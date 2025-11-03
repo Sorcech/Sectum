@@ -1,5 +1,5 @@
 <template>
-    <bkd :show="isShow && backdrop" @click="closeDrawer" blur/>
+    <msk :show="isShow && backdrop" @click="closeDrawer" blur/>
     <tst :name="animationName">
       <div v-if="isShow" class="fixed z-15 flex-none bg-base-200" :class="[positionClasses, sizeClasses]">
         <div class="flex items-center justify-between bg-base-100 px-2 border-b h-10" :class="borderClass">
@@ -8,7 +8,7 @@
             <icn name="xmark" regular xl />
           </btn>
         </div>
-        <div :class="[height, overflow ? 'overflow-y-auto' : '']">
+        <div :class="[overflow ? 'overflow-y-auto' : '']" :style="contentStyle">
           <slot></slot>
         </div>
       </div>
@@ -51,9 +51,9 @@ const animationName = computed(() => {
 // 位置样式类
 const positionClasses = computed(() => {
   const positionMap = {
-    top: 'top-0 left-0 right-0 h-screen',
+    top: 'top-0 left-0 right-0',
     right: 'top-0 right-14 h-screen',
-    bottom: 'bottom-0 left-0 right-0 h-screen',
+    bottom: 'bottom-0 left-0 right-0',
     left: 'top-0 left-14 h-screen'
   }
   return positionMap[props.position as keyof typeof positionMap] || 'top-0 right-14 h-screen'
@@ -77,6 +77,14 @@ const borderClass = computed(() => {
     left: 'border-r'
   }
   return borderMap[props.position as keyof typeof borderMap] || 'border-l'
+})
+
+// 内容区域样式
+const contentStyle = computed(() => {
+  // 内容区域应该占据剩余高度（减去标题栏的 h-10 = 2.5rem = 40px）
+  return {
+    height: 'calc(100% - 2.5rem)'
+  }
 })
 
 const closeDrawer = () => {

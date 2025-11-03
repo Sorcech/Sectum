@@ -1,737 +1,486 @@
 <template>
-  <div :class="dateContainerClasses">
-    <!-- 标签 -->
-    <label v-if="label" :class="labelClasses">
-      <span :class="labelTextClasses">{{ label }}</span>
-      <span v-if="required" class="text-error ml-1">*</span>
-    </label>
-    
-    <!-- 日期选择器容器 -->
-    <div ref="dateRef" :class="datePickerClasses">
-      <!-- 输入框 -->
-      <div :class="inputContainerClasses" @click="toggleShow">
-        <ipt
-          ref="inputRef"
-          type="text"
-          :class="inputClasses"
-          :modelValue="displayValue"
-          :placeholder="placeholder"
-          :disabled="disabled"
-          :readonly="readonly"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @input="handleInput"
-        />
-        <div :class="iconContainerClasses">
-          <icn :name="iconName" :size="iconSize" :class="iconClasses"></icn>
-        </div>
+  <div 
+    :class="['calendar', calendarClasses]" 
+    :style="cssVars"
+    class="leading-[var(--n-line-height)] text-[var(--n-font-size)] text-[var(--n-text-color)] h-[720px] flex flex-col"
+  >
+    <!-- 头部 -->
+    <div class="calendar-header flex items-center leading-none text-[var(--n-title-font-size)] pb-[18px] justify-between">
+      <div class="calendar-header__title text-[var(--n-title-text-color)] font-[var(--n-title-font-weight)] transition-colors duration-300">
+        <slot name="header" :year="year" :month="calendarMonth">
+          {{ monthBeforeYear ? `${localeMonth} ${year}` : `${year} ${localeMonth}` }}
+        </slot>
       </div>
-      
-      <!-- 日期选择面板 -->
-      <tst name="fade">
-        <div v-if="positionShow" :class="panelClasses">
-          <!-- 头部导航 -->
-          <div :class="headerClasses">
-            <div :class="navButtonClasses" @click="yearDecrease" title="上一年">
-              <icn name="angles-left" light lg color="primary"></icn>
-            </div>
-            <div :class="navButtonClasses" @click="monthDecrease" title="上一月">
-              <icn name="angle-left" light lg color="primary"></icn>
-            </div>
-            <div :class="yearMonthClasses">
-              <span :class="yearClasses">{{ currentYear }}</span>
-              <span :class="monthClasses">{{ MonthName[currentMonth] }}</span>
-            </div>
-            <div :class="navButtonClasses" @click="monthIncrease" title="下一月">
-              <icn name="angle-right" light lg color="primary"></icn>
-            </div>
-            <div :class="navButtonClasses" @click="yearIncrease" title="下一年">
-              <icn name="angles-right" light lg color="primary"></icn>
-            </div>
+      <div class="calendar-header__extra flex items-center">
+        <btn-group>
+          <btn size="small" @click="handlePrevClick" class="calendar-prev-btn cursor-pointer">
+            <icn name="chevron-left" />
+          </btn>
+          <btn size="small" @click="handleTodayClick">
+            {{ todayText }}
+          </btn>
+          <btn size="small" @click="handleNextClick" class="calendar-next-btn cursor-pointer">
+            <icn name="chevron-right" />
+          </btn>
+        </btn-group>
+      </div>
+    </div>
+    
+    <!-- 日期网格 -->
+    <div 
+      class="calendar-dates grid grid-cols-7 flex-1 border-t border-l border-[var(--n-border-color)] rounded-[var(--n-border-radius)] transition-[border-color] duration-300"
+    >
+      <div
+        v-for="(dateItem, index) in dateItems"
+        :key="`${dateItem.ts}-${index}`"
+        :class="['calendar-cell', getCellClasses(dateItem)]"
+        @click="handleCellClick(dateItem)"
+        class="box-border p-[10px] border-r border-b border-[var(--n-border-color)] cursor-pointer relative transition-all duration-300"
+      >
+        <div class="calendar-date relative leading-none flex items-center h-[1em] justify-between pb-[0.75em] transition-all duration-300 text-[var(--n-text-color)]">
+          <div 
+            :title="formatDate(dateItem.ts)"
+            class="calendar-date__date text-[var(--n-text-color)] rounded-full flex items-center justify-center -ml-[0.4em] w-[1.8em] h-[1.8em] transition-all duration-300"
+            :class="getDateDateClasses(dateItem)"
+          >
+            {{ dateItem.dateObject.date }}
           </div>
-          
-          <!-- 星期标题 -->
-          <div :class="weekHeaderClasses">
-            <div v-for="day in WeekName" :key="day" :class="weekDayClasses">
-              {{ day }}
-            </div>
-          </div>
-          
-          <!-- 日期网格 -->
-          <div :class="dateGridClasses">
-            <div
-              v-for="date in dateList"
-              :key="`${date.year}-${date.month}-${date.day}`"
-              :class="getDateClasses(date)"
-              @click="selectDate(date)"
-            >
-              {{ date.day }}
-            </div>
-          </div>
-          
-          <!-- 底部操作按钮 -->
-          <div :class="footerClasses">
-            <btn 
-              :size="buttonSize" 
-              :color="buttonColor" 
-              variant="transparent" 
-              @click="today"
-            >
-              {{ t('date.today') }}
-            </btn>
-            <btn 
-              :size="buttonSize" 
-              :color="buttonColor" 
-              variant="transparent" 
-              @click="clear"
-            >
-              {{ t('date.clear') }}
-            </btn>
-            <btn 
-              v-if="showNow"
-              :size="buttonSize" 
-              :color="buttonColor" 
-              variant="transparent" 
-              @click="selectNow"
-            >
-              {{ t('date.now') }}
-            </btn>
+          <div
+            v-if="index < 7"
+            :title="formatDate(dateItem.ts)"
+            class="calendar-date__day text-[var(--n-day-text-color)] transition-colors duration-300"
+          >
+            {{ formatDay(dateItem.ts) }}
           </div>
         </div>
-      </tst>
+        <slot
+          :year="dateItem.dateObject.year"
+          :month="dateItem.dateObject.month + 1"
+          :date="dateItem.dateObject.date"
+        />
+        <div 
+          class="calendar-cell__bar absolute left-0 right-0 -bottom-[1px] h-[3px] bg-transparent transition-[background-color] duration-300"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue'
-import { useClickOutside } from '~/packet/Config/useClickOutside'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 interface DateItem {
-  day: number
+  dateObject: {
+    date: number
+    month: number
   year: number
-  month: number
-  value: number
-  isSelected: boolean
-  isToday: boolean
-  isDisabled: boolean
-  type: 'prev' | 'current' | 'next'
+  }
+  inCurrentMonth: boolean
+  isCurrentDate: boolean
+  ts: number
 }
 
 interface Props {
   // 基础属性
-  modelValue?: string | Date
-  placeholder?: string
-  label?: string
-  required?: boolean
-  disabled?: boolean
-  readonly?: boolean
-  
-  // 布局属性
-  direction?: 'row' | 'column'
-  labelWidth?: string
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  
-  // 日期属性
-  format?: string
-  minDate?: string | Date
-  maxDate?: string | Date
-  showToday?: boolean
-  showNow?: boolean
-  allowClear?: boolean
-  
+  value?: number // timestamp
+  defaultValue?: number | null
+  // 禁用日期
+  isDateDisabled?: (date: number) => boolean | undefined
   // 样式属性
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
-  variant?: 'outline' | 'filled' | 'ghost'
-  shape?: 'rounded' | 'square' | 'circle'
-  
-  // 功能属性
-  range?: boolean
-  multiple?: boolean
-  showWeekNumbers?: boolean
-  showTime?: boolean
-  timeFormat?: '12h' | '24h'
-  
+  size?: 'small' | 'medium' | 'large'
   // 自定义属性
   customClass?: string
-  inputClass?: string
-  panelClass?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  placeholder: '请选择日期',
-  required: false,
-  disabled: false,
-  readonly: false,
-  direction: 'row',
-  labelWidth: 'w-32',
-  size: 'md',
-  format: 'YYYY-MM-DD',
-  showToday: true,
-  showNow: false,
-  allowClear: true,
-  color: 'primary',
-  variant: 'outline',
-  shape: 'rounded',
-  range: false,
-  multiple: false,
-  showWeekNumbers: false,
-  showTime: false,
-  timeFormat: '24h',
-  customClass: '',
-  inputClass: '',
-  panelClass: ''
+  defaultValue: null,
+  size: 'medium',
+  customClass: ''
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | Date | null]
-  'change': [value: string | Date | null]
-  'select': [value: string | Date | null]
-  'clear': []
-  'focus': [event: FocusEvent]
-  'blur': [event: FocusEvent]
+  'update:value': [value: number, time: { year: number; month: number; date: number }]
+  'update-value': [value: number, time: { year: number; month: number; date: number }]
+  'panel-change': [info: { year: number; month: number }]
 }>()
 
-// 引用
-const dateRef = ref<HTMLElement>()
-const inputRef = ref<HTMLInputElement>()
+const now = Date.now()
 
-// 状态
-const positionShow = ref(false)
-const currentYear = ref(new Date().getFullYear())
-const currentMonth = ref(new Date().getMonth())
-const selectedDate = ref<string | Date | null>(null)
-const focused = ref(false)
+// 辅助函数
+function startOfMonth(ts: number): Date {
+  const date = new Date(ts)
+  return new Date(date.getFullYear(), date.getMonth(), 1)
+}
 
-// 计算属性
-const displayValue = computed(() => {
-  if (!selectedDate.value) return ''
+function startOfDay(ts: number): Date {
+  const date = new Date(ts)
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function addMonths(ts: number, months: number): number {
+  const date = new Date(ts)
+  date.setMonth(date.getMonth() + months)
+  return date.getTime()
+}
+
+function getYear(ts: number): number {
+  return new Date(ts).getFullYear()
+}
+
+function getMonth(ts: number): number {
+  return new Date(ts).getMonth()
+}
+
+function isSameMonth(ts1: number, ts2: number): boolean {
+  const d1 = new Date(ts1)
+  const d2 = new Date(ts2)
+  return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth()
+}
+
+// 初始化月份时间戳
+const initialMonthTs = props.defaultValue 
+  ? startOfMonth(props.defaultValue).getTime() 
+  : startOfMonth(now).getTime()
+
+const monthTsRef = ref(initialMonthTs)
+const uncontrolledValueRef = ref<number | null>(props.defaultValue || null)
+const mergedValueRef = computed(() => props.value ?? uncontrolledValueRef.value)
+
+// 生成日期数组 - 使用缓存避免无限循环
+const dateItems = computed((): DateItem[] => {
+  // 确保依赖稳定，避免循环更新
+  const monthTs = monthTsRef.value
+  const valueTs = mergedValueRef.value
+  return dateArray(
+    monthTs,
+    valueTs,
+    now,
+    1 // firstDayOfWeek: 1 = Monday
+  )
+})
+
+const year = computed(() => getYear(monthTsRef.value))
+const calendarMonth = computed(() => getMonth(monthTsRef.value) + 1)
+
+// 月份名称 - 支持多语言
+const localeMonth = computed(() => {
+  const monthIndex = getMonth(monthTsRef.value)
+  const months = [
+    t('date.january'),
+    t('date.february'),
+    t('date.march'),
+    t('date.april'),
+    t('date.may'),
+    t('date.june'),
+    t('date.july'),
+    t('date.august'),
+    t('date.september'),
+    t('date.october'),
+    t('date.november'),
+    t('date.december')
+  ]
+  return months[monthIndex] || ''
+})
+
+// 事件处理
+function doUpdateValue(value: number, time: { year: number; month: number; date: number }): void {
+  emit('update:value', value, time)
+  emit('update-value', value, time)
+  uncontrolledValueRef.value = value
+}
+
+function handlePrevClick(): void {
+  const monthTs = addMonths(monthTsRef.value, -1)
+  monthTsRef.value = monthTs
+  emit('panel-change', {
+    year: getYear(monthTs),
+    month: getMonth(monthTs) + 1
+  })
+}
+
+function handleNextClick(): void {
+  const monthTs = addMonths(monthTsRef.value, 1)
+  monthTsRef.value = monthTs
+  emit('panel-change', {
+    year: getYear(monthTs),
+    month: getMonth(monthTs) + 1
+  })
+}
+
+function handleTodayClick(): void {
+  const { value: monthTs } = monthTsRef
+  const oldYear = getYear(monthTs)
+  const oldMonth = getMonth(monthTs)
+  const newMonthTs = startOfMonth(now).getTime()
+  monthTsRef.value = newMonthTs
+  const newYear = getYear(newMonthTs)
+  const newMonth = getMonth(newMonthTs)
+  if (oldYear !== newYear || oldMonth !== newMonth) {
+    emit('panel-change', {
+      year: newYear,
+      month: newMonth + 1
+    })
+  }
+}
+
+function handleCellClick(dateItem: DateItem): void {
+  const disabled = props.isDateDisabled?.(dateItem.ts) === true
+  if (disabled) return
+
+  const monthTs = startOfMonth(dateItem.ts).getTime()
+  if (!isSameMonth(monthTsRef.value, monthTs)) {
+    monthTsRef.value = monthTs
+    emit('panel-change', {
+      year: getYear(monthTs),
+      month: getMonth(monthTs) + 1
+    })
+  }
+
+  doUpdateValue(dateItem.ts, {
+    year: dateItem.dateObject.year,
+    month: dateItem.dateObject.month + 1,
+    date: dateItem.dateObject.date
+  })
+}
+
+function getCellClasses(dateItem: DateItem): string {
+  const classes: string[] = []
   
-  if (typeof selectedDate.value === 'string') {
-    return selectedDate.value
+  const notInCurrentMonth = !dateItem.inCurrentMonth
+  const disabled = props.isDateDisabled?.(dateItem.ts) === true
+  
+  // 避免在函数中访问响应式数据，只在需要时计算
+  let selected = false
+  const currentValue = mergedValueRef.value
+  if (currentValue) {
+    const normalizedValue = startOfDay(currentValue).getTime()
+    selected = normalizedValue === startOfDay(dateItem.ts).getTime()
+  }
+
+  if (disabled) {
+    classes.push('cursor-not-allowed text-[var(--n-day-text-color)]')
+  }
+  if (notInCurrentMonth) {
+    classes.push('text-[var(--n-day-text-color)]')
+  }
+  if (selected) {
+    classes.push('calendar-cell--selected')
+  }
+
+  return classes.join(' ')
+}
+
+// 生成日期数组
+function dateArray(
+  monthTs: number,
+  valueTs: number | null,
+  currentTs: number,
+  firstDayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6
+): DateItem[] {
+  const displayMonth = getMonth(monthTs)
+  const displayYear = getYear(monthTs)
+  const calendarDays: DateItem[] = []
+  
+  // 获取当月第一天
+  const firstDay = new Date(displayYear, displayMonth, 1)
+  let firstDayWeek = firstDay.getDay()
+  // 将周日(0)转换为7，使其在周一(1)之后
+  if (firstDayWeek === 0) firstDayWeek = 7
+  
+  // 计算需要显示的上月日期 (周一为1，需要调整为0-6)
+  const adjustedFirstDayOfWeek = firstDayOfWeek === 0 ? 7 : firstDayOfWeek
+  const prevMonthDays = (firstDayWeek - adjustedFirstDayOfWeek + 7) % 7
+  const prevMonth = displayMonth === 0 ? 11 : displayMonth - 1
+  const prevYear = displayMonth === 0 ? displayYear - 1 : displayYear
+  const prevMonthDaysCount = new Date(prevYear, prevMonth + 1, 0).getDate()
+  
+  // 添加上月日期
+  for (let i = prevMonthDaysCount - prevMonthDays + 1; i <= prevMonthDaysCount; i++) {
+    const date = new Date(prevYear, prevMonth, i)
+    calendarDays.push({
+      dateObject: {
+        date: i,
+        month: prevMonth,
+        year: prevYear
+      },
+      inCurrentMonth: false,
+      isCurrentDate: matchDate(currentTs, date.getTime()),
+      ts: date.getTime()
+    })
   }
   
-  return formatDate(selectedDate.value, props.format)
-})
+  // 添加当月日期
+  const currentMonthDays = new Date(displayYear, displayMonth + 1, 0).getDate()
+  for (let i = 1; i <= currentMonthDays; i++) {
+    const date = new Date(displayYear, displayMonth, i)
+    calendarDays.push({
+      dateObject: {
+        date: i,
+        month: displayMonth,
+        year: displayYear
+      },
+      inCurrentMonth: true,
+      isCurrentDate: matchDate(currentTs, date.getTime()),
+      ts: date.getTime()
+    })
+  }
+  
+  // 添加下月日期以填满42天
+  const remainingDays = Math.max(0, 42 - calendarDays.length)
+  const nextMonth = displayMonth === 11 ? 0 : displayMonth + 1
+  const nextYear = displayMonth === 11 ? displayYear + 1 : displayYear
+  
+  for (let i = 1; i <= remainingDays; i++) {
+    const date = new Date(nextYear, nextMonth, i)
+    calendarDays.push({
+      dateObject: {
+        date: i,
+        month: nextMonth,
+        year: nextYear
+      },
+      inCurrentMonth: false,
+      isCurrentDate: matchDate(currentTs, date.getTime()),
+      ts: date.getTime()
+    })
+  }
+  
+  return calendarDays
+}
 
-const iconName = computed(() => {
-  return props.showTime ? 'clock' : 'calendar-day'
-})
+function matchDate(ts1: number, ts2: number): boolean {
+  const d1 = new Date(ts1)
+  const d2 = new Date(ts2)
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  )
+}
 
-const iconSize = computed(() => {
-  const sizes = { xs: 'sm', sm: 'sm', md: 'md', lg: 'lg', xl: 'xl' }
-  return sizes[props.size] || 'md'
-})
+function formatDate(ts: number): string {
+  const date = new Date(ts)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 
-const buttonSize = computed(() => {
-  const sizes = { xs: 'xs', sm: 'sm', md: 'sm', lg: 'md', xl: 'md' }
-  return sizes[props.size] || 'sm'
-})
-
-const buttonColor = computed(() => props.color)
+// 星期名称 - 支持多语言
+function formatDay(ts: number): string {
+  const date = new Date(ts)
+  const dayIndex = date.getDay()
+  const days = [
+    t('date.sunday'),
+    t('date.monday'),
+    t('date.tuesday'),
+    t('date.wednesday'),
+    t('date.thursday'),
+    t('date.friday'),
+    t('date.saturday')
+  ]
+  return days[dayIndex] || ''
+}
 
 // 样式计算
-const dateContainerClasses = computed(() => {
-  return [
-    'w-full',
-    props.direction === 'column' ? 'flex flex-col space-y-2' : 'flex flex-row items-center space-x-4',
-    props.customClass
-  ].filter(Boolean).join(' ')
+const calendarClasses = computed(() => {
+  return [props.customClass].filter(Boolean).join(' ')
 })
 
-const labelClasses = computed(() => {
-  return [
-    'select-none py-2',
-    props.labelWidth,
-    props.required ? 'required' : ''
-  ].filter(Boolean).join(' ')
-})
-
-const labelTextClasses = computed(() => {
-  const sizes = {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl'
-  }
-  return [sizes[props.size] || 'text-base', 'font-medium'].join(' ')
-})
-
-const datePickerClasses = computed(() => {
-  return [
-    'w-full relative'
-  ].join(' ')
-})
-
-const inputContainerClasses = computed(() => {
-  return [
-    'flex flex-row items-center relative w-full cursor-pointer',
-    props.disabled ? 'opacity-50 cursor-not-allowed' : '',
-    props.readonly ? 'cursor-default' : ''
-  ].filter(Boolean).join(' ')
-})
-
-const inputClasses = computed(() => {
-  const baseClasses = [
-    'w-full border-0 outline-none bg-transparent',
-    'placeholder-gray-400',
-    props.disabled ? 'cursor-not-allowed' : '',
-    props.readonly ? 'cursor-default' : ''
-  ]
+function getDateDateClasses(dateItem: DateItem): string {
+  const classes: string[] = []
   
-  const sizeClasses = {
-    xs: 'h-6 px-2 text-xs min-w-20',
-    sm: 'h-8 px-3 text-sm min-w-24',
-    md: 'h-10 px-4 text-base min-w-32',
-    lg: 'h-12 px-5 text-lg min-w-36',
-    xl: 'h-14 px-6 text-xl min-w-40'
+  const notInCurrentMonth = !dateItem.inCurrentMonth
+  const disabled = props.isDateDisabled?.(dateItem.ts) === true
+  
+  if (disabled || notInCurrentMonth) {
+    classes.push('text-[var(--n-day-text-color)]')
   }
   
-  const variantClasses = {
-    outline: 'border border-gray-300 rounded hover:border-gray-400 focus:border-primary focus:ring-1 focus:ring-primary',
-    filled: 'bg-gray-100 rounded hover:bg-gray-200 focus:bg-white focus:ring-2 focus:ring-primary',
-    ghost: 'border-b border-gray-300 rounded-none hover:border-gray-400 focus:border-primary'
-  }
-  
-  const shapeClasses = {
-    rounded: 'rounded',
-    square: 'rounded-none',
-    circle: 'rounded-full'
-  }
-  
-  return [
-    ...baseClasses,
-    sizeClasses[props.size] || sizeClasses.md,
-    variantClasses[props.variant] || variantClasses.outline,
-    shapeClasses[props.shape] || shapeClasses.rounded,
-    props.inputClass
-  ].filter(Boolean).join(' ')
-})
-
-const iconContainerClasses = computed(() => {
-  return [
-    'absolute right-2 opacity-50 hover:opacity-70 transition-opacity',
-    props.disabled ? 'opacity-30' : ''
-  ].filter(Boolean).join(' ')
-})
-
-const iconClasses = computed(() => {
-  return [
-    'text-gray-500',
-    `text-${props.color}`
-  ].join(' ')
-})
-
-const panelClasses = computed(() => {
-  return [
-    'absolute w-auto bg-base-100 border border-base-300 rounded-lg shadow-lg z-50',
-    'min-w-80 max-w-96',
-    props.panelClass
-  ].filter(Boolean).join(' ')
-})
-
-const headerClasses = computed(() => {
-  return [
-    'flex flex-row justify-between items-center border-b border-base-300 p-4'
-  ].join(' ')
-})
-
-const navButtonClasses = computed(() => {
-  return [
-    'flex items-center justify-center min-w-8 min-h-8 rounded-md transition-all duration-200 ease-in-out',
-    'hover:opacity-70 active:scale-95 cursor-pointer p-2'
-  ].join(' ')
-})
-
-const yearMonthClasses = computed(() => {
-  return [
-    'min-w-32 text-center flex flex-col items-center space-y-1'
-  ].join(' ')
-})
-
-const yearClasses = computed(() => {
-  return [
-    'text-lg font-semibold text-primary'
-  ].join(' ')
-})
-
-const monthClasses = computed(() => {
-  return [
-    'text-sm text-base-content'
-  ].join(' ')
-})
-
-const weekHeaderClasses = computed(() => {
-  return [
-    'grid grid-cols-7 gap-1 p-2'
-  ].join(' ')
-})
-
-const weekDayClasses = computed(() => {
-  return [
-    'flex justify-center items-center text-sm text-base-content opacity-70 font-medium h-8'
-  ].join(' ')
-})
-
-const dateGridClasses = computed(() => {
-  return [
-    'grid grid-cols-7 gap-1 p-2'
-  ].join(' ')
-})
-
-const footerClasses = computed(() => {
-  return [
-    'flex flex-row justify-center items-center space-x-2 p-4 border-t border-base-300'
-  ].join(' ')
-})
-
-// 日期相关计算
-const dateList = computed((): DateItem[] => {
-  return setDateList(currentYear.value, currentMonth.value)
-})
-
-const WeekName = computed(() => [
-  t('date.sunday'),
-  t('date.monday'),
-  t('date.tuesday'),
-  t('date.wednesday'),
-  t('date.thursday'),
-  t('date.friday'),
-  t('date.saturday')
-])
-
-const MonthName = computed(() => [
-  t('date.january'),
-  t('date.february'),
-  t('date.march'),
-  t('date.april'),
-  t('date.may'),
-  t('date.june'),
-  t('date.july'),
-  t('date.august'),
-  t('date.september'),
-  t('date.october'),
-  t('date.november'),
-  t('date.december')
-])
-
-// 方法
-const setDateList = (year: number, month: number): DateItem[] => {
-  const curDays = new Date(year, month + 1, 0).getDate()
-  const prevDays = new Date(year, month, 0).getDate()
-  const curFirstDayWeek = new Date(year, month, 1).getDay()
-  const list: DateItem[] = []
-  
-  // 填充上月天数
-  for (let i = prevDays - curFirstDayWeek + 1; i <= prevDays; i++) {
-    const date = new Date(year, month - 1, i)
-    list.push({
-      day: i,
-      year: year,
-      month: month - 1,
-      value: +date,
-      isSelected: false,
-      isToday: isToday(date),
-      isDisabled: isDateDisabled(date),
-      type: 'prev'
-    })
-  }
-  
-  // 填充当月天数
-  for (let i = 1; i <= curDays; i++) {
-    const date = new Date(year, month, i)
-    list.push({
-      day: i,
-      year: year,
-      month: month,
-      value: +date,
-      isSelected: isDateSelected(date),
-      isToday: isToday(date),
-      isDisabled: isDateDisabled(date),
-      type: 'current'
-    })
-  }
-  
-  // 填充下月天数
-  const nextDays = 7 - (list.length % 7)
-  if (nextDays !== 7) {
-    for (let i = 1; i <= nextDays; i++) {
-      const date = new Date(year, month + 1, i)
-      list.push({
-        day: i,
-        year: year,
-        month: month + 1,
-        value: +date,
-        isSelected: false,
-        isToday: isToday(date),
-        isDisabled: isDateDisabled(date),
-        type: 'next'
-      })
-    }
-  }
-  
-  return list
-}
-
-const isToday = (date: Date): boolean => {
-  const today = new Date()
-  return date.toDateString() === today.toDateString()
-}
-
-const isDateSelected = (date: Date): boolean => {
-  if (!selectedDate.value) return false
-  
-  const selected = typeof selectedDate.value === 'string' 
-    ? new Date(selectedDate.value) 
-    : selectedDate.value
-    
-  return date.toDateString() === selected.toDateString()
-}
-
-const isDateDisabled = (date: Date): boolean => {
-  if (props.minDate) {
-    const min = typeof props.minDate === 'string' ? new Date(props.minDate) : props.minDate
-    if (date < min) return true
-  }
-  
-  if (props.maxDate) {
-    const max = typeof props.maxDate === 'string' ? new Date(props.maxDate) : props.maxDate
-    if (date > max) return true
-  }
-  
-  return false
-}
-
-const getDateClasses = (date: DateItem): string => {
-  const classes = [
-    'flex justify-center items-center text-lg h-8 rounded cursor-pointer transition-colors',
-    'hover:bg-base-200'
-  ]
-  
-  if (date.type === 'current') {
-    classes.push('text-base-content')
-  } else {
-    classes.push('text-base-content opacity-50')
-  }
-  
-  if (date.isSelected) {
-    classes.push(`bg-${props.color} text-${props.color}-content hover:bg-${props.color}-focus`)
-  } else if (date.isToday) {
-    classes.push(`text-${props.color} font-semibold`)
-  }
-  
-  if (date.isDisabled) {
-    classes.push('opacity-50 cursor-not-allowed hover:bg-transparent')
+  if (dateItem.isCurrentDate) {
+    classes.push('text-[var(--n-date-text-color-current)] bg-[var(--n-date-color-current)]')
   }
   
   return classes.join(' ')
 }
 
-const formatDate = (date: Date, format: string): string => {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  
-  return format
-    .replace('YYYY', year.toString())
-    .replace('MM', month)
-    .replace('DD', day)
-}
+const todayText = computed(() => t('date.today'))
+const monthBeforeYear = computed(() => false)
 
-const parseDate = (dateString: string): Date | null => {
-  const date = new Date(dateString)
-  return isNaN(date.getTime()) ? null : date
-}
+// CSS 变量
+const cssVars = computed(() => ({
+  '--n-bezier': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  '--n-border-color': 'var(--base-300)',
+  '--n-border-radius': 'var(--rounded-box, 0.5rem)',
+  '--n-text-color': 'var(--base-content)',
+  '--n-title-font-weight': '600',
+  '--n-title-font-size': '1.25rem',
+  '--n-title-text-color': 'var(--base-content)',
+  '--n-day-text-color': 'var(--base-content)',
+  '--n-font-size': '0.875rem',
+  '--n-line-height': '1.5',
+  '--n-date-color-current': 'var(--primary)',
+  '--n-date-text-color-current': 'var(--primary-content)',
+  '--n-cell-color-hover': 'var(--base-200)',
+  '--n-bar-color': 'var(--primary)'
+}))
 
-// 事件处理
-const toggleShow = () => {
-  if (props.disabled || props.readonly) return
-  positionShow.value = !positionShow.value
-}
-
-const selectDate = (date: DateItem) => {
-  if (date.isDisabled) return
-  
-  const selected = new Date(date.year, date.month, date.day)
-  selectedDate.value = selected
-  
-  positionShow.value = false
-  emit('update:modelValue', selected)
-  emit('change', selected)
-  emit('select', selected)
-}
-
-const yearDecrease = () => {
-  currentYear.value -= 1
-}
-
-const monthDecrease = () => {
-  if (currentMonth.value <= 0) {
-    currentMonth.value = 11
-    currentYear.value -= 1
-  } else {
-    currentMonth.value -= 1
-  }
-}
-
-const yearIncrease = () => {
-  currentYear.value += 1
-}
-
-const monthIncrease = () => {
-  if (currentMonth.value >= 11) {
-    currentMonth.value = 0
-    currentYear.value += 1
-  } else {
-    currentMonth.value += 1
-  }
-}
-
-const today = () => {
-  const today = new Date()
-  selectedDate.value = today
-  positionShow.value = false
-  emit('update:modelValue', today)
-  emit('change', today)
-  emit('select', today)
-}
-
-const selectNow = () => {
-  const now = new Date()
-  selectedDate.value = now
-  positionShow.value = false
-  emit('update:modelValue', now)
-  emit('change', now)
-  emit('select', now)
-}
-
-const clear = () => {
-  selectedDate.value = null
-  emit('update:modelValue', null)
-  emit('change', null)
-  emit('clear')
-}
-
-const handleFocus = (event: FocusEvent) => {
-  focused.value = true
-  emit('focus', event)
-}
-
-const handleBlur = (event: FocusEvent) => {
-  focused.value = false
-  emit('blur', event)
-}
-
-const handleInput = (value: string) => {
-  if (value) {
-    const date = parseDate(value)
-    if (date) {
-      selectedDate.value = date
-      emit('update:modelValue', date)
-      emit('change', date)
-    }
-  } else {
-    selectedDate.value = null
-    emit('update:modelValue', null)
-    emit('change', null)
-  }
-}
-
-// 监听器
-watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    if (typeof newValue === 'string') {
-      const date = parseDate(newValue)
-      if (date) {
-        selectedDate.value = date
-        currentYear.value = date.getFullYear()
-        currentMonth.value = date.getMonth()
+// 监听 value 变化 - 使用深度比较和防抖避免循环
+let isUpdating = false
+watch(
+  () => props.value,
+  (newValue, oldValue) => {
+    // 防止循环更新
+    if (isUpdating) return
+    
+    if (newValue !== undefined && newValue !== null) {
+      const monthTs = startOfMonth(newValue).getTime()
+      // 只在月份真正改变时才更新，避免循环更新
+      if (monthTs !== monthTsRef.value) {
+        isUpdating = true
+        monthTsRef.value = monthTs
+        // 使用 nextTick 确保更新完成后再允许下一次更新
+        nextTick(() => {
+          isUpdating = false
+        })
       }
-    } else {
-      selectedDate.value = newValue
-      currentYear.value = newValue.getFullYear()
-      currentMonth.value = newValue.getMonth()
     }
-  } else {
-    selectedDate.value = null
-  }
-}, { immediate: true })
-
-// 点击外部关闭
-useClickOutside(dateRef, () => {
-  if (positionShow.value) {
-    positionShow.value = false
-  }
-})
-
-// 暴露方法
-defineExpose({
-  focus: () => inputRef.value?.focus(),
-  blur: () => inputRef.value?.blur(),
-  clear: () => clear(),
-  getValue: () => selectedDate.value,
-  setValue: (value: string | Date) => {
-    selectedDate.value = value
-    emit('update:modelValue', value)
-  }
-})
+  },
+  { flush: 'post', immediate: false }
+)
 </script>
 
 <style scoped>
-/* 必填标签样式 */
-.required::after {
-  content: '*';
-  color: var(--error);
-  margin-left: 0.25rem;
+/* 使用 CSS 变量和复杂选择器的情况保留在 style 中 */
+
+/* 日历单元格圆角 */
+.calendar-dates .calendar-cell:nth-child(7) {
+  border-top-right-radius: var(--n-border-radius);
 }
 
-/* 导航按钮内图标颜色 */
-.nav-button i {
-  color: var(--primary) !important;
-  transition: color 0.2s ease-in-out;
+.calendar-dates .calendar-cell:nth-last-child(7) {
+  border-bottom-left-radius: var(--n-border-radius);
 }
 
-.nav-button:hover i {
-  color: var(--primary-focus) !important;
+.calendar-dates .calendar-cell:last-child {
+  border-bottom-right-radius: var(--n-border-radius);
 }
 
-/* 日期面板动画 */
-.date-panel {
-  animation: fadeIn 0.2s ease-out;
+/* 悬停状态 */
+.calendar-dates .calendar-cell:hover {
+  background-color: var(--n-cell-color-hover);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 选中状态下的 bar */
+.calendar-cell--selected .calendar-cell__bar {
+  background-color: var(--n-bar-color);
 }
 
-/* 日期项悬停效果 */
-.date-item:hover:not(.opacity-50) {
-  background-color: var(--primary);
-  color: white;
-}
-
-/* 响应式设计 */
-@media (max-width: 640px) {
-  .date-panel {
-    min-width: 100%;
-    max-width: 100%;
-  }
-  
-  .date-container.flex-row {
-    flex-direction: column;
-    align-items: flex-start;
-    space-x: 0;
-  }
+/* 禁用和跨月日期的日期显示 */
+.calendar-cell--disabled .calendar-date__date,
+.calendar-cell--other-month .calendar-date__date {
+  color: var(--n-day-text-color);
 }
 </style>

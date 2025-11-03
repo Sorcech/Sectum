@@ -200,7 +200,7 @@ app.mount('#app')
 ```vue
 <template>
   <div class="p-5">
-    <btn type="primary" size="lg">点击我</btn>
+    <btn color="primary" size="lg">点击我</btn>
     <ipt placeholder="请输入内容" />
     <Header 
       project-name="我的项目"

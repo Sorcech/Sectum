@@ -39,7 +39,7 @@
         <icn name="globe" light xl></icn>
         <!-- 当前语言字符显示在图标右上方，鼠标悬停时隐藏 -->
         <span
-          class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-xs p-0.1 group-hover:opacity-0 transition-opacity duration-200"
+          class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1 group-hover:opacity-0 transition-opacity duration-200"
           :style="{right: '0.03rem',bottom: '0.03rem',fontSize: '0.75rem',zIndex: 2,transform: 'translate(0, 0)'}"
         >
           {{ getLocaleChar(currentLocale) }}

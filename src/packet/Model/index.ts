@@ -1,7 +1,7 @@
 import type { App } from 'vue'
-import TaskCreate from './Form/TaskCreate.vue'
-import AccountCreate from './Form/AccountCreate.vue'
-import ProjectCreate from './Form/ProjectCreate.vue'
+import TaskCreate from './Forms/TaskCreate.vue'
+import AccountCreate from './Forms/AccountCreate.vue'
+import ProjectCreate from './Forms/ProjectCreate.vue'
 import PartDetail from './Detail/PartDetail.vue'
 import SectionDetail from './Detail/SectionDetail.vue'
 import SourceDetail from './Detail/SourceDetail.vue'
@@ -10,6 +10,7 @@ import ProjectDetail from './Detail/ProjectDetail.vue'
 import TaskDetail from './Detail/TaskDetail.vue'
 import StorageDetail from './Detail/StorageDetail.vue'
 import InterlinkDetail from './Detail/InterlinkDetail.vue'
+
 
 // Select 组件已移除，请使用 Section/Select 组件
 
@@ -32,7 +33,6 @@ const install = (app: App) => {
   app.component('TaskDetail', TaskDetail)//任务详细信息
   app.component('StorageDetail', StorageDetail)//文件详细信息
   app.component('InterlinkDetail', InterlinkDetail)//内部链接详细信息
-
 }
 
 export default install //全局引用

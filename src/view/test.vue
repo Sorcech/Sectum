@@ -1,17 +1,25 @@
 <template>
-  <btn @click="showDrawer" clean type="button" size="xl"
-    class="items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
-    <icn name="user" regular xl />
-  </btn>
-  <Drawer title="Drawer" :isShow="isShow">
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-  </Drawer>
+  <div class="p-4">
+    <btn @click="showDrawer" clean type="button" size="xl"
+      class="items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
+      <icn name="user" regular xl />
+    </btn>
+    <Drawer title="Drawer" :isShow="isShow">
+      <h1>test</h1>
+      <h1>test</h1>
+      <h1>test</h1>
+    </Drawer>
+    
+    <!-- Selector 组件 -->
+    <div class="mt-8">
+      <Selector />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import Selector from '~/packet/Pattern/Selector/Selector.vue';
 
 const isShow = ref(false)
 function showDrawer() {

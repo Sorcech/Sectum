@@ -1,113 +1,203 @@
 <template>
-  <div class="space-y-6">
-    <div class="text-center">
-      <h1 class="text-4xl font-bold text-primary mb-4">欢迎使用 Sectum UI</h1>
-      <p class="text-lg text-base-content/70">一个现代化的 Vue 3 组件库</p>
-    </div>
+  <div class="space-y-0">
+    <!-- Hero 轮播图区域 -->
+    <section class="mb-16">
+      <Carousel 
+        :autoplay="config.carousel.autoplay" 
+        :interval="config.carousel.interval"
+        :pause-on-hover="config.carousel.pauseOnHover"
+        :height="config.carousel.height"
+        class="rounded-lg overflow-hidden"
+      >
+        <div 
+          v-for="(slide, index) in heroSlides" 
+          :key="index"
+          class="relative h-full flex items-center justify-center bg-gradient-to-r from-primary/90 to-secondary/90"
+          :style="slide.image ? { backgroundImage: `url(${slide.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}"
+        >
+          <div class="absolute inset-0 bg-black/20"></div>
+          <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+              {{ t(slide.title) }}
+            </h2>
+            <p class="text-xl md:text-2xl text-white/90 mb-8">
+              {{ t(slide.description) }}
+            </p>
+            <btn 
+              color="primary" 
+              size="lg"
+              class="text-lg px-8 py-3"
+              @click="slide.link && router.push(slide.link)"
+            >
+              {{ t('home.learnMore') }}
+            </btn>
+          </div>
+        </div>
+      </Carousel>
+    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- 按钮示例 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">按钮组件</h2>
-          <div class="space-y-2">
-            <btn>默认按钮</btn>
-            <btn variant="primary">主要按钮</btn>
-            <btn variant="secondary">次要按钮</btn>
-            <btn variant="outline">轮廓按钮</btn>
+    <!-- 产品特色区域 -->
+    <section class="py-16 bg-base-100">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-primary mb-4">{{ t('home.features') }}</h2>
+          <p class="text-lg text-base-content/70">{{ t('home.featuresDesc') }}</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div 
+            v-for="(feature, index) in features" 
+            :key="index"
+            class="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow duration-300"
+          >
+            <div class="card-body items-center text-center">
+              <div class="mb-4 p-4 bg-primary/10 rounded-full">
+                <icn :name="feature.icon" solid xl color="primary" />
+              </div>
+              <h3 class="card-title text-xl mb-2">{{ t(feature.title) }}</h3>
+              <p class="text-base-content/70">{{ t(feature.description) }}</p>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- 输入框示例 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">输入框组件</h2>
-          <div class="space-y-2">
-            <ipt v-model="inputValue" placeholder="请输入内容" />
-            <txa v-model="textareaValue" placeholder="请输入多行文本" />
+    <!-- 数据统计区域 -->
+    <section class="py-16 bg-primary text-primary-content">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div 
+            v-for="(stat, index) in statistics" 
+            :key="index"
+            class="space-y-2"
+          >
+            <div class="text-4xl md:text-5xl font-bold">{{ stat.value }}</div>
+            <div class="text-lg opacity-90">{{ t(stat.label) }}</div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- 表单示例 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">表单组件</h2>
-          <Form>
-            <FormItem>
-              <ipt v-model="formData.name" placeholder="姓名" />
-            </FormItem>
-            <FormItem>
-              <Select :options="options" v-model="formData.type" placeholder="选择类型" />
-            </FormItem>
-            <FormItem>
-              <btn @click="submitForm" variant="primary">提交</btn>
-            </FormItem>
-          </Form>
+    <!-- 解决方案预览 -->
+    <section class="py-16 bg-base-100">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-primary mb-4">{{ t('home.solutions') }}</h2>
+          <p class="text-lg text-base-content/70">{{ t('home.solutionsDesc') }}</p>
         </div>
-      </div>
-
-      <!-- 开关示例 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">开关组件</h2>
-          <div class="space-y-2">
-            <tgl v-model="toggleValue" />
-            <ckb v-model="checkboxValue" label="复选框" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div 
+            v-for="(solution, index) in solutions" 
+            :key="index"
+            class="card bg-base-200 shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
+            <div class="card-body">
+              <h3 class="card-title text-2xl mb-3">
+                <icn :name="solution.icon" solid lg color="primary" class="mr-2" />
+                {{ t(solution.title) }}
+              </h3>
+              <p class="text-base-content/70 mb-4">{{ t(solution.description) }}</p>
+              <div class="card-actions justify-end">
+                <btn color="primary" variant="outline">
+                  {{ t('home.learnMore') }}
+                </btn>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- 图标示例 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">图标组件</h2>
-          <div class="flex space-x-2">
-            <icn name="home" />
-            <icn name="user" />
-            <icn name="settings" />
-            <icn name="heart" />
-          </div>
+    <!-- 行动号召区域 -->
+    <section class="py-20 bg-gradient-to-r from-primary to-secondary text-primary-content">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">{{ t('home.ctaTitle') }}</h2>
+        <p class="text-xl mb-8 opacity-90">{{ t('home.ctaDesc') }}</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <btn 
+            size="lg" 
+            color="base-100"
+            class="text-lg px-8 py-3"
+            @click="$router.push('/product')"
+          >
+            {{ t('home.viewProducts') }}
+          </btn>
+          <btn 
+            size="lg" 
+            variant="outline"
+            class="text-lg px-8 py-3 border-2 border-primary-content text-primary-content hover:bg-primary-content hover:text-primary"
+            @click="$router.push('/about')"
+          >
+            {{ t('home.contactUs') }}
+          </btn>
         </div>
       </div>
-
-      <!-- 主题组件 -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">主题组件</h2>
-          <div class="flex space-x-2">
-            <ThemeSelect />
-            <DarkChange />
-            <LanguageSelect />
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Form, FormItem, Select } from 'sectum'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { Carousel } from 'sectum'
+import config from '../config/config'
 
-const inputValue = ref('')
-const textareaValue = ref('')
-const toggleValue = ref(false)
-const checkboxValue = ref(false)
+const { t } = useI18n()
+const router = useRouter()
 
-const formData = ref({
-  name: '',
-  type: ''
-})
+// Hero 轮播图数据（从配置文件读取）
+const heroSlides = computed(() => config.carousel.slides)
 
-const options = [
-  { label: '选项1', value: '1' },
-  { label: '选项2', value: '2' },
-  { label: '选项3', value: '3' }
-]
+// 产品特色
+const features = computed(() => [
+  {
+    icon: 'rocket',
+    title: 'home.feature1.title',
+    description: 'home.feature1.desc'
+  },
+  {
+    icon: 'shield-alt',
+    title: 'home.feature2.title',
+    description: 'home.feature2.desc'
+  },
+  {
+    icon: 'cog',
+    title: 'home.feature3.title',
+    description: 'home.feature3.desc'
+  }
+])
 
-const submitForm = () => {
-  console.log('提交表单:', formData.value)
-}
+// 数据统计
+const statistics = computed(() => [
+  {
+    value: '1000+',
+    label: 'home.stat1'
+  },
+  {
+    value: '50+',
+    label: 'home.stat2'
+  },
+  {
+    value: '24/7',
+    label: 'home.stat3'
+  },
+  {
+    value: '99%',
+    label: 'home.stat4'
+  }
+])
+
+// 解决方案
+const solutions = computed(() => [
+  {
+    icon: 'building',
+    title: 'home.solution1.title',
+    description: 'home.solution1.desc'
+  },
+  {
+    icon: 'users',
+    title: 'home.solution2.title',
+    description: 'home.solution2.desc'
+  }
+])
 </script>

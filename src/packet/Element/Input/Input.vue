@@ -55,17 +55,18 @@ const baseClasses = computed(() => {
   ].filter(Boolean).join(' ')
 })
 
+// 统一的尺寸样式定义
+const sizes = {
+  xs: 'h-6  texlt-xs',
+  sm: 'h-8  text-sm',
+  md: 'h-10  text-sm',
+  lg: 'h-12  text-base',
+  xl: 'h-14  text-xl'
+}
+
 // 尺寸样式
 const sizeClasses = computed(() => {
   if (props.clean) return ''
-  
-  const sizes = {
-    xs: 'h-6 px-2 text-xs',
-    sm: 'h-8 px-3 text-sm',
-    md: 'h-10 px-4 text-sm',
-    lg: 'h-12 px-5 text-base',
-    xl: 'h-14 px-6 text-xl'
-  }
   return sizes[props.size as keyof typeof sizes] || sizes.md
 })
 
@@ -116,35 +117,27 @@ const responsiveClasses = computed(() => {
   const classes = []
   
   if (props.sm) {
-    const size = props.sm as keyof typeof responsiveSizes
-    classes.push(`sm:${responsiveSizes[size]}`)
+    const size = props.sm as keyof typeof sizes
+    classes.push(`sm:${sizes[size]}`)
   }
   
   if (props.md) {
-    const size = props.md as keyof typeof responsiveSizes
-    classes.push(`md:${responsiveSizes[size]}`)
+    const size = props.md as keyof typeof sizes
+    classes.push(`md:${sizes[size]}`)
   }
   
   if (props.lg) {
-    const size = props.lg as keyof typeof responsiveSizes
-    classes.push(`lg:${responsiveSizes[size]}`)
+    const size = props.lg as keyof typeof sizes
+    classes.push(`lg:${sizes[size]}`)
   }
   
   if (props.xl) {
-    const size = props.xl as keyof typeof responsiveSizes
-    classes.push(`xl:${responsiveSizes[size]}`)
+    const size = props.xl as keyof typeof sizes
+    classes.push(`xl:${sizes[size]}`)
   }
   
   return classes.join(' ')
 })
-
-const responsiveSizes = {
-  xs: 'h-6 px-2 text-xs',
-  sm: 'h-8 px-3 text-sm',
-  md: 'h-10 px-4 text-sm',
-  lg: 'h-12 px-5 text-base',
-  xl: 'h-14 px-6 text-xl'
-}
 
 // 最终样式组合
 const inputClasses = computed(() => {
@@ -169,7 +162,7 @@ const containerClasses = computed(() => {
 // 标签样式
 const labelClasses = computed(() => {
   return [
-    'select-none py-2 px-1',
+    'select-none py-2 ',
     props.label ? props.labelWidth : ''
   ].filter(Boolean).join(' ')
 })

@@ -1,4 +1,4 @@
-# Backdrop 组件
+# Mask 组件
 
 一个用于创建模态背景遮罩的组件，支持模糊效果和加载状态显示。
 
@@ -15,9 +15,9 @@
 ## 安装
 
 ```ts
-import { Backdrop } from 'sectum'
+import { Mask } from 'sectum'
 // 或者
-import bkd from 'sectum'
+import Mask from 'sectum'
 ```
 
 ## 基础用法
@@ -25,27 +25,27 @@ import bkd from 'sectum'
 <div class="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
   <div class="p-4">
     <p>页面内容</p>
-    <bkd :show="true" />
+    <msk :show="true" />
   </div>
 </div>
 
 ```vue
-<bkd :show="true" />
+<msk :show="true" />
 ```
 
-**注意**: 在实际使用中，Backdrop 组件通常需要配合其他组件使用，单独使用时会覆盖整个屏幕。
+**注意**: 在实际使用中，Mask 组件通常需要配合其他组件使用，单独使用时会覆盖整个屏幕。
 
 ## 模糊效果
 
 <div class="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
   <div class="p-4">
     <p>页面内容</p>
-    <bkd :show="true" :blur="true" />
+    <msk :show="true" :blur="true" />
   </div>
 </div>
 
 ```vue
-<bkd :show="true" :blur="true" />
+<msk :show="true" :blur="true" />
 ```
 
 ## 加载状态
@@ -53,12 +53,12 @@ import bkd from 'sectum'
 <div class="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
   <div class="p-4">
     <p>页面内容</p>
-    <bkd :show="true" :loading="true" />
+    <msk :show="true" :loading="true" />
   </div>
 </div>
 
 ```vue
-<bkd :show="true" :loading="true" />
+<msk :show="true" :loading="true" />
 ```
 
 ## 组合使用
@@ -66,12 +66,12 @@ import bkd from 'sectum'
 <div class="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
   <div class="p-4">
     <p>页面内容</p>
-    <bkd :show="true" :blur="true" :loading="true" />
+    <msk :show="true" :blur="true" :loading="true" />
   </div>
 </div>
 
 ```vue
-<bkd :show="true" :blur="true" :loading="true" />
+<msk :show="true" :blur="true" :loading="true" />
 ```
 
 ## 实际应用示例
@@ -85,7 +85,7 @@ import bkd from 'sectum'
     <btn @click="showModal = true">打开模态框</btn>
     <!-- 模态对话框 -->
     <div v-if="showModal" class="fixed inset-0 z-20 flex items-center justify-center">
-      <bkd :show="true" :blur="true" @click="showModal = false" />
+      <msk :show="true" :blur="true" @click="showModal = false" />
       <div class="relative z-30 bg-white p-6 rounded-lg shadow-lg">
         <h2>模态对话框</h2>
         <p>这是模态对话框的内容</p>
@@ -110,7 +110,7 @@ const showModal = ref(false)
     <btn @click="loadData" :disabled="loading">
       {{ loading ? '加载中...' : '加载数据' }}
     </btn>
-    <bkd :show="loading" :loading="true" />
+    <msk :show="loading" :loading="true" />
   </div>
 </template>
 
@@ -190,7 +190,7 @@ const loadData = async () => {
     <!-- 模态框 -->
     <teleport to="body">
       <div v-if="isOpen" class="fixed inset-0 z-50">
-        <bkd :show="true" :blur="true" @click="closeModal" />
+        <msk :show="true" :blur="true" @click="closeModal" />
         <div class="relative z-10 flex items-center justify-center h-full">
           <div class="bg-white rounded-lg shadow-xl p-6">
             <!-- 模态框内容 -->
@@ -209,7 +209,7 @@ const loadData = async () => {
 <template>
   <div id="app">
     <router-view />
-    <bkd :show="globalLoading" :loading="true" />
+    <msk :show="globalLoading" :loading="true" />
   </div>
 </template>
 ```
@@ -219,7 +219,7 @@ const loadData = async () => {
 ```vue
 <template>
   <!-- 使用 v-show 而不是 v-if 来避免重复创建/销毁 -->
-  <bkd v-show="show" :blur="blur" :loading="loading" />
+  <msk v-show="show" :blur="blur" :loading="loading" />
 </template>
 ```
 

@@ -54,11 +54,6 @@ const route = [
               meta: { title: 'Input' },
             },
             {
-              path: '/sectum/mask',
-              component: () => import('~/packet/Element/Mask/Mask.md'),
-              meta: { title: 'Mask' },
-            },
-            {
               path: '/sectum/toggle',
               component: () => import('~/packet/Element/Toggle/Toggle.md'),
               meta: { title: 'Toggle' },
@@ -81,8 +76,8 @@ const route = [
             },
             {
               path: '/sectum/date',
-              component: () => import('~/packet/Section/Calendar/Calendar.md'),
-              meta: { title: 'Calendar' },
+              component: () => import('~/packet/Section/Date/Date.md'),
+              meta: { title: 'Date' },
             },
             {
               path: '/sectum/drawer',

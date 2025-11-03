@@ -5,22 +5,32 @@ Form 表单组件用于快速创建表单字段，支持信息收集和验证。
 ## 特性
 
 - 📋 **表单容器** - Form 组件提供表单容器和布局
-- 🏷️ **标签支持** - FormItem 支持标签显示
-- ✅ **验证规则** - 支持表单验证规则（基于 async-validator）
-- 📏 **灵活布局** - 支持行内布局和标签对齐
+- 🏷️ **标签支持** - FormItem 支持标签显示和图标
+- ✅ **表单验证** - 支持完整的表单验证规则（基于 async-validator）
+- 📏 **灵活布局** - 支持行内布局、标签对齐和位置控制
 - 🎨 **样式定制** - 基于 UnoCSS，易于定制样式
-- ⚡ **轻量级** - 简洁的实现，无额外依赖
+- ⚡ **响应式** - 支持表单状态反馈和动画过渡
+- 🔍 **必填标记** - 自动显示必填字段标记
+- 💬 **错误提示** - 实时显示验证错误和成功信息
 
 ## 安装
 
 ```ts
-import Form from "sectum"
-import FormItem from "sectum"
+import { Form, FormItem } from "sectum"
 ```
 
 ## 基础用法
 
 ### 最简单的表单
+
+<Form>
+  <FormItem label="用户名">
+    <ipt placeholder="请输入用户名" />
+  </FormItem>
+  <FormItem label="密码">
+    <ipt type="password" placeholder="请输入密码" />
+  </FormItem>
+</Form>
 
 ```vue
 <template>
@@ -35,12 +45,20 @@ import FormItem from "sectum"
 </template>
 
 <script setup lang="ts">
-import Form from "sectum"
-import FormItem from "sectum"
+import { Form, FormItem } from "sectum"
 </script>
 ```
 
 ### 使用 model 绑定数据
+
+<Form :model="model">
+  <FormItem label="用户名" prop="name">
+    <ipt v-model="model.name" placeholder="请输入用户名" />
+  </FormItem>
+  <FormItem label="邮箱" prop="email">
+    <ipt v-model="model.email" placeholder="请输入邮箱" />
+  </FormItem>
+</Form>
 
 ```vue
 <template>
@@ -56,18 +74,12 @@ import FormItem from "sectum"
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import Form from "sectum"
-import FormItem from "sectum"
-
-interface Model {
-  name: string
-  email: string
-}
+import { Form, FormItem } from "sectum"
 
 const model = reactive({
   name: '',
   email: ''
-} as Model)
+})
 </script>
 ```
 
@@ -78,10 +90,10 @@ const model = reactive({
 ```vue
 <template>
   <Form :model="model" :rules="rules">
-    <FormItem label="用户名" prop="name" :rules="rules.name">
+    <FormItem label="用户名" prop="name">
       <ipt v-model="model.name" placeholder="请输入用户名" />
     </FormItem>
-    <FormItem label="邮箱" prop="email" :rules="rules.email">
+    <FormItem label="邮箱" prop="email">
       <ipt v-model="model.email" placeholder="请输入邮箱" />
     </FormItem>
   </Form>
@@ -197,6 +209,51 @@ const rules = {
 </script>
 ```
 
+### 手动验证
+
+```vue
+<template>
+  <Form ref="formRef" :model="model" :rules="rules">
+    <FormItem label="用户名" prop="name">
+      <ipt v-model="model.name" placeholder="请输入用户名" />
+    </FormItem>
+    <FormItem>
+      <btn @click="handleValidate">验证表单</btn>
+      <btn @click="handleReset">重置验证</btn>
+    </FormItem>
+  </Form>
+</template>
+
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
+
+const formRef = ref()
+const model = reactive({
+  name: ''
+})
+
+const rules = {
+  name: [
+    { required: true, message: '请输入用户名', trigger: 'blur' }
+  ]
+}
+
+const handleValidate = async () => {
+  const valid = await formRef.value.validate((isValid: boolean) => {
+    if (isValid) {
+      console.log('验证通过')
+    } else {
+      console.log('验证失败')
+    }
+  })
+}
+
+const handleReset = () => {
+  formRef.value.resetFields()
+}
+</script>
+```
+
 ## 布局选项
 
 ### 标签宽度
@@ -223,6 +280,18 @@ const rules = {
 </template>
 ```
 
+### 标签位置
+
+```vue
+<template>
+  <Form :model="model" label-placement="left">
+    <FormItem label="用户名">
+      <ipt v-model="model.name" />
+    </FormItem>
+  </Form>
+</template>
+```
+
 ### 行内表单
 
 ```vue
@@ -238,6 +307,93 @@ const rules = {
 </template>
 ```
 
+### 表单尺寸
+
+```vue
+<template>
+  <Form :model="model" size="large">
+    <FormItem label="用户名">
+      <ipt v-model="model.name" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+## 必填标记
+
+### 显示必填标记
+
+```vue
+<template>
+  <Form :model="model" :rules="rules" show-require-mark>
+    <FormItem label="用户名" prop="name">
+      <ipt v-model="model.name" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+### 必填标记位置
+
+```vue
+<template>
+  <Form 
+    :model="model" 
+    :rules="rules" 
+    show-require-mark
+    require-mark-placement="left"
+  >
+    <FormItem label="用户名" prop="name">
+      <ipt v-model="model.name" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+## 表单项特性
+
+### 图标支持
+
+```vue
+<template>
+  <Form :model="model">
+    <FormItem label="用户名" icon="user" prop="name">
+      <ipt v-model="model.name" />
+    </FormItem>
+    <FormItem label="邮箱" icon="mail" prop="email">
+      <ipt v-model="model.email" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+### 隐藏表单项
+
+```vue
+<template>
+  <Form :model="model">
+    <FormItem label="用户名" prop="name">
+      <ipt v-model="model.name" />
+    </FormItem>
+    <FormItem label="隐藏字段" prop="hidden" :is-show="false">
+      <ipt v-model="model.hidden" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+### 自定义错误提示
+
+```vue
+<template>
+  <Form :model="model" :rules="rules">
+    <FormItem label="用户名" prop="name" :show-message="true">
+      <ipt v-model="model.name" />
+    </FormItem>
+  </Form>
+</template>
+```
+
 ## API 参考
 
 ### Form Props
@@ -248,14 +404,30 @@ const rules = {
 | `rules` | `Object` | `{}` | 表单验证规则 |
 | `inline` | `Boolean` | `false` | 是否行内表单 |
 | `labelWidth` | `String \| Number` | - | 标签宽度 |
-| `labelAlign` | `'left' \| 'right'` | `'left'` | 标签对齐方式 |
+| `labelAlign` | `'left' \| 'right' \| 'center'` | `'left'` | 标签对齐方式 |
 | `labelPlacement` | `'top' \| 'left'` | `'top'` | 标签位置 |
 | `disabled` | `Boolean` | `false` | 是否禁用表单 |
 | `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 表单尺寸 |
 | `showFeedback` | `Boolean` | `true` | 是否显示验证反馈 |
 | `showLabel` | `Boolean` | `true` | 是否显示标签 |
-| `showRequireMark` | `Boolean` | - | 是否显示必填标记 |
+| `showRequireMark` | `Boolean` | - | 是否显示必填标记（默认根据验证规则自动判断） |
 | `requireMarkPlacement` | `'left' \| 'right' \| 'right-hanging'` | `'right'` | 必填标记位置 |
+
+### Form Events
+
+| 事件名 | 参数 | 说明 |
+|--------|------|------|
+| `submit` | `event: Event` | 表单提交事件 |
+| `validate` | `prop: string, isValid: boolean, message: string` | 字段验证事件 |
+
+### Form Methods
+
+| 方法名 | 参数 | 返回值 | 说明 |
+|--------|------|--------|------|
+| `validate` | `callback?: (valid: boolean) => void` | `Promise<boolean>` | 验证整个表单 |
+| `validateField` | `prop: string` | `Promise<boolean>` | 验证指定字段 |
+| `resetFields` | - | `void` | 重置所有字段的验证状态 |
+| `clearValidate` | - | `void` | 清除所有字段的验证状态 |
 
 ### FormItem Props
 
@@ -263,10 +435,17 @@ const rules = {
 |--------|------|--------|------|
 | `prop` | `String` | - | 表单域 model 字段 |
 | `label` | `String` | `''` | 标签文本 |
-| `rules` | `Object \| Array` | - | 表单验证规则 |
+| `rules` | `Object \| Array` | - | 表单验证规则（会与 Form 的 rules 合并） |
 | `showMessage` | `Boolean` | `true` | 是否显示验证错误信息 |
-| `isShow` | `Boolean` | `false` | 是否显示表单项（暂未使用） |
-| `icon` | `String` | `''` | 图标名称（暂未使用） |
+| `isShow` | `Boolean` | `true` | 是否显示表单项 |
+| `icon` | `String` | `''` | 图标名称 |
+
+### FormItem Methods
+
+| 方法名 | 参数 | 返回值 | 说明 |
+|--------|------|--------|------|
+| `validate` | `trigger?: string` | `Promise<boolean>` | 验证字段 |
+| `clearValidate` | - | `void` | 清除验证状态 |
 
 ### FormItemRule
 
@@ -293,7 +472,7 @@ interface FormItemRule {
 
 ```vue
 <template>
-  <Form :model="loginForm" :rules="rules" @submit.prevent="handleSubmit">
+  <Form ref="formRef" :model="loginForm" :rules="rules" @submit="handleSubmit">
     <FormItem label="用户名" prop="username">
       <ipt v-model="loginForm.username" placeholder="请输入用户名" />
     </FormItem>
@@ -301,14 +480,15 @@ interface FormItemRule {
       <ipt v-model="loginForm.password" type="password" placeholder="请输入密码" />
     </FormItem>
     <FormItem>
-      <btn type="submit" color="primary">登录</btn>
+      <btn color="primary" @click="handleSubmit">登录</btn>
     </FormItem>
   </Form>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
+const formRef = ref()
 const loginForm = reactive({
   username: '',
   password: ''
@@ -324,8 +504,11 @@ const rules = {
   ]
 }
 
-const handleSubmit = () => {
-  console.log('提交表单:', loginForm)
+const handleSubmit = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    console.log('提交表单:', loginForm)
+  }
 }
 </script>
 ```
@@ -334,7 +517,7 @@ const handleSubmit = () => {
 
 ```vue
 <template>
-  <Form :model="registerForm" :rules="rules">
+  <Form ref="formRef" :model="registerForm" :rules="rules">
     <FormItem label="用户名" prop="username">
       <ipt v-model="registerForm.username" placeholder="请输入用户名" />
     </FormItem>
@@ -347,12 +530,16 @@ const handleSubmit = () => {
     <FormItem label="确认密码" prop="confirmPassword">
       <ipt v-model="registerForm.confirmPassword" type="password" placeholder="请确认密码" />
     </FormItem>
+    <FormItem>
+      <btn color="primary" @click="handleSubmit">注册</btn>
+    </FormItem>
   </Form>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
+const formRef = ref()
 const registerForm = reactive({
   username: '',
   email: '',
@@ -386,6 +573,13 @@ const rules = {
     { validator: validateConfirmPassword, trigger: 'blur' }
   ]
 }
+
+const handleSubmit = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    console.log('提交表单:', registerForm)
+  }
+}
 </script>
 ```
 
@@ -399,6 +593,7 @@ const rules = {
       :key="index"
       :label="field.label"
       :prop="field.prop"
+      :icon="field.icon"
     >
       <ipt 
         v-if="field.type === 'text'"
@@ -418,8 +613,8 @@ const rules = {
 import { reactive } from 'vue'
 
 const formFields = [
-  { label: '姓名', prop: 'name', type: 'text', placeholder: '请输入姓名' },
-  { label: '简介', prop: 'bio', type: 'textarea', placeholder: '请输入简介' }
+  { label: '姓名', prop: 'name', type: 'text', placeholder: '请输入姓名', icon: 'user' },
+  { label: '简介', prop: 'bio', type: 'textarea', placeholder: '请输入简介', icon: 'info' }
 ]
 
 const dynamicForm = reactive({
@@ -437,14 +632,15 @@ const dynamicForm = reactive({
 4. **用户体验**: 合理设置 `trigger`，建议必填项使用 `'blur'`，实时验证使用 `'change'`
 5. **错误提示**: 提供清晰明确的错误提示信息
 6. **表单提交**: 在提交前进行表单验证
+7. **性能优化**: 对于大型表单，考虑使用懒加载和虚拟滚动
 
 ## 注意事项
 
-1. **Form 组件**: 目前 Form 组件是一个简单的容器组件，主要提供布局功能
-2. **FormItem 组件**: FormItem 组件提供标签显示和布局功能
-3. **验证功能**: 完整的表单验证功能需要配合验证库（如 async-validator）使用
-4. **响应式**: model 对象需要使用 `reactive` 或 `ref` 包装，确保响应式更新
-5. **兼容性**: 组件基于 Vue 3 Composition API，需要 Vue 3.0+ 版本
+1. **依赖**: 表单验证功能需要 `async-validator` 库支持
+2. **响应式**: model 对象需要使用 `reactive` 或 `ref` 包装，确保响应式更新
+3. **兼容性**: 组件基于 Vue 3 Composition API，需要 Vue 3.0+ 版本
+4. **验证时机**: 验证会在字段值变化时自动触发，也可以在提交时手动触发
+5. **表单上下文**: FormItem 必须嵌套在 Form 组件内才能正常工作
 
 ## 技术实现
 
@@ -453,7 +649,9 @@ const dynamicForm = reactive({
 ```
 Form/
 ├── Form.vue          # 表单容器组件
-└── FormItem.vue      # 表单项组件
+├── FormItem.vue      # 表单项组件
+├── FormItem.ts       # 类型定义导出
+└── types.ts          # 类型定义
 ```
 
 ### 样式定制
@@ -482,8 +680,22 @@ Form 组件使用 UnoCSS 原子类，可以通过以下方式定制样式：
 
 ## 更新日志
 
-### v1.0.0
-- 初始版本
-- 支持基础表单布局
-- 支持标签显示
-- 支持 model 数据绑定
+### v2.0.0
+- 完全重写组件架构
+- 添加完整的表单验证功能
+- 支持 provide/inject 模式
+- 添加必填标记支持
+- 优化布局和样式系统
+- 添加错误提示和成功反馈
+- 支持图标和自定义显示控制
+
+---
+
+<script setup>
+import { reactive } from 'vue'
+
+const model = reactive({
+  name: '',
+  email: ''
+})
+</script>
