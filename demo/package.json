@@ -1,7 +1,7 @@
 {
-  "name": "rotor",
+  "name": "Sectum",
   "version": "0.0.1",
-  "description": "ROTOR BAND WEB STATION",
+  "description": "Sectum BAND WEB STATION",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5000 --open",

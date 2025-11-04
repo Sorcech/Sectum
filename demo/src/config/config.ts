@@ -74,7 +74,7 @@ const config: AppConfig = {
     // 项目名称
     name: 'ROTOЯ',
     // 项目描述
-    description: 'ROTOR BAND WEB STATION',
+    description: 'Sectum BAND WEB STATION',
     // 项目版本
     version: '0.0.1'
   },
