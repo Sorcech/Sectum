@@ -115,7 +115,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <btn 
             size="lg" 
-            color="base-100"
+            color="primary"
             class="text-lg px-8 py-3"
             @click="$router.push('/product')"
           >

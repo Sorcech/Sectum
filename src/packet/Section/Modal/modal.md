@@ -95,64 +95,36 @@ const closeModal = () => {
 ### 不同尺寸
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.small = true">小尺寸 (sm)</btn>
-  <btn @click="modal.medium = true">中尺寸 (md)</btn>
-  <btn @click="modal.large = true">大尺寸 (lg)</btn>
+  <btn @click="modal.small = true">Modal sm</btn>
+  <btn @click="modal.medium = true">Modal md</btn>
+  <btn @click="modal.large = true">Modal lg</btn>
   <Modal v-model:active="modal.small">
-    <template #header>小尺寸模态框</template>
-    <template #body>这是小尺寸的模态框内容</template>
+    <template #header> The important modal header </template>
+    <template #body> The modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.small = false">关闭</btn>
+      <btn @click="modal.small = false">Dismiss!</btn>
     </template>
   </Modal>
   <Modal v-model:active="modal.medium" size="md">
-    <template #header>中尺寸模态框</template>
-    <template #body>这是中尺寸的模态框内容</template>
+    <template #header> The important modal header </template>
+    <template #body> The modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.medium = false">关闭</btn>
+      <btn @click="modal.medium = false">Dismiss!</btn>
     </template>
   </Modal>
   <Modal v-model:active="modal.large" size="lg">
-    <template #header>大尺寸模态框</template>
-    <template #body>这是大尺寸的模态框内容</template>
+    <template #header> The important modal header </template>
+    <template #body> The modal body</template>
     <template #footer="footerProps">
-      <btn @click="modal.large = false">关闭</btn>
+      <btn @click="modal.large = false">Dismiss!</btn>
     </template>
   </Modal>
 </div>
 
 ```vue
-<template>
-  <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.small = true">小尺寸 (sm)</btn>
-    <btn @click="modal.medium = true">中尺寸 (md)</btn>
-    <btn @click="modal.large = true">大尺寸 (lg)</btn>
-    <Modal v-model:active="modal.small">
-      <template #header>小尺寸模态框</template>
-      <template #body>这是小尺寸的模态框内容</template>
-      <template #footer="footerProps">
-        <btn @click="modal.small = false">关闭</btn>
-      </template>
-    </Modal>
-    <Modal v-model:active="modal.medium" size="md">
-      <template #header>中尺寸模态框</template>
-      <template #body>这是中尺寸的模态框内容</template>
-      <template #footer="footerProps">
-        <btn @click="modal.medium = false">关闭</btn>
-      </template>
-    </Modal>
-    <Modal v-model:active="modal.large" size="lg">
-      <template #header>大尺寸模态框</template>
-      <template #body>这是大尺寸的模态框内容</template>
-      <template #footer="footerProps">
-        <btn @click="modal.large = false">关闭</btn>
-      </template>
-    </Modal>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref } from "vue"
+import Modal from '../Modal.vue'
 
 const modal = ref({
   small: false,
@@ -160,186 +132,216 @@ const modal = ref({
   large: false
 })
 </script>
+
+<template>
+  <div class="flex flex-wrap items-center gap-3">
+    <btn @click="modal.small = true">Modal sm</btn>
+    <btn @click="modal.medium = true">Modal md</btn>
+    <btn @click="modal.large = true">Modal lg</btn>
+    <Modal v-model:active="modal.small">
+      <template #header> The important modal header </template>
+      <template #body> The modal body </template>
+      <template #footer="footerProps">
+        <btn @click="modal.small = false">Dismiss!</btn>
+      </template>
+    </Modal>
+    <Modal v-model:active="modal.medium" size="md">
+      <template #header> The important modal header </template>
+      <template #body> The modal body </template>
+      <template #footer="footerProps">
+        <btn @click="modal.medium = false">Dismiss!</btn>
+      </template>
+    </Modal>
+    <Modal v-model:active="modal.large" size="lg">
+      <template #header> The important modal header </template>
+      <template #body> The modal body</template>
+      <template #footer="footerProps">
+        <btn @click="modal.large = false">Dismiss!</btn>
+      </template>
+    </Modal>
+  </div>
+</template>
 ```
 
 ### 关闭按钮
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.closeBtn = true">带关闭按钮</btn>
-  <Modal v-model:active="modal.closeBtn" closeBtn>
-    <template #header>带关闭按钮的模态框</template>
-    <template #body>这个模态框右上角有关闭按钮</template>
+  <btn @click="modal.closeBtn = true">Close btn</btn>
+  <Modal v-model:active="modal.closeBtn" close-btn>
+    <template #header> The important modal header </template>
+    <template #body> The modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.closeBtn = false">确定</btn>
+      <btn @click="modal.closeBtn = false">Dismiss!</btn>
     </template>
   </Modal>
 </div>
 
 ```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import Modal from '../Modal.vue'
+
+const modal = ref({
+  closeBtn: false,
+});
+</script>
+
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.closeBtn = true">带关闭按钮</btn>
-    <Modal v-model:active="modal.closeBtn" closeBtn>
-      <template #header>带关闭按钮的模态框</template>
-      <template #body>这个模态框右上角有关闭按钮</template>
+    <btn @click="modal.closeBtn = true">Close btn</btn>
+    <Modal v-model:active="modal.closeBtn" close-btn>
+      <template #header> The important modal header </template>
+      <template #body> The modal body </template>
       <template #footer="footerProps">
-        <btn @click="modal.closeBtn = false">确定</btn>
+        <btn @click="modal.closeBtn = false">Dismiss!</btn>
       </template>
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const modal = ref({
-  closeBtn: false
-})
-</script>
 ```
 
 ### 无背景遮罩
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.noBackdrop = true">无背景遮罩</btn>
-  <Modal v-model:active="modal.noBackdrop" :backdrop="false">
-    <template #header>无背景遮罩模态框</template>
-    <template #body>这个模态框没有背景遮罩</template>
+  <btn @click="modal.noBackdrop = true">No backdrop</btn>
+  <Modal v-model:active="modal.noBackdrop" :outside="false" :backdrop="false">
+    <template #header> The important modal header </template>
+    <template #body> The noBackdrop modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.noBackdrop = false">关闭</btn>
+      <btn @click="modal.noBackdrop = false">Dismiss!</btn>
     </template>
   </Modal>
 </div>
 
 ```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import Modal from '../Modal.vue'
+
+const modal = ref({
+  noBackdrop: false,
+});
+</script>
+
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.noBackdrop = true">无背景遮罩</btn>
-    <Modal v-model:active="modal.noBackdrop" :backdrop="false">
-      <template #header>无背景遮罩模态框</template>
-      <template #body>这个模态框没有背景遮罩</template>
+    <btn @click="modal.noBackdrop = true">No backdrop</btn>
+    <Modal v-model:active="modal.noBackdrop" :outside="false" :backdrop="false">
+      <template #header> The important modal header </template>
+      <template #body> The noBackdrop modal body </template>
       <template #footer="footerProps">
-        <btn @click="modal.noBackdrop = false">关闭</btn>
+        <btn @click="modal.noBackdrop = false">Dismiss!</btn>
       </template>
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const modal = ref({
-  noBackdrop: false
-})
-</script>
 ```
 
 ### 禁止点击外部关闭
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.noOutside = true">禁止外部点击关闭</btn>
+  <btn @click="modal.noOutside = true">No outside</btn>
   <Modal v-model:active="modal.noOutside" :outside="false">
-    <template #header>禁止外部点击关闭</template>
-    <template #body>这个模态框不能通过点击外部区域关闭</template>
+    <template #header> The important modal header </template>
+    <template #body> The noOutside modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.noOutside = false">关闭</btn>
+      <btn @click="modal.noOutside = false">Dismiss!</btn>
     </template>
   </Modal>
 </div>
 
 ```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import Modal from '../Modal.vue'
+
+const modal = ref({
+  noOutside: false,
+});
+</script>
+
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.noOutside = true">禁止外部点击关闭</btn>
+    <btn @click="modal.noOutside = true">No outside</btn>
     <Modal v-model:active="modal.noOutside" :outside="false">
-      <template #header>禁止外部点击关闭</template>
-      <template #body>这个模态框不能通过点击外部区域关闭</template>
+      <template #header> The important modal header </template>
+      <template #body> The noOutside modal body </template>
       <template #footer="footerProps">
-        <btn @click="modal.noOutside = false">关闭</btn>
+        <btn @click="modal.noOutside = false">Dismiss!</btn>
       </template>
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const modal = ref({
-  noOutside: false
-})
-</script>
 ```
 
 ### 无头模态框（Headless）
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.headless = true">无头模态框</btn>
+  <btn @click="modal.headless = true">Headless</btn>
   <Modal v-model:active="modal.headless">
     <div class="bg-primary-200 px-6 py-14 text-center">
-      <div class="text-2xl font-bold text-white">自定义模态框</div>
-      <p class="text-white mt-2">完全自定义的模态框内容</p>
-      <btn @click="modal.headless = false" class="mt-4">关闭</btn>
+      <div class="text-2xl font-bold text-white">My own modal</div>
     </div>
   </Modal>
 </div>
 
 ```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import Modal from '../Modal.vue'
+
+const modal = ref({
+  headless: false,
+});
+</script>
+
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.headless = true">无头模态框</btn>
+    <btn @click="modal.headless = true">Headless</btn>
     <Modal v-model:active="modal.headless">
       <div class="bg-primary-200 px-6 py-14 text-center">
-        <div class="text-2xl font-bold text-white">自定义模态框</div>
-        <p class="text-white mt-2">完全自定义的模态框内容</p>
-        <btn @click="modal.headless = false" class="mt-4">关闭</btn>
+        <div class="text-2xl font-bold text-white">My own modal</div>
       </div>
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const modal = ref({
-  headless: false
-})
-</script>
 ```
 
 ### 背景模糊效果
 
 <div class="flex flex-wrap items-center gap-3">
-  <btn @click="modal.backdropBlur = true">背景模糊</btn>
-  <Modal v-model:active="modal.backdropBlur">
-    <template #header>背景模糊模态框</template>
-    <template #body>这个模态框有背景模糊效果</template>
+  <btn @click="modal.backdropBlur = true">Backdrop blur</btn>
+  <Modal v-model:active="modal.backdropBlur" backdrop-class="backdrop-brightness-60 backdrop-blur-1">
+    <template #header> The important modal header </template>
+    <template #body> The backdrop blur modal body </template>
     <template #footer="footerProps">
-      <btn @click="modal.backdropBlur = false">关闭</btn>
+      <btn @click="modal.backdropBlur = false">Dismiss!</btn>
     </template>
   </Modal>
 </div>
 
 ```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import Modal from '../Modal.vue'
+
+const modal = ref({
+  backdropBlur: false,
+});
+</script>
+
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <btn @click="modal.backdropBlur = true">背景模糊</btn>
-    <Modal v-model:active="modal.backdropBlur">
-      <template #header>背景模糊模态框</template>
-      <template #body>这个模态框有背景模糊效果</template>
+    <btn @click="modal.backdropBlur = true">Backdrop blur</btn>
+    <Modal v-model:active="modal.backdropBlur" backdrop-class="backdrop-brightness-60 backdrop-blur-1">
+      <template #header> The important modal header </template>
+      <template #body> The backdrop blur modal body </template>
       <template #footer="footerProps">
-        <btn @click="modal.backdropBlur = false">关闭</btn>
+        <btn @click="modal.backdropBlur = false">Dismiss!</btn>
       </template>
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const modal = ref({
-  backdropBlur: false
-})
-</script>
 ```
 
 ### 圆角样式

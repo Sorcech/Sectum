@@ -1,7 +1,7 @@
 {
-  "name": "Sectum",
+  "name": "rotor",
   "version": "0.0.1",
-  "description": "Sectum BAND WEB STATION",
+  "description": "ROTOR BAND WEB STATION",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5000 --open",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "sectum": "0.1.18",
+    "sectum": "0.2.4",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
     "vue-router": "^4.5.1",

@@ -46,28 +46,37 @@ export function sectumIconLoader(projectRoot?: string): Plugin {
   
   return {
     name: 'sectum-icon-loader',
+    enforce: 'pre', // 确保在其他插件之前执行
     // 开发服务器：拦截 /icon.js 请求
     configureServer(server) {
-      server.middlewares.use(async (req, res, next) => {
-        if (req.url === '/icon.js') {
-          try {
-            const { readFileSync, existsSync, resolve } = await initNodeModules()
-            const root = projectRoot || process.cwd()
-            const iconPath = resolve(root, 'node_modules/sectum/lib/icon.js')
-            
-            if (existsSync(iconPath)) {
-              const content = readFileSync(iconPath, 'utf-8')
-              res.setHeader('Content-Type', 'application/javascript')
-              res.setHeader('Cache-Control', 'public, max-age=31536000')
-              res.end(content)
-              return
+      // 使用 configureServer 的返回函数，在内部中间件之前执行
+      return () => {
+        server.middlewares.use(async (req, res, next) => {
+          // 处理带查询参数的 URL（如 /icon.js?v=xxx）
+          const url = req.url?.split('?')[0]
+          if (url === '/icon.js') {
+            try {
+              const { readFileSync, existsSync, resolve } = await initNodeModules()
+              const root = projectRoot || process.cwd()
+              const iconPath = resolve(root, 'node_modules/sectum/lib/icon.js')
+              
+              if (existsSync(iconPath)) {
+                const content = readFileSync(iconPath, 'utf-8')
+                res.setHeader('Content-Type', 'application/javascript')
+                res.setHeader('Cache-Control', 'public, max-age=31536000')
+                res.statusCode = 200
+                res.end(content)
+                return
+              } else {
+                console.error('[sectum-icon-loader] icon.js not found at:', iconPath)
+              }
+            } catch (error) {
+              console.error('[sectum-icon-loader] Failed to read icon.js:', error)
             }
-          } catch (error) {
-            console.error('[sectum-icon-loader] Failed to read icon.js:', error)
           }
-        }
-        next()
-      })
+          next()
+        })
+      }
     },
     // 构建时：复制到 dist 目录
     async writeBundle(options) {

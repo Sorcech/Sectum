@@ -62,14 +62,29 @@
         <component :is="props.themeComponent" v-if="props.themeComponent" />
         <component :is="props.darkComponent" v-if="props.darkComponent" />
         <component :is="props.languageComponent" v-if="props.languageComponent" />
-        <btn v-if="props.userLink" clean class="transition-colors duration-200">
-          <a v-if="isExternalLink(props.userLink)" :href="props.userLink" target="_blank" rel="noopener noreferrer" class="inline-flex items-center group">
-            <icn :name="props.userIcon || 'user'" :brand="props.userIconBrand || false" :light="props.userIconLight !== false && !props.userIconBrand" xl class="text-base-content group-hover:text-primary transition-colors duration-200"></icn>
-          </a>
-          <RouterLink v-else :to="props.userLink" class="inline-flex items-center group">
-            <icn :name="props.userIcon || 'user'" :brand="props.userIconBrand || false" :light="props.userIconLight !== false && !props.userIconBrand" xl class="text-base-content group-hover:text-primary transition-colors duration-200"></icn>
-          </RouterLink>
-        </btn>
+        <!-- 图标按钮：支持多个图标按钮 -->
+        <template v-for="(iconBtn, index) in iconButtons" :key="index">
+          <btn v-if="iconBtn.link" clean class="transition-colors duration-200">
+            <a v-if="isExternalLink(iconBtn.link)" :href="iconBtn.link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center group">
+              <icn 
+                :name="iconBtn.icon || 'user'" 
+                :light="iconBtn.light || false"
+                :brand="iconBtn.brand || false"
+                xl 
+                class="text-base-content group-hover:text-primary transition-colors duration-200"
+              ></icn>
+            </a>
+            <RouterLink v-else :to="iconBtn.link" class="inline-flex items-center group">
+              <icn 
+                :name="iconBtn.icon || 'user'" 
+                :light="iconBtn.light || false"
+                :brand="iconBtn.brand || false"
+                xl 
+                class="text-base-content group-hover:text-primary transition-colors duration-200"
+              ></icn>
+            </RouterLink>
+          </btn>
+        </template>
       </div>
     </div>
   </nav>
@@ -84,6 +99,14 @@ export interface NavItem {
   path: string    // 路由路径或外部链接
 }
 
+// 图标按钮配置类型定义
+export interface IconButton {
+  link: string  // 链接地址，支持内部路由或外部链接
+  icon?: string  // 图标名称，默认 'user'
+  light?: boolean  // 图标样式是否为 light，默认 false
+  brand?: boolean  // 图标样式是否为 brand（品牌图标），默认 false
+}
+
 // Props 定义
 const props = withDefaults(defineProps<{
   projectName?: string
@@ -91,10 +114,15 @@ const props = withDefaults(defineProps<{
   themeComponent?: any
   darkComponent?: any
   languageComponent?: any
-  userLink?: string
+  iconButtons?: IconButton[]  // 图标按钮配置数组，支持多个图标按钮
+  // 向后兼容的旧属性（如果提供了 iconButtons，这些属性会被忽略）
+  userLink?: string  // 用户链接，如果提供则显示用户按钮
   userIcon?: string  // 用户图标名称，默认 'user'
   userIconLight?: boolean  // 图标样式是否为 light，默认 true
   userIconBrand?: boolean  // 图标样式是否为 brand（品牌图标），默认 false
+  githubLink?: string  // GitHub 链接，如果提供则显示 GitHub 按钮
+  githubIcon?: string  // GitHub 图标名称，默认 'github'
+  githubIconBrand?: boolean  // GitHub 图标样式是否为 brand（品牌图标），默认 true
   backgroundOpacity?: number  // 背景透明度，范围 0-1，默认 1（完全不透明）
   navItems?: NavItem[]  // 导航菜单项数组，支持通过配置文件导入
   routes?: any[]  // 路由配置，如果提供，将从路由中提取导航项（可选）
@@ -159,6 +187,39 @@ const navItems = computed<NavItem[]>(() => {
   }
   
   return []
+})
+
+// 合并图标按钮配置：优先使用 iconButtons，如果没有则从旧属性构建
+const iconButtons = computed<IconButton[]>(() => {
+  // 如果提供了 iconButtons，直接使用
+  if (props.iconButtons && props.iconButtons.length > 0) {
+    return props.iconButtons
+  }
+  
+  // 否则从旧属性构建
+  const buttons: IconButton[] = []
+  
+  // User 按钮
+  if (props.userLink) {
+    buttons.push({
+      link: props.userLink,
+      icon: props.userIcon || 'user',
+      light: props.userIconLight !== false,  // 默认 true
+      brand: props.userIconBrand || false
+    })
+  }
+  
+  // GitHub 按钮
+  if (props.githubLink) {
+    buttons.push({
+      link: props.githubLink,
+      icon: props.githubIcon || 'github',
+      light: false,
+      brand: props.githubIconBrand !== false  // 默认 true
+    })
+  }
+  
+  return buttons
 })
 
 // 判断导航项是否激活（当前路由匹配）

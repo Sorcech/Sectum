@@ -13,6 +13,7 @@ const props = defineProps({
     type: String, required: false,
     validator: (value: string) => { return ['sm', 'md', 'lg'].includes(value) },
   },
+  backdropClass: { type: String, required: false }, // custom backdrop class
 })
 
 const emits = defineEmits(['update:active', 'close'])
@@ -86,7 +87,14 @@ const clickOutside = () => {
 </script>
 
 <template>
-  <bkd :show="active" blur @click="clickOutside" />
+  <msk v-if="backdrop && !backdropClass" :show="active" blur @click="clickOutside" />
+  <tst v-if="backdrop && backdropClass" name="bloom">
+    <div v-show="active" 
+      class="fixed inset-0 z-10 flex place-content-center h-screen backdrop-filter items-center"
+      :class="backdropClass"
+      @click="clickOutside">
+    </div>
+  </tst>
   <tst name="bloom">
     <div v-if="active" :class="modalClasses">
       <div :class="headerClasses">

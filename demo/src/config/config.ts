@@ -5,101 +5,69 @@
 
 // 轮播图单页配置类型
 export interface CarouselSlide {
-  // 图片链接
-  image: string
-  // 标题（支持国际化 key）
-  title: string
-  // 描述（支持国际化 key）
-  description: string
-  // 链接（可选）
-  link: string | null
+  image: string  // 图片链接
+  title: string  // 标题（支持国际化 key）
+  description: string  // 描述（支持国际化 key）
+  link: string | null  // 链接（可选）
 }
 
 // 轮播图配置类型
 export interface CarouselConfig {
-  // 是否自动播放
-  autoplay: boolean
-  // 自动播放间隔（毫秒）
-  interval: number
-  // 鼠标悬停时是否暂停
-  pauseOnHover: boolean
-  // 轮播图高度
-  height: string
-  // 轮播图数据
-  slides: CarouselSlide[]
+  autoplay: boolean  // 是否自动播放
+  interval: number  // 自动播放间隔（毫秒）
+  pauseOnHover: boolean  // 鼠标悬停时是否暂停
+  height: string  // 轮播图高度
+  slides: CarouselSlide[]  // 轮播图数据
 }
 
 // 项目基本信息类型
 export interface ProjectInfo {
-  // 项目名称
-  name: string
-  // 项目描述
-  description: string
-  // 项目版本
-  version: string
+  name: string  // 项目名称
+  description: string  // 项目描述
+  version: string  // 项目版本
 }
 
 // 页脚配置类型
 export interface FooterConfig {
-  // 版权持有者
-  copyrightHolder: string
-  // ICP 备案号
-  icpNumber: string
-  // 额外信息
-  additionalInfo: string
+  copyrightHolder: string  // 版权持有者
+  icpNumber: string  // ICP 备案号
+  additionalInfo: string  // 额外信息
 }
 
 // 用户配置类型
 export interface UserConfig {
-  // 用户中心链接
-  profileLink: string
+  profileLink: string  // 用户中心链接
 }
 
 // 完整配置类型
 export interface AppConfig {
-  // 项目基本信息
-  project: ProjectInfo
-  // 轮播图配置
-  carousel: CarouselConfig
-  // 页脚配置
-  footer: FooterConfig
-  // 用户链接
-  user: UserConfig
+  project: ProjectInfo  // 项目基本信息
+  carousel: CarouselConfig  // 轮播图配置
+  footer: FooterConfig  // 页脚配置
+  user: UserConfig  // 用户链接
 }
 
 // 配置文件
 const config: AppConfig = {
   // 项目基本信息
-  project: {
-    // 项目名称
-    name: 'ROTOЯ',
-    // 项目描述
-    description: 'Sectum BAND WEB STATION',
-    // 项目版本
-    version: '0.0.1'
+  project: { 
+    name: 'Sectum', // 项目名称
+    description: 'Sectum BAND WEB STATION', // 项目描述
+    version: '0.0.1' // 项目版本
   },
 
   // 轮播图配置
   carousel: {
-    // 是否自动播放
-    autoplay: true,
-    // 自动播放间隔（毫秒）
-    interval: 5000,
-    // 鼠标悬停时是否暂停
-    pauseOnHover: true,
-    // 轮播图高度
-    height: '600px',
-    // 轮播图数据
+    autoplay: true, // 是否自动播放
+    interval: 5000, // 自动播放间隔（毫秒）
+    pauseOnHover: true, // 鼠标悬停时是否暂停
+    height: '600px', // 轮播图高度
     slides: [
       {
-        // 图片链接
-        image: 'https://via.placeholder.com/1920x600/4A90E2/FFFFFF?text=Banner+1',
-        // 标题（支持国际化 key）
-        title: 'home.hero1.title',
-        // 描述（支持国际化 key）
-        description: 'home.hero1.description',
-        // 链接（可选）
-        link: null
+        image: 'https://via.placeholder.com/1920x600/4A90E2/FFFFFF?text=Banner+1', // 图片链接
+        title: 'home.hero1.title', // 标题（支持国际化 key）
+        description: 'home.hero1.description', // 描述（支持国际化 key）
+        link: null // 链接（可选）
       },
       {
         image: 'https://via.placeholder.com/1920x600/E74C3C/FFFFFF?text=Banner+2',
@@ -118,18 +86,14 @@ const config: AppConfig = {
 
   // 页脚配置
   footer: {
-    // 版权持有者
-    copyrightHolder: 'ROTOЯ',
-    // ICP 备案号
-    icpNumber: '京ICP备XXXXXXXX号',
-    // 额外信息
-    additionalInfo: '京ICP备XXXXXXXX号'
+    copyrightHolder: 'Sectum', // 版权持有者
+    icpNumber: '京ICP备XXXXXXXX号', // ICP 备案号
+    additionalInfo: '京ICP备XXXXXXXX号' // 额外信息
   },
 
   // 用户链接
   user: {
-    // 用户中心链接
-    profileLink: '/profile'
+    profileLink: '/profile' // 用户中心链接
   }
 }
 

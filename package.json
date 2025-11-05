@@ -3,7 +3,7 @@
   "type": "module",
   "sideEffects": false,
   "private": false,
-  "version": "0.2.0",
+  "version": "0.2.5",
   "description": "A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts",
   "keywords": [
     "vue3",
@@ -31,7 +31,11 @@
       "require": "./lib/sectum.umd.js"
     },
     "./lib/style.css": "./lib/sectum.css",
-    "./lib/uno.config.ts": "./lib/uno.config.ts"
+    "./lib/uno.config.ts": "./lib/uno.config.ts",
+    "./lib/packet/Element/Excel/Excel": {
+      "types": "./lib/packet/Element/Excel/Excel.d.ts",
+      "import": "./lib/packet/Element/Excel/Excel.js"
+    }
   },
   "files": [
     "lib",
@@ -42,23 +46,23 @@
     "uno": "./lib/uno.config.ts"
   },
   "scripts": {
-    "dev": "vite --port 3000 --open",
-    "dev:http": "vite --host localhost --port 3000",
-    "dev:https": "cross-env VITE_HTTPS=true vite --host localhost --port 3000",
-    "dev:secure": "vite --https --host localhost --port 3000",
+    "dev": "vite --port 8000 --open",
+    "dev:http": "vite --host localhost --port 8000",
+    "dev:https": "cross-env VITE_HTTPS=true vite --host localhost --port 8000",
+    "dev:secure": "vite --https --host localhost --port 8000",
     "build": "rimraf dist && vite build",
     "build:lib": "rimraf lib && vite build --mode library",
     "build:site": "rimraf dist && vite build --mode production",
     "preview": "vite preview",
     "preview:site": "vite preview dist",
     "prepublishOnly": "npm run build:lib",
-    "version:update-readme": "node script/update-version.js",
+    "version:upgrade": "node script/upgrade.js",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
     "version:major": "npm version major --no-git-tag-version",
-    "publish:patch": "npm run version:patch && npm run version:update-readme && npm publish",
-    "publish:minor": "npm run version:minor && npm run version:update-readme && npm publish",
-    "publish:major": "npm run version:major && npm run version:update-readme && npm publish"
+    "publish:patch": "npm run version:patch && npm run version:upgrade && npm publish",
+    "publish:minor": "npm run version:minor && npm run version:upgrade && npm publish",
+    "publish:major": "npm run version:major && npm run version:upgrade && npm publish"
   },
   "_scripts_comments": {
     "dev": "启动开发服务器,端口 3000,自动打开浏览器",
@@ -71,7 +75,7 @@
     "preview": "预览构建后的文件(默认 dist 目录)",
     "preview:site": "预览构建后的网页版本(dist 目录)",
     "prepublishOnly": "npm publish 前自动执行的钩子,确保发布前构建组件库",
-    "version:update-readme": "自动更新 README.md 中的版本号徽章",
+    "version:upgrade": "自动更新 README.md 和组件文档中的版本号徽章",
     "version:patch": "仅更新 package.json 版本号(补丁版本, 不创建 git commit 和 tag)",
     "version:minor": "仅更新 package.json 版本号(次要版本, 不创建 git commit 和 tag)",
     "version:major": "仅更新 package.json 版本号(主要版本, 不创建 git commit 和 tag)",

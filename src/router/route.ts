@@ -5,6 +5,11 @@ const route = [
       meta: { title: 'Index' },
     },
     {
+      path: '/profile',
+      component: () => import('~/view/index.vue'),
+      meta: { title: 'Profile' },
+    },
+    {
       path: '/sectum',
       component: () => import('~/view/index.vue'),
       children: [

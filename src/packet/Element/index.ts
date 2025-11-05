@@ -13,6 +13,8 @@ import Palette from './Color/Palette.vue'
 import Message from './Message/Message'
 import Code from './Code/Code.vue'
 
+// 导出 Excel 工具函数
+export { exportExcel } from './Excel/Excel'
 
 // 导出所有组件
 export {

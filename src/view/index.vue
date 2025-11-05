@@ -7,9 +7,7 @@
         :theme-component="Theme"
         :dark-component="DarkToggle"
         :language-component="Language"
-        user-link="https://github.com/Sorcech/Sectum"
-        user-icon="github"
-        :user-icon-brand="true"
+        :icon-buttons="iconButtons"
         :background-opacity="0.25"
       />
     </div>
@@ -37,7 +35,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Header from '~/packet/Layout/Header/Header.vue'
+import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
 import Sidebar from '~/packet/Layout/Sidebar/Sidebar.vue'
 import HomePage from './HomePage.vue'
 import HomeExample from './HomeExample.vue'
@@ -70,4 +68,20 @@ const bgClass = computed(() => {
 const contentClass = computed(() => {
   return isHomePage.value ? 'px-8 lg:px-36 pt-25' : ''
 })
+
+// 图标按钮配置
+const iconButtons: IconButton[] = [
+  {
+    link: '/profile',
+    icon: 'user',
+    light: true,
+    brand: false
+  },
+  {
+    link: 'https://github.com/Sorcech/Sectum',
+    icon: 'github',
+    light: false,
+    brand: true
+  }
+]
 </script>

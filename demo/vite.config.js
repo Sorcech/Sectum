@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(UnoConfig),
-    // 自动将 /icon.js 链接到 node_modules/sectum/lib/icon.js
-    sectumIconLoader()
+    sectumIconLoader(), // 必须在最前面，确保优先执行
   ]
 })
