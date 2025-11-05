@@ -216,6 +216,11 @@ const route = [
               path: '/sectum/toolbar',
               component: () => import('~/packet/Layout/Toolbar/Toolbar.md'),
               meta: { title: 'Toolbar' },
+            },
+            {
+              path: '/sectum/menual',
+              component: () => import('~/packet/Layout/Menual/Menual.md'),
+              meta: { title: 'Menual' },
             }
           ]
         }

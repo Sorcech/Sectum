@@ -12,47 +12,35 @@
       />
     </div>
     <div class="flex flex-col min-h-0 flex-1 bg-base-300">
-      <div class="flex flex-1 min-h-0">
-        <Sidebar :routes="routeConfig" :on-navigate="handleNavigate" />
-        <main class="flex-1 min-w-0 lg:ml-10">
-          <div class="flex flex-col h-full min-h-0 overflow-y-auto" :class="contentClass">
-            <!-- 首页内容 -->
-            <template v-if="isHomePage">
-              <HomePage />
-              <HomeExample />
-              <Footer />
-            </template>
-            <!-- 文档页面内容 -->
-            <template v-else>
-              <Menual />
-            </template>
-          </div>
-        </main>
-    </div>
+      <!-- 首页内容 -->
+      <template v-if="isHomePage">
+        <div class="flex flex-col h-full min-h-0 overflow-y-auto" :class="contentClass">
+          <HomePage />
+          <HomeExample />
+          <Footer />
+        </div>
+      </template>
+      <!-- 文档页面内容（包含 Sidebar） -->
+      <template v-else>
+        <Menual :routes="routeConfig" />
+      </template>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
-import Sidebar from '~/packet/Layout/Sidebar/Sidebar.vue'
 import HomePage from './HomePage.vue'
 import HomeExample from './HomeExample.vue'
 import Footer from '~/packet/Layout/Footer/Footer.vue'
-import Menual from './menual.vue'
+import Menual from '~/packet/Layout/Menual/Menual.vue'
 import Theme from '~/packet/Pattern/Theme/Theme.vue'
 import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 import Language from '~/packet/Pattern/Language/Language.vue'
 import routeConfig from '~/router/route'
 
 const route = useRoute()
-const router = useRouter()
-
-// 路由跳转处理函数
-const handleNavigate = (path: string) => {
-  router.push(path)
-}
 
 // 判断是否为首页
 const isHomePage = computed(() => {

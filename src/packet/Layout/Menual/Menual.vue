@@ -1,22 +1,43 @@
 <template>
-    <KeepAlive :max="10">
-      <component :is="currentComponent" v-if="currentComponent" :key="route.path" />
-      <div v-else style="padding: 20px;">
-        <p>组件未找到</p>
-        <p>当前路径: {{ route.path }}</p>
+  <div class="flex flex-1 min-h-0">
+    <Sidebar v-if="routes" :routes="routes" :on-navigate="handleNavigate" />
+    <main class="flex-1 min-w-0 lg:ml-10">
+      <div class="flex flex-col h-full min-h-0 overflow-y-auto">
+        <KeepAlive :max="10">
+          <component :is="currentComponent" v-if="currentComponent" :key="route.path" />
+          <div v-else style="padding: 20px;">
+            <p>组件未找到</p>
+            <p>当前路径: {{ route.path }}</p>
+          </div>
+        </KeepAlive>
       </div>
-    </KeepAlive>
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent, KeepAlive } from 'vue'
-import { useRoute } from 'vue-router'
-import routeConfig from '~/router/route'
+import { useRoute, useRouter } from 'vue-router'
+import Sidebar from '~/packet/Layout/Sidebar/Sidebar.vue'
 
 // KeepAlive 在模板中使用
 void KeepAlive
 
+interface Props {
+  routes?: any[]
+}
+
+const props = defineProps<Props>()
 const route = useRoute()
+const router = useRouter()
+
+// 使用传入的 routes 或默认的 routeConfig
+const routes = computed(() => props.routes )
+
+// 路由跳转处理函数
+const handleNavigate = (path: string) => {
+  router.push(path)
+}
 
 // 递归查找路由配置中的组件
 const findRouteComponent = (routes: any[], targetPath: string): (() => Promise<any>) | null => {
@@ -44,7 +65,12 @@ const currentComponent = computed(() => {
     return componentCache.get(path)
   }
   
-  const componentFn = findRouteComponent(routeConfig, path)
+  // 检查 routes 是否存在
+  if (!routes.value) {
+    return null
+  }
+  
+  const componentFn = findRouteComponent(routes.value, path)
   
   if (componentFn) {
     const component = defineAsyncComponent({

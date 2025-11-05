@@ -9,12 +9,44 @@ import UnoCSS from 'unocss/vite'
 import { autoWrapPlugin } from './src/packet/Pattern/Markdown/Markdown'
 import { codePlugin } from './src/packet/Element/Code/Code'
 import { resolve as pathResolve } from 'node:path'
-import { copyFileSync, existsSync } from 'node:fs'
+import { copyFileSync, existsSync, readFileSync } from 'node:fs'
+import type { Plugin } from 'vite'
 import { UnoConfig } from './src/packet/Config'
 import dts from 'vite-plugin-dts'
 
 // 获取当前文件的目录路径（ES 模块中的 __dirname 替代方案）
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// 开发环境服务 icon.js 的插件
+const iconServerPlugin = (): Plugin => {
+  return {
+    name: 'icon-server',
+    enforce: 'pre', // 确保在其他插件之前执行
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url?.split('?')[0]
+        if (url === '/icon.js') {
+          try {
+            const iconPath = pathResolve(__dirname, 'src/packet/Element/Icon/icon.js')
+            if (existsSync(iconPath)) {
+              const content = readFileSync(iconPath, 'utf-8')
+              res.setHeader('Content-Type', 'application/javascript')
+              res.setHeader('Cache-Control', 'public, max-age=31536000')
+              res.statusCode = 200
+              res.end(content)
+              return
+            } else {
+              console.error('[icon-server] icon.js not found at:', iconPath)
+            }
+          } catch (error) {
+            console.error('[icon-server] Failed to serve icon.js:', error)
+          }
+        }
+        next()
+      })
+    }
+  }
+}
 
 export default defineConfig(({ mode }) => {
   // 根据环境变量决定是否使用HTTPS
@@ -92,16 +124,10 @@ export default defineConfig(({ mode }) => {
         sourcemap: true,
         minify: 'terser'
       },
-      resolve: {
-        alias: {
-          '~/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`,
-        },
-      },
+      resolve: {alias: {'~/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`}},
       plugins: [
         UnoCSS({ configFile: false, ...UnoConfig } as any),
-        VuePlugin({
-          include: [/\.vue$/],
-        }),
+        VuePlugin({include: [/\.vue$/]}),
         // 生成 TypeScript 类型声明文件
         dts({
           outDir: 'lib',
@@ -116,9 +142,7 @@ export default defineConfig(({ mode }) => {
           logLevel: 'info',  // 日志级别：'silent' | 'error' | 'warn' | 'info'
           compilerOptions: {
             baseUrl: '.',
-            paths: {
-              '~/*': ['src/*']
-            }
+            paths: {'~/*': ['src/*']},
           }
         }),
         // 复制配置文件和 icon.js 到 lib 目录
@@ -130,9 +154,8 @@ export default defineConfig(({ mode }) => {
             if (existsSync(configSource)) {
               copyFileSync(configSource, configDest)
             }
-            
             // 复制 icon.js 到 lib 目录
-            const iconSource = 'public/icon.js'
+            const iconSource = 'src/packet/Element/Icon/icon.js'
             const iconDest = 'lib/icon.js'
             if (existsSync(iconSource)) {
               copyFileSync(iconSource, iconDest)
@@ -232,6 +255,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
+      iconServerPlugin(), // 开发环境服务 icon.js
       UnoCSS({ configFile: false, ...UnoConfig } as any), // UnoCSS插件，使用配置
       autoWrapPlugin(), // 自动包装Markdown文件
       VuePlugin({
@@ -283,7 +307,19 @@ export default defineConfig(({ mode }) => {
       Components({
         resolvers: [ElementPlusResolver()],
         include: [/\.vue$/, /\.vue\?vue/],
-      })
+      }),
+      // 构建时复制 icon.js 到 dist 目录
+      {
+        name: 'copy-icon',
+        writeBundle() {
+          const iconSource = pathResolve(__dirname, 'src/packet/Element/Icon/icon.js')
+          const iconDest = pathResolve(__dirname, 'dist/icon.js')
+          if (existsSync(iconSource)) {
+            copyFileSync(iconSource, iconDest)
+            console.log('[copy-icon] ✓ Copied icon.js to dist/')
+          }
+        }
+      }
     ],
   }
 })

@@ -130,18 +130,17 @@ const iconClasses = computed(() => {
   
   // 动画类
   if (props.beat || props.bounce) classes.push('animate-bounce')
-  else if (props.fade) classes.push('opacity-50')
+  else if (props.fade) {
+    // 如果用户没有自定义透明度，才使用 fade 动画的默认 opacity-50
+    if (props.opacity === 1) {
+      classes.push('opacity-50')
+    }
+  }
   else if (props.beatfade) classes.push('animate-pulse')
   else if (props.flip) classes.push('transform rotate-180')
   else if (props.shake) classes.push('animate-pulse')
   else if (props.spin) classes.push('animate-spin')
   else if (props.spinpulse) classes.push('animate-pulse')
-  
-  // 透明度类
-  if (props.opacity !== 1) {
-    const opacityClass = `opacity-${Math.round(props.opacity * 100)}`
-    classes.push(opacityClass)
-  }
   
   return classes
 })
@@ -152,6 +151,12 @@ const customStyles = computed(() => {
   
   if (props.customColor) {
     styles.color = props.customColor
+  }
+  
+  // 透明度通过内联样式应用，确保所有值都能生效
+  // 内联样式的优先级高于 CSS 类，所以即使用户同时设置了 fade 动画，opacity 属性也会生效
+  if (props.opacity !== 1) {
+    styles.opacity = props.opacity.toString()
   }
   
   return styles

@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "sectum": "0.2.4",
+    "sectum": "0.2.5",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
     "vue-router": "^4.5.1",
