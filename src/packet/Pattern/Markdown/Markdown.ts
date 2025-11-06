@@ -1,5 +1,14 @@
 import type { Plugin } from 'vite'
 
+// 目录项接口定义
+// 用于 Markdown 组件中目录数据的类型定义
+export interface TocItem {
+  level: number
+  title: string
+  slug: string
+  children?: TocItem[]
+}
+
 export function autoWrapPlugin(): Plugin {
   return {
     name: 'auto-wrap-markdown',

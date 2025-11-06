@@ -38,7 +38,7 @@ import Menual from '~/packet/Layout/Menual/Menual.vue'
 import Theme from '~/packet/Pattern/Theme/Theme.vue'
 import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 import Language from '~/packet/Pattern/Language/Language.vue'
-import routeConfig from '~/router/route'
+import routeConfig from '~/router/SectumRoute'
 
 const route = useRoute()
 

@@ -3,7 +3,7 @@ import Theme from './Theme/Theme.vue'
 import Language from './Language/Language.vue'
 import DarkToggle from './Dark/DarkToggle.vue'
 import Markdown from './Markdown/Markdown.vue'
-import Catalog from './Markdown/catalog.vue'
+import Catalog from './Markdown/Catalog.vue'
 import FullScreen from './FullScreen/FullScreen.vue'
 import Selector from './Selector/Selector.vue'
 

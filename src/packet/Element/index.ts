@@ -16,6 +16,9 @@ import Code from './Code/Code.vue'
 // 导出 Excel 工具函数
 export { exportExcel } from './Excel/Excel'
 
+// 导出 Code 插件
+export { codePlugin } from './Code/Code'
+
 // 导出所有组件
 export {
   Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Message, Code

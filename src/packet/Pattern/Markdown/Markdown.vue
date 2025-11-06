@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import type { TocItem as Item } from '~/packet/Pattern/Markdown/catalog'
+import type { TocItem as Item } from '~/packet/Pattern/Markdown/Markdown'
 import type { MarkdownItHeader } from '@mdit-vue/types'
 import { ref, shallowRef, onMounted, onActivated, nextTick, onUnmounted, watch } from 'vue'
-import Catalog from './catalog.vue'
-import './markdown.css';
+import Catalog from './Catalog.vue'
+import './markdown.css'
 
 interface Props {
   content?: string

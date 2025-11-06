@@ -21,7 +21,9 @@ import Sidebar from 'sectum'
 
 ## 基础用法
 
-最简单的 Sidebar 用法，传入路由配置：
+Sidebar 支持两种路由配置格式：
+
+### 方式 1：完整路由配置（向后兼容）
 
 ```vue
 <template>
@@ -30,7 +32,6 @@ import Sidebar from 'sectum'
 
 <script setup>
 import { Sidebar } from 'sectum'
-import { routes } from './router'
 
 const routes = [
   {
@@ -53,6 +54,28 @@ const routes = [
     ]
   }
 ]
+</script>
+```
+
+### 方式 2：子路由数组（推荐）
+
+直接传入子路由数组，更简洁：
+
+```vue
+<template>
+  <Sidebar :routes="routeChildren" />
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { Sidebar } from 'sectum'
+import routeConfig from '~/router/SectumRoute'
+
+// 提取子路由
+const routeChildren = computed(() => {
+  const sectumRoute = routeConfig.find(r => r.path === '/sectum')
+  return sectumRoute?.children || []
+})
 </script>
 ```
 
@@ -84,7 +107,9 @@ const handleNavigate = (path) => {
 
 ## 路由配置格式
 
-Sidebar 组件需要特定的路由配置格式：
+Sidebar 组件支持两种路由配置格式，会自动识别并处理：
+
+### 格式 1：完整路由配置
 
 ```typescript
 const routes = [
@@ -92,7 +117,7 @@ const routes = [
     path: '/sectum',
     children: [
       {
-        path: '/sectum/',  // 父级路由
+        path: '/sectum/',  // 分组路由
         meta: { title: '分组名称' },
         children: [        // 子路由列表
           {
@@ -104,16 +129,37 @@ const routes = [
             meta: { title: 'Input' }
           }
         ]
+      }
+    ]
+  }
+]
+```
+
+### 格式 2：子路由数组（推荐）
+
+```typescript
+const routes = [
+  {
+    path: '/sectum/',  // 分组路由
+    meta: { title: 'Element' },
+    children: [
+      {
+        path: '/sectum/button',
+        meta: { title: 'Button' }
       },
       {
-        path: '/sectum/',
-        meta: { title: '另一个分组' },
-        children: [
-          {
-            path: '/sectum/modal',
-            meta: { title: 'Modal' }
-          }
-        ]
+        path: '/sectum/input',
+        meta: { title: 'Input' }
+      }
+    ]
+  },
+  {
+    path: '/sectum/',
+    meta: { title: 'Section' },
+    children: [
+      {
+        path: '/sectum/card',
+        meta: { title: 'Card' }
       }
     ]
   }
@@ -122,9 +168,11 @@ const routes = [
 
 ### 路由结构说明
 
-- 根路由：包含 `children` 数组的路由对象
-- 分组路由：`meta.title` 作为分组标题显示
-- 菜单项路由：`meta.title` 作为菜单项文本显示
+- **完整路由配置**：包含 `path === '/sectum'` 的根路由，Sidebar 会自动提取其 `children`
+- **子路由数组**：直接传入分组路由数组，Sidebar 会直接使用
+- **分组路由**：`path` 为 `/sectum/`，`meta.title` 作为分组标题显示
+- **菜单项路由**：分组路由的 `children` 中的路由，`meta.title` 作为菜单项文本显示
+- **路由过滤**：只有包含 `meta.title` 和 `children` 的分组才会显示
 
 ## 与 Header 联动
 
@@ -192,9 +240,10 @@ Sidebar 组件监听以下全局事件：
 
 ## 注意事项
 
-- Sidebar 组件会自动查找 `path === '/sectum'` 的路由作为根路由
-- 如果路由配置中没有 `/sectum` 路由，Sidebar 将不会显示任何菜单
-- 只有包含 `meta.title` 和 `children` 的分组才会显示
-- 移动端的遮罩层会阻止用户与页面其他部分交互
-- Sidebar 的 z-index 会根据显示状态自动调整
+- **路由格式识别**：Sidebar 会自动识别路由配置格式，优先查找 `path === '/sectum'` 的路由，如果不存在则直接使用传入的数组
+- **子路由数组**：如果传入的是子路由数组，Sidebar 会直接使用，无需包含 `/sectum` 根路由
+- **分组显示**：只有包含 `meta.title` 和 `children` 的分组才会显示在导航菜单中
+- **移动端交互**：移动端的遮罩层会阻止用户与页面其他部分交互，点击遮罩层可关闭侧边栏
+- **层级管理**：Sidebar 的 z-index 会根据显示状态自动调整（`z-100` 显示时，`z-0` 隐藏时）
+- **响应式行为**：在桌面端（≥lg）始终显示，移动端（<lg）默认隐藏，可通过 Header 菜单按钮切换
 

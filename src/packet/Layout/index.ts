@@ -4,13 +4,14 @@ import Header from './Header/Header.vue'
 import Navbar from './Navbar/Navbar.vue'
 import Sidebar from './Sidebar/Sidebar.vue'
 import Toolbar from './Toolbar/Toolbar.vue'
+import Menual from './Menual/Menual.vue'
 
 // 导出类型
 export type { NavItem } from './Header/Header.vue'
 
 // 导出所有组件
 export {
-  Footer, Header, Navbar, Sidebar, Toolbar
+  Footer, Header, Navbar, Sidebar, Toolbar, Menual
 }
 
 const install = (app: App) => {
@@ -19,6 +20,7 @@ const install = (app: App) => {
   app.component('Navbar', Navbar)//导航
   app.component('Sidebar', Sidebar)//侧边栏
   app.component('Toolbar', Toolbar)//工具栏
+  app.component('Menual', Menual)//文档
 }
 
 export default install //全局引用

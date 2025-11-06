@@ -152,14 +152,21 @@ const menuGroups = computed(() => {
     return []
   }
   
-  // 找到 /sectum 路由
+  // 首先检查是否传入的是完整的路由配置（包含 /sectum 路由）
   const sectumRoute = props.routes.find(r => r.path === '/sectum')
-  if (!sectumRoute || !sectumRoute.children) {
-    return []
+  if (sectumRoute && sectumRoute.children) {
+    // 如果找到 /sectum 路由，使用其子路由
+    return sectumRoute.children.filter((group: any) => 
+      group.meta?.title && 
+      group.children && 
+      Array.isArray(group.children) && 
+      group.children.length > 0
+    )
   }
   
-  // 返回所有分组，包括只有一个子项的分组
-  return sectumRoute.children.filter((group: any) => 
+  // 如果没找到 /sectum 路由，说明传入的就是子路由数组
+  // 直接过滤出有效的分组路由（有 meta.title 和 children 的）
+  return props.routes.filter((group: any) => 
     group.meta?.title && 
     group.children && 
     Array.isArray(group.children) && 

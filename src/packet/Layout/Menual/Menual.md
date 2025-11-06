@@ -30,21 +30,79 @@ import Menual from 'sectum'
 
 <script setup>
 import Menual from '~/packet/Layout/Menual/Menual.vue'
-import routeConfig from '~/router/route'
+import routeConfig from '~/router/SectumRoute'
 
-// routeConfig 包含完整的路由配置
+// routeConfig 包含完整的路由配置或子路由数组
+</script>
+```
+
+### 传入子路由数组
+
+如果传入的是子路由数组（推荐方式），Menual 会自动处理：
+
+```vue
+<template>
+  <Menual :routes="currentRouteChildren" />
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import Menual from '~/packet/Layout/Menual/Menual.vue'
+import routeConfig from '~/router/SectumRoute'
+
+const route = useRoute()
+
+// 提取当前路由的子路由
+const currentRouteChildren = computed(() => {
+  const sectumRoute = routeConfig.find(r => r.path === '/sectum')
+  return sectumRoute?.children || []
+})
 </script>
 ```
 
 ## 路由配置格式
 
-Menual 组件需要路由配置包含 `component` 属性，用于动态加载文档组件：
+Menual 组件支持两种路由配置格式：
+
+### 格式 1：完整路由配置（向后兼容）
 
 ```typescript
 const routeConfig = [
   {
     path: '/sectum',
     component: () => import('~/view/index.vue'),
+    children: [
+      {
+        path: '/sectum/',
+        meta: { title: 'Element' },
+        children: [
+          {
+            path: '/sectum/button',
+            component: () => import('~/packet/Element/Button/Button.md'),
+            meta: { title: 'Button' }
+          },
+          {
+            path: '/sectum/input',
+            component: () => import('~/packet/Element/Input/Input.md'),
+            meta: { title: 'Input' }
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+### 格式 2：子路由数组（推荐）
+
+直接传入子路由数组，更简洁：
+
+```typescript
+const routeConfig = [
+  {
+    path: '/sectum/',
+    meta: { title: 'Element' },
     children: [
       {
         path: '/sectum/button',
@@ -55,23 +113,29 @@ const routeConfig = [
         path: '/sectum/input',
         component: () => import('~/packet/Element/Input/Input.md'),
         meta: { title: 'Input' }
-      },
+      }
+    ]
+  },
+  {
+    path: '/sectum/',
+    meta: { title: 'Section' },
+    children: [
       {
-        path: '/sectum/icon',
-        component: () => import('~/packet/Element/Icon/Icon.md'),
-        meta: { title: 'Icon' },
-        children: [
-          {
-            path: '/sectum/icon/usage',
-            component: () => import('~/packet/Element/Icon/Usage.md'),
-            meta: { title: 'Usage' }
-          }
-        ]
+        path: '/sectum/card',
+        component: () => import('~/packet/Section/Card/Card.md'),
+        meta: { title: 'Card' }
       }
     ]
   }
 ]
 ```
+
+### 路由配置说明
+
+- **path** (string): 路由路径，必须唯一
+- **component** (Function): 组件加载函数，返回 Promise，用于动态加载文档组件
+- **meta** (Object): 路由元信息，通常包含 `title`，用于显示在导航菜单中
+- **children** (Array): 子路由数组（可选），支持嵌套路由结构
 
 ## 组件结构
 
@@ -132,7 +196,7 @@ Menual 组件特别适用于：
       </template>
       <!-- 文档页面内容（包含 Sidebar） -->
       <template v-else>
-        <Menual :routes="routeConfig" />
+        <Menual :routes="currentRouteChildren" />
       </template>
     </div>
   </div>
@@ -144,9 +208,16 @@ import { useRoute } from 'vue-router'
 import Header from '~/packet/Layout/Header/Header.vue'
 import Menual from '~/packet/Layout/Menual/Menual.vue'
 import HomePage from './HomePage.vue'
-import routeConfig from '~/router/route'
+import routeConfig from '~/router/SectumRoute'
 
 const route = useRoute()
+
+// 提取子路由（推荐方式）
+const currentRouteChildren = computed(() => {
+  const sectumRoute = routeConfig.find(r => r.path === '/sectum')
+  return sectumRoute?.children || []
+})
+
 const isHomePage = computed(() => route.path === '/' || route.path === '/index')
 </script>
 ```
@@ -202,11 +273,12 @@ Menual 组件使用 Vue 的 `KeepAlive` 组件缓存已加载的文档组件：
 
 ## 注意事项
 
-1. **路由配置**：确保路由配置中的 `component` 属性指向正确的组件文件
+1. **路由配置格式**：支持完整路由配置或子路由数组两种格式，推荐使用子路由数组
 2. **路径匹配**：组件会递归查找路由配置，确保路径格式正确
 3. **Sidebar 显示**：Sidebar 只在 `routes` 存在时显示，如果 `routes` 为 `undefined`，Sidebar 不会渲染
 4. **组件加载**：组件使用异步加载，确保组件文件路径正确且可访问
 5. **缓存限制**：组件最多缓存 10 个实例，超出限制的组件会被销毁
+6. **子路由传递**：当传入子路由数组时，Menual 会自动处理并传递给 Sidebar 组件
 
 ## 与 Sidebar 的关系
 

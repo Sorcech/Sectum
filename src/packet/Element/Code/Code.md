@@ -115,6 +115,94 @@ function hello() {
 </template>
 ```
 
+## Vite 插件配置
+
+### codePlugin
+
+`codePlugin` 是一个 Vite 插件，用于自动将 Markdown 文件中渲染后的 `<pre>` 和 `<code>` 元素转换为 Code 组件。这样可以确保所有代码块都使用统一的 Code 组件进行渲染。
+
+#### 导入
+
+```typescript
+import { codePlugin } from 'sectum'
+```
+
+#### 使用方法
+
+在 `vite.config.ts` 中配置插件：
+
+```typescript
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Markdown from 'unplugin-vue-markdown/vite'
+import { codePlugin } from 'sectum'
+
+export default defineConfig({
+  plugins: [
+    vue({ include: [/\.vue$/, /\.md$/] }),
+    Markdown({
+      // 自定义代码块渲染
+      markdownItSetup(md) {
+        // 覆盖代码块的渲染函数
+        md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+          const token = tokens[idx]
+          const info = token.info ? token.info.trim() : ''
+          const langName = info.split(/\s+/g)[0]
+          const code = token.content
+          
+          // 转义 HTML 特殊字符
+          const escapedCode = code
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+          
+          return `<cod code="${escapedCode}" ${langName ? `language="${langName}"` : ''} :trim="false"></cod>\n`
+        }
+        
+        // 覆盖行内代码的渲染函数
+        md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
+          const token = tokens[idx]
+          const code = token.content.trim()
+          
+          const escapedCode = code
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+          
+          return `<code class="inline-code">${escapedCode}</code>`
+        }
+      }
+    }),
+    codePlugin(), // 必须在 Markdown 插件之后
+  ],
+})
+```
+
+#### 工作原理
+
+1. **Markdown 插件**：将 Markdown 代码块（`` ``` ``）转换为 `<cod>` 组件
+2. **codePlugin**：将剩余的 `<pre>` 和 `<code>` 元素转换为 Code 组件
+
+#### 插件特性
+
+- ✅ 自动识别 Markdown 文件（`.md`, `.md.vue` 等）
+- ✅ 将 `<pre><code>` 代码块转换为 Code 组件
+- ✅ 将行内 `<code>` 元素转换为 Code 组件
+- ✅ 自动提取语言信息（从 `class="language-xxx"`）
+- ✅ 智能跳过已转换的 Code 组件
+- ✅ 在 Markdown 处理之后运行（`enforce: 'post'`）
+
+#### 注意事项
+
+- 插件必须在 `Markdown` 插件之后配置
+- 插件会自动转义 HTML 特殊字符
+- 如果代码块已经是 `<cod>` 组件，插件会跳过处理
+- 插件会保留代码的原始格式（包括换行和缩进）
+
 ## 样式定制
 
 组件使用 CSS 变量，可以通过覆盖以下变量来自定义样式：
