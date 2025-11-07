@@ -7,7 +7,11 @@ import Toolbar from './Toolbar/Toolbar.vue'
 import Menual from './Menual/Menual.vue'
 
 // 导出类型
-export type { NavItem } from './Header/Header.vue'
+export type { NavItem, IconButton } from './Header/Header.vue'
+export type { NavbarItem } from './Navbar/Navbar'
+
+// 导出导航配置
+export { navbarItems, default as navbarConfig } from './Navbar/Navbar'
 
 // 导出所有组件
 export {

@@ -2,7 +2,7 @@
   <div class="flex flex-col h-screen overflow-hidden text-base-content" :class="bgClass">
     <div class="sticky top-0 z-50">
       <Header 
-        project-name="Sectum"
+        :project-name="config.project.name"
         logo-icon="section"
         :theme-component="Theme"
         :dark-component="DarkToggle"
@@ -15,9 +15,12 @@
       <!-- 首页内容 -->
       <template v-if="isHomePage">
         <div class="flex flex-col h-full min-h-0 overflow-y-auto" :class="contentClass">
-          <HomePage />
-          <HomeExample />
-          <Footer />
+          <Home />
+          <Example />
+          <Footer 
+            :copyright-holder="config.footer.copyrightHolder"
+            :additional-info="config.footer.additionalInfo"
+          />
         </div>
       </template>
       <!-- 文档页面内容（包含 Sidebar） -->
@@ -31,14 +34,15 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
-import HomePage from './HomePage.vue'
-import HomeExample from './HomeExample.vue'
+import Home from './Home.vue'
+import Example from './Example.vue'
 import Footer from '~/packet/Layout/Footer/Footer.vue'
 import Menual from '~/packet/Layout/Menual/Menual.vue'
 import Theme from '~/packet/Pattern/Theme/Theme.vue'
 import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
 import Language from '~/packet/Pattern/Language/Language.vue'
 import routeConfig from '~/router/SectumRoute'
+import config from '~/config/config'
 
 const route = useRoute()
 
@@ -57,10 +61,10 @@ const contentClass = computed(() => {
   return isHomePage.value ? 'px-8 lg:px-36 pt-25' : ''
 })
 
-// 图标按钮配置
+// 图标按钮配置（从 config 中读取用户链接）
 const iconButtons: IconButton[] = [
   {
-    link: '/profile',
+    link: config.user.profileLink,
     icon: 'user',
     light: true,
     brand: false

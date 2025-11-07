@@ -19,6 +19,8 @@ export default {
     account: '계정',
     logout: '로그아웃',
     setting: '설정',
+    theme: '테마',
+    language: '언어',
   },
   task: {
     task: '작업',

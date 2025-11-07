@@ -1,4 +1,12 @@
-export default [{
+// 导航项类型定义
+export interface NavbarItem {
+  title: string
+  icon: string
+  path: string
+}
+
+// 默认导航配置
+const defaultNavbarItems: NavbarItem[] = [{
   title: 'Dashboard',
   icon: 'gauge',
   path: '/dashboard',
@@ -26,8 +34,11 @@ export default [{
   title: 'Blog',
   icon: 'blog',
   path: '/blog'
-}, {
-  title: 'Sectum',
-  icon: 'sectum',
-  path: '/sectum/'
 }]
+
+// 命名导出
+export { defaultNavbarItems as navbarItems }
+export { defaultNavbarItems }
+
+// 默认导出（保持向后兼容）
+export default defaultNavbarItems

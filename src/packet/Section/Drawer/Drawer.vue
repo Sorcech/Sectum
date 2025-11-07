@@ -64,7 +64,9 @@ const sizeClasses = computed(() => {
   if (props.position === 'top' || props.position === 'bottom') {
     return props.height || 'h-96'
   } else {
-    return props.width
+    // 确保宽度被正确应用，并添加最大宽度限制（最大不超过屏幕宽度的 80%）
+    // 使用 max-w-4xl 作为最大宽度限制，避免占据全屏
+    return `${props.width} max-w-4xl`
   }
 })
 

@@ -19,6 +19,8 @@ export default {
     account: '账户',
     logout: '登出',
     setting: '设置',
+    theme: '主题',
+    language: '语言',
   },
   task: {
     task: '任务',

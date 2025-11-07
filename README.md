@@ -548,6 +548,181 @@ const routes = [
 ]
 ```
 
+## ⚙️ 项目配置 (config.ts)
+
+`config.ts` 文件用于统一管理项目的基本信息和展示内容。本文档说明如何在项目中使用这些配置。
+
+### 配置结构
+
+配置文件包含以下部分：
+
+- **project**: 项目基本信息（名称、描述、版本等）
+- **carousel**: 轮播图配置（自动播放、间隔、轮播图数据等）
+- **footer**: 页脚配置（版权持有者、备案号、额外信息等）
+- **user**: 用户配置（用户中心链接等）
+
+### 使用方法
+
+#### 1. 在主布局组件中使用（index.vue）
+
+在主布局组件中，可以这样使用配置：
+
+```vue
+<template>
+  <div>
+    <Header 
+      :project-name="config.project.name"
+      :icon-buttons="iconButtons"
+    />
+    <Footer 
+      :copyright-holder="config.footer.copyrightHolder"
+      :additional-info="config.footer.additionalInfo"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
+import Footer from '~/packet/Layout/Footer/Footer.vue'
+import config from '~/config/config'
+
+// 图标按钮配置（从 config 中读取用户链接）
+const iconButtons: IconButton[] = [
+  {
+    link: config.user.profileLink,
+    icon: 'user',
+    light: true,
+    brand: false
+  },
+  {
+    link: 'https://github.com/Sorcech/Sectum',
+    icon: 'github',
+    light: false,
+    brand: true
+  }
+]
+</script>
+```
+
+#### 2. 在首页组件中使用轮播图配置（HomePage.vue）
+
+如果需要在首页使用轮播图，可以这样配置：
+
+```vue
+<template>
+  <div class="space-y-0">
+    <!-- Hero 轮播图区域 -->
+    <section class="mb-16">
+      <Carousel 
+        :autoplay="config.carousel.autoplay" 
+        :interval="config.carousel.interval"
+        :pause-on-hover="config.carousel.pauseOnHover"
+        :height="config.carousel.height"
+        class="rounded-lg overflow-hidden"
+      >
+        <div 
+          v-for="(slide, index) in heroSlides" 
+          :key="index"
+          class="relative h-full flex items-center justify-center bg-gradient-to-r from-primary/90 to-secondary/90"
+          :style="slide.image ? { backgroundImage: `url(${slide.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}"
+        >
+          <div class="absolute inset-0 bg-black/20"></div>
+          <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+              {{ t(slide.title) }}
+            </h2>
+            <p class="text-xl md:text-2xl text-white/90 mb-8">
+              {{ t(slide.description) }}
+            </p>
+            <btn 
+              v-if="slide.link"
+              color="primary" 
+              size="lg"
+              class="text-lg px-8 py-3"
+              @click="router.push(slide.link)"
+            >
+              {{ t('home.learnMore') }}
+            </btn>
+          </div>
+        </div>
+      </Carousel>
+    </section>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { Carousel } from '~/packet/Section/Carousel/Carousel.vue'
+import config from '~/config/config'
+
+const { t } = useI18n()
+const router = useRouter()
+
+// Hero 轮播图数据（从配置文件读取）
+const heroSlides = computed(() => config.carousel.slides)
+</script>
+```
+
+#### 3. 在其他组件中使用项目信息
+
+```vue
+<script setup lang="ts">
+import config from '~/config/config'
+
+// 使用项目名称
+console.log(config.project.name) // 'Sectum'
+
+// 使用项目描述
+console.log(config.project.description) // 'A modern Vue 3 component library...'
+
+// 使用项目版本
+console.log(config.project.version) // '0.2.10'
+</script>
+```
+
+### 配置项说明
+
+#### ProjectInfo（项目信息）
+
+- `name`: 项目名称，用于 Header 组件的 `project-name` 属性
+- `description`: 项目描述
+- `version`: 项目版本号
+- `homepage`: 项目主页地址
+- `author`: 作者名称
+- `keywords`: 项目关键词数组
+- `license`: 许可证类型
+
+#### CarouselConfig（轮播图配置）
+
+- `autoplay`: 是否自动播放（boolean）
+- `interval`: 自动播放间隔（毫秒，number）
+- `pauseOnHover`: 鼠标悬停时是否暂停（boolean）
+- `height`: 轮播图高度（CSS 字符串，如 '600px'）
+- `slides`: 轮播图数据数组，每个元素包含：
+  - `image`: 图片链接
+  - `title`: 标题（支持国际化 key）
+  - `description`: 描述（支持国际化 key）
+  - `link`: 链接（可选，string | null）
+
+#### FooterConfig（页脚配置）
+
+- `copyrightHolder`: 版权持有者名称，用于 Footer 组件的 `copyright-holder` 属性
+- `icpNumber`: ICP 备案号
+- `additionalInfo`: 额外信息，用于 Footer 组件的 `additional-info` 属性
+
+#### UserConfig（用户配置）
+
+- `profileLink`: 用户中心链接，用于 Header 组件的图标按钮配置
+
+### 注意事项
+
+1. **国际化支持**: 轮播图的 `title` 和 `description` 支持国际化 key，需要在 `locale` 文件中定义对应的翻译
+2. **类型安全**: 所有配置项都有完整的 TypeScript 类型定义，确保类型安全
+3. **统一管理**: 所有项目相关的配置都应该在 `config.ts` 中统一管理，避免硬编码
+4. **版本同步**: 项目版本号应该与 `package.json` 中的版本号保持一致
+
 ## 🔧 开发
 
 ### 本地开发

@@ -1,4 +1,6 @@
 <template>
+  <!-- Dropdown 模式 -->
+  <template v-if="mode === 'dropdown'">
   <!-- 单按钮模式（只有两种语言时） -->
   <btn 
     v-if="isTwoLanguagesMode"
@@ -62,13 +64,57 @@
       </btn>
     </Menu>
   </Dropdown>
+  </template>
+
+  <!-- Drawer 模式 -->
+  <template v-else>
+    <div key="language-drawer" style="padding: 0; margin: 0;">
+      <btn item :class="[buttonClass, 'relative group']" @click="toggleDrawer">
+        <icn name="globe" light xl></icn>
+        <!-- 当前语言字符显示在图标右上方 -->
+        <span
+          class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1"
+          :style="{right: '1rem',bottom: '0.5rem',fontSize: '0.75rem',zIndex: 2,transform: 'translate(0, 0)'}"
+        >
+          {{ getLocaleChar(currentLocale) }}
+        </span>
+      </btn>
+      <Drawer title="Language" width="w-48" :isShow="isShowDrawer" @update:isShow="isShowDrawer = $event">
+        <Menu shadow rounded class="bg-base-300 dark:bg-base-100 m-3">
+          <btn 
+            v-for="locale in availableLocales" 
+            :key="locale"
+            clean 
+            :disabled="currentLocale === locale"
+            @click="setLanguage(locale)"
+            :class="[
+              'w-full flex items-center gap-3 whitespace-nowrap',
+              currentLocale === locale ? 'text-primary font-semibold' : ''
+            ]"
+          >
+            {{ getLocaleName(locale) }}
+          </btn>
+        </Menu>
+      </Drawer>
+    </div>
+  </template>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { Store } from '../../Config/storage'
+import Drawer from '../../Section/Drawer/Drawer.vue'
 import Dropdown from '../../Section/Dropdown/Dropdown.vue'
 import Menu from '../../Section/Menu/Menu.vue'
+
+// Props 定义
+const props = withDefaults(defineProps<{
+  mode?: 'dropdown' | 'drawer'
+  buttonClass?: string
+}>(), {
+  mode: 'dropdown',
+  buttonClass: 'hover:text-primary'
+})
 
 // 从全局对象获取 I18n（由使用 sectum 的项目提供）
 const getI18n = () => {
@@ -83,6 +129,7 @@ const getI18n = () => {
 const currentLocale = ref<string>('zh-CN')// 当前语言
 const availableLocales = ref<string[]>([])// 可用语言列表
 const isTwoLanguagesMode = computed(() => availableLocales.value.length === 2)// 判断是否为两种语言模式
+const isShowDrawer = ref(false)// Drawer 显示状态
 
 // 获取所有可用语言
 const getAvailableLocales = (): string[] => {
@@ -219,9 +266,18 @@ const setLanguage = (locale: string) => {
     Store.setLocalStorage('locale', locale)
     I18n.global.locale.value = locale
     currentLocale.value = locale
+    // 如果是 Drawer 模式，切换语言后关闭 Drawer
+    if (props.mode === 'drawer') {
+      isShowDrawer.value = false
+    }
     return true
   }
   return false
+}
+
+// 切换 Drawer 显示状态
+const toggleDrawer = () => {
+  isShowDrawer.value = !isShowDrawer.value
 }
 
 // 初始化

@@ -129,11 +129,22 @@ const isHome = computed(() => route?.meta?.title === 'Index')
 
 // 处理菜单项点击
 const handleItemClick = (path: string) => {
+  console.log('[Sidebar] handleItemClick called:', {
+    path,
+    hasOnNavigate: !!props.onNavigate
+  })
+  
   if (props.onNavigate) {
+    console.log('[Sidebar] Calling onNavigate callback')
     props.onNavigate(path)
   } else if (path) {
     // 默认使用 vue-router 导航
-    router.push(path)
+    console.log('[Sidebar] Calling router.push directly')
+    router.push(path).then(() => {
+      console.log('[Sidebar] router.push success:', path)
+    }).catch((err) => {
+      console.error('[Sidebar] router.push error:', err, path)
+    })
   }
 }
 

@@ -165,6 +165,21 @@ const route = [
               component: () => import('~/packet/Pattern/FullScreen/FullScreen.md'),
               meta: { title: 'Fullscreen' },
             },
+            {
+              path: '/sectum/plus',
+              component: () => import('~/packet/Pattern/Plus/Plus.md'),
+              meta: { title: 'Plus' },
+            },
+            {
+              path: '/sectum/notice',
+              component: () => import('~/packet/Pattern/Notice/Notice.md'),
+              meta: { title: 'Notice' },
+            },
+            {
+              path: '/sectum/user',
+              component: () => import('~/packet/Pattern/User/User.md'),
+              meta: { title: 'User' },
+            },
           ]
         },
         {

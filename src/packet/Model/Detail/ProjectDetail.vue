@@ -20,7 +20,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { ProjectDetail } from '~/type/Sheet'
+import type { ProjectDetail } from '~/type'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 defineProps<{

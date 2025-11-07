@@ -1,5 +1,15 @@
 <template>
-  <slot name="default" :isFullscreen="isFullscreen" :enter="enter" :exit="exit" :toggle="toggle"></slot>
+  <slot name="default" :isFullscreen="isFullscreen" :enter="enter" :exit="exit" :toggle="toggle">
+    <!-- 默认按钮 UI -->
+    <btn :item="item" @click="toggle()" :class="buttonClass">
+      <span v-show="!isFullscreen" class="hover:text-primary">
+        <icn name="expand" light lg />
+      </span>
+      <span v-show="isFullscreen" class="hover:text-primary">
+        <icn name="compress" light lg />
+      </span>
+    </btn>
+  </slot>
 </template>
 
 <script lang="ts" setup>
@@ -10,13 +20,25 @@ export interface FullscreenProps {
   immersive?: boolean;
   position?: string;
   zIndex?: string;
+  item?: boolean | string;
+  class?: string;
 }
 
 const props = withDefaults(defineProps<FullscreenProps>(), {
   target: undefined,
   immersive: true,
   position: undefined,
-  zIndex: undefined
+  zIndex: undefined,
+  item: true,
+  class: 'hover:text-primary flex items-center justify-center w-full h-12'
+});
+
+const item = computed(() => props.item !== false);
+const buttonClass = computed(() => props.class || 'hover:text-primary flex items-center justify-center w-full h-12');
+
+// 禁用属性继承，因为我们手动处理了 item 和 class
+defineOptions({
+  inheritAttrs: false
 });
 
 const emit = defineEmits(["fullscreenchange"]);

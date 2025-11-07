@@ -1,6 +1,18 @@
 <template>
   <div class="flex flex-col items-center h-screen w-20 bg-base-100 border-r dark:bg-gray-800 dark:border-gray-500 text-center">
-    <h2 class="font-medium text-primary text-xl pt-3"><a href="/" class="no-underline">Cloud</a></h2>
+    <div class="flex flex-col items-center pt-3">
+      <icn 
+        v-if="logoIcon" 
+        :name="logoIcon" 
+        solid 
+        xl 
+        color="primary" 
+        style="font-size: 1.5rem;" 
+      />
+      <h3 class="font-medium text-primary text-md">
+        <a href="/" class="no-underline">{{ projectName }}</a>
+      </h3>
+    </div>
     <nav class="flex flex-col mt-6 gap-y-2">
       <btn size="md" item v-for="(item, index) in Nav" :key="index" tag="RouterLink"
         class="flex flex-col items-center py-2 no-underline hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 w-20"
@@ -16,16 +28,21 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { Store } from '~/packet/Config/storage'
-import navbar from '~/packet/Layout/Navbar/navbar'
+import navbar from '~/packet/Layout/Navbar/Navbar'
+import config from '~/config/config'
+
+// 导入类型
+import type { NavbarItem } from './Navbar'
 
 // Props 定义
-const props = defineProps<{
-  items?: Array<{
-    title: string
-    icon: string
-    path: string
-  }>
-}>()
+const props = withDefaults(defineProps<{
+  items?: NavbarItem[]
+  projectName?: string
+  logoIcon?: string  // Logo 图标名称，如果未提供则不显示图标
+}>(), {
+  projectName: undefined,
+  logoIcon: undefined
+})
 
 let ind = ref(0)
 onMounted(() => {
@@ -38,6 +55,16 @@ onMounted(() => {
 
 // 使用传入的 items 或默认的 navbar 配置
 const Nav = computed(() => props.items || navbar)
+
+// 项目名称：优先使用传入的 prop，否则使用 config 中的默认值
+const projectName = computed(() => {
+  // 如果传入了 projectName 且不为空，使用传入的值
+  if (props.projectName !== undefined && props.projectName !== null && props.projectName !== '') {
+    return props.projectName
+  }
+  // 否则使用 config 中的默认值
+  return config.project.name
+})
 
 const setNav = (index: number) => {
   ind.value = index

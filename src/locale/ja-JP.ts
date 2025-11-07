@@ -19,6 +19,8 @@ export default {
     account: 'アカウント',
     logout: 'ログアウト',
     setting: '設定',
+    theme: 'テーマ',
+    language: '言語',
   },
   task: {
     task: 'タスク',
