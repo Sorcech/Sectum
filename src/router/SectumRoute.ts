@@ -226,6 +226,16 @@ const route = [
               path: '/sectum/menual',
               component: () => import('~/packet/Layout/Menual/Menual.md'),
               meta: { title: 'Menual' },
+            },
+            {
+              path: '/sectum/console',
+              component: () => import('~/packet/Layout/Console/Console.md'),
+              meta: { title: 'Console' },
+            },
+            {
+              path: '/sectum/task',
+              component: () => import('~/packet/Layout/Task/Task.md'),
+              meta: { title: 'Task' },
             }
           ]
         }

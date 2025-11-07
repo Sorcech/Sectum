@@ -1,9 +1,9 @@
 <template>
-  <btn item @click="setDark" class="hover:text-primary">
-    <span v-show="!isDark">
+  <btn item @click="setDark" class="text-base-content group">
+    <span v-show="!isDark" class="group-hover:text-primary">
       <icn name="sun-bright" light xl></icn>
     </span>
-    <span v-show="isDark">
+    <span v-show="isDark" class="group-hover:text-primary">
       <icn name="moon-stars" light xl></icn>
     </span>
   </btn>

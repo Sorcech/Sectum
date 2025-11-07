@@ -21,10 +21,14 @@ export const colorNames = [
   'base-100',
   'base-200',
   'base-300',
+  'base-400',
+  'base-500',
   'base-content',
   'dark-base-100',
   'dark-base-200',
   'dark-base-300',
+  'dark-base-400',
+  'dark-base-500',
   'dark-base-content',
 ]
 
@@ -52,14 +56,18 @@ const themes = {
     'error': '#dc2626',//red-600
     'error-focus': '#b91c1c',//red-700
     'error-content': '#ffffff',
-    'base-100': '#fcfcfc',
-    'base-200': '#f8f8f8',
-    'base-300': '#e8e8e8',
-    'base-content': '#1f2937',//gray-800
-    'dark-base-100': '#374151',//gray-700
-    'dark-base-200': '#1f2937',//gray-800
-    'dark-base-300': '#111827',//gray-900
-    'dark-base-content': '#f9fafb',//gray-50
+    'base-100': '#f8fafc',//slate-50
+    'base-200': '#f1f5f9',//slate-100
+    'base-300': '#e2e8f0',//slate-200
+    'base-400': '#94a3b8',//slate-400
+    'base-500': '#64748b',//slate-500
+    'base-content': '#1e293b',//slate-800
+    'dark-base-100': '#334155',//slate-700
+    'dark-base-200': '#1e293b',//slate-800
+    'dark-base-300': '#0f172a',//slate-900
+    'dark-base-400': '#475569',//slate-600
+    'dark-base-500': '#64748b',//slate-500
+    'dark-base-content': '#f8fafc',//slate-50
     'rounded-box': '0.5rem',
     'rounded-btn': '0.5rem',
     'rounded-badge': '2.0rem',
@@ -87,13 +95,17 @@ const themes = {
     'error': '#dc2626',//red-600
     'error-focus': '#b91c1c',//red-700
     'error-content': '#ffffff',
-    'base-100': '#fcfcfc',
-    'base-200': '#f8f8f8',
-    'base-300': '#e8e8e8',
+    'base-100': '#fcfcfc',//gray-100
+    'base-200': '#f8f8f8',//gray-200
+    'base-300': '#e8e8e8',//gray-300
+    'base-400': '#d1d5db',//gray-400
+    'base-500': '#9ca3af',//gray-500
     'base-content': '#1f2937',//gray-800
     'dark-base-100': '#374151',//gray-700
     'dark-base-200': '#1f2937',//gray-800
     'dark-base-300': '#111827',//gray-900
+    'dark-base-400': '#6b7280',//gray-600
+    'dark-base-500': '#9ca3af',//gray-500
     'dark-base-content': '#f9fafb',//gray-50
     'rounded-box': '0rem',
     'rounded-btn': '0rem',
@@ -117,10 +129,14 @@ const themes = {
     'base-100': '#fcfcfc',
     'base-200': '#fafafa',
     'base-300': '#f8f9fa',
+    'base-400': '#d1d5db',//gray-400
+    'base-500': '#9ca3af',//gray-500
     'base-content': '#1f2937',
     'dark-base-100': '#181818',
     'dark-base-200': '#151414',
     'dark-base-300': '#0f0f0f',
+    'dark-base-400': '#6b7280',//gray-600
+    'dark-base-500': '#9ca3af',//gray-500
     'dark-base-content': '#f3f4f6',
     'rounded-box': '1.0rem',
     'rounded-btn': '0.5rem',
@@ -152,10 +168,14 @@ const themes = {
     'base-100': '#fcfcfc',
     'base-200': '#f8f8f8',
     'base-300': '#e8e8e8',
+    'base-400': '#d1d5db',//gray-400
+    'base-500': '#9ca3af',//gray-500
     'base-content': '#1f2937',
     'dark-base-100': '#181818',
     'dark-base-200': '#111827',
     'dark-base-300': '#0f0f0f',
+    'dark-base-400': '#6b7280',//gray-600
+    'dark-base-500': '#9ca3af',//gray-500
     'dark-base-content': '#f3f4f6',
     'rounded-box': '0.5rem',
     'rounded-btn': '0.5rem',
@@ -186,10 +206,14 @@ const themes = {
     'base-100': '#f8fafc',
     'base-200': '#f1f5f9',
     'base-300': '#e2e8f0',
+    'base-400': '#d1d5db',//gray-400
+    'base-500': '#9ca3af',//gray-500
     'base-content': '#1f2937',
     'dark-base-100': '#111827',
     'dark-base-200': '#0f172a',
     'dark-base-300': '#0c1426',
+    'dark-base-400': '#6b7280',//gray-600
+    'dark-base-500': '#9ca3af',//gray-500
     'dark-base-content': '#f3f4f6',
     'rounded-box': '1.0rem',
     'rounded-btn': '0.5rem',

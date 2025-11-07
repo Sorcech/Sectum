@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import TaskCreate from './Forms/TaskCreate.vue'
 import AccountCreate from './Forms/AccountCreate.vue'
 import ProjectCreate from './Forms/ProjectCreate.vue'
+import LoginForm from './Forms/LoginForm.vue'
 import PartDetail from './Detail/PartDetail.vue'
 import SectionDetail from './Detail/SectionDetail.vue'
 import SourceDetail from './Detail/SourceDetail.vue'
@@ -17,7 +18,7 @@ import InterlinkDetail from './Detail/InterlinkDetail.vue'
 
 // 导出所有组件
 export {
-  TaskCreate, AccountCreate, ProjectCreate,
+  TaskCreate, AccountCreate, ProjectCreate, LoginForm,
   PartDetail, SectionDetail, SourceDetail, StandardDetail, ProjectDetail, TaskDetail, StorageDetail, InterlinkDetail
 }
 
@@ -25,6 +26,7 @@ const install = (app: App) => {
   app.component('TaskCreate', TaskCreate)//任务创建表单
   app.component('AccountCreate', AccountCreate)//账户创建表单
   app.component('ProjectCreate', ProjectCreate)//项目创建表单
+  app.component('LoginForm', LoginForm)//登录表单
   app.component('PartDetail', PartDetail)//零件详细信息
   app.component('SectionDetail', SectionDetail)//组件详细信息
   app.component('SourceDetail', SourceDetail)//源码详细信息

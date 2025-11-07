@@ -21,7 +21,7 @@
           v-if="props.darkComponent !== null"
           :is="props.darkComponent || defaultDarkComponent"
           item 
-          class="flex items-center justify-center h-12"
+          class="hover:text-primary flex items-center justify-center h-12"
         />
         <component 
           v-if="props.themeComponent !== null"

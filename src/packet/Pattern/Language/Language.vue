@@ -74,7 +74,7 @@
         <!-- 当前语言字符显示在图标右上方 -->
         <span
           class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1"
-          :style="{right: '1rem',bottom: '0.5rem',fontSize: '0.75rem',zIndex: 2,transform: 'translate(0, 0)'}"
+          :style="{right: '1rem',bottom: '0.5rem',fontSize: '0.85rem',zIndex: 2,transform: 'translate(0, 0)'}"
         >
           {{ getLocaleChar(currentLocale) }}
         </span>

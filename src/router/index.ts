@@ -10,7 +10,7 @@ const baseRoutes = [
   },
   {
     path: '/login',
-    component: () => import('~/view/Login.vue'),
+    component: () => import('~/packet/Layout/Login/Login.vue'),
     meta: { title: 'Login' },
   },
   {
@@ -21,8 +21,13 @@ const baseRoutes = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('~/view/Dashboard.vue'),
+        component: () => import('~/packet/Layout/Dashboard/Dashboard.vue'),
         meta: { title: 'Dashboard' }
+      },
+      {
+        path: 'task',
+        component: () => import('~/packet/Layout/Task/Task.vue'),
+        meta: { title: 'Task' }
       }
     ]
   },
