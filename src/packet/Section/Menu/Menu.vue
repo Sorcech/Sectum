@@ -127,12 +127,12 @@ const menuClasses = computed(() => {
     <template v-if="slots.default">
       <template v-for="(slot, key) in slots.default()" :key="key">
         <!-- 检测 slot 是否包含多个直接子元素（v-for 情况） -->
-        <template v-if="props.rounded && getDirectChildren(slot).length > 1">
+        <template v-if="getDirectChildren(slot).length > 1">
           <template v-for="(child, childIndex) in getDirectChildren(slot)" :key="childIndex">
             <li class="menu-item list-none p-0 m-0">
               <component 
                 :is="child" 
-                :style="getMenuItemStyle(childIndex, getDirectChildren(slot).length)"
+                :style="props.rounded ? getMenuItemStyle(childIndex, getDirectChildren(slot).length) : {}"
               />
             </li>
           </template>
