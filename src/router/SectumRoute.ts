@@ -62,6 +62,11 @@ const route = [
               path: '/sectum/avatar',
               component: () => import('~/packet/Element/Avatar/Avatar.md'),
               meta: { title: 'Avatar' },
+            },
+            {
+              path: '/sectum/image',
+              component: () => import('~/packet/Element/Image/Image.md'),
+              meta: { title: 'Image' },
             }
           ]
         },

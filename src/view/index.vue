@@ -16,10 +16,13 @@
         <div class="flex flex-col h-full min-h-0 overflow-y-auto overflow-x-hidden" :class="contentClass">
           <Home />
           <Example />
-          <Footer 
-            :copyright-holder="config.footer.copyrightHolder"
-            :additional-info="config.footer.additionalInfo"
-          />
+          <div class="-mx-36 lg:-mx-36 mt-12">
+            <Footer 
+              :copyright-holder="config.footer.copyrightHolder"
+              :icp-number="config.footer.icpNumber"
+              :additional-info="config.footer.additionalInfo"
+            />
+          </div>
         </div>
       </template>
       <!-- 文档页面内容（包含 Sidebar） -->

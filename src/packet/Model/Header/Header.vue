@@ -11,7 +11,23 @@
           <icn name="bars" regular xl />
         </btn>
         
-        <a href="/"
+        <RouterLink
+          v-if="props.homeLink && !isExternalLink(props.homeLink)"
+          :to="props.homeLink"
+          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
+          <icn 
+            v-if="props.logoIcon" 
+            :name="props.logoIcon" 
+            solid 
+            xl 
+            color="primary" 
+            style="font-size: 2rem;" 
+          />
+          <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
+        </RouterLink>
+        <a
+          v-else
+          :href="props.homeLink || '/'"
           class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
           <icn 
             v-if="props.logoIcon" 
@@ -90,7 +106,7 @@
 </template>
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterLink } from 'vue-router'
 import { setFavicon as setFaviconUtil } from '~/packet/Config/favicon'
 
 // 导航项类型定义
@@ -110,6 +126,7 @@ export interface IconButton {
 // Props 定义
 const props = withDefaults(defineProps<{
   projectName?: string
+  homeLink?: string  // 项目首页链接，如果未提供则默认为 '/'
   logoIcon?: string  // Logo 图标名称，如果未提供则不显示图标
   themeComponent?: any
   darkComponent?: any
@@ -128,6 +145,7 @@ const props = withDefaults(defineProps<{
   routes?: any[]  // 路由配置，如果提供，将从路由中提取导航项（可选）
   navItemsGap?: string  // 导航按钮间距，支持 CSS 间距值（如 '1rem', '24px', '1.5rem'），默认 '1.5rem' (24px)
 }>(), {
+  homeLink: '/',  // 默认首页链接
   navItemsGap: '1.5rem'  // 默认间距 1.5rem (24px)
 })
 
