@@ -1,14 +1,14 @@
 /**
  * 动态 Favicon 管理
  * 根据配置的图标名称自动设置页面 favicon
+ * 
+ * 注意：外部项目使用时应传入配置参数，不要依赖默认配置导入
  */
-
-import config from '~/config/config'
 
 // Favicon 配置接口
 export interface FaviconConfig {
   iconName?: string  // 图标名称（FontAwesome 图标名）
-  iconPrefix?: string  // 图标前缀，默认 'far' (regular)
+  iconPrefix?: string  // 图标前缀，默认 'regular' (regular)
   size?: number  // 图标尺寸，默认 32
 }
 
@@ -56,15 +56,45 @@ export async function setFavicon(config: FaviconConfig = {}): Promise<void> {
     }
     
     const fa = (window as any).FontAwesome
-    if (!fa || !fa.findIconDefinition) return
+    if (!fa || !fa.findIconDefinition) {
+      // FontAwesome 未完全加载，等待后重试
+      setTimeout(() => setFavicon(config), 100)
+      return
+    }
     
     // 确定图标前缀（默认使用 regular）
-    const prefix = config.iconPrefix || 'far'
+    const prefix = config.iconPrefix || 'regular'
+    
+    // 检查请求的前缀是否已注册（等待样式注册完成）
+    if (prefix && fa.styles && !fa.styles[prefix]) {
+      // 如果请求的前缀还未注册，等待后重试
+      setTimeout(() => setFavicon(config), 100)
+      return
+    }
     
     // 获取图标定义
-    const iconDefinition = fa.findIconDefinition({ prefix, iconName })
+    let iconDefinition = fa.findIconDefinition({ prefix, iconName })
     
-    if (!iconDefinition || !iconDefinition.icon) return
+    // 如果找不到指定前缀的图标，尝试回退到其他前缀
+    if (!iconDefinition || !iconDefinition.icon) {
+      // 尝试的前缀顺序：regular -> solid -> light -> thin -> duotone -> brands
+      const fallbackPrefixes = ['regular', 'solid', 'light', 'thin', 'duotone', 'brands']
+      const currentIndex = fallbackPrefixes.indexOf(prefix)
+      
+      // 从当前前缀的下一个开始尝试
+      for (let i = currentIndex + 1; i < fallbackPrefixes.length; i++) {
+        const fallbackPrefix = fallbackPrefixes[i]
+        iconDefinition = fa.findIconDefinition({ prefix: fallbackPrefix, iconName })
+        if (iconDefinition && iconDefinition.icon) {
+          break
+        }
+      }
+    }
+    
+    // 如果所有前缀都找不到，直接返回
+    if (!iconDefinition || !iconDefinition.icon) {
+      return
+    }
     
     // 构建 SVG
     const svg = buildIconSVG(iconDefinition, config.size || 32)
@@ -89,17 +119,22 @@ export async function setFavicon(config: FaviconConfig = {}): Promise<void> {
 }
 
 /**
- * 初始化 favicon（从全局配置中读取）
- * 如果 config.project 中有 logoIcon 配置，会自动设置
+ * 初始化 favicon（从配置中读取）
+ * @param appConfig 配置对象（必需），包含 project.logoIcon 等信息
  */
-export function initFavicon(): void {
-  // 检查是否有全局配置的 logoIcon
-  const logoIcon = (config as any).project?.logoIcon
+export function initFavicon(appConfig: any): void {
+  if (!appConfig) {
+    console.warn('initFavicon: Config is required')
+    return
+  }
+  
+  // 检查是否有配置的 logoIcon
+  const logoIcon = appConfig.project?.logoIcon
   
   if (logoIcon) {
     setFavicon({
       iconName: logoIcon,
-      iconPrefix: 'far',
+      iconPrefix: 'regular',
       size: 32
     })
   }
@@ -127,16 +162,21 @@ export function setPageTitle(title: string): void {
 
 /**
  * 初始化页面元信息（favicon 和 title）
- * 从全局配置中读取 project.logoIcon 和 project.name
+ * @param appConfig 配置对象（必需），包含 project.logoIcon 和 project.name 等信息
  */
-export function initPageMeta(): void {
+export function initPageMeta(appConfig: any): void {
+  if (!appConfig) {
+    console.warn('initPageMeta: Config is required')
+    return
+  }
+  
   // 设置页面标题
-  const projectName = (config as any).project?.name
+  const projectName = appConfig.project?.name
   if (projectName) {
     setPageTitle(projectName)
   }
   
   // 初始化 favicon
-  initFavicon()
+  initFavicon(appConfig)
 }
 

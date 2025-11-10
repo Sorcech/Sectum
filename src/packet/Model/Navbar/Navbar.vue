@@ -29,6 +29,7 @@
 import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { Store } from '~/packet/Config/storage'
+import { setFavicon as setFaviconUtil, setPageTitle } from '~/packet/Config'
 import navbar from '~/packet/Model/Navbar/Navbar'
 import config from '~/config/config'
 
@@ -113,6 +114,53 @@ const projectName = computed(() => {
   }
   // 否则使用 config 中的默认值
   return config.project.name
+})
+
+// Logo 图标：优先使用传入的 prop，否则使用 config 中的默认值
+const logoIcon = computed(() => {
+  // 如果传入了 logoIcon 且不为空，使用传入的值
+  if (props.logoIcon !== undefined && props.logoIcon !== null && props.logoIcon !== '') {
+    return props.logoIcon
+  }
+  // 否则使用 config 中的默认值
+  return config.project.logoIcon
+})
+
+// 监听 logoIcon 变化并设置 favicon
+watch(() => logoIcon.value, (newIcon) => {
+  if (newIcon) {
+    setFaviconUtil({
+      iconName: newIcon,
+      iconPrefix: 'far',
+      size: 32
+    })
+  }
+}, { immediate: false })
+
+// 监听 projectName 变化并设置页面标题
+watch(() => projectName.value, (newName) => {
+  if (newName) {
+    setPageTitle(newName)
+  }
+}, { immediate: false })
+
+onMounted(() => {
+  // 初始化时根据当前路由设置选中状态
+  updateActiveIndex()
+  
+  // 设置 favicon（如果提供了 logoIcon）
+  if (logoIcon.value) {
+    setFaviconUtil({
+      iconName: logoIcon.value,
+      iconPrefix: 'far',
+      size: 32
+    })
+  }
+  
+  // 设置页面标题（如果提供了 projectName）
+  if (projectName.value) {
+    setPageTitle(projectName.value)
+  }
 })
 
 const setNav = (index: number) => {

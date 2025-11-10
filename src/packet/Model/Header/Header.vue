@@ -107,7 +107,7 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
-import { setFavicon as setFaviconUtil } from '~/packet/Config/favicon'
+import { setFavicon as setFaviconUtil, setPageTitle } from '~/packet/Config'
 
 // 导航项类型定义
 export interface NavItem {
@@ -327,20 +327,33 @@ watch(() => props.logoIcon, (newIcon) => {
   if (newIcon) {
     setFaviconUtil({
       iconName: newIcon,
-      iconPrefix: 'fas',
+      iconPrefix: 'far',
       size: 32
     })
   }
 }, { immediate: false })
 
-// 组件挂载后设置 favicon（如果提供了 logoIcon）
+// 监听 projectName 变化并设置页面标题
+watch(() => props.projectName, (newName) => {
+  if (newName) {
+    setPageTitle(newName)
+  }
+}, { immediate: false })
+
+// 组件挂载后设置 favicon 和页面标题
 onMounted(() => {
+  // 设置 favicon（如果提供了 logoIcon）
   if (props.logoIcon) {
     setFaviconUtil({
       iconName: props.logoIcon,
-      iconPrefix: 'fas',
+      iconPrefix: 'far',
       size: 32
     })
+  }
+  
+  // 设置页面标题（如果提供了 projectName）
+  if (props.projectName) {
+    setPageTitle(props.projectName)
   }
 })
 
