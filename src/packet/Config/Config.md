@@ -9,6 +9,7 @@
 - [存储工具 (storage.ts)](#存储工具-storagets)
 - [UnoCSS 配置 (uno.config.ts)](#unocss-配置-unoconfigts)
 - [Vite 图标加载插件 (vite-icon-plugin.ts)](#vite-图标加载插件-vite-icon-plugints)
+- [全局组件类型声明自动生成](#全局组件类型声明自动生成)
 - [配置导出 (index.ts)](#配置导出-indexts)
 
 ---
@@ -468,6 +469,226 @@ export default defineConfig({
 ```bash
 cp node_modules/sectum/lib/icon.js public/icon.js
 ```
+
+---
+
+## 全局组件类型声明自动生成
+
+Sectum 在构建时会自动分析所有模块的组件注册代码，生成全局组件类型声明文件 `lib/global-components.d.ts`，无需手动维护。
+
+### 功能特性
+
+- ✅ **自动分析** - 自动读取 `src/packet/*/index.ts` 文件
+- ✅ **自动提取** - 自动提取组件导出和注册信息
+- ✅ **自动匹配** - 自动匹配注册名和导出名
+- ✅ **自动分类** - 按 Element、Pattern、Section、Model、Layout 自动分类
+- ✅ **自动生成** - 自动生成完整的 TypeScript 类型声明
+- ✅ **零维护** - 添加新组件后重新构建即可，无需手动更新
+
+### 工作原理
+
+构建过程（`npm run build:lib`）会自动执行以下步骤：
+
+1. **读取模块文件**
+   - 读取 `src/packet/Element/index.ts`
+   - 读取 `src/packet/Pattern/index.ts`
+   - 读取 `src/packet/Section/index.ts`
+   - 读取 `src/packet/Model/index.ts`
+   - 读取 `src/packet/Layout/index.ts`
+
+2. **解析导出语句**
+   ```typescript
+   // 自动解析 export { Component1, Component2, ... }
+   export { Button, Input, Label }
+   ```
+
+3. **解析注册语句**
+   ```typescript
+   // 自动解析 app.component('注册名', 组件变量)
+   app.component('btn', Button)
+   app.component('Button', Button)
+   ```
+
+4. **匹配和分类**
+   - 匹配注册名和导出名
+   - 自动判断是否为短名称（长度 <= 4 且全小写）
+   - 按模块分类（Element、Pattern、Section、Model、Layout）
+
+5. **生成类型声明**
+   ```typescript
+   // 自动生成 lib/global-components.d.ts
+   declare module 'vue' {
+     export interface GlobalComponents {
+       // Element 组件（短名称）
+       btn: Sectum.Button
+       lab: Sectum.Label
+       // ...
+     }
+   }
+   ```
+
+### 使用方式
+
+#### 1. 在项目中使用类型声明
+
+在你的项目的 `env.d.ts` 或 `src/env.d.ts` 文件中添加：
+
+```typescript
+/// <reference types="sectum/global-components" />
+```
+
+这样，你就可以在 Vue 模板中使用全局组件时获得完整的 TypeScript 类型支持：
+
+```vue
+<template>
+  <!-- 全局组件自动获得类型提示 -->
+  <Header :theme-component="Theme" :dark-component="DarkToggle" />
+  <btn>按钮</btn>
+  <ipt v-model="value" />
+</template>
+
+<script setup lang="ts">
+// 如果需要将组件作为 prop 传递，可以按需导入
+import { Theme, DarkToggle } from 'sectum'
+// 或者只导入类型
+import type { Theme, DarkToggle } from 'sectum'
+
+const value = ref('')
+</script>
+```
+
+#### 2. 添加新组件
+
+添加新组件时，只需在对应的 `index.ts` 中完成以下步骤：
+
+**步骤 1：导入组件**
+```typescript
+// src/packet/Element/index.ts
+import NewComponent from './NewComponent/NewComponent.vue'
+```
+
+**步骤 2：导出组件**
+```typescript
+// src/packet/Element/index.ts
+export {
+  Button, Label, Input, NewComponent  // 添加新组件
+}
+```
+
+**步骤 3：注册组件**
+```typescript
+// src/packet/Element/index.ts
+const install = (app: App) => {
+  app.component('NewComponent', NewComponent)  // 注册新组件
+  // 或者使用短名称
+  app.component('newc', NewComponent)
+}
+```
+
+**步骤 4：重新构建**
+```bash
+npm run build:lib
+```
+
+构建完成后，`lib/global-components.d.ts` 会自动更新，包含新组件的类型声明。
+
+### 生成的文件结构
+
+构建后会在 `lib/global-components.d.ts` 生成如下结构：
+
+```typescript
+/**
+ * Sectum 全局组件类型声明
+ * 此文件在构建时自动生成，声明所有全局注册的组件类型
+ * 
+ * 使用方式：在项目的 env.d.ts 中添加：
+ * /// <reference types="sectum/global-components" />
+ * 
+ * 注意：此文件通过自动分析 src/packet 目录下各模块的 index.ts 中的组件注册代码生成
+ * 无需手动维护，添加新组件后重新构建即可自动更新
+ */
+
+import type * as Sectum from './index'
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    // Element 组件（短名称）
+    btn: Sectum.Button
+    lab: Sectum.Label
+    // ...
+    
+    // Element 组件（完整名称）
+    Button: Sectum.Button
+    Label: Sectum.Label
+    // ...
+    
+    // Pattern 组件
+    Theme: Sectum.Theme
+    Language: Sectum.Language
+    // ...
+    
+    // Section 组件
+    Group: Sectum.Group
+    Menu: Sectum.Menu
+    // ...
+    
+    // Model 组件
+    Footer: Sectum.Footer
+    Header: Sectum.Header
+    // ...
+    
+    // Layout 组件
+    Menual: Sectum.Menual
+  }
+}
+```
+
+### 配置说明
+
+类型声明文件通过 `package.json` 的 `exports` 字段导出：
+
+```json
+{
+  "exports": {
+    "./global-components": {
+      "types": "./lib/global-components.d.ts"
+    }
+  }
+}
+```
+
+这样，其他项目可以通过 `/// <reference types="sectum/global-components" />` 引用类型声明。
+
+### 注意事项
+
+1. **构建时机**：类型声明文件在 `npm run build:lib` 时自动生成
+2. **发布流程**：`npm publish` 前会自动执行 `prepublishOnly` 钩子，确保类型声明文件已生成
+3. **无需手动维护**：不要手动编辑 `lib/global-components.d.ts`，它会在每次构建时重新生成
+4. **组件命名**：确保组件导出名和注册名保持一致，系统会自动匹配
+5. **短名称规则**：长度 <= 4 且全小写的注册名会被识别为短名称
+
+### 常见问题
+
+#### Q: 构建时没有生成类型声明文件？
+
+**A:** 请检查：
+1. 是否执行了 `npm run build:lib`（不是 `npm run build`）
+2. 检查构建日志，确认 `[copy-config]` 插件已执行
+3. 确认 `src/packet/*/index.ts` 文件存在且格式正确
+
+#### Q: 新组件没有被检测到？
+
+**A:** 请确保：
+1. 组件已正确导出：`export { NewComponent }`
+2. 组件已正确注册：`app.component('NewComponent', NewComponent)`
+3. 导出名和注册名匹配（注册名可以不同，但导出名必须匹配变量名）
+
+#### Q: 类型声明文件有语法错误？
+
+**A:** 这通常不会发生，因为文件是自动生成的。如果出现错误：
+1. 检查组件导出和注册代码是否有语法错误
+2. 重新构建：`npm run build:lib`
+3. 检查构建日志中的错误信息
 
 ---
 

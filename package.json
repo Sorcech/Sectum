@@ -3,7 +3,7 @@
   "type": "module",
   "sideEffects": false,
   "private": false,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts",
   "keywords": [
     "vue3",
@@ -35,6 +35,9 @@
     "./lib/packet/Element/Excel/Excel": {
       "types": "./lib/packet/Element/Excel/Excel.d.ts",
       "import": "./lib/packet/Element/Excel/Excel.js"
+    },
+    "./global-components": {
+      "types": "./lib/global-components.d.ts"
     }
   },
   "files": [
@@ -74,7 +77,7 @@
     "build:site": "构建网页版本(输出到 dist 目录,用于网站部署)",
     "preview": "预览构建后的文件(默认 dist 目录)",
     "preview:site": "预览构建后的网页版本(dist 目录)",
-    "prepublishOnly": "npm publish 前自动执行的钩子,确保发布前构建组件库",
+    "prepublishOnly": "npm publish 前自动执行的钩子,确保发布前构建组件库(会自动复制 global.d.ts 到 lib/global-components.d.ts)",
     "version:upgrade": "自动更新 README.md 和组件文档中的版本号徽章",
     "version:patch": "仅更新 package.json 版本号(补丁版本, 不创建 git commit 和 tag)",
     "version:minor": "仅更新 package.json 版本号(次要版本, 不创建 git commit 和 tag)",

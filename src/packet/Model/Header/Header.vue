@@ -242,11 +242,53 @@ const iconButtons = computed<IconButton[]>(() => {
 
 // 判断导航项是否激活（当前路由匹配）
 const isActiveNav = (path: string): boolean => {
-  if (path === '/') {
-    return route.path === '/'
+  const currentPath = route.path
+  // 规范化路径（移除尾随斜杠）
+  const normalizedPath = path.replace(/\/$/, '')
+  const normalizedCurrentPath = currentPath.replace(/\/$/, '')
+  
+  // 处理首页路径
+  if (normalizedPath === '/' || normalizedPath === '') {
+    // 首页路径：只有当前路径是 '/' 或 '' 时才激活
+    return normalizedCurrentPath === '/' || normalizedCurrentPath === ''
   }
-  // 精确匹配或路径开头匹配
-  return route.path === path || route.path.startsWith(path + '/')
+  
+  // 精确匹配（处理带/不带尾随斜杠的情况）
+  if (normalizedCurrentPath === normalizedPath) {
+    return true
+  }
+  
+  // 检查是否有更精确的匹配（更长的路径匹配）
+  // 例如：当路径是 /rotor.cn/product 时，不应该激活 /rotor.cn
+  // 因为 /rotor.cn/product 是更精确的匹配
+  const hasMoreSpecificMatch = navItems.value.some(item => {
+    if (!item.path) return false
+    const itemPath = item.path.replace(/\/$/, '')
+    // 跳过自己
+    if (itemPath === normalizedPath) return false
+    // 检查是否有更长的路径匹配当前路径
+    if (normalizedCurrentPath.startsWith(itemPath + '/') || normalizedCurrentPath === itemPath) {
+      // 如果这个更长的路径是当前路径的前缀，说明有更精确的匹配
+      return itemPath.length > normalizedPath.length
+    }
+    return false
+  })
+  
+  // 如果有更精确的匹配，当前路径不应该激活
+  if (hasMoreSpecificMatch) {
+    return false
+  }
+  
+  // 路径开头匹配（支持子路由）
+  // 例如：/rotor.cn/product/xxx 应该匹配 /rotor.cn/product
+  // 但 /rotor.cn/product 不应该匹配 /rotor.cn（因为这不是子路径，而是同级路径）
+  // 只有当当前路径是导航路径的子路径时才匹配
+  // 使用 normalizedPath + '/' 确保是真正的子路径
+  if (normalizedCurrentPath.startsWith(normalizedPath + '/')) {
+    return true
+  }
+  
+  return false
 }
 
 // 背景色类和样式计算
