@@ -9,7 +9,7 @@ import UnoCSS from 'unocss/vite'
 import { autoWrapPlugin } from './src/packet/Pattern/Markdown/Markdown'
 import { codePlugin } from './src/packet/Element/Code/Code'
 import { resolve as pathResolve } from 'node:path'
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, readFileSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import { UnoConfig } from './src/packet/Config'
 import dts from 'vite-plugin-dts'
@@ -149,197 +149,17 @@ export default defineConfig(({ mode }) => {
         {
           name: 'copy-config',
           writeBundle() {
-            console.log('[copy-config] Starting to copy files to lib/...')
-            
-            // 复制 uno.config.ts
-            const configSource = pathResolve(__dirname, 'src/packet/Config/uno.config.ts')
-            const configDest = pathResolve(__dirname, 'lib/uno.config.ts')
+            const configSource = 'src/packet/Config/uno.config.ts'
+            const configDest = 'lib/uno.config.ts'
             if (existsSync(configSource)) {
               copyFileSync(configSource, configDest)
-              console.log('[copy-config] ✓ Copied uno.config.ts to lib/')
-            } else {
-              console.warn('[copy-config] ⚠ uno.config.ts not found at:', configSource)
             }
-            
-            // 复制 icon.js
-            const iconSource = pathResolve(__dirname, 'src/packet/Element/Icon/icon.js')
-            const iconDest = pathResolve(__dirname, 'lib/icon.js')
+            // 复制 icon.js 到 lib 目录
+            const iconSource = 'src/packet/Element/Icon/icon.js'
+            const iconDest = 'lib/icon.js'
             if (existsSync(iconSource)) {
               copyFileSync(iconSource, iconDest)
-              console.log('[copy-config] ✓ Copied icon.js to lib/')
-            } else {
-              console.warn('[copy-config] ⚠ icon.js not found at:', iconSource)
             }
-            
-            // 自动生成全局组件类型声明文件到 lib 目录（重要：发布时自动执行）
-            const globalDtsDest = pathResolve(__dirname, 'lib/global-components.d.ts')
-            try {
-              console.log('[copy-config] Analyzing component registrations...')
-              
-              // 定义要分析的模块
-              const modules = [
-                { path: 'src/packet/Element/index.ts', category: 'element', name: 'Element' },
-                { path: 'src/packet/Pattern/index.ts', category: 'pattern', name: 'Pattern' },
-                { path: 'src/packet/Section/index.ts', category: 'section', name: 'Section' },
-                { path: 'src/packet/Model/index.ts', category: 'model', name: 'Model' },
-                { path: 'src/packet/Layout/index.ts', category: 'layout', name: 'Layout' }
-              ]
-              
-              const allComponents: Array<{
-                registeredName: string
-                exportName: string
-                category: string
-                isShortName: boolean
-              }> = []
-              
-              // 分析每个模块
-              for (const module of modules) {
-                const modulePath = pathResolve(__dirname, module.path)
-                if (!existsSync(modulePath)) {
-                  console.warn(`[copy-config] ⚠ Module not found: ${module.path}`)
-                  continue
-                }
-                
-                const content = readFileSync(modulePath, 'utf-8')
-                
-                // 1. 提取所有导出的组件名称（支持多行和注释）
-                const exportedComponents = new Set<string>()
-                
-                // 匹配 export { ... } 块（支持多行）
-                const exportBlockRegex = /export\s*{\s*([\s\S]*?)\s*}/g
-                let exportBlockMatch
-                while ((exportBlockMatch = exportBlockRegex.exec(content)) !== null) {
-                  const exportList = exportBlockMatch[1]
-                  // 移除注释
-                  const cleanList = exportList.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
-                  // 分割并提取组件名
-                  const componentNames = cleanList
-                    .split(',')
-                    .map(s => s.trim().split(/\s+/)[0])
-                    .filter(name => name && name !== 'exportExcel' && name !== 'codePlugin' && !name.startsWith('type'))
-                  
-                  componentNames.forEach(name => {
-                    exportedComponents.add(name)
-                  })
-                }
-                
-                // 2. 提取所有导入的组件变量名
-                const importMap = new Map<string, string>() // 变量名 -> 组件名
-                const importRegex = /import\s+(\w+)\s+from\s+['"][^'"]+['"]/g
-                let importMatch
-                while ((importMatch = importRegex.exec(content)) !== null) {
-                  const varName = importMatch[1]
-                  // 尝试从导入路径推断组件名，或使用变量名
-                  const componentName = varName
-                  importMap.set(varName, componentName)
-                }
-                
-                // 3. 提取所有 app.component() 注册
-                const componentRegex = /app\.component\(['"]([^'"]+)['"]\s*,\s*(\w+)/g
-                let compMatch
-                const registeredComponents = new Map<string, string>() // 注册名 -> 导出名
-                
-                while ((compMatch = componentRegex.exec(content)) !== null) {
-                  const registeredName = compMatch[1]
-                  const varName = compMatch[2]
-                  
-                  // 变量名通常就是导出名，直接使用变量名作为导出名
-                  const exportName = varName
-                  
-                  // 只添加在导出列表中的组件（确保组件确实被导出）
-                  if (exportedComponents.has(exportName)) {
-                    registeredComponents.set(registeredName, exportName)
-                    
-                    // 判断是否为短名称（长度 <= 4 且全小写）
-                    const isShortName = registeredName.length <= 4 && /^[a-z]+$/.test(registeredName)
-                    
-                    allComponents.push({
-                      registeredName,
-                      exportName,
-                      category: module.category,
-                      isShortName
-                    })
-                  }
-                }
-                
-                console.log(`[copy-config]   Found ${registeredComponents.size} components in ${module.name}`)
-              }
-              
-              // 按分类分组
-              const grouped = allComponents.reduce((acc: Record<string, any[]>, comp: any) => {
-                const cat = comp.category || 'other'
-                if (!acc[cat]) acc[cat] = []
-                acc[cat].push(comp)
-                return acc
-              }, {})
-              
-              // 生成类型声明内容
-              const categoryNames: Record<string, string> = {
-                element: 'Element',
-                pattern: 'Pattern',
-                section: 'Section',
-                model: 'Model',
-                layout: 'Layout'
-              }
-              
-              let componentsDeclarations = ''
-              
-              // 按分类生成声明
-              Object.keys(categoryNames).forEach(category => {
-                if (!grouped[category] || grouped[category].length === 0) return
-                
-                const categoryName = categoryNames[category]
-                const shortNames = grouped[category].filter((c: any) => c.isShortName)
-                const fullNames = grouped[category].filter((c: any) => !c.isShortName)
-                
-                if (shortNames.length > 0) {
-                  componentsDeclarations += `    // ${categoryName} 组件（短名称）\n`
-                  shortNames.forEach((comp: any) => {
-                    componentsDeclarations += `    ${comp.registeredName}: Sectum.${comp.exportName}\n`
-                  })
-                  componentsDeclarations += '\n'
-                }
-                
-                if (fullNames.length > 0) {
-                  componentsDeclarations += `    // ${categoryName} 组件${shortNames.length > 0 ? '（完整名称）' : ''}\n`
-                  fullNames.forEach((comp: any) => {
-                    componentsDeclarations += `    ${comp.registeredName}: Sectum.${comp.exportName}\n`
-                  })
-                  componentsDeclarations += '\n'
-                }
-              })
-              
-              const globalDtsContent = `/**
- * Sectum 全局组件类型声明
- * 此文件在构建时自动生成，声明所有全局注册的组件类型
- * 
- * 使用方式：在项目的 env.d.ts 中添加：
- * /// <reference types="sectum/global-components" />
- * 
- * 注意：此文件通过自动分析 src/packet 目录下各模块的 index.ts 中的组件注册代码生成
- * 无需手动维护，添加新组件后重新构建即可自动更新
- */
-
-// 使用相对路径引用，构建时会自动解析为正确的路径
-import type * as Sectum from './index'
-
-declare module 'vue' {
-  export interface GlobalComponents {
-${componentsDeclarations.trimEnd()}
-  }
-}
-`
-              // 写入到 lib 目录
-              writeFileSync(globalDtsDest, globalDtsContent, 'utf-8')
-              console.log('[copy-config] ✓ Generated global-components.d.ts to lib/')
-              console.log('[copy-config]   Total components:', allComponents.length)
-              console.log('[copy-config]   Dest:', globalDtsDest)
-            } catch (error) {
-              console.error('[copy-config] ✗ Failed to generate global-components.d.ts:', error)
-              throw error
-            }
-            
-            console.log('[copy-config] All files copied successfully!')
           }
         }
       ],

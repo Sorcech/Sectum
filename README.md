@@ -1,7 +1,7 @@
 # Sectum UI
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-0.3.3-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-0.3.4-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/UnoCSS-66.x-333333?style=for-the-badge&logo=unocss&logoColor=white" alt="UnoCSS" />
@@ -30,7 +30,6 @@
 - 🔄 **路由集成** - 与 Vue Router 无缝集成，支持路由跳转回调
 - 🛠️ **自动修复** - 自动处理 UnoCSS 在浏览器环境中的 process 对象问题
 - 📦 **自动资源加载** - 内置 Vite 插件，自动加载 icon.js，无需手动配置
-- 🔍 **自动类型生成** - 构建时自动分析组件注册代码，生成全局组件类型声明，无需手动维护
 
 ## 📦 安装
 
@@ -122,35 +121,7 @@ import 'sectum/dist/style.css'
 import 'uno.css'  // 引入 UnoCSS
 ```
 
-### 4. 配置 TypeScript 类型支持（可选但推荐）
-
-为了在使用全局组件时获得完整的 TypeScript 类型支持，在你的 `env.d.ts` 或 `src/env.d.ts` 文件中添加：
-
-```typescript
-// src/env.d.ts
-/// <reference types="sectum/global-components" />
-```
-
-这样，你就可以在 Vue 模板中使用全局组件时获得完整的类型提示和检查，例如：
-
-```vue
-<template>
-  <Header :theme-component="Theme" :dark-component="DarkToggle" />
-</template>
-
-<script setup lang="ts">
-// 如果需要将组件作为 prop 传递，可以按需导入类型
-import type { Theme, DarkToggle } from 'sectum'
-// 或者导入组件本身
-import { Theme, DarkToggle } from 'sectum'
-</script>
-```
-
-> **💡 自动类型生成**
->
-> `global-components.d.ts` 文件会在构建时自动生成，通过分析 `src/packet/*/index.ts` 中的组件注册代码自动提取所有组件信息。添加新组件后，重新构建即可自动更新类型声明，无需手动维护。
-
-### 5. 使用组件
+### 4. 使用组件
 
 #### 全局引入
 
@@ -211,13 +182,6 @@ if (typeof window !== 'undefined') {
 
 const app = createApp(App)
 app.use(i18n)
-// 全局注册所有 Sectum 组件
-// app.use(Sectum) 会自动注册以下所有组件：
-// - Element: btn, lab, ipt, tgl, ckb, icn, msk, txa, tst, cod, avt, imag, Color, Palette
-// - Section: Group, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, Date, Tabs, TabPane, Upload, File, Carousel, List, Card
-// - Pattern: Theme, Language, User, Plus, Notice, Dark, Markdown, Catalog, FullScreen, Selector, Message, Contact
-// - Layout: Menual, Footer, Header, Navbar, Sidebar, Toolbar
-// - Model: TaskCreate, AccountCreate, ProjectCreate, LoginForm
 app.use(Sectum)
 app.use(router)
 app.mount('#app')
@@ -787,32 +751,6 @@ npm run build:lib
 npm run preview
 ```
 
-构建过程会自动：
-- 生成组件库的 ES 模块和 UMD 格式
-- 生成 TypeScript 类型声明文件
-- **自动分析组件注册代码，生成 `lib/global-components.d.ts`**
-- 复制必要的配置文件（`uno.config.ts`、`icon.js`）到 `lib` 目录
-
-#### 全局组件类型声明自动生成
-
-Sectum 在构建时会自动分析所有模块的 `index.ts` 文件，提取组件注册信息并生成全局组件类型声明文件 `lib/global-components.d.ts`。
-
-**工作原理：**
-1. 自动读取 `src/packet/Element/index.ts`、`src/packet/Pattern/index.ts` 等模块文件
-2. 解析 `export { ... }` 语句，提取导出的组件名
-3. 解析 `app.component('注册名', 组件变量)` 调用，提取注册信息
-4. 自动匹配注册名和导出名
-5. 按分类生成类型声明（Element、Pattern、Section、Model、Layout）
-
-**添加新组件：**
-只需在对应的 `index.ts` 中：
-1. 导入组件：`import NewComponent from './NewComponent/NewComponent.vue'`
-2. 导出组件：`export { NewComponent }`
-3. 注册组件：`app.component('NewComponent', NewComponent)`
-4. 重新构建：`npm run build:lib`
-
-类型声明会自动更新，无需手动维护任何配置文件！
-
 ### 发布
 
 ```bash
@@ -915,25 +853,6 @@ app.use(Sectum)  // 这已经包含了 Icon 组件的注册
 1. UnoCSS 是否正确配置
 2. 是否导入了必要的 CSS 文件
 3. 浏览器开发者工具中是否有 CSS 加载错误
-
-### Q: 全局组件没有 TypeScript 类型提示？
-
-**A:** 请确保：
-
-1. 在 `env.d.ts` 中添加了类型引用：
-   ```typescript
-   /// <reference types="sectum/global-components" />
-   ```
-2. 使用的是最新版本的 sectum（已包含 `global-components.d.ts`）
-3. TypeScript 配置正确，能够解析类型声明文件
-
-### Q: 添加新组件后类型声明没有更新？
-
-**A:** 请执行：
-
-1. 重新构建组件库：`npm run build:lib`
-2. 确保新组件已正确导出和注册
-3. 检查构建日志，确认组件已被检测到
 
 ## 📄 许可证
 
