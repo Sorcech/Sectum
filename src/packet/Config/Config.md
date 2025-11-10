@@ -106,13 +106,15 @@ const carouselConfig = config.carousel
 
 ## Favicon 管理 (favicon.ts)
 
-动态 Favicon 管理模块位于 `src/packet/Config/favicon.ts`，用于根据配置的图标名称自动设置页面 favicon。
+动态 Favicon 和页面标题管理模块位于 `src/packet/Config/favicon.ts`，用于根据配置自动设置页面 favicon 和标题。
 
 ### 功能特性
 
 - ✅ 自动从全局配置读取 `logoIcon` 并设置 favicon
+- ✅ 自动从全局配置读取 `project.name` 并设置页面标题
 - ✅ 支持 FontAwesome 图标（solid、regular、light、brand 等样式）
 - ✅ 动态生成 SVG favicon，无需静态文件
+- ✅ 统一初始化页面元信息（favicon + title）
 - ✅ 独立于组件，应用启动时自动初始化
 
 ### API 接口
@@ -167,11 +169,65 @@ initFaviconFromConfig({
 })
 ```
 
+#### `setPageTitle(title: string): void`
+
+设置页面标题。
+
+```typescript
+import { setPageTitle } from '~/packet/Config/favicon'
+
+// 设置页面标题
+setPageTitle('My Project')
+```
+
+#### `initPageMeta(): void`
+
+统一初始化页面元信息（favicon 和 title）。从全局配置中读取 `config.project.logoIcon` 和 `config.project.name`。
+
+```typescript
+import { initPageMeta } from '~/packet/Config/favicon'
+
+// 在 main.ts 中调用（推荐）
+initPageMeta()
+```
+
+**功能说明：**
+- 自动设置页面标题为 `config.project.name`
+- 自动设置 favicon 为 `config.project.logoIcon`
+- 一次调用完成所有页面元信息的初始化
+
 ### 使用示例
 
-#### 方式一：自动初始化（推荐）
+#### 方式一：统一初始化（推荐）
 
-在 `main.ts` 中调用 `initFavicon()`，会自动从 `config.ts` 读取 `logoIcon`：
+在 `main.ts` 中调用 `initPageMeta()`，会自动从 `config.ts` 读取 `logoIcon` 和 `project.name`：
+
+```typescript
+// src/main.ts
+import { initPageMeta } from './packet/Config/favicon'
+
+// 初始化页面元信息（favicon 和 title，从配置中读取）
+initPageMeta()
+
+createApp(App).use(Router).use(Sectum).use(I18n).mount('#app')
+```
+
+确保在 `config.ts` 中配置了 `logoIcon` 和 `name`：
+
+```typescript
+// src/config/config.ts
+const config: AppConfig = {
+  project: {
+    name: 'Sectum',  // 页面标题
+    // ... 其他配置
+    logoIcon: 'section'  // FontAwesome 图标名，用于 favicon
+  }
+}
+```
+
+#### 方式一（旧版）：单独初始化 favicon
+
+如果只需要初始化 favicon，可以单独调用 `initFavicon()`：
 
 ```typescript
 // src/main.ts
@@ -183,29 +239,20 @@ initFavicon()
 createApp(App).use(Router).use(Sectum).use(I18n).mount('#app')
 ```
 
-确保在 `config.ts` 中配置了 `logoIcon`：
-
-```typescript
-// src/config/config.ts
-const config: AppConfig = {
-  project: {
-    // ... 其他配置
-    logoIcon: 'section'  // FontAwesome 图标名
-  }
-}
-```
-
 #### 方式二：手动设置
 
 ```typescript
-import { setFavicon } from '~/packet/Config/favicon'
+import { setFavicon, setPageTitle } from '~/packet/Config/favicon'
 
-// 在组件中动态设置
+// 在组件中动态设置 favicon
 setFavicon({
   iconName: 'home',
   iconPrefix: 'fas',
   size: 32
 })
+
+// 在组件中动态设置页面标题
+setPageTitle('New Page Title')
 ```
 
 #### 方式三：在 Header 组件中使用
@@ -224,6 +271,8 @@ Header 组件会自动监听 `logoIcon` prop 的变化并更新 favicon：
 2. **图标前缀**：默认使用 `fas` (solid)，也可以使用 `far` (regular)、`fal` (light)、`fab` (brand) 等
 3. **图标名称**：必须是有效的 FontAwesome 图标名（如 `section`、`user`、`home` 等）
 4. **独立运行**：favicon 功能独立于 Header 组件，即使 Header 不在页面中也能正常工作
+5. **统一初始化**：推荐使用 `initPageMeta()` 同时初始化 favicon 和页面标题，代码更简洁
+6. **配置依赖**：`initPageMeta()` 需要 `config.project.name` 和 `config.project.logoIcon` 配置
 
 ---
 
@@ -435,8 +484,8 @@ export { UnoConfig } from './uno.config'
 // Vite 插件
 export { sectumIconLoader } from './vite-icon-plugin'
 
-// Favicon 管理
-export { setFavicon, initFavicon, initFaviconFromConfig } from './favicon'
+// Favicon 和页面标题管理
+export { setFavicon, initFavicon, initFaviconFromConfig, setPageTitle, initPageMeta } from './favicon'
 export type { FaviconConfig } from './favicon'
 
 // 配置说明
@@ -447,10 +496,10 @@ export const configInfo = { ... }
 
 ```typescript
 // 从 sectum 包中导入
-import { UnoConfig, sectumIconLoader, initFavicon } from 'sectum'
+import { UnoConfig, sectumIconLoader, initPageMeta } from 'sectum'
 
 // 或从内部路径导入
-import { UnoConfig, sectumIconLoader, initFavicon } from '~/packet/Config'
+import { UnoConfig, sectumIconLoader, initPageMeta } from '~/packet/Config'
 ```
 
 ---
@@ -489,7 +538,7 @@ import { createApp } from 'vue'
 import Sectum, { Store } from './packet'
 import Router from './router'
 import I18n from './locale'
-import { initFavicon } from './packet/Config/favicon'
+import { initPageMeta } from './packet/Config/favicon'
 import 'uno.css'
 
 // 创建全局对象
@@ -502,8 +551,8 @@ if (typeof window !== 'undefined') {
   (window as any).globalUtils = globalUtils
 }
 
-// 初始化 favicon（从配置中读取）
-initFavicon()
+// 初始化页面元信息（favicon 和 title，从配置中读取）
+initPageMeta()
 
 createApp(App).use(Router).use(Sectum).use(I18n).mount('#app')
 ```
@@ -544,10 +593,11 @@ export default defineConfig({
 ## 最佳实践
 
 1. **统一配置管理**：将所有项目配置集中在 `config.ts` 中管理
-2. **自动初始化**：在 `main.ts` 中调用 `initFavicon()` 自动设置 favicon
+2. **统一初始化**：在 `main.ts` 中调用 `initPageMeta()` 自动设置 favicon 和页面标题
 3. **使用存储工具**：使用 `Store` 类统一管理 Cookie 和 Storage
 4. **插件配置**：在 `vite.config.ts` 中使用 `sectumIconLoader()` 自动加载图标
 5. **类型安全**：使用 TypeScript 类型定义确保配置的正确性
+6. **配置完整性**：确保 `config.project.name` 和 `config.project.logoIcon` 都已配置
 
 ---
 
@@ -557,8 +607,14 @@ export default defineConfig({
 
 A: 确保：
 1. 在 `config.ts` 中配置了 `logoIcon`
-2. 在 `main.ts` 中调用了 `initFavicon()`
+2. 在 `main.ts` 中调用了 `initPageMeta()` 或 `initFavicon()`
 3. FontAwesome 已正确加载
+
+### Q: 页面标题没有更新？
+
+A: 确保：
+1. 在 `config.ts` 中配置了 `project.name`
+2. 在 `main.ts` 中调用了 `initPageMeta()`（推荐）或 `setPageTitle()`
 
 ### Q: 图标文件找不到？
 

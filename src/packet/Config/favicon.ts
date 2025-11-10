@@ -115,3 +115,28 @@ export function initFaviconFromConfig(faviconConfig: FaviconConfig): void {
   }
 }
 
+/**
+ * 设置页面标题
+ * @param title 页面标题
+ */
+export function setPageTitle(title: string): void {
+  if (typeof document !== 'undefined' && title) {
+    document.title = title
+  }
+}
+
+/**
+ * 初始化页面元信息（favicon 和 title）
+ * 从全局配置中读取 project.logoIcon 和 project.name
+ */
+export function initPageMeta(): void {
+  // 设置页面标题
+  const projectName = (config as any).project?.name
+  if (projectName) {
+    setPageTitle(projectName)
+  }
+  
+  // 初始化 favicon
+  initFavicon()
+}
+

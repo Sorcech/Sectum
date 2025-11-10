@@ -11,7 +11,7 @@ const config: AppConfig = {
   project: {
     name: 'Sectum', // 项目名称（与 Header 中的 project-name 一致）
     description: 'A modern Vue 3 component library built with UnoCSS, featuring beautiful UI components and layouts', // 项目描述
-    version: '0.2.10', // 项目版本
+    version: '0.3.1', // 项目版本
     homepage: 'github.com/Sorcech/Sectum', // 项目主页
     author: 'Cesar.Studio', // 作者
     keywords: ['vue3', 'unocss', 'component-library', 'ui', 'typescript', 'vite', 'modern', 'responsive', 'accessibility'], // 关键词

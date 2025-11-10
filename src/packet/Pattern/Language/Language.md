@@ -120,7 +120,7 @@ Drawer 模式特点：
 | `es-ES`  | Español    | S        | 西班牙语 |
 | `ru-RU`  | Русский    | Р        | 俄语     |
 
-> **注意**：组件会自动从 vue-i18n 实例中获取可用语言列表，如果未配置则默认显示中文和英文。
+> **注意**：组件会自动从 vue-i18n 实例中获取可用语言列表。组件会通过 `window.globalUtils.I18n` 访问 i18n 实例，并从其 `messages` 中提取可用的语言代码。如果未配置 i18n 实例或无法获取语言列表，则默认显示中文和英文。
 
 ## 组件结构
 
@@ -277,6 +277,57 @@ import Language from '~/packet/Pattern/Language/Language.vue'
 
 ## 技术实现
 
+### 动态语言检测
+
+组件会自动从 vue-i18n 实例中检测可用的语言列表。检测逻辑如下：
+
+```typescript
+// 获取所有可用语言
+const getAvailableLocales = (): string[] => {
+  const I18n = getI18n() // 从 window.globalUtils.I18n 获取
+  if (!I18n) return ['zh-CN', 'en-US']
+  
+  // 方式1: 尝试从 I18n.global.availableLocales 获取
+  if (I18n.global?.availableLocales && Array.isArray(I18n.global.availableLocales)) {
+    return I18n.global.availableLocales
+  }
+  
+  // 方式2: 从 messages 对象中提取语言代码
+  // 尝试多种方式访问 messages（兼容不同的 vue-i18n 版本）
+  let messages = null
+  
+  // 直接访问 messages（vue-i18n v9 标准方式）
+  if (I18n.global?.messages && typeof I18n.global.messages === 'object') {
+    messages = I18n.global.messages
+  }
+  
+  // 如果 messages 是响应式的，尝试访问 .value
+  if (!messages && I18n.global?.messages?.value && typeof I18n.global.messages.value === 'object') {
+    messages = I18n.global.messages.value
+  }
+  
+  // 如果找到了 messages，返回其键（语言代码列表）
+  if (messages && typeof messages === 'object') {
+    const locales = Object.keys(messages)
+    if (locales.length > 0) {
+      return locales
+    }
+  }
+  
+  // 默认返回两种语言
+  return ['zh-CN', 'en-US']
+}
+```
+
+**工作原理：**
+
+1. 组件通过 `window.globalUtils.I18n` 获取 i18n 实例
+2. 优先从 `I18n.global.availableLocales` 获取语言列表
+3. 如果没有，则从 `I18n.global.messages` 中提取所有键作为语言代码
+4. 根据检测到的语言数量自动选择显示模式：
+   - **2 种语言**：显示为单按钮，点击切换
+   - **3+ 种语言**：显示为下拉菜单
+
 ### 语言切换逻辑
 
 ```typescript
@@ -330,6 +381,91 @@ onMounted(() => {
 ```
 
 ## 国际化配置
+
+### 配置 i18n 实例
+
+Language 组件需要通过 `window.globalUtils.I18n` 访问 vue-i18n 实例。在使用组件前，需要将 i18n 实例设置到全局对象中：
+
+```typescript
+// App.vue 或 main.ts
+import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
+import App from './App.vue'
+
+// 创建 i18n 实例
+const i18n = createI18n({
+  locale: 'zh-CN',
+  fallbackLocale: 'en-US',
+  legacy: false,
+  messages: {
+    'zh-CN': zhCN,
+    'en-US': enUS,
+    // 只配置需要的语言，组件会自动检测
+  }
+})
+
+// 设置到全局对象（供 Language 组件使用）
+if (typeof window !== 'undefined') {
+  if (!window.globalUtils) {
+    window.globalUtils = {}
+  }
+  window.globalUtils.I18n = i18n
+}
+
+const app = createApp(App)
+app.use(i18n)
+app.mount('#app')
+```
+
+### 项目级语言配置
+
+对于不同的项目，可以配置不同的语言集合。例如，某个项目只需要中文和英文：
+
+```typescript
+// rotor/locale/index.ts
+import { createI18n } from 'vue-i18n'
+
+const messages = {
+  'zh-CN': {
+    nav: { home: '首页', product: '产品' },
+    // ... 其他翻译
+  },
+  'en-US': {
+    nav: { home: 'Home', product: 'Product' },
+    // ... 其他翻译
+  }
+  // 注意：只配置了两种语言
+}
+
+const i18n = createI18n({
+  locale: 'zh-CN',
+  fallbackLocale: 'en-US',
+  legacy: false,
+  messages
+})
+
+export default i18n
+```
+
+```vue
+<!-- rotor/App.vue -->
+<script setup>
+import { onMounted } from 'vue'
+import rotorI18n from './locale/index'
+
+onMounted(() => {
+  // 将项目特定的 i18n 实例设置为全局 I18n
+  if (typeof window !== 'undefined') {
+    if (!window.globalUtils) {
+      window.globalUtils = {}
+    }
+    window.globalUtils.I18n = rotorI18n
+  }
+})
+</script>
+```
+
+这样，Language 组件会自动检测到只有两种语言（`zh-CN` 和 `en-US`），并显示为单按钮切换模式。
 
 ### 语言文件结构
 
@@ -448,8 +584,12 @@ const setLanguage = (locale: 'zh-CN' | 'en-US' | 'ja-JP') => {
 
 ## 注意事项
 
-1. 确保项目中已正确配置vue-i18n
-2. 语言文件需要与组件中定义的语言代码一致
-3. 组件依赖项目的Store工具类进行本地存储
-4. 图标组件需要支持`language`图标
-5. 建议在应用启动时初始化语言设置
+1. **i18n 实例配置**：确保在使用 Language 组件前，将 vue-i18n 实例设置到 `window.globalUtils.I18n`
+2. **动态语言检测**：组件会自动从 i18n 实例的 `messages` 中提取可用语言，无需手动配置语言列表
+3. **语言数量影响显示模式**：
+   - 2 种语言：自动显示为单按钮切换模式
+   - 3+ 种语言：自动显示为下拉菜单模式
+4. **语言文件一致性**：语言文件中的语言代码需要与 i18n 实例的 `messages` 键一致
+5. **本地存储**：组件依赖项目的 Store 工具类进行本地存储，确保 Store 已正确配置
+6. **图标支持**：图标组件需要支持 `globe` 图标（多语言模式）和语言字符显示（单按钮模式）
+7. **初始化时机**：建议在应用启动时或组件挂载时设置 i18n 实例到全局对象

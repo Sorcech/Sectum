@@ -4,8 +4,8 @@ export { UnoConfig } from './uno.config'
 // 导出 Vite 插件
 export { sectumIconLoader } from './vite-icon-plugin'
 
-// 导出 Favicon 管理
-export { setFavicon, initFavicon, initFaviconFromConfig } from './favicon'
+// 导出 Favicon 和页面标题管理
+export { setFavicon, initFavicon, initFaviconFromConfig, setPageTitle, initPageMeta } from './favicon'
 export type { FaviconConfig } from './favicon'
 
 // 导出配置说明

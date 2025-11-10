@@ -142,8 +142,37 @@ const getAvailableLocales = (): string[] => {
   }
   
   // 如果没有 availableLocales，从 messages 获取
-  if (I18n.global?.messages?.value && typeof I18n.global.messages.value === 'object') {
-    return Object.keys(I18n.global.messages.value)
+  // 尝试多种方式访问 messages（兼容不同的 vue-i18n 版本和配置）
+  let messages = null
+  
+  // 方式1: 直接访问 messages（vue-i18n v9 标准方式）
+  if (I18n.global?.messages && typeof I18n.global.messages === 'object') {
+    messages = I18n.global.messages
+  }
+  
+  // 方式2: 如果 messages 是响应式的，尝试访问 .value
+  if (!messages && I18n.global?.messages?.value && typeof I18n.global.messages.value === 'object') {
+    messages = I18n.global.messages.value
+  }
+  
+  // 方式3: 如果 messages 是函数，尝试调用
+  if (!messages && typeof I18n.global?.messages === 'function') {
+    try {
+      const result = I18n.global.messages()
+      if (result && typeof result === 'object') {
+        messages = result
+      }
+    } catch (e) {
+      // 忽略错误
+    }
+  }
+  
+  // 如果找到了 messages，返回其键（语言代码列表）
+  if (messages && typeof messages === 'object') {
+    const locales = Object.keys(messages)
+    if (locales.length > 0) {
+      return locales
+    }
   }
   
   // 默认返回两种语言
