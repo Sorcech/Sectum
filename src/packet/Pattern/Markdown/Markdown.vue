@@ -1,11 +1,12 @@
 <template>
-    <div class="flex flex-row flex-1 min-h-0 px-10">
-      <div class="flex-1 w-full lg:pr-10">
+    <div class="flex flex-row flex-1 min-h-0 px-5">
+      <!-- 文档内容区域：固定比例 75% -->
+      <div class="w-3/4 flex-shrink-0 lg:pr-10">
           <slot />
       </div>
-      <!-- 目录：同时检查 TOC 和 showCatalog -->
-      <div v-show="toc && toc.length > 0 && showCatalog" class="hidden xl:block xl:row-span-3 flex-shrink-0">
-        <div class="sticky top-5 h-[calc(100vh-4rem)]">
+      <!-- 目录：固定比例 25%，同时检查 TOC 和 showCatalog -->
+      <div v-show="toc && toc.length > 0 && showCatalog" class="hidden xl:block w-1/4 flex-shrink-0 ">
+        <div class="sticky top-5 h-[calc(100vh-4rem)] ">
           <Catalog :toc="toc" :index="currentIndex" class="h-full" ref="catalogRef" />
         </div>
       </div>

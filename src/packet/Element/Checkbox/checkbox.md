@@ -555,7 +555,7 @@ const toggleItem = (id, checked) => {
 
 禁用状态的视觉特征：
 
-- 背景色：`var(--base-200)`
+- 背景色：`var(--base-250)`
 - 透明度：`0.2`
 - 边框：透明
 - 光标：`not-allowed`

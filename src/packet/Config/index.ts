@@ -4,6 +4,10 @@ export { UnoConfig } from './uno.config'
 // 导出 Vite 插件
 export { sectumIconLoader } from './vite-icon-plugin'
 
+// 导出 Favicon 管理
+export { setFavicon, initFavicon, initFaviconFromConfig } from './favicon'
+export type { FaviconConfig } from './favicon'
+
 // 导出配置说明
 export const configInfo = {
   name: 'Sectum UI UnoCSS Configuration',

@@ -112,7 +112,7 @@ const isChecked = computed({
 .ckb:disabled {
   cursor: not-allowed;
   border-color: transparent;
-  background-color: var(--base-200);
+  background-color: var(--base-250);
   opacity: 0.2;
 }
 

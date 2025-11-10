@@ -278,7 +278,7 @@ Card 组件的基本用法非常简单：
 | `shadowSize`    | `'sm' \| 'md' \| 'lg' \| 'xl'`          | `'md'`      | 阴影大小                     |
 | `bordered`      | `Boolean`                               | `false`     | 是否显示边框                 |
 | `rounded`       | `Boolean`                               | `true`      | 是否显示圆角                 |
-| `bg`            | `String`                                | `'base-100'` | 背景颜色类名                 |
+| `bg`            | `String`                                | `'base-150'` | 背景颜色类名                 |
 | `image`         | `String`                                | `''`        | 卡片图片 URL                 |
 | `imagePosition` | `'top' \| 'bottom'`                     | `'top'`     | 图片位置                     |
 | `actions`       | `Boolean`                               | `false`     | 是否显示动作区域（footer）   |
@@ -343,8 +343,8 @@ Card 组件的基本用法非常简单：
 #### 不同背景颜色的卡片
 
 ```vue
-<Card title="卡片标题" bg="base-200">
-  背景颜色为 base-200
+<Card title="卡片标题" bg="base-250">
+  背景颜色为 base-250
 </Card>
 
 <Card title="卡片标题" bg="primary">

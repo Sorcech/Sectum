@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClasses">
+  <div class="relative w-full">
     <textarea 
       :value="modelValue" 
       @input="input" 
@@ -7,18 +7,21 @@
       :cols="cols" 
       :disabled="disabled || loading" 
       :readonly="readonly"
-      :placeholder="placeholder"
+      :placeholder="placeholder || t('common.pleaseInput')"
       @focus="focus" 
       @blur="blur" 
       :maxlength="maxlength" 
       :class="textareaClasses"
     ></textarea>
-    <div v-if="showCounter" :class="counterClasses">{{ quantity }}/{{ maxlength }}</div>
+    <div v-if="showCounter" class="opacity-50 absolute bottom-2 right-2 text-xs">{{ quantity }}/{{ maxlength }}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   modelValue: { type: String },
@@ -27,7 +30,7 @@ const props = defineProps({
   disabled: { type: Boolean, default: false },
   readonly: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
-  placeholder: { type: String, default: 'Please Input' },
+  placeholder: { type: String, default: undefined },
   maxlength: { type: Number, default: 150 },
   showCounter: { type: Boolean, default: true },
   size: {
@@ -80,7 +83,7 @@ const sizeClasses = computed(() => {
 // 颜色和变体样式
 const colorVariantClasses = computed(() => {
   const variants = {
-    default: () => props.bordered ? 'border border-base-300 focus:outline-2 focus:outline-offset-2 focus:outline-base-300' : '',
+    default: () => props.bordered ? 'border border-base-250 focus:outline-2 focus:outline-offset-2 focus:outline-base-250' : '',
     primary: () => props.bordered ? 'border border-primary focus:outline-2 focus:outline-offset-2 focus:outline-primary' : '',
     secondary: () => props.bordered ? 'border border-secondary focus:outline-2 focus:outline-offset-2 focus:outline-secondary' : '',
     success: () => props.bordered ? 'border border-success focus:outline-2 focus:outline-offset-2 focus:outline-success' : '',
@@ -101,7 +104,7 @@ const stateClasses = computed(() => {
   }
   
   if (props.disabled) {
-    classes.push('cursor-not-allowed pointer-events-none bg-base-100/70 border-base-100/50 text-base-content/80')
+    classes.push('cursor-not-allowed pointer-events-none bg-base-100/70 border-base-150/50 text-base-content/80')
   }
   
   if (props.loading) {
@@ -162,15 +165,6 @@ const textareaClasses = computed(() => {
   ].filter(Boolean).join(' ')
 })
 
-// 容器样式
-const containerClasses = computed(() => {
-  return 'relative w-full'
-})
-
-// 计数器样式
-const counterClasses = computed(() => {
-  return 'opacity-50 absolute bottom-2 right-2 text-xs'
-})
 
 const input = (e: any) => {
   quantity.value = e.target.value.length
@@ -191,8 +185,8 @@ const blur = (e: any) => {
 
 <style scoped>
 /* 文本域边框颜色设置 - 使用 CSS 变量确保纯色 */
-textarea.border-base-300 {
-  border-color: var(--base-300);
+textarea.border-base-250 {
+  border-color: var(--base-250);
 }
 
 textarea.border-primary {

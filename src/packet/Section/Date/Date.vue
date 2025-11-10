@@ -14,8 +14,7 @@
           ref="inputRef"
           type="text"
           :size="size"
-          :class="inputClasses"
-          class="w-full [&_input]:w-full"
+          :class="[inputClasses, iptClasses]"
           :modelValue="displayValue"
           :placeholder="placeholder"
           :disabled="disabled"
@@ -24,7 +23,7 @@
           @blur="handleBlur"
           @input="handleInput"
         />
-        <div :class="iconContainerClasses">
+        <div :class="['absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 hover:opacity-70 transition-opacity pointer-events-none', props.disabled ? 'opacity-30' : '']">
           <icn :name="iconName" :size="iconSize"></icn>
         </div>
       </div>
@@ -33,34 +32,34 @@
       <tst name="fade">
         <div v-if="positionShow" :class="panelClasses" :style="positionStyle">
           <!-- 头部导航 -->
-          <div :class="headerClasses">
-            <div :class="navButtonClasses" @click="yearDecrease" title="上一年">
-              <icn name="angles-left" light lg color="primary"></icn>
+          <div class="flex flex-row items-center border-b border-base-250 p-3 gap-1 h-12 flex-shrink-0">
+            <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="yearDecrease" :title="t('date.previousYear')">
+              <icn name="angles-left" light lg class="hover:text-primary"></icn>
             </div>
-            <div :class="navButtonClasses" @click="monthDecrease" title="上一月">
-              <icn name="angle-left" light lg color="primary"></icn>
+            <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="monthDecrease" :title="t('date.previousMonth')">
+              <icn name="angle-left" light lg class="hover:text-primary"></icn>
             </div>
-            <div :class="yearMonthClasses">
-              <span :class="yearClasses">{{ currentYear }}</span>
-              <span :class="monthClasses">{{ MonthName[currentMonth] }}</span>
+            <div class="flex-1 text-center flex flex-col items-center space-y-1 min-w-0">
+              <span class="text-lg font-semibold text-primary">{{ currentYear }}</span>
+              <span class="text-sm text-base-content">{{ MonthName[currentMonth] }}</span>
             </div>
-            <div :class="navButtonClasses" @click="monthIncrease" title="下一月">
-              <icn name="angle-right" light lg color="primary"></icn>
+            <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="monthIncrease" :title="t('date.nextMonth')">
+              <icn name="angle-right" light lg class="hover:text-primary"></icn>
             </div>
-            <div :class="navButtonClasses" @click="yearIncrease" title="下一年">
-              <icn name="angles-right" light lg color="primary"></icn>
+            <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="yearIncrease" :title="t('date.nextYear')">
+              <icn name="angles-right" light lg class="hover:text-primary"></icn>
             </div>
           </div>
           
           <!-- 星期标题 -->
-          <div :class="weekHeaderClasses">
-            <div v-for="day in WeekName" :key="day" :class="weekDayClasses">
+          <div class="grid grid-cols-7 gap-1 h-8 flex-shrink-0">
+            <div v-for="day in WeekName" :key="day" class="flex justify-center items-center text-sm text-base-content opacity-70 font-medium h-8">
               {{ day }}
             </div>
           </div>
           
           <!-- 日期网格 -->
-          <div :class="dateGridClasses">
+          <div class="grid grid-cols-7 gap-1 p-2 h-48 flex-shrink-0">
             <div
               v-for="date in dateList"
               :key="`${date.year}-${date.month}-${date.day}`"
@@ -72,7 +71,7 @@
           </div>
           
           <!-- 底部操作按钮 -->
-          <div :class="footerClasses">
+          <div class="flex flex-row justify-center items-center gap-4 p-4  border-base-250 h-12 flex-shrink-0">
             <btn 
               :size="buttonSize" 
               :color="buttonColor" 
@@ -240,13 +239,24 @@ const buttonColor = computed(() => props.color)
 // 样式计算
 const dateContainerClasses = computed(() => {
   const baseClasses = props.direction === 'column' ? 'flex flex-col space-y-2' : 'flex flex-row items-center space-x-4'
-  const widthClass = 'max-w-96'
+  
+  // 从 customClass 中提取宽度相关的类，但不包括 flex-shrink-0（因为那是给 datePicker 用的）
+  let widthClass = 'max-w-96' // 默认最大宽度
+  if (props.customClass) {
+    const widthClasses = props.customClass.split(' ').filter(cls => 
+      (cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')) && 
+      !cls.includes('flex-shrink')
+    )
+    if (widthClasses.length > 0) {
+      widthClass = widthClasses.join(' ')
+    }
+  }
+  
   const responsiveClasses = 'sm:flex-col sm:items-start sm:space-x-0 sm:space-y-2'
   return [
     baseClasses,
     widthClass,
-    responsiveClasses,
-    props.customClass
+    responsiveClasses
   ].filter(Boolean).join(' ')
 })
 
@@ -270,8 +280,22 @@ const labelTextClasses = computed(() => {
 })
 
 const datePickerClasses = computed(() => {
+  // 从 customClass 中提取宽度相关的类
+  let widthClass = 'w-96 max-w-96' // 默认宽度
+  
+  if (props.customClass) {
+    const widthClasses = props.customClass.split(' ').filter(cls => 
+      cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')
+    )
+    if (widthClasses.length > 0) {
+      widthClass = widthClasses.join(' ')
+    }
+  }
+  
   return [
-    'relative w-96 max-w-96'
+    'relative',
+    widthClass,
+    'flex-shrink-0' // 防止在 flex 容器中被压缩
   ].join(' ')
 })
 
@@ -282,7 +306,6 @@ const inputContainerClasses = computed(() => {
     props.readonly ? 'cursor-default' : ''
   ].filter(Boolean).join(' ')
 })
-
 const inputClasses = computed(() => {
   const baseClasses = [
     ' outline-none bg-transparent box-border',
@@ -291,7 +314,6 @@ const inputClasses = computed(() => {
     props.disabled ? 'cursor-not-allowed' : '',
     props.readonly ? 'cursor-default' : ''
   ]
-  
   const sizeClasses = {
     xs: 'h-6  text-xs ',
     sm: 'h-8  text-sm ',
@@ -299,47 +321,87 @@ const inputClasses = computed(() => {
     lg: 'h-12  text-lg ',
     xl: 'h-14  text-xl '
   }
-  
   const variantClasses = {
-    outline: 'border border-gray-300 rounded hover:border-gray-400 focus:border-primary focus:ring-1 focus:ring-primary',
-    filled: 'bg-gray-100 rounded hover:bg-gray-200 focus:bg-white focus:ring-2 focus:ring-primary',
-    ghost: 'border-b border-gray-300 rounded-none hover:border-gray-400 focus:border-primary'
+    outline: 'border border-gray-300 hover:border-gray-400 focus:border-primary focus:ring-1 focus:ring-primary',
+    filled: 'bg-gray-100 hover:bg-gray-200 focus:bg-white focus:ring-2 focus:ring-primary',
+    ghost: 'border-b border-gray-300 hover:border-gray-400 focus:border-primary'
   }
-  
   const shapeClasses = {
     rounded: 'rounded',
     square: 'rounded-none',
     circle: 'rounded-full'
   }
+  // 确定圆角类：优先使用 shape 属性，如果没有则根据 variant 决定
+  const roundedClass = props.shape 
+    ? shapeClasses[props.shape] 
+    : (props.variant === 'ghost' ? 'rounded-none' : 'rounded')
   
   return [
     ...baseClasses,
     sizeClasses[props.size] || sizeClasses.md,
     variantClasses[props.variant] || variantClasses.outline,
-    shapeClasses[props.shape] || shapeClasses.rounded,
+    roundedClass,
     props.inputClass
   ].filter(Boolean).join(' ')
 })
 
-const iconContainerClasses = computed(() => {
-  return [
-    'absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 hover:opacity-70 transition-opacity pointer-events-none',
-    props.disabled ? 'opacity-30' : ''
-  ].filter(Boolean).join(' ')
+// Input 组件的 class（支持宽度设定）
+const iptClasses = computed(() => {
+  const classes: string[] = []
+  // 提取宽度相关类的辅助函数
+  const extractWidthClasses = (classString: string): string[] => {
+    return classString.split(' ').filter(cls => 
+      cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-') || 
+      cls.includes('flex-') || cls.includes('flex-grow') || cls.includes('flex-shrink')
+    )
+  }
+  // 提取圆角类（直接应用到 Input 组件）
+  const extractRoundedClasses = (classString: string): string[] => {
+    return classString.split(' ').filter(cls => cls.includes('rounded'))
+  }
+  // 优先使用 inputClass 中的宽度类
+  if (props.inputClass) {
+    const widthClasses = extractWidthClasses(props.inputClass)
+    if (widthClasses.length > 0) {
+      classes.push(...widthClasses)
+    }
+    // 也提取圆角类
+    const roundedClasses = extractRoundedClasses(props.inputClass)
+    if (roundedClasses.length > 0) {
+      classes.push(...roundedClasses)
+    }
+  }
+  // 如果 inputClass 没有宽度类，则使用 customClass 中的宽度类
+  if (classes.length === 0 && props.customClass) {
+    const widthClasses = extractWidthClasses(props.customClass)
+    if (widthClasses.length > 0) {
+      classes.push(...widthClasses)
+    }
+  }
+  // 默认情况下，如果没有指定宽度，使用 w-full
+  if (classes.length === 0) {
+    classes.push('w-full')
+  }
+  // 确保 input 元素也占据全宽（除非已经指定了具体的宽度类）
+  if (!classes.some(cls => cls.startsWith('w-') && cls !== 'w-full')) {
+    classes.push('[&_input]:w-full')
+  }
+  return classes.join(' ')
 })
 
 // 位置计算
 const { placement, positionStyle, calculatePosition } = usePosition(inputContainerRef, {
   panelHeight: 400,
-  panelWidth: 384,
+  panelWidth: 320, // 使用最小宽度 320px 进行计算
   gap: 4
 })
 
 const panelClasses = computed(() => {
   const baseClasses = [
-    'absolute bg-base-100 border border-base-300 rounded-lg shadow-lg z-50',
-    'w-full',
-    'date-panel'
+    'absolute bg-base-100 border border-base-250 rounded-lg shadow-lg z-[9999]',
+    'w-full min-w-[320px]', // 最小宽度 320px（20rem），确保包含所有导航按钮和日期网格
+    'date-panel',
+    'overflow-hidden', // 确保内容不超出面板边界
   ]
   
   // 根据位置调整样式
@@ -353,62 +415,6 @@ const panelClasses = computed(() => {
   return baseClasses.filter(Boolean).join(' ')
 })
 
-const headerClasses = computed(() => {
-  return [
-    'flex flex-row justify-between items-center border-b border-base-300 p-4'
-  ].join(' ')
-})
-
-const navButtonClasses = computed(() => {
-  return [
-    'flex items-center justify-center min-w-8 min-h-8 rounded-md transition-all duration-200 ease-in-out',
-    'hover:opacity-70 active:scale-95 cursor-pointer p-2',
-    '[&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200',
-    'hover:[&_i]:text-primary-focus'
-  ].join(' ')
-})
-
-const yearMonthClasses = computed(() => {
-  return [
-    'min-w-32 text-center flex flex-col items-center space-y-1'
-  ].join(' ')
-})
-
-const yearClasses = computed(() => {
-  return [
-    'text-lg font-semibold text-primary'
-  ].join(' ')
-})
-
-const monthClasses = computed(() => {
-  return [
-    'text-sm text-base-content'
-  ].join(' ')
-})
-
-const weekHeaderClasses = computed(() => {
-  return [
-    'grid grid-cols-7 gap-1 p-2'
-  ].join(' ')
-})
-
-const weekDayClasses = computed(() => {
-  return [
-    'flex justify-center items-center text-sm text-base-content opacity-70 font-medium h-8'
-  ].join(' ')
-})
-
-const dateGridClasses = computed(() => {
-  return [
-    'grid grid-cols-7 gap-1 p-2'
-  ].join(' ')
-})
-
-const footerClasses = computed(() => {
-  return [
-    'flex flex-row justify-center items-center space-x-2 p-4 border-t border-base-300'
-  ].join(' ')
-})
 
 // 日期相关计算
 const dateList = computed((): DateItem[] => {

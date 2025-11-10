@@ -8,7 +8,7 @@ const props = defineProps({
   shadowSize: { type: String as () => 'sm' | 'md' | 'lg' | 'xl',default: 'md',validator: (value: string) => ['sm', 'md', 'lg', 'xl'].includes(value)},// 阴影大小
   bordered: { type: Boolean,default: false},// 是否显示边框
   rounded: { type: Boolean,default: true},// 是否显示圆角
-  bg: { type: String,default: 'base-100'},// 背景颜色
+  bg: { type: String,default: 'base-150'},// 背景颜色
   image: { type: String,default: ''},// 卡片图片
   imagePosition: { type: String as () => 'top' | 'bottom',default: 'top',validator: (value: string) => ['top', 'bottom'].includes(value)},// 图片位置
   actions: { type: Boolean,default: false},// 卡片动作区域（footer）
@@ -21,39 +21,13 @@ const baseClasses = computed(() => {
     'card',
     'w-full',
     `bg-${props.bg} dark:bg-dark-${props.bg}`,
-    props.bordered ? 'border border-base-300 dark:border-dark-base-300' : '',
+    props.bordered ? 'border border-base-250 dark:border-dark-base-250' : '',
     props.rounded ? 'rounded-$rounded-box' : '',
     props.shadow ? `shadow-${props.shadowSize}` : '',
     props.hover ? 'transition-all duration-300 hover:shadow-lg hover:scale-[1.02]' : ''
   ].filter(Boolean).join(' ')
 })
 
-// 标题区域样式
-const headerClasses = computed(() => {
-  return [
-    'card-header',
-    'p-4',
-    'border-b border-base-300 dark:border-dark-base-300'
-  ].filter(Boolean).join(' ')
-})
-
-// 内容区域样式
-const bodyClasses = computed(() => {
-  return [
-    'card-body',
-    'p-4'
-  ].filter(Boolean).join(' ')
-})
-
-// 动作区域样式
-const footerClasses = computed(() => {
-  return [
-    'card-footer',
-    'p-4',
-    'border-t border-base-300 dark:border-dark-base-300',
-    'flex justify-end gap-2'
-  ].filter(Boolean).join(' ')
-})
 </script>
 
 <template>
@@ -64,7 +38,7 @@ const footerClasses = computed(() => {
     </div>
     
     <!-- 标题区域 -->
-    <div v-if="title || subtitle" :class="headerClasses">
+    <div v-if="title || subtitle" class="card-header p-4 border-b border-base-250 dark:border-dark-base-250">
       <h3 v-if="title" class="card-title text-lg font-bold text-base-content dark:text-dark-base-content">
         {{ title }}
       </h3>
@@ -74,7 +48,7 @@ const footerClasses = computed(() => {
     </div>
     
     <!-- 内容区域 -->
-    <div :class="bodyClasses">
+    <div class="card-body p-4">
       <slot />
     </div>
     
@@ -84,7 +58,7 @@ const footerClasses = computed(() => {
     </div>
     
     <!-- 动作区域 -->
-    <div v-if="actions || $slots.footer" :class="footerClasses">
+    <div v-if="actions || $slots.footer" class="card-footer p-4 border-t border-base-250 dark:border-dark-base-250 flex justify-end gap-2">
       <slot name="footer" />
     </div>
   </div>

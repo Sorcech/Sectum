@@ -5,7 +5,7 @@ defineProps<{
 }>()
 </script>
 <template>
-  <div>
+  <div class="flex-1 w-full min-h-0">
     <slot />
   </div>
 </template>

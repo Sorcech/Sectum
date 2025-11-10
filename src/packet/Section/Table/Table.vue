@@ -1,36 +1,36 @@
 <template>
-  <div :class="containerClasses">
-    <table :class="headerTableClasses">
+  <div class="px-3 pt-2 h-screen">
+    <table class="w-full m-0 text-center table-fixed fixed-thead z-10">
       <thead>
-        <tr :class="headerRowClasses">
+        <tr class="bg-base-200 border-b-1 h-12 shadow shadow-lg !w-10">
           <th v-for="info of props.data.tableHead" :key="info.key" :class="headerCellClasses(info.key)">
             {{ info.text }}
           </th>
-          <th :class="moreHeaderCellClasses">More</th>
+          <th class="font-medium text-base-content w-15">More</th>
         </tr>
       </thead>
     </table>
-    <div :class="bodyContainerClasses">
-      <table :class="bodyTableClasses">
+    <div class="overflow-y-auto w-full h-8/9 scrollbar-hide">
+      <table class="w-full m-0 table-fixed">
         <tbody>
-          <tr v-for="(item, index) of props.data.tableBody" :key="item.id" :class="bodyRowClasses">
+          <tr v-for="(item, index) of props.data.tableBody" :key="item.id" class="bg-base-100 h-8 hover:bg-base-200">
             <td v-for="(value, key) in item" :key="key" 
                 @click.stop="showEditInput($event, key, index)"
                 :class="bodyCellClasses(key)" 
                 @click="print(key)">
               {{ value }}
             </td>
-            <td :class="moreBodyCellClasses">
+            <td class="text-center w-15 !h-5 border-1">
               <btn variant="link" class="h-5">More</btn>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <table :class="footerTableClasses">
+    <table class="w-full text-center table-fixed">
       <tfoot>
-        <tr :class="footerRowClasses">
-          <td>Quantity: {{ quantity }}</td>
+        <tr class="bg-base-200 border-b-1 h-10">
+          <td>{{ t('common.quantity') }}: {{ quantity }}</td>
         </tr>
       </tfoot>
     </table>
@@ -38,7 +38,10 @@
 </template>
 <script setup lang="ts">
 import { createApp, reactive, App, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import EditInput from './EditInput.vue'
+
+const { t } = useI18n()
 
 let editInputApp: App<Element> | null = null
 const state = reactive({ key: '', value: '', index: -1, text: '' })
@@ -47,20 +50,6 @@ const props = defineProps({
   quantity: { type: Number, default: 0, required: false }
 })
 
-// 容器样式
-const containerClasses = computed(() => {
-  return 'px-3 pt-2 h-screen'
-})
-
-// 表头表格样式
-const headerTableClasses = computed(() => {
-  return 'w-full m-0 text-center table-fixed fixed-thead z-10'
-})
-
-// 表头行样式
-const headerRowClasses = computed(() => {
-  return 'bg-base-200 border-b-1 h-12 shadow shadow-lg !w-10'
-})
 
 // 表头单元格样式
 const headerCellClasses = computed(() => {
@@ -72,25 +61,6 @@ const headerCellClasses = computed(() => {
   }
 })
 
-// More 表头单元格样式
-const moreHeaderCellClasses = computed(() => {
-  return 'font-medium text-base-content w-15'
-})
-
-// 表格体容器样式
-const bodyContainerClasses = computed(() => {
-  return 'overflow-y-auto w-full h-8/9 scrollbar-hide'
-})
-
-// 表格体表格样式
-const bodyTableClasses = computed(() => {
-  return 'w-full m-0 table-fixed'
-})
-
-// 表格体行样式
-const bodyRowClasses = computed(() => {
-  return 'bg-base-100 h-8 hover:bg-base-200'
-})
 
 // 表格体单元格样式
 const bodyCellClasses = computed(() => {
@@ -104,20 +74,6 @@ const bodyCellClasses = computed(() => {
   }
 })
 
-// More 表格体单元格样式
-const moreBodyCellClasses = computed(() => {
-  return 'text-center w-15 !h-5 border-1'
-})
-
-// 表尾表格样式
-const footerTableClasses = computed(() => {
-  return 'w-full text-center table-fixed'
-})
-
-// 表尾行样式
-const footerRowClasses = computed(() => {
-  return 'bg-base-200 border-b-1 h-10'
-})
 function showEditInput(event: { target: any; }, key: any, index: any) {
   editInputApp && removeEditInputApp()
   if (!checkEditable(key)) return

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import hljs from 'highlight.js/lib/core'
+
+const { t } = useI18n()
 // 导入 highlight.js 样式（使用 atom-one-dark 主题，视觉效果更好的暗色主题）
 // 其他可选主题：'monokai', 'dracula', 'vs2015', 'github', 'github-dark', 'tomorrow-night', 'ocean' 等
 import 'highlight.js/styles/atom-one-dark.css'
@@ -207,23 +210,23 @@ watch(() => props.highlight, setCode)
   <div v-if="!inline" class="flex flex-col gap-0 py-5">
     <!-- 顶部按钮行（单独占一行） -->
     <div :class="[
-      'relative h-8 border-b border-b-solid border-base-300 dark:border-dark-base-300 flex items-center justify-center gap-3 bg-base-200 dark:bg-dark-base-200 m-0 pointer-events-auto',
+      'relative h-8 border-b border-b-solid border-base-250 flex items-center justify-center gap-3 bg-base-150 m-0 pointer-events-auto',
       isCodeExpanded ? 'rounded-t-lg' : 'rounded-lg']">
       <!-- Code 图标按钮（折叠/展开） -->
-      <button @click="toggleCode" class="p-1 rounded hover:bg-base-300 dark:hover:bg-dark-base-300 transition-colors duration-200 cursor-pointer bg-transparent border-none outline-none"
+      <button @click="toggleCode" class="p-1 rounded hover:bg-base-300 dark:hover:bg-dark-base-250 transition-colors duration-200 cursor-pointer bg-transparent border-none outline-none"
         style="font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;"
-        type="button" :title="isCodeExpanded ? '折叠代码' : '展开代码'">
+        type="button"         :title="isCodeExpanded ? t('common.collapseCode') : t('common.expandCode')">
         <icn name="code" light sm class="text-base-content/60 hover:text-base-content dark:text-dark-base-content/60 dark:hover:text-dark-base-content" />
       </button>
       <!-- Copy 图标按钮 -->
-      <button @click="copyCode" class="p-1 rounded hover:bg-base-300 dark:hover:bg-dark-base-300 transition-colors duration-200 cursor-pointer bg-transparent border-none outline-none"
+      <button @click="copyCode" class="p-1 rounded hover:bg-base-300 dark:hover:bg-dark-base-250 transition-colors duration-200 cursor-pointer bg-transparent border-none outline-none"
         style="font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;"
-        type="button" title="复制代码">
+        type="button" :title="t('common.copyCode')">
         <icn name="copy" light sm class="text-base-content/60 hover:text-base-content dark:text-dark-base-content/60 dark:hover:text-dark-base-content" />
       </button>
       <!-- 语言类型标签 -->
       <div v-show="isCodeExpanded" :class="[
-        'absolute top-0 right-0 bg-base-300 dark:bg-dark-base-300 text-base-content dark:text-dark-base-content font-medium select-none pointer-events-none px-2 py-1.5',
+        'absolute top-0 right-0 bg-base-250 text-base-content font-medium select-none pointer-events-none px-2 py-1.5',
         isCodeExpanded ? 'rounded-bl-lg' : 'rounded-br-lg']">
         {{ language }}
       </div>
@@ -231,8 +234,7 @@ watch(() => props.highlight, setCode)
     <pre v-show="isCodeExpanded" ref="codeRef"
       :class="[
         'font-mono text-sm leading-normal select-text',
-        'block bg-base-200 rounded-b-lg border border-t-0 border-base-100 px-5 overflow-x-auto m-0',
-        'dark:bg-dark-base-200 dark:border-dark-base-100',
+        'block bg-base-150 rounded-b-lg border border-t-0 border-base-150 px-5 overflow-x-auto m-0',
         {
           'code-word-wrap whitespace-pre-wrap break-words': wordWrap,
           [`code-${language}`]: language,

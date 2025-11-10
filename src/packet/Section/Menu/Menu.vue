@@ -114,7 +114,7 @@ const horizontalClasses = computed(() => {
 // 最终样式组合
 const menuClasses = computed(() => {
   return [
-    'menu bg-base-200',
+    'menu bg-base-150',
     baseClasses.value,
     compactClasses.value,
     horizontalClasses.value

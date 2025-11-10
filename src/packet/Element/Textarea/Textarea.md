@@ -246,7 +246,7 @@ const handleBlur = (value) => {
 
 | 状态       | 样式类                                                                                          |
 | ---------- | ----------------------------------------------------------------------------------------------- |
-| `disabled` | `cursor-not-allowed pointer-events-none bg-base-100/70 border-base-100/50 text-base-content/80` |
+| `disabled` | `cursor-not-allowed pointer-events-none bg-base-100/70 border-base-150/50 text-base-content/80` |
 | `loading`  | `pointer-events-none`                                                                           |
 | `readonly` | `cursor-default`                                                                                |
 | `ghost`    | `bg-transparent`                                                                                |

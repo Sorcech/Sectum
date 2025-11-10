@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
-import Message from '~/packet/Element/Message/Message';
+import Toast from '~/packet/Element/Toast/Toast';
 // Props 定义
 const props = defineProps<{
   onSubmit?: (formData: any) => void | Promise<void>
@@ -83,7 +83,7 @@ const ProjectCreate = async (form: any) => {
       await props.onSubmit(param)
     } else {
       // 默认处理逻辑（如果没有传入回调）
-      Message({ type: 'success', message: t('project.create') })
+      Toast({ type: 'success', message: t('project.create') })
     }
   } catch (error: any) {
     // 调用父组件传入的错误回调
@@ -92,7 +92,7 @@ const ProjectCreate = async (form: any) => {
     } else {
       // 默认错误处理
       const errorMessage = error?.response?.data?.message || error?.data?.message || '创建失败'
-      Message({ type: 'error', message: errorMessage })
+      Toast({ type: 'error', message: errorMessage })
     }
   }
 }

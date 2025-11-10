@@ -105,7 +105,7 @@ const colorVariantClasses = computed(() => {
 const stateClasses = computed(() => {
   const classes = []
   if (props.disabled) {
-    classes.push('cursor-not-allowed opacity-60 bg-base-100/70 border-base-100/50 text-base-content/80 transform-none!')
+    classes.push('cursor-not-allowed opacity-60 bg-base-100/70 border-base-150/50 text-base-content/80 transform-none!')
   }
   if (props.loading) {
     classes.push('cursor-wait')

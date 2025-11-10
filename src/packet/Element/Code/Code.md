@@ -209,11 +209,11 @@ export default defineConfig({
 
 ```css
 .sectum-code {
-  --base-200: /* 代码背景色 */
-  --base-100: /* 边框颜色 */
+  --base-250: /* 代码背景色 */
+  --base-150: /* 边框颜色 */
   --base-content: /* 文字颜色 */
-  --dark-base-200: /* 暗色模式背景色 */
-  --dark-base-100: /* 暗色模式边框颜色 */
+  --dark-base-250: /* 暗色模式背景色 */
+  --dark-base-150: /* 暗色模式边框颜色 */
   --dark-base-content: /* 暗色模式文字颜色 */
 }
 ```

@@ -361,18 +361,18 @@ const containerClasses = computed(() =&gt; {
 /* 基础样式变量 */
 :root {
   --base-content: #1f2937;
-  --base-100: #ffffff;
-  --base-200: #f3f4f6;
-  --base-300: #e5e7eb;
+  --base-150: #ffffff;
+  --base-250: #f3f4f6;
+  --base-250: #e5e7eb;
   --primary: #3b82f6;
 }
 
 /* 深色主题变量 */
 .dark {
   --base-content: #f9fafb;
-  --base-100: #1f2937;
-  --base-200: #374151;
-  --base-300: #4b5563;
+  --base-150: #1f2937;
+  --base-250: #374151;
+  --base-250: #4b5563;
   --primary: #60a5fa;
 }
 ```
@@ -437,8 +437,8 @@ const containerClasses = computed(() =&gt; {
 
 <style>
 .custom-toc {
-  background: var(--base-100);
-  border: 1px solid var(--base-200);
+  background: var(--base-150);
+  border: 1px solid var(--base-250);
   border-radius: 0.5rem;
   padding: 1rem;
 }

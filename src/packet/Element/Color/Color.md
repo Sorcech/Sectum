@@ -75,14 +75,25 @@
         </div>
       </div>
       <div class="flex flex-col border-solid border-2 rounded-lg">
-        <div class="h-12 w-32 bg-base-100 flex justify-center items-center rounded-t-lg border border-base-300">
+        <div class="h-12 w-32 bg-base-100 flex justify-center items-center rounded-t-lg border border-base-250">
           <div class="text-base-content text-sm font-medium">base-100</div>
         </div>
-        <div class="h-12 w-32 bg-base-200 flex justify-center items-center border-x border-base-300">
+        <div class="h-12 w-32 bg-base-200 flex justify-center items-center border-x border-base-250">
           <div class="text-base-content text-sm font-medium">base-200</div>
         </div>
-        <div class="h-12 w-32 bg-base-300 flex justify-center items-center rounded-b-lg border border-base-300">
+        <div class="h-12 w-32 bg-base-300 flex justify-center items-center rounded-b-lg border border-base-250">
           <div class="text-base-content text-sm font-medium">base-300</div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="h-12 w-32 bg-accent flex justify-center items-center rounded-t-lg">
+          <div class="text-accent-content text-sm font-medium">accent</div>
+        </div>
+        <div class="h-12 w-32 bg-accent-focus flex justify-center items-center">
+          <div class="text-accent-content text-sm font-medium">accent-focus</div>
+        </div>
+        <div class="h-12 w-32 bg-accent-focus flex justify-center items-center rounded-b-lg">
+          <div class="text-accent-content text-sm font-medium">accent-content</div>
         </div>
       </div>
     </div>
@@ -95,28 +106,45 @@
 
 #### 主要颜色
 - **Primary** - 主题主色，用于主要操作和重要元素
+- **Primary-focus** - 主色聚焦状态，用于悬停和聚焦效果
+- **Primary-content** - 主色文字颜色，确保在主色背景上的可读性
 - **Secondary** - 次要颜色，用于辅助元素
+- **Secondary-focus** - 次要颜色聚焦状态
+- **Secondary-content** - 次要颜色文字颜色
+- **Accent** - 强调色，用于突出显示特殊元素
+- **Accent-focus** - 强调色聚焦状态
+- **Accent-content** - 强调色文字颜色
 
 #### 状态颜色
 - **Success** - 成功状态，表示操作成功、完成等
+- **Success-focus** - 成功状态聚焦效果
+- **Success-content** - 成功状态文字颜色
 - **Warning** - 警告状态，表示需要注意的情况
+- **Warning-focus** - 警告状态聚焦效果
+- **Warning-content** - 警告状态文字颜色
 - **Error** - 错误状态，表示错误、失败等
+- **Error-focus** - 错误状态聚焦效果
+- **Error-content** - 错误状态文字颜色
 
 ### 2. 基础颜色 (Base Colors)
 
 #### 背景色
-- **base-100** - 主要背景色（最浅）
-- **base-200** - 次要背景色
-- **base-300** - 边框和分割线颜色（最深）
+- **base-100** - 最浅背景色（对应各主题的 50 色阶）
+- **base-150** - 浅色背景（对应各主题的 100 色阶）
+- **base-200** - 中等浅色背景（对应各主题的 150 色阶）
+- **base-250** - 中等背景（对应各主题的 200 色阶）
+- **base-300** - 较深背景（对应各主题的 250 色阶）
 
 #### 深色模式背景
-- **dark-base-100** - 深色模式主要背景
-- **dark-base-200** - 深色模式次要背景
-- **dark-base-300** - 深色模式边框颜色
+- **dark-base-100** - 深色模式最浅背景（对应各主题的 700 色阶）
+- **dark-base-150** - 深色模式浅色背景（对应各主题的 750 色阶）
+- **dark-base-200** - 深色模式中等背景（对应各主题的 800 色阶）
+- **dark-base-250** - 深色模式较深背景（对应各主题的 850 色阶）
+- **dark-base-300** - 深色模式最深背景（对应各主题的 900 色阶）
 
 #### 文字颜色
-- **base-content** - 主要文字颜色
-- **dark-base-content** - 深色模式文字颜色
+- **base-content** - 主要文字颜色（浅色模式下使用）
+- **dark-base-content** - 深色模式文字颜色（深色模式下使用）
 
 ## 使用方法
 
@@ -134,24 +162,38 @@
 <div class="bg-error">错误背景</div>
 
 <!-- 基础颜色 -->
-<div class="bg-base-100">浅色背景</div>
-<div class="bg-base-200">中等背景</div>
-<div class="bg-base-300">深色背景</div>
+<div class="bg-base-100">最浅背景</div>
+<div class="bg-base-150">浅色背景</div>
+<div class="bg-base-200">中等浅色背景</div>
+<div class="bg-base-250">中等背景</div>
+<div class="bg-base-300">较深背景</div>
+
+<!-- 强调色 -->
+<div class="bg-accent">强调背景</div>
+<div class="bg-accent-focus">强调聚焦背景</div>
 ```
 
 #### 文字颜色
 ```vue
 <!-- 主题文字颜色 -->
 <div class="text-primary">主要文字</div>
+<div class="text-primary-content">主色内容文字</div>
 <div class="text-secondary">次要文字</div>
+<div class="text-secondary-content">次要内容文字</div>
+<div class="text-accent">强调文字</div>
+<div class="text-accent-content">强调内容文字</div>
 
 <!-- 状态文字颜色 -->
 <div class="text-success">成功文字</div>
+<div class="text-success-content">成功内容文字</div>
 <div class="text-warning">警告文字</div>
+<div class="text-warning-content">警告内容文字</div>
 <div class="text-error">错误文字</div>
+<div class="text-error-content">错误内容文字</div>
 
 <!-- 基础文字颜色 -->
-<div class="text-base-content">主要文字</div>
+<div class="text-base-content">主要文字（浅色模式）</div>
+<div class="dark:text-base-content">主要文字（深色模式）</div>
 ```
 
 #### 边框颜色
@@ -239,34 +281,48 @@ toggleDarkMode()  // 切换深色/浅色模式
 
 ## 主题颜色对照表
 
+### 主题颜色
+
 | Name              | Blue               | Teal             | Rose             | Violet             | Orange             |
 | ----------------- | ------------------ | ---------------- | ---------------- | ------------------ | ------------------ |
-| primary           | #0284c7/sky-600    | #0d9488/teal-600 | #e11d48/rose-600 | #7c3aed/violet-600 | #ea580c/orange-600 |
-| primary-focus     | #1e40af/sky-700    | #0f766e/teal-700 | #be123c/rose-700 | #6d28d9/violet-700 | #c2410c/orange-700 |
+| primary           | #2563eb/blue-600   | #0d9488/teal-600 | #e11d48/rose-600 | #7c3aed/violet-600 | #ea580c/orange-600 |
+| primary-focus     | #1d4ed8/blue-700   | #0f766e/teal-700 | -                | #6d28d9/violet-700 | #c2410c/orange-700 |
 | primary-content   | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
 | secondary         | #374151/gray-700   | #374151/gray-700 | #374151/gray-700 | #374151/gray-700   | #374151/gray-700   |
-| secondary-focus   | #1f2937/gray-800   | #1f2937/gray-800 | #1f2937/gray-800 | #1f2937/gray-800   | #1f2937/gray-800   |
+| secondary-focus   | #1f2937/gray-800   | #1f2937/gray-800 | -                | #1f2937/gray-800   | #1f2937/gray-800   |
 | secondary-content | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
-| success           | #059669/green-600  | #059669          | #059669          | #059669            | #059669            |
-| success-focus     | #047857/green-700  | #047857          | #047857          | #047857            | #047857            |
+| accent            | #fef3c7/yellow-100 | #fef3c7/yellow-100 | #ffe999 | #ffe999 | #ffe999 |
+| accent-focus      | #fde68e/yellow-200 | #fde68e/yellow-200 | - | #fde68e/yellow-200 | #fde68e/yellow-200 |
+| accent-content    | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
+| success           | #059669/green-600  | #059669/green-600 | #15803d/green-700 | #15803d/green-700 | #15803d/green-700 |
+| success-focus     | #047857/green-700  | #047857/green-700 | - | #166534/green-800 | #166534/green-800 |
 | success-content   | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
-| warning           | #f97316/orange-500 | #f97316          | #f97316          | #f97316            | #f97316            |
-| warning-focus     | #ea580c/orange-600 | #ea580c          | #ea580c          | #ea580c            | #ea580c            |
+| warning           | #f97316/orange-500 | #f97316/orange-500 | #a16207 | #a16207 | #a16207 |
+| warning-focus     | #ea580c/orange-600 | #ea580c/orange-600 | - | #ca8a04 | #ca8a04 |
 | warning-content   | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
-| error             | #dc2626/red-600    | #dc2626          | #dc2626          | #dc2626            | #dc2626            |
-| error-focus       | #b91c1c/red-700    | #b91c1c          | #b91c1c          | #b91c1c            | #b91c1c            |
+| error             | #dc2626/red-600    | #dc2626/red-600  | #b91c1c/red-700  | #b91c1c/red-700    | #b91c1c/red-700    |
+| error-focus       | #b91c1c/red-700    | #b91c1c/red-700  | - | #991b1b/red-800    | #991b1b/red-800    |
 | error-content     | #ffffff            | #ffffff          | #ffffff          | #ffffff            | #ffffff            |
-| base-100          | #fcfcfc            | #fcfcfc          | #fcfcfc          | #fcfcfc            | #f8fafc            |
-| base-200          | #f8f8f8            | #f8f8f8          | #f8f8f8          | #f8f8f8            | #f1f5f9            |
-| base-300          | #e8e8e8            | #e8e8e8          | #e8e8e8          | #e8e8e8            | #e2e8f0            |
-| base-content      | #1f2937            | #1f2937          | #1f2937          | #1f2937            | #1f2937            |
-| dark-base-100     | #374151            | #374151          | #374151          | #374151            | #111827            |
-| dark-base-200     | #1f2937            | #1f2937          | #1f2937          | #1f2937            | #0f172a            |
-| dark-base-300     | #111827            | #111827          | #111827          | #111827            | #020617            |
-| dark-base-content | #f9fafb            | #f9fafb          | #f9fafb          | #f9fafb            | #f3f4f6            |
-| rounded-box       | 1rem               | 0rem             | 1rem             | 1rem              | 1rem              |
-| rounded-btn       | 0.5rem             | 0.15rem          | 0.5rem           | 0.5rem            | 0.5rem            |
-| rounded-badge     | 1.9rem             | 0rem             | 1.9rem           | 1.9rem            | 1.9rem            |
+
+### 基础颜色
+
+| Name              | Blue               | Teal             | Rose             | Violet             | Orange             |
+| ----------------- | ------------------ | ---------------- | ---------------- | ------------------ | ------------------ |
+| base-100          | #f8fafc/slate-50   | #f9fafb/gray-50  | #fafaf9/stone-50 | #fafafa/neutral-50 | #fafafa/zinc-50    |
+| base-150          | #f1f5f9/slate-100  | #f3f4f6/gray-100 | #f5f5f4/stone-100 | #f5f5f5/neutral-100 | #f4f4f5/zinc-100   |
+| base-200          | #eaeff5/slate-150  | #e2e4e9/gray-150 | #eeedec/stone-150 | #ededed/neutral-150 | #ececee/zinc-150  |
+| base-250          | #e2e8f0/slate-200 | #d1d5db/gray-200 | #e7e5e4/stone-200 | #e5e5e5/neutral-200 | #e4e4e7/zinc-200   |
+| base-300          | #d7dfe9/slate-250  | #c4c8d0/gray-250 | #dfdcdb/stone-250 | #dcdcdc/neutral-250 | #dcdce0/zinc-250   |
+| base-content      | #1e293b/slate-800  | #1f2937/gray-800 | #292524/stone-800 | #262626/neutral-800 | #27272a/zinc-800   |
+| dark-base-100     | #334155/slate-700  | #374151/gray-700 | #44403c/stone-700 | #404040/neutral-700 | #3f3f46/zinc-700   |
+| dark-base-150     | #293548/slate-750  | #2b3544/gray-750 | #373330/stone-750 | #333333/neutral-750 | #333338/zinc-750   |
+| dark-base-200     | #1e293b/slate-800  | #1f2937/gray-800 | #292524/stone-800 | #262626/neutral-800 | #27272a/zinc-800   |
+| dark-base-250     | #172033/slate-850  | #18212f/gray-850 | #231f1e/stone-850 | #1d1d1d/neutral-850 | #202023/zinc-850   |
+| dark-base-300     | #0f172a/slate-900  | #111827/gray-900 | #1c1917/stone-900 | #171717/neutral-900 | #18181b/zinc-900   |
+| dark-base-content | #f8fafc/slate-50   | #f9fafb/gray-50  | #fafaf9/stone-50 | #fafafa/neutral-50 | #fafafa/zinc-50    |
+| rounded-box       | 0.5rem             | 0rem             | 1.0rem           | 0.5rem             | 1.0rem             |
+| rounded-btn       | 0.5rem             | 0rem             | 0.5rem            | 0.5rem             | 0.5rem             |
+| rounded-badge     | 2.0rem             | 1rem             | 1.9rem            | 1.9rem             | 1.9rem             |
 
 ## 颜色系统参考
 
@@ -302,12 +358,18 @@ toggleDarkMode()  // 切换深色/浅色模式
 /* 深色模式样式 */
 @media (prefers-color-scheme: dark) {
   .custom-element {
-    background-color: var(--dark-base-100);
-    color: var(--dark-base-content);
+    background-color: var(--base-100); /* 在深色模式下自动切换为 dark-base-100 */
+    color: var(--base-content); /* 在深色模式下自动切换为 dark-base-content */
   }
 }
 
 /* 或者使用 .dark 类 */
+.dark .custom-element {
+  background-color: var(--base-100); /* 系统会自动使用 dark-base-100 */
+  color: var(--base-content); /* 系统会自动使用 dark-base-content */
+}
+
+/* 如果需要明确指定深色模式颜色 */
 .dark .custom-element {
   background-color: var(--dark-base-100);
   color: var(--dark-base-content);
@@ -338,12 +400,22 @@ toggleDarkMode()  // 切换深色/浅色模式
   --primary: #2563eb;
   --primary-focus: #1d4ed8;
   --primary-content: #ffffff;
+  --base-100: #f8fafc;
+  --base-150: #f1f5f9;
+  --base-200: #eaeff5;
+  --base-250: #e2e8f0;
+  --base-300: #d7dfe9;
+  --base-content: #1e293b;
   /* ... 其他颜色变量 */
 }
 
 .dark {
-  --dark-base-100: #374151;
-  --dark-base-content: #f9fafb;
+  --base-100: #334155; /* 自动切换为 dark-base-100 */
+  --base-150: #293548; /* 自动切换为 dark-base-150 */
+  --base-200: #1e293b; /* 自动切换为 dark-base-200 */
+  --base-250: #172033; /* 自动切换为 dark-base-250 */
+  --base-300: #0f172a; /* 自动切换为 dark-base-300 */
+  --base-content: #f8fafc; /* 自动切换为 dark-base-content */
   /* ... 深色模式变量 */
 }
 ```

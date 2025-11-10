@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, useAttrs } from 'vue'
 
 const props = defineProps({
   modelValue: { type: [String, Number], required: false },
@@ -32,6 +32,9 @@ const props = defineProps({
   xl: { type: String, required: false }
 })
 
+// 获取外部传入的 class
+const attrs = useAttrs()
+
 const inputText = ref<HTMLInputElement | null>(null)
 const isError = ref(props.error || false)
 const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
@@ -40,19 +43,36 @@ const input = (e: any) => {
   emit('update:modelValue', e.target.value)
 }
 
+// 获取外部传入的 class（用于容器和 input）
+const getExternalClass = () => {
+  return typeof attrs.class === 'string' 
+    ? attrs.class 
+    : Array.isArray(attrs.class) 
+      ? attrs.class.join(' ')
+      : ''
+}
+
 // 基础输入框样式
 const baseClasses = computed(() => {
   if (props.clean) {
     return 'bg-transparent border-none p-0 m-0 font-inherit text-inherit w-full'
   }
   
-  return [
+  const externalClass = getExternalClass()
+  const classes = [
     'bg-base-100 transition-all duration-200 ease-in-out',
-    'min-w-0 flex-shrink-0', // 防止溢出
+    'min-w-0', // 防止溢出，移除 flex-shrink-0 以支持外部 flex 设置
     // 圆角
     props.pills ? 'rounded-full' : 
     props.circle ? 'rounded-full' : 'rounded-$rounded-btn'
-  ].filter(Boolean).join(' ')
+  ]
+  
+  // 如果没有 label 且外部传入了 flex-1，确保 input 也占据全宽
+  if (!props.label && externalClass && externalClass.includes('flex-1')) {
+    classes.push('w-full')
+  }
+  
+  return classes.filter(Boolean).join(' ')
 })
 
 // 统一的尺寸样式定义
@@ -76,7 +96,7 @@ const colorVariantClasses = computed(() => {
   
   const variants = {
     // default: 默认透明边框（保持大小不变），聚焦时显示边框（不受 bordered 影响）
-    default: () => 'border border-transparent focus:border-base-300 focus:outline-2 focus:outline-base-300 focus:outline-offset-2',
+    default: () => 'border border-transparent focus:border-base-250 focus:outline-2 focus:outline-base-250 focus:outline-offset-2',
     // 其他颜色: 一直显示边框，聚焦时显示外围边框（需要 bordered 为 true）
     primary: () => props.bordered ? 'border border-primary focus:outline-2 focus:outline-primary focus:outline-offset-2' : '',
     secondary: () => props.bordered ? 'border border-secondary focus:outline-2 focus:outline-secondary focus:outline-offset-2' : '',
@@ -98,7 +118,7 @@ const stateClasses = computed(() => {
   }
   
   if (props.disabled) {
-    classes.push('cursor-not-allowed pointer-events-none bg-base-100/70 border-base-100/50 text-base-content/80')
+    classes.push('cursor-not-allowed pointer-events-none bg-base-100/70 border-base-150/50 text-base-content/80')
   }
   
   if (props.loading) {
@@ -141,22 +161,51 @@ const responsiveClasses = computed(() => {
 
 // 最终样式组合
 const inputClasses = computed(() => {
+  const externalClass = getExternalClass()
+  
   return [
     baseClasses.value,
     sizeClasses.value,
     colorVariantClasses.value,
     stateClasses.value,
-    responsiveClasses.value
+    responsiveClasses.value,
+    externalClass // 合并外部传入的 class
   ].filter(Boolean).join(' ')
 })
 
 // 容器样式
 const containerClasses = computed(() => {
-  const classes = ['w-full']
+  const classes: string[] = []
+  const externalClass = getExternalClass()
+  
+  // 只有在有 label 时才设置 w-full，否则让外部控制宽度
   if (props.label) {
-    classes.push(props.direction)
+    classes.push('w-full', props.direction)
+  } else if (externalClass) {
+    // 没有 label 时，从外部传入的 class 中提取 flex 相关类应用到容器
+    const flexClasses = externalClass.split(' ').filter(cls => 
+      cls.includes('flex-') || cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')
+    )
+    if (flexClasses.length > 0) {
+      classes.push(...flexClasses)
+    }
   }
   return classes.join(' ')
+})
+
+// 容器内联样式（用于确保 flex 布局生效）
+const containerStyle = computed(() => {
+  const externalClass = getExternalClass()
+  if (!props.label && externalClass && externalClass.includes('flex-1')) {
+    // 如果外部传入了 flex-1，确保容器也应用 flex 布局
+    return {
+      display: 'flex',
+      flex: '1 1 0%',
+      minWidth: '0',
+      width: '100%'
+    }
+  }
+  return {}
 })
 
 // 标签样式
@@ -167,14 +216,10 @@ const labelClasses = computed(() => {
   ].filter(Boolean).join(' ')
 })
 
-// 验证文本样式
-const validationClasses = computed(() => {
-  return 'text-error text-xs mt-2 ml-1'
-})
 </script>
 
 <template>
-  <div :class="containerClasses">
+  <div :class="containerClasses" :style="containerStyle">
     <label v-if="label" :class="labelClasses">
       <span :class="`text-${size}`">{{ label }}</span>
     </label>
@@ -188,7 +233,7 @@ const validationClasses = computed(() => {
       :disabled="disabled || loading" 
       :class="inputClasses"
     >
-    <div v-if="isError" :class="validationClasses" v-text="error" />
+    <div v-if="isError" class="text-error text-xs mt-2 ml-1" v-text="error" />
   </div>
 </template>
 

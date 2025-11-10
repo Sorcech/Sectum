@@ -412,7 +412,7 @@ const monthBeforeYear = computed(() => false)
 // CSS 变量
 const cssVars = computed(() => ({
   '--n-bezier': 'cubic-bezier(0.4, 0, 0.2, 1)',
-  '--n-border-color': 'var(--base-300)',
+  '--n-border-color': 'var(--base-250)',
   '--n-border-radius': 'var(--rounded-box, 0.5rem)',
   '--n-text-color': 'var(--base-content)',
   '--n-title-font-weight': '600',
@@ -423,7 +423,7 @@ const cssVars = computed(() => ({
   '--n-line-height': '1.5',
   '--n-date-color-current': 'var(--primary)',
   '--n-date-text-color-current': 'var(--primary-content)',
-  '--n-cell-color-hover': 'var(--base-200)',
+  '--n-cell-color-hover': 'var(--base-250)',
   '--n-bar-color': 'var(--primary)'
 }))
 

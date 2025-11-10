@@ -370,9 +370,9 @@ const themes = {
     'primary-content': '#ffffff',
     'secondary': '#374151',
     'accent': '#fef3c7',
-    'base-100': '#ffffff',
-    'base-200': '#f1f5f9',
-    'base-300': '#e2e8f0',
+    'base-150': '#ffffff',
+    'base-250': '#f1f5f9',
+    'base-250': '#e2e8f0',
     // ... 更多颜色变量
   },
   teal: {
@@ -394,9 +394,9 @@ const themes = {
   --primary-content: #ffffff;
   --secondary: #374151;
   --accent: #fef3c7;
-  --base-100: #ffffff;
-  --base-200: #f1f5f9;
-  --base-300: #e2e8f0;
+  --base-150: #ffffff;
+  --base-250: #f1f5f9;
+  --base-250: #e2e8f0;
 }
 
 /* 青色主题 */

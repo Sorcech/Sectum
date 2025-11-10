@@ -35,11 +35,6 @@ export function usePosition(triggerRef: Ref<HTMLElement | null>, options: Positi
     // 计算上方可用空间
     const spaceAbove = rect.top - gap
     
-    // 计算右侧可用空间
-    const spaceRight = viewportWidth - rect.right - edgeGap
-    // 计算左侧可用空间
-    const spaceLeft = rect.left - edgeGap
-    
     const styles: Record<string, string> = {}
     
     // 决定垂直方向：如果下方空间不足但上方空间足够，则向上弹出
@@ -55,17 +50,57 @@ export function usePosition(triggerRef: Ref<HTMLElement | null>, options: Positi
       styles.maxHeight = `${Math.min(spaceBelow, panelHeight)}px`
     }
     
-    // 水平方向：尽量保持左对齐，但如果会超出屏幕右侧，则调整
-    if (spaceRight < panelWidth && spaceLeft > spaceRight) {
-      // 右侧空间不足，向左对齐
-      styles.right = '0'
-      styles.left = 'auto'
-      styles.maxWidth = `${spaceLeft}px`
+    // 水平方向：计算最佳位置，确保面板不超出屏幕左右边界
+    // 默认左对齐，计算面板右边缘位置
+    const panelLeft = 0 // 相对于触发器的左偏移
+    const panelRightEdge = rect.left + panelLeft + panelWidth
+    
+    // 如果面板会超出屏幕右边界
+    if (panelRightEdge > viewportWidth - edgeGap) {
+      // 尝试右对齐（面板右边缘对齐触发器右边缘）
+      const rightAlignedLeft = rect.width - panelWidth
+      const rightAlignedRightEdge = rect.left + rightAlignedLeft + panelWidth
+      
+      // 如果右对齐后仍超出右边界，或者左边界空间不足
+      if (rightAlignedRightEdge > viewportWidth - edgeGap || rightAlignedLeft < -rect.left + edgeGap) {
+        // 使用右对齐，但确保不超出左边界
+        const adjustedLeft = Math.max(
+          rightAlignedLeft,
+          -(rect.left - edgeGap)
+        )
+        styles.left = `${adjustedLeft}px`
+        styles.right = 'auto'
+        // 计算实际可用宽度
+        const availableWidth = Math.min(
+          viewportWidth - (rect.left + adjustedLeft) - edgeGap,
+          panelWidth
+        )
+        styles.maxWidth = `${availableWidth}px`
+      } else {
+        // 右对齐可行
+        styles.left = `${rightAlignedLeft}px`
+        styles.right = 'auto'
+        styles.maxWidth = `${Math.min(panelWidth, viewportWidth - edgeGap - (rect.left + rightAlignedLeft))}px`
+      }
     } else {
-      // 默认左对齐
-      styles.left = '0'
-      styles.right = 'auto'
-      styles.maxWidth = `${Math.min(spaceRight, panelWidth)}px`
+      // 左对齐不会超出右边界，检查左边界
+      if (rect.left + panelLeft < edgeGap) {
+        // 左边界空间不足，向右偏移
+        const adjustedLeft = edgeGap - rect.left
+        styles.left = `${adjustedLeft}px`
+        styles.right = 'auto'
+        // 计算实际可用宽度
+        const availableWidth = Math.min(
+          viewportWidth - rect.left - adjustedLeft - edgeGap,
+          panelWidth
+        )
+        styles.maxWidth = `${availableWidth}px`
+      } else {
+        // 默认左对齐
+        styles.left = '0'
+        styles.right = 'auto'
+        styles.maxWidth = `${Math.min(panelWidth, viewportWidth - rect.left - edgeGap)}px`
+      }
     }
     
     // 确保面板不会超出视口

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col h-screen overflow-hidden text-base-content" :class="bgClass">
-    <div class="sticky top-0 z-50">
+  <div class="flex flex-col w-screen h-screen overflow-hidden text-base-content" :class="bgClass">
+    <div class="sticky top-0 z-50 flex-shrink-0">
       <Header 
         :project-name="config.project.name"
         logo-icon="section"
@@ -8,13 +8,12 @@
         :dark-component="DarkToggle"
         :language-component="Language"
         :icon-buttons="iconButtons"
-        :background-opacity="0.25"
       />
     </div>
-    <div class="flex flex-col min-h-0 flex-1 bg-base-300">
+    <div class="flex flex-col min-h-0 flex-1 bg-base-250 overflow-hidden">
       <!-- 首页内容 -->
       <template v-if="isHomePage">
-        <div class="flex flex-col h-full min-h-0 overflow-y-auto" :class="contentClass">
+        <div class="flex flex-col h-full min-h-0 overflow-y-auto overflow-x-hidden" :class="contentClass">
           <Home />
           <Example />
           <Footer 
@@ -33,10 +32,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
+import Header, { type IconButton } from '~/packet/Model/Header/Header.vue'
 import Home from './Home.vue'
 import Example from './Example.vue'
-import Footer from '~/packet/Layout/Footer/Footer.vue'
+import Footer from '~/packet/Model/Footer/Footer.vue'
 import Menual from '~/packet/Layout/Menual/Menual.vue'
 import Theme from '~/packet/Pattern/Theme/Theme.vue'
 import DarkToggle from '~/packet/Pattern/Dark/DarkToggle.vue'
@@ -63,12 +62,6 @@ const contentClass = computed(() => {
 
 // 图标按钮配置（从 config 中读取用户链接）
 const iconButtons: IconButton[] = [
-  {
-    link: config.user.profileLink,
-    icon: 'user',
-    light: true,
-    brand: false
-  },
   {
     link: 'https://github.com/Sorcech/Sectum',
     icon: 'github',

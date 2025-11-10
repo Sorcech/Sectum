@@ -9,10 +9,12 @@ import Markdown from './Markdown/Markdown.vue'
 import Catalog from './Markdown/Catalog.vue'
 import FullScreen from './FullScreen/FullScreen.vue'
 import Selector from './Selector/Selector.vue'
+import Message from './Message/Message.vue'
+import Contact from './Contact/Contact.vue'
 
 // 导出所有组件
 export {
-  Theme, Language, User, Plus, Notice, DarkToggle, Markdown, Catalog, FullScreen,Selector
+  Theme, Language, User, Plus, Notice, DarkToggle, Markdown, Catalog, FullScreen, Selector, Message, Contact
 }
 
 const install = (app: App) => {
@@ -26,6 +28,8 @@ const install = (app: App) => {
   app.component('Catalog', Catalog);//目录组件
   app.component('FullScreen', FullScreen);//全屏切换
   app.component('Selector', Selector);//选择器
+  app.component('Message', Message);//消息菜单
+  app.component('Contact', Contact);//联系菜单
 }
 
 export default install //全局引用

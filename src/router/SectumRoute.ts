@@ -12,6 +12,11 @@ const route = [
               component: () => import('~/packet/Config/Started.md'),
               meta: { title: 'Started' },
             },
+            {
+              path: '/sectum/config',
+              component: () => import('~/packet/Config/Config.md'),
+              meta: { title: 'Config' },
+            },
           ]
         },
         {
@@ -52,6 +57,11 @@ const route = [
               path: '/sectum/toggle',
               component: () => import('~/packet/Element/Toggle/Toggle.md'),
               meta: { title: 'Toggle' },
+            },
+            {
+              path: '/sectum/avatar',
+              component: () => import('~/packet/Element/Avatar/Avatar.md'),
+              meta: { title: 'Avatar' },
             }
           ]
         },
@@ -187,6 +197,31 @@ const route = [
           meta: { title: 'Model' },
           children: [
             {
+              path: '/sectum/header',
+              component: () => import('~/packet/Model/Header/Header.md'),
+              meta: { title: 'Header' },
+            },
+            {
+              path: '/sectum/footer',
+              component: () => import('~/packet/Model/Footer/Footer.md'),
+              meta: { title: 'Footer' },
+            },
+            {
+              path: '/sectum/navbar',
+              component: () => import('~/packet/Model/Navbar/Navbar.md'),
+              meta: { title: 'Navbar' },
+            },
+            {
+              path: '/sectum/sidebar',
+              component: () => import('~/packet/Model/Sidebar/Sidebar.md'),
+              meta: { title: 'Sidebar' },
+            },
+            {
+              path: '/sectum/toolbar',
+              component: () => import('~/packet/Model/Toolbar/Toolbar.md'),
+              meta: { title: 'Toolbar' },
+            },
+            {
               path: '/sectum/form',
               component: () => import('~/packet/Section/Form/Form.md'),
               meta: { title: 'Form' },
@@ -198,45 +233,10 @@ const route = [
           meta: { title: 'Layout' },
           children: [
             {
-              path: '/sectum/header',
-              component: () => import('~/packet/Layout/Header/Header.md'),
-              meta: { title: 'Header' },
-            },
-            {
-              path: '/sectum/footer',
-              component: () => import('~/packet/Layout/Footer/Footer.md'),
-              meta: { title: 'Footer' },
-            },
-            {
-              path: '/sectum/navbar',
-              component: () => import('~/packet/Layout/Navbar/Navbar.md'),
-              meta: { title: 'Navbar' },
-            },
-            {
-              path: '/sectum/sidebar',
-              component: () => import('~/packet/Layout/Sidebar/Sidebar.md'),
-              meta: { title: 'Sidebar' },
-            },
-            {
-              path: '/sectum/toolbar',
-              component: () => import('~/packet/Layout/Toolbar/Toolbar.md'),
-              meta: { title: 'Toolbar' },
-            },
-            {
               path: '/sectum/menual',
               component: () => import('~/packet/Layout/Menual/Menual.md'),
               meta: { title: 'Menual' },
             },
-            {
-              path: '/sectum/console',
-              component: () => import('~/packet/Layout/Console/Console.md'),
-              meta: { title: 'Console' },
-            },
-            {
-              path: '/sectum/task',
-              component: () => import('~/packet/Layout/Task/Task.md'),
-              meta: { title: 'Task' },
-            }
           ]
         }
       ]

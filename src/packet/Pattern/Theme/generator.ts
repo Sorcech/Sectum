@@ -20,12 +20,12 @@ const generateMissingColors = (setTheme: Theme) => {
       const color = setTheme[index as keyof typeof setTheme]
       setTheme[difName] = mostReadable(color)
     }
-    if (difName.includes('base-200') || difName.includes('dark-base-200')) {
+    if (difName.includes('base-250') || difName.includes('dark-base-250')) {
       const index = Object.keys(setTheme).find(name => name.includes(difName.replace('-200', '')))
       const color = setTheme[index as keyof typeof setTheme]
       setTheme[difName] = brighten(color, -5)
     }
-    if (difName.includes('base-300') || difName.includes('dark-base-300')) {
+    if (difName.includes('base-250') || difName.includes('dark-base-250')) {
       const index = Object.keys(setTheme).find(name => name.includes(difName.replace('-300', '')))
       const color = setTheme[index as keyof typeof setTheme]
       setTheme[difName] = brighten(color, -10)

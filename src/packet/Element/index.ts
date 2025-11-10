@@ -10,8 +10,9 @@ import Textarea from './Textarea/Textarea.vue'
 import Transition from './Transition/Transition.vue'
 import Color from './Color/Color.vue'
 import Palette from './Color/Palette.vue'
-import Message from './Message/Message'
+import Toast from './Toast/Toast'
 import Code from './Code/Code.vue'
+import Avatar from './Avatar/Avatar.vue'
 
 // 导出 Excel 工具函数
 export { exportExcel } from './Excel/Excel'
@@ -21,7 +22,7 @@ export { codePlugin } from './Code/Code'
 
 // 导出所有组件
 export {
-  Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Message, Code
+  Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Toast, Code, Avatar
 }
 
 const install = (app: App) => {
@@ -35,12 +36,13 @@ const install = (app: App) => {
   app.component('txa', Textarea)//文本域
   app.component('tst', Transition)//动画
   app.component('cod', Code)//代码
+  app.component('avt', Avatar)//头像
   app.component('Color', Color)
   app.component('Palette', Palette)
   
-  // 全局注册 Message 函数
-  app.config.globalProperties.$message = Message
-  app.provide('message', Message)
+  // 全局注册 Toast 函数
+  app.config.globalProperties.$toast = Toast
+  app.provide('toast', Toast)
 }
 
 export default install //全局引用

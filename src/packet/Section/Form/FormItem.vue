@@ -13,19 +13,19 @@
       <span v-if="showRequireMark && required" :class="requireMarkClasses">
         *
       </span>
-      <icn v-if="icon" :name="icon" :class="labelIconClasses" />
-      <span :class="labelTextClasses">{{ label }}</span>
+      <icn v-if="icon" :name="icon" class="mr-1" />
+      <span class="flex-1">{{ label }}</span>
     </label>
 
     <!-- 内容区域 -->
-    <div :class="contentClasses">
+    <div class="flex-1 flex flex-col">
       <slot></slot>
       
       <!-- 验证错误信息 -->
       <transition name="form-item-error">
         <div 
           v-if="showMessage && validateMessage && validateState === 'error'"
-          :class="errorMessageClasses"
+          class="text-sm text-error mt-1"
         >
           {{ validateMessage }}
         </div>
@@ -35,7 +35,7 @@
       <transition name="form-item-success">
         <div 
           v-if="showSuccessMessage && validateState === 'success'"
-          :class="successMessageClasses"
+          class="text-sm text-success mt-1"
         >
           {{ successMessage }}
         </div>
@@ -271,26 +271,6 @@ const requireMarkClasses = computed(() => {
   return [baseClasses, placementClasses].filter(Boolean).join(' ')
 })
 
-const contentClasses = computed(() => {
-  return 'flex-1 flex flex-col'
-})
-
-const errorMessageClasses = computed(() => {
-  return 'text-sm text-error mt-1'
-})
-
-const successMessageClasses = computed(() => {
-  return 'text-sm text-success mt-1'
-})
-
-const labelIconClasses = computed(() => {
-  return 'mr-1'
-})
-
-// 标签文本样式类
-const labelTextClasses = computed(() => {
-  return 'flex-1'
-})
 
 // 样式
 const formItemStyles = computed(() => {

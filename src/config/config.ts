@@ -15,7 +15,8 @@ const config: AppConfig = {
     homepage: 'github.com/Sorcech/Sectum', // 项目主页
     author: 'Cesar.Studio', // 作者
     keywords: ['vue3', 'unocss', 'component-library', 'ui', 'typescript', 'vite', 'modern', 'responsive', 'accessibility'], // 关键词
-    license: 'MIT' // 许可证
+    license: 'MIT', // 许可证
+    logoIcon: 'section' // Logo 图标名称（FontAwesome 图标名），用于设置 favicon
   },
 
   // 轮播图配置
@@ -48,9 +49,9 @@ const config: AppConfig = {
 
   // 页脚配置
   footer: {
-    copyrightHolder: 'Cesar.Studio', // 版权持有者
+    copyrightHolder: 'Sectum', // 版权持有者
     icpNumber: '京ICP备XXXXXXXX号', // ICP 备案号
-    additionalInfo: 'MIT Licensed | Copyright © 2025-Present Cesar.Studio' // 额外信息
+    additionalInfo: 'MIT Licensed | Copyright © 2025-Present Sectum' // 额外信息
   },
 
   // 用户链接

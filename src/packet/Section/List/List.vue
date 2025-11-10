@@ -19,7 +19,7 @@ const props = defineProps({
   bordered: { type: Boolean,default: false},// 是否显示边框
   shadow: { type: Boolean,default: false},// 是否显示阴影
   rounded: { type: Boolean,default: false},// 是否显示圆角
-  bg: { type: String,default: 'base-200'},// 背景颜色
+  bg: { type: String,default: 'base-250'},// 背景颜色
 })
 
 // 基础列表样式
@@ -31,7 +31,7 @@ const baseClasses = computed(() => {
     'p-0',
     'm-0',
     props.direction === 'horizontal' ? 'flex flex-row' : 'flex flex-col',
-    props.bordered ? 'border border-base-300 dark:border-dark-base-300' : '',
+    props.bordered ? 'border border-base-250 dark:border-dark-base-250' : '',
     props.shadow ? 'shadow-md' : '',
     props.rounded ? 'rounded-$rounded-btn' : '',
     `bg-${props.bg} dark:bg-dark-${props.bg}`
@@ -57,8 +57,8 @@ const dividerClasses = computed(() => {
   if (!props.divider) return ''
   
   return props.direction === 'horizontal' 
-    ? 'divide-x divide-base-300 dark:divide-dark-base-300' 
-    : 'divide-y divide-base-300 dark:divide-dark-base-300'
+    ? 'divide-x divide-base-250 dark:divide-dark-base-250' 
+    : 'divide-y divide-base-250 dark:divide-dark-base-250'
 })
 
 // 最终样式组合

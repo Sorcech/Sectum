@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, KeepAlive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Sidebar from '~/packet/Layout/Sidebar/Sidebar.vue'
+import Sidebar from '~/packet/Model/Sidebar/Sidebar.vue'
 
 // KeepAlive 在模板中使用
 void KeepAlive

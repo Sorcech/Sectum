@@ -321,6 +321,7 @@ export interface ProjectInfo {
   author: string  // 作者
   keywords: string[]  // 关键词
   license: string  // 许可证
+  logoIcon?: string  // Logo 图标名称（FontAwesome 图标名），用于设置 favicon
 }
 
 // 页脚配置类型

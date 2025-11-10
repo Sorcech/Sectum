@@ -24,6 +24,16 @@ export default {
   },
   task: {
     task: 'タスク',
+    listView: 'リスト表示',
+    cardView: 'カード表示',
+  },
+  project: {
+    listView: 'リスト表示',
+    cardView: 'カード表示',
+  },
+  document: {
+    listView: 'リスト表示',
+    cardView: 'カード表示',
   },
   date: {
     sunday: '日曜日',

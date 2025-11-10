@@ -19,7 +19,7 @@
   margin-top: 1.5rem; /* my-6 */
   margin-bottom: 1rem; /* mb-4 */
   color: var(--base-content); /* color-base-content */
-  border-bottom: 1px solid var(--base-200); /* border-b border-base-200 */
+  border-bottom: 1px solid var(--base-250); /* border-b border-base-250 */
   padding-bottom: 0.25rem; /* pb-1 */
 }
 
@@ -123,7 +123,7 @@
 
 .markdown-body blockquote {
   border-left: 4px solid var(--primary); /* border-l-4 border-primary */
-  background-color: var(--base-200); /* bg-base-200 */
+  background-color: var(--base-150); /* bg-base-200 */
   margin-top: 1rem; /* my-4 */
   margin-bottom: 1rem; /* my-4 */
   padding-left: 1.5rem; /* px-6 */
@@ -142,7 +142,7 @@
 .markdown-body hr {
   border: none; /* border-none */
   height: 0.125rem; /* h-0.5 */
-  background-color: var(--base-200); /* bg-base-200 */
+  background-color: var(--base-250); /* bg-base-200 */
   margin-top: 2rem; /* my-8 */
   margin-bottom: 2rem; /* my-8 */
   border-radius: 0.125rem; /* rounded-sm */
@@ -153,7 +153,7 @@
 /* 行内代码样式 */
 .markdown-body code.inline-code,
 .markdown-container.markdown-body code.inline-code {
-  background-color: var(--base-200);
+  background-color: var(--base-250);
   color: var(--primary);
   padding: 0.125rem 0.375rem; /* px-1.5 py-0.5 */
   border-radius: 0.25rem; /* rounded */
@@ -164,7 +164,7 @@
 
 .dark .markdown-body code.inline-code,
 .dark .markdown-container.markdown-body code.inline-code {
-  background-color: var(--dark-base-200);
+  background-color: var(--dark-base-250);
   color: var(--primary);
 }
 
@@ -183,7 +183,7 @@
   border-radius: 0.5rem; /* rounded-lg */
   overflow: hidden; /* overflow-hidden */
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow-sm */
-  border: 1px solid var(--base-300); /* border border-base-300 - 增强边框 */
+  border: 1px solid var(--base-250); /* border border-base-250 - 增强边框 */
   border-style: solid; /* 确保边框样式 */
 }
 
@@ -193,15 +193,15 @@
 .markdown-container.markdown-body > table > thead > tr > th,
 .markdown-container.markdown-body table th,
 .markdown-container.markdown-body > table > tbody > tr > th {
-  border: 1px solid var(--base-300); /* border border-base-300 - 确保所有边框 */
-  border-top: 1px solid var(--base-300); /* border-t */
-  border-right: 1px solid var(--base-300); /* border-r */
-  border-bottom: 1px solid var(--base-300); /* border-b */
-  border-left: 1px solid var(--base-300); /* border-l */
+  border: 1px solid var(--base-250); /* border border-base-250 - 确保所有边框 */
+  border-top: 1px solid var(--base-250); /* border-t */
+  border-right: 1px solid var(--base-250); /* border-r */
+  border-bottom: 1px solid var(--base-250); /* border-b */
+  border-left: 1px solid var(--base-250); /* border-l */
   border-style: solid; /* 确保边框样式 */
   font-size: 0.75rem; /* text-xs - 减小字体 */
   font-weight: 600; /* font-semibold */
-  background-color: var(--base-100); /* bg-base-100 */
+  background-color: var(--base-150); /* bg-base-100*/
   padding-left: 0.75rem; /* px-3 - 减小内边距 */
   padding-right: 0.75rem; /* px-3 */
   padding-top: 0.5rem; /* py-2 - 减小内边距 */
@@ -222,31 +222,31 @@
   padding-right: 0.75rem; /* px-3 */
   padding-top: 0.5rem; /* py-2 - 减小内边距 */
   padding-bottom: 0.5rem; /* py-2 */
-  border: 1px solid var(--base-300); /* border border-base-300 - 确保所有边框 */
-  border-top: 1px solid var(--base-300); /* border-t */
-  border-right: 1px solid var(--base-300); /* border-r */
-  border-bottom: 1px solid var(--base-300); /* border-b */
-  border-left: 1px solid var(--base-300); /* border-l */
+  border: 1px solid var(--base-250); /* border border-base-250 - 确保所有边框 */
+  border-top: 1px solid var(--base-250); /* border-t */
+  border-right: 1px solid var(--base-250); /* border-r */
+  border-bottom: 1px solid var(--base-250); /* border-b */
+  border-left: 1px solid var(--base-250); /* border-l */
   border-style: solid; /* 确保边框样式 */
-  background-color: var(--base-200); /* bg-base-200 */
+  background-color: var(--base-250); /* bg-base-200 */
   color: var(--base-content); /* color-base-content */
 }
 
 .markdown-body table tr:nth-child(even) td,
 .markdown-container.markdown-body table tr:nth-child(even) td {
-  background-color: var(--base-100); /* bg-base-100 */
+  background-color: var(--base-150); /* bg-base-100*/
 }
 
 .markdown-body table tr:hover td,
 .markdown-container.markdown-body table tr:hover td {
-  background-color: var(--base-300); /* bg-base-300 */
+  background-color: var(--base-250); /* bg-base-300 */
 }
 
 /* 暗色主题支持 */
 .dark .markdown-body {
-  background-color: var(--dark-base-300); /* bg-dark-base-300 */
+  background-color: var(--dark-base-250); /* bg-dark-base-250 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题文字颜色 - 浅灰色 */
-  border-color: var(--dark-base-200); /* border-dark-base-200 */
+  border-color: var(--dark-base-250); /* border-dark-base-250 */
 }
 
 .dark .markdown-body h1,
@@ -278,7 +278,7 @@
 .dark .markdown-body table,
 .dark .markdown-container.markdown-body > table,
 .dark .markdown-container.markdown-body table {
-  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 增强边框 */
+  border: 1px solid var(--dark-base-250); /* border border-dark-base-250 - 增强边框 */
   border-style: solid; /* 确保边框样式 */
 }
 
@@ -288,13 +288,13 @@
 .dark .markdown-container.markdown-body > table > thead > tr > th,
 .dark .markdown-container.markdown-body table th,
 .dark .markdown-container.markdown-body > table > tbody > tr > th {
-  background-color: var(--dark-base-100); /* bg-dark-base-100 */
+  background-color: var(--dark-base-150); /* bg-dark-base-150 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题表格标题文字颜色 - 浅灰色 */
-  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 确保所有边框 */
-  border-top: 1px solid var(--dark-base-300); /* border-t */
-  border-right: 1px solid var(--dark-base-300); /* border-r */
-  border-bottom: 1px solid var(--dark-base-300); /* border-b */
-  border-left: 1px solid var(--dark-base-300); /* border-l */
+  border: 1px solid var(--dark-base-250); /* border border-dark-base-250 - 确保所有边框 */
+  border-top: 1px solid var(--dark-base-250); /* border-t */
+  border-right: 1px solid var(--dark-base-250); /* border-r */
+  border-bottom: 1px solid var(--dark-base-250); /* border-b */
+  border-left: 1px solid var(--dark-base-250); /* border-l */
   border-style: solid; /* 确保边框样式 */
   font-size: 0.75rem; /* text-xs - 减小字体 */
   padding-left: 0.75rem; /* px-3 */
@@ -309,13 +309,13 @@
 .dark .markdown-container.markdown-body > table > tbody > tr > td,
 .dark .markdown-container.markdown-body table td,
 .dark .markdown-container.markdown-body > table > tfoot > tr > td {
-  background-color: var(--dark-base-200); /* bg-dark-base-200 */
+  background-color: var(--dark-base-250); /* bg-dark-base-250 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题表格单元格文字颜色 - 浅灰色 */
-  border: 1px solid var(--dark-base-300); /* border border-dark-base-300 - 确保所有边框 */
-  border-top: 1px solid var(--dark-base-300); /* border-t */
-  border-right: 1px solid var(--dark-base-300); /* border-r */
-  border-bottom: 1px solid var(--dark-base-300); /* border-b */
-  border-left: 1px solid var(--dark-base-300); /* border-l */
+  border: 1px solid var(--dark-base-250); /* border border-dark-base-250 - 确保所有边框 */
+  border-top: 1px solid var(--dark-base-250); /* border-t */
+  border-right: 1px solid var(--dark-base-250); /* border-r */
+  border-bottom: 1px solid var(--dark-base-250); /* border-b */
+  border-left: 1px solid var(--dark-base-250); /* border-l */
   border-style: solid; /* 确保边框样式 */
   font-size: 0.75rem; /* text-xs - 减小字体 */
   padding-left: 0.75rem; /* px-3 */
@@ -326,19 +326,19 @@
 
 .dark .markdown-body table tr:nth-child(even) td,
 .dark .markdown-container.markdown-body table tr:nth-child(even) td {
-  background-color: var(--dark-base-100); /* bg-dark-base-100 */
+  background-color: var(--dark-base-150); /* bg-dark-base-150 */
 }
 
 .dark .markdown-body table tr:hover td,
 .dark .markdown-container.markdown-body table tr:hover td {
-  background-color: var(--dark-base-300); /* bg-dark-base-300 */
+  background-color: var(--dark-base-250); /* bg-dark-base-250 */
 }
 
 .dark .markdown-body blockquote {
-  background-color: var(--dark-base-200); /* bg-dark-base-200 */
+  background-color: var(--dark-base-250); /* bg-dark-base-250 */
   color: var(--dark-base-content, #f9fafb); /* 暗色主题引用块文字颜色 - 浅灰色 */
 }
 
 .dark .markdown-body hr {
-  background-color: var(--dark-base-200); /* bg-dark-base-200 */
+  background-color: var(--dark-base-250); /* bg-dark-base-250 */
 }

@@ -186,11 +186,11 @@ import TabPane from 'sectum'
     <div class="p-4 space-y-4">
       <div>
         <label class="block mb-2 text-sm font-medium">用户名</label>
-        <input type="text" class="w-full px-3 py-2 border border-base-300 rounded-lg" placeholder="请输入用户名" />
+        <input type="text" class="w-full px-3 py-2 border border-base-250 rounded-lg" placeholder="请输入用户名" />
       </div>
       <div>
         <label class="block mb-2 text-sm font-medium">邮箱</label>
-        <input type="email" class="w-full px-3 py-2 border border-base-300 rounded-lg" placeholder="请输入邮箱" />
+        <input type="email" class="w-full px-3 py-2 border border-base-250 rounded-lg" placeholder="请输入邮箱" />
       </div>
       <button class="px-4 py-2 bg-primary text-white rounded-lg">提交</button>
     </div>
@@ -309,6 +309,14 @@ import TabPane from 'sectum'
 |------|------|------|--------|------|
 | `name` | 标签页的唯一标识符，在同一 Tabs 组件内必须唯一 | `string` | - | ✅ |
 | `tab` | 标签页的显示文本 | `string` | - | ✅ |
+
+### TabPane 布局说明
+
+TabPane 组件的根元素使用了 `flex-1 w-full min-h-0` 类名，使其能够在 Tabs 组件的 flex 容器中占据全部可用空间。这意味着：
+
+- TabPane 会自动占据除 Tabs Header 之外的全部剩余空间
+- 适合在 TabPane 中放置需要占据全部高度的组件（如 Task 组件）
+- 如果内容需要滚动，请在 TabPane 内部的内容容器上添加 `overflow-y-auto`
 
 ### Tabs 工作原理
 

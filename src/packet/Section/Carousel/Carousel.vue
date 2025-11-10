@@ -23,7 +23,7 @@
         >
           <img 
             :src="image" 
-            :alt="`轮播图 ${index + 1}`"
+            :alt="t('common.carouselImage', { index: index + 1 })"
             class="w-full h-full object-cover"
           />
         </div>
@@ -36,19 +36,17 @@
     <template v-if="showArrows && itemsCount > 1">
       <button
         v-if="loop || currentIndex > 0"
-        class="cursor-pointer left-4"
-        :class="arrowClasses"
+        class="cursor-pointer left-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
         @click="goToPrev"
-        aria-label="上一张"
+        :aria-label="t('common.previous')"
       >
         <icn name="angle-left" light xl class="text-base-content dark:text-dark-base-content" />
       </button>
       <button
         v-if="loop || currentIndex < itemsCount - 1"
-        class="cursor-pointer right-4"
-        :class="arrowClasses"
+        class="cursor-pointer right-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
         @click="goToNext"
-        aria-label="下一张"
+        :aria-label="t('common.next')"
       >
         <icn name="angle-right" light xl class="text-base-content dark:text-dark-base-content" />
       </button>
@@ -64,7 +62,7 @@
           '!bg-white !w-6 !rounded-md dark:!bg-white/90': currentIndex === index - 1 
         }"
         @click="goTo(index - 1)"
-        :aria-label="`跳转到第 ${index} 张`"
+        :aria-label="t('common.goToSlide', { index })"
       />
     </div>
   </div>
@@ -72,6 +70,9 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface Props {
   initialIndex?: number  // 初始显示的索引
@@ -133,20 +134,6 @@ const containerStyle = computed(() => {
   }
 })
 
-const arrowClasses = computed(() => {
-  return [
-    'absolute top-1/2 -translate-y-1/2',
-    'bg-base-200 dark:bg-dark-base-200',
-    'hover:bg-base-300 dark:hover:bg-dark-base-300',
-    'text-base-content dark:text-dark-base-content',
-    'rounded-full p-2',
-    'shadow-lg',
-    'transition-all duration-200',
-    'z-10',
-    // 重置浏览器默认按钮样式
-    'border-none outline-none'
-  ].join(' ')
-})
 
 const indicatorsClasses = computed(() => {
   const positionClasses = {

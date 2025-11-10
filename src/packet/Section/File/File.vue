@@ -3,9 +3,9 @@
     <label v-if="label" :class="labelClasses">
       <span :class="labelTextClasses">{{ label }}</span>
     </label>
-    <div v-show="files" :class="filesContainerClasses">
+    <div v-show="files" class="w-95">
       <li v-for="(item, index) in files" :key="index" :class="fileItemClasses">
-        <span :class="fileLinkClasses">
+        <span class="text-sm truncate hover:underline">
           <a :href="item.Link" class="hover:underline">{{ item.Name }}</a>
         </span>
       </li>
@@ -51,11 +51,6 @@ const labelTextClasses = computed(() => {
   return sizeMap[props.size as keyof typeof sizeMap] || 'text-base'
 })
 
-// 文件列表容器样式类
-const filesContainerClasses = computed(() => {
-  return 'w-95'
-})
-
 // 文件项样式类
 const fileItemClasses = computed(() => {
   return [
@@ -63,10 +58,5 @@ const fileItemClasses = computed(() => {
     'bg-gray-100 dark:bg-gray-700',
     'hover:bg-base-300 dark:hover:bg-gray-600'
   ].join(' ')
-})
-
-// 文件链接样式类
-const fileLinkClasses = computed(() => {
-  return 'text-sm truncate hover:underline'
 })
 </script>

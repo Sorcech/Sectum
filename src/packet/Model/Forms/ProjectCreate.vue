@@ -4,21 +4,18 @@
       <ipt v-model="project.Name" size="sm" class="w-full" :placeholder="t('project.name')" />
     </FormItem>
     <FormItem>
-      <Select :options="state.options" @select="select" :placeholder="t('project.type')" class="w-full"></Select>
+      <Select :options="options" @select="select" :placeholder="t('project.type')" class="w-full"></Select>
     </FormItem>
     <FormItem>
-      <btn class="w-full" @click="ProjectCreate(project)">{{ t('toolbar.create') }}
+      <btn class="w-full" @click="handleSubmit">{{ t('toolbar.create') }}
       </btn>
     </FormItem>
-    <div class="pt-5">
-      {{ project }}
-    </div>
   </Form>
 </template>
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n'
-import Message from '~/packet/Element/Message/Message';
+import Toast from '~/packet/Element/Toast/Toast';
 // 定义项目创建表单的类型
 interface ProjectCreate {
   Type: number,
@@ -32,20 +29,20 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
-const state = reactive({
-  options: [
-    { label: computed(() => t('project.order')), value: 0 },
-    { label: computed(() => t('project.train')), value: 1 },
-    { label: computed(() => t('project.section')), value: 2 },
-    { label: computed(() => t('project.assembly')), value: 3 },
-    { label: computed(() => t('project.source')), value: 4 },
-    { label: computed(() => t('project.machine')), value: 5 },
-    { label: computed(() => t('project.system')), value: 6 },
-    { label: computed(() => t('project.standard')), value: 7 },
-    { label: computed(() => t('project.industry')), value: 8 },
-    { label: computed(() => t('project.technology')), value: 9 },
-  ]
-})
+
+// 使用 computed 来确保选项在语言切换时更新
+const options = computed(() => [
+  { label: t('project.order'), value: 0 },
+  { label: t('project.train'), value: 1 },
+  { label: t('project.section'), value: 2 },
+  { label: t('project.assembly'), value: 3 },
+  { label: t('project.source'), value: 4 },
+  { label: t('project.machine'), value: 5 },
+  { label: t('project.system'), value: 6 },
+  { label: t('project.standard'), value: 7 },
+  { label: t('project.industry'), value: 8 },
+  { label: t('project.technology'), value: 9 },
+])
 
 const project: ProjectCreate = reactive({
   Type: 0,
@@ -54,14 +51,28 @@ const project: ProjectCreate = reactive({
 const select = (e: any) => {
   project.Type = e
 }
-const ProjectCreate = async (project: ProjectCreate) => {
+
+const handleSubmit = async () => {
+  // 验证表单
+  if (!project.Name || project.Name.trim() === '') {
+    Toast({ type: "error", message: t('project.nameRequired') })
+    return
+  }
+
   try {
     // 调用父组件传入的提交回调
     if (props.onSubmit) {
-      await props.onSubmit(project)
+      const response = await props.onSubmit({ ...project })
+      // 如果成功，调用成功回调并重置表单
+      if (props.onSuccess) {
+        props.onSuccess(response)
+      }
+      // 重置表单
+      project.Name = ''
+      project.Type = 0
     } else {
       // 默认处理逻辑（如果没有传入回调）
-      Message({ type: "success", message: t('project.create') })
+      Toast({ type: "success", message: t('project.createSuccess') })
     }
   } catch (error: any) {
     // 调用父组件传入的错误回调
@@ -69,8 +80,8 @@ const ProjectCreate = async (project: ProjectCreate) => {
       props.onError(error, error.response || error)
     } else {
       // 默认错误处理
-      const errorMessage = error?.response?.data?.message || error?.data?.message || '创建失败'
-      Message({ type: "error", message: errorMessage })
+      const errorMessage = error?.response?.data?.message || error?.data?.message || t('project.createFailed')
+      Toast({ type: "error", message: errorMessage })
     }
   }
 }

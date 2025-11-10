@@ -107,6 +107,10 @@ export const UnoConfig = {
     [/^text-base-content$/, () => {
       return { 'color': `var(--base-content)` }
     }],
+    [/^text-base-content\/([0-9]+)$/, ([, opacity]: RuleParams) => {
+      // 使用 color-mix 或 opacity 来处理透明度
+      return { 'color': `color-mix(in srgb, var(--base-content) ${opacity}%, transparent)` }
+    }],
     [/^text-dark-base-content$/, () => {
       return { 'color': `var(--dark-base-content)` }
     }],
@@ -190,7 +194,7 @@ export const UnoConfig = {
     classes.push('ring-1', 'ring-2', 'ring-inset', 'ring-offset-1', 'ring-offset-2', 'ring-offset-white', 'ring-offset-transparent')
     
     // 添加 base 颜色类
-    const baseNumbers = ['100', '200', '300']
+    const baseNumbers = ['100', '150', '200', '250', '300']
     for (const num of baseNumbers) {
       classes.push(`bg-base-${num}`, `bg-dark-base-${num}`, `text-base-${num}`, `text-dark-base-${num}`, `border-base-${num}`, `border-dark-base-${num}`)
       // 添加 dark variant 的版本

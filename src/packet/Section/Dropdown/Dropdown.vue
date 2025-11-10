@@ -28,10 +28,6 @@ const { placement: autoPlacement, positionStyle, calculatePosition } = usePositi
   }
 )
 
-// 基础样式类
-const baseClasses = computed(() => {
-  return 'relative flex inline-block'
-})
 
 // 下拉菜单样式类
 const menuClasses = computed(() => {
@@ -114,7 +110,7 @@ useClickOutside(dropdownRef, () => {
 </script>
 
 <template>
-  <div ref="dropdownRef" :class="baseClasses" @mouseenter="mouseEnter" @mouseleave="mouseLeave" @pointerenter="mouseEnter">
+  <div ref="dropdownRef" class="relative flex inline-block" @mouseenter="mouseEnter" @mouseleave="mouseLeave" @pointerenter="mouseEnter">
     <div ref="triggerRef" class="dropdown-trigger" @click="toggle">
       <slot name="trigger" :active="isActive" />
     </div>

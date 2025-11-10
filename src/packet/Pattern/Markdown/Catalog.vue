@@ -40,7 +40,7 @@ const getLinkClasses = (level: number, slug: string) => {
     'toc-link inline-block no-underline w-full transition-colors duration-200 text-sm py-1',
     headingCssClassMap[level] || '',
     isActive
-      ? 'text-primary border-l-2 border-l-solid border-primary bg-base-200 dark:bg-dark-base-200 px-3.5'
+      ? 'text-primary border-l-2 border-l-solid border-primary bg-base-200 dark:bg-dark-base-250 px-3.5'
       : 'text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 px-4',
   ]
 }
@@ -101,9 +101,9 @@ defineExpose({
 
 <template>
   <!-- 使用 UnoCSS 原子类，通过 .toc 前缀保持隔离 -->
-  <div class="toc order-last hidden flex-shrink-0 border-l border-l-solid pl-2 border-base-200 dark:border-dark-base-200 xl:block h-full">
-    <div ref="catalog" class="h-full z-0 overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar">
-        <ul v-if="hasHeadings" class="toc-list list-none m-0 p-0 pt-2">
+  <div class="toc order-last hidden flex-shrink-0  xl:block h-full">
+    <div ref="catalog" class="h-full z-0  overflow-x-hidden overflow-y-auto pr-2 hide-scrollbar">
+        <ul v-if="hasHeadings" class="toc-list list-none m-0 border-l-2 border-l-solid border-base-150 pl-2 pt-2">
           <p class="toc-title text-base font-semibold my-4 mb-2 tracking-tight text-gray-900 dark:text-gray-300">
             {{ t("home.tableOfContent") }}
           </p>

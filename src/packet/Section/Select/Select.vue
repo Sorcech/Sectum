@@ -3,12 +3,12 @@
     <label v-if="label" :class="labelClasses">
       <span :class="labelTextClasses">{{ label }}</span>
     </label>
-    <div ref="selectContainerRef" :class="selectContainerClasses">
+    <div ref="selectContainerRef" class="relative w-64 max-w-64">
       <ipt type="text" readonly :modelValue="selectValue" :placeholder="placedisabled" :disabled="disabled"
         :size="size"
         class="w-full [&_input]:w-full"
         @click="toggleShow" />
-      <div :class="arrowContainerClasses" v-show="!disabled">
+      <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 pointer-events-none" v-show="!disabled">
         <span v-show="!positionShow">
           <icn name="angle-down" light xl></icn>
         </span>
@@ -17,7 +17,7 @@
         </span>
       </div>
       <tst name="downward" v-if="positionShow && !disabled" :class="tstClasses" :style="positionStyle">
-        <Menu compact shadow rounded :class="menuClasses" style="width: 100%; min-width: 0; max-width: 100%;">
+        <Menu compact shadow rounded :class="menuClasses" style="min-width: 200px;">
           <btn clean v-for="(item, index) in options" :key="index" @click="selectData(item, index)">{{ item[fieldLabel || 'label']
           }}
           </btn>
@@ -28,8 +28,11 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watch, computed, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useClickOutside } from '~/packet/Config/useClickOutside'
 import { usePosition } from '~/packet/Config/usePosition'
+
+const { t } = useI18n()
 
 // 定义选项接口
 interface SelectOption {
@@ -82,16 +85,6 @@ const labelTextClasses = computed(() => {
   return sizeMap[props.size as keyof typeof sizeMap] || 'text-base'
 })
 
-// 选择器容器样式类
-const selectContainerClasses = computed(() => {
-  return 'relative w-64 max-w-64'
-})
-
-// 下拉箭头容器样式类
-const arrowContainerClasses = computed(() => {
-  return 'absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 pointer-events-none'
-})
-
 const hAuto = ref(false)
 
 // 位置计算
@@ -129,7 +122,7 @@ onMounted(() => {
   if (props.disabled) {
     placedisabled.value = ''
   } else {
-    placedisabled.value = props.placeholder || 'Please Select'
+    placedisabled.value = props.placeholder || t('common.pleaseSelect')
   }
   if (props.selected) {
     selectValue.value = props.selected

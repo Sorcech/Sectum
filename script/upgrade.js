@@ -30,7 +30,7 @@ const cumuluPacketDir = resolve(workspaceRoot, 'Cumulu/src/packet')
 
 /**
  * 递归查找所有 .md 文件
- */
+ 
 function findMarkdownFiles(dir, baseDir = dir) {
   const files = []
   
@@ -58,21 +58,23 @@ function findMarkdownFiles(dir, baseDir = dir) {
   
   return files
 }
+*/
 
 /**
  * 确保目录存在，如果不存在则创建
- */
+ 
 function ensureDir(dirPath) {
   if (!existsSync(dirPath)) {
     mkdirSync(dirPath, { recursive: true })
   }
 }
+*/
 
 /**
  * 将文件路径转换为扁平化路径（移除组件文件夹层级）
  * 例如: Element/Button/button.md -> Element/button.md
  * 例如: Layout/Header/Header.md -> Layout/Header.md
- */
+
 function flattenPath(relativePath) {
   const parts = relativePath.split(/[\\/]/)
   
@@ -89,10 +91,11 @@ function flattenPath(relativePath) {
   // 如果已经是扁平结构，直接返回
   return relativePath
 }
+*/
 
 /**
  * 同步 Markdown 文件
- */
+
 function syncMarkdownFiles() {
   console.log('\n📄 开始同步 Markdown 文件...')
   
@@ -137,3 +140,4 @@ function syncMarkdownFiles() {
 // 执行同步
 syncMarkdownFiles()
 
+*/

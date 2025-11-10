@@ -14,6 +14,7 @@
 - ⚡ **高性能**: 基于UnoCSS的动态样式系统
 - 🎯 **无边框设计**: 默认无边框，更加简洁
 - 🏷️ **标签支持**: 内置标签和验证文本
+- 🎛️ **Flex 布局支持**: 支持外部传入 class，完美适配 flex 布局
 
 ## 安装
 
@@ -392,6 +393,41 @@ const emailError = ref('')
 </template>
 ```
 
+### Flex 布局支持
+
+Input 组件支持通过 `class` 属性传入外部样式类，完美适配 flex 布局：
+
+```vue
+<template>
+  <!-- 在 flex 容器中占据剩余空间 -->
+  <div class="flex flex-row items-center gap-2">
+    <span class="flex-shrink-0">标签</span>
+    <ipt 
+      class="flex-1 min-w-0" 
+      placeholder="占据剩余空间"
+    />
+    <button class="flex-shrink-0">按钮</button>
+  </div>
+  
+  <!-- 在 flex 容器中固定宽度 -->
+  <div class="flex flex-row items-center gap-2">
+    <ipt 
+      class="w-64" 
+      placeholder="固定宽度"
+    />
+    <ipt 
+      class="flex-1" 
+      placeholder="占据剩余空间"
+    />
+  </div>
+</template>
+```
+
+**说明**：
+- 当没有 `label` 时，外部传入的 `class` 会同时应用到容器和 input 元素
+- 支持所有 flex 相关类：`flex-1`, `flex-grow`, `flex-shrink`, `w-*`, `min-w-*`, `max-w-*` 等
+- 当传入 `flex-1` 时，容器会自动应用 flex 布局，确保正确扩展
+
 ## 主题定制
 
 Input组件基于UnoCSS动态样式系统，支持通过以下方式进行主题定制：
@@ -410,9 +446,9 @@ Input组件基于UnoCSS动态样式系统，支持通过以下方式进行主题
   --warning-focus: #ea580c;
   --error: #dc2626;
   --error-focus: #b91c1c;
-  --base-100: #ffffff;
-  --base-200: #f3f4f6;
-  --base-300: #e5e7eb;
+  --base-150: #ffffff;
+  --base-250: #f3f4f6;
+  --base-250: #e5e7eb;
   --base-content: #111827;
   --rounded-btn: 0.5rem;
 }
@@ -501,6 +537,8 @@ responsiveClasses: 'sm:h-8 md:h-10 lg:h-12' // 根据响应式props动态生成
 6. **UnoCSS依赖**: 确保项目中已正确配置UnoCSS
 7. **表单验证**: 建议配合表单验证库使用
 8. **性能**: 大量输入框时考虑使用虚拟滚动优化性能
+9. **外部 class**: 通过 `class` 属性传入的样式类会合并到 input 元素，同时 flex 相关类也会应用到容器
+10. **Flex 布局**: 当传入 `flex-1` 且没有 `label` 时，容器会自动应用 flex 布局以确保正确扩展
 
 ## 最佳实践
 
