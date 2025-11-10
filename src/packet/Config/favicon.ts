@@ -8,7 +8,7 @@ import config from '~/config/config'
 // Favicon 配置接口
 export interface FaviconConfig {
   iconName?: string  // 图标名称（FontAwesome 图标名）
-  iconPrefix?: string  // 图标前缀，默认 'fas' (solid)
+  iconPrefix?: string  // 图标前缀，默认 'far' (regular)
   size?: number  // 图标尺寸，默认 32
 }
 
@@ -58,8 +58,8 @@ export async function setFavicon(config: FaviconConfig = {}): Promise<void> {
     const fa = (window as any).FontAwesome
     if (!fa || !fa.findIconDefinition) return
     
-    // 确定图标前缀（默认使用 solid）
-    const prefix = config.iconPrefix || 'fas'
+    // 确定图标前缀（默认使用 regular）
+    const prefix = config.iconPrefix || 'far'
     
     // 获取图标定义
     const iconDefinition = fa.findIconDefinition({ prefix, iconName })
@@ -99,7 +99,7 @@ export function initFavicon(): void {
   if (logoIcon) {
     setFavicon({
       iconName: logoIcon,
-      iconPrefix: 'fas',
+      iconPrefix: 'far',
       size: 32
     })
   }

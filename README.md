@@ -1,7 +1,7 @@
 # Sectum UI
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-0.3.5-blue?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-0.3.6-blue?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/UnoCSS-66.x-333333?style=for-the-badge&logo=unocss&logoColor=white" alt="UnoCSS" />
@@ -582,12 +582,11 @@ const routes = [
 </template>
 
 <script setup lang="ts">
-import Header, { type IconButton } from '~/packet/Layout/Header/Header.vue'
-import Footer from '~/packet/Layout/Footer/Footer.vue'
+import { Header, Footer } from 'sectum'
 import config from '~/config/config'
 
 // 图标按钮配置（从 config 中读取用户链接）
-const iconButtons: IconButton[] = [
+const iconButtons = [
   {
     link: config.user.profileLink,
     icon: 'user',

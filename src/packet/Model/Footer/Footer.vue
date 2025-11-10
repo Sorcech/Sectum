@@ -71,11 +71,10 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-
 // 网站地图链接项类型
 export interface SitemapLink {
-  title: string
-  path: string
+  title: string  // 链接标题
+  path: string   // 链接路径
 }
 
 // 网站地图链接组类型

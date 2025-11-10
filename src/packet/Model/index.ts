@@ -13,7 +13,7 @@ import Navbar from './Navbar/Navbar.vue'
 import Sidebar from './Sidebar/Sidebar.vue'
 import Toolbar from './Toolbar/Toolbar.vue'
 
-// 导出类型
+// 导出类型（从 Vue 组件导出）
 export type { NavItem, IconButton } from './Header/Header.vue'
 export type { NavbarItem } from './Navbar/Navbar'
 export type { SitemapLink, SitemapLinkGroup } from './Footer/Footer.vue'

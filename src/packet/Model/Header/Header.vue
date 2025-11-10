@@ -18,7 +18,7 @@
           <icn 
             v-if="props.logoIcon" 
             :name="props.logoIcon" 
-            solid 
+            regular 
             xl 
             color="primary" 
             style="font-size: 2rem;" 
@@ -32,7 +32,7 @@
           <icn 
             v-if="props.logoIcon" 
             :name="props.logoIcon" 
-            solid 
+            regular 
             xl 
             color="primary" 
             style="font-size: 2rem;" 
