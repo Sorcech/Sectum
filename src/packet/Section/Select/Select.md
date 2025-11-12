@@ -220,6 +220,47 @@ const users = [
 </script>
 ```
 
+### 头像模式 - 隐藏占位符
+
+```vue
+<template>
+  <Select 
+    mode="avatar"
+    label="选择用户"
+    :show-placeholder="false"
+    :options="users"
+    v-model="selectedUserId"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const selectedUserId = ref(null)
+
+const users = [
+  { 
+    id: 1, 
+    name: '张三', 
+    avatar: 'https://via.placeholder.com/40',
+    status: 'online'
+  },
+  { 
+    id: 2, 
+    name: '李四', 
+    text: 'LS',
+    status: 'away'
+  },
+  { 
+    id: 3, 
+    name: '王五', 
+    icon: 'user',
+    status: 'offline'
+  }
+]
+</script>
+```
+
 ### 项目模式 - 自定义项目列表
 
 ```vue
@@ -600,6 +641,58 @@ const options = [
   ]"
 />
 
+### 头像模式 - 隐藏占位符
+
+```vue
+<template>
+  <Select 
+    mode="avatar"
+    label="选择用户"
+    :show-placeholder="false"
+    :options="users"
+    v-model="selectedUserId"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const selectedUserId = ref(null)
+
+const users = [
+  { 
+    id: 1, 
+    name: '张三', 
+    avatar: 'https://via.placeholder.com/40',
+    status: 'online'
+  },
+  { 
+    id: 2, 
+    name: '李四', 
+    text: 'LS',
+    status: 'away'
+  },
+  { 
+    id: 3, 
+    name: '王五', 
+    icon: 'user',
+    status: 'offline'
+  }
+]
+</script>
+```
+
+<Select 
+  mode="avatar"
+  label="选择用户（无占位符）"
+  :show-placeholder="false"
+  :options="[
+    { id: 1, name: '张三', text: 'ZS', status: 'online' },
+    { id: 2, name: '李四', text: 'LS', status: 'away' },
+    { id: 3, name: '王五', text: 'WW', status: 'offline' }
+  ]"
+/>
+
 ### 项目模式 - 自动加载
 
 <Select 
@@ -654,7 +747,11 @@ const options = [
 | `selected` | `string` | - | 预设选中的值（已废弃，建议使用 v-model） |
 | `modelValue` | `string \| number \| null` | - | v-model 绑定值 |
 | `avatarSize` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'sm'` | 头像尺寸（头像模式） |
+| `iconMode` | `string` | `'light'` | 图标模式，支持 'light', 'solid', 'regular', 'thin', 'duotone', 'brand'（头像模式） |
+| `showPlaceholder` | `boolean` | `true` | 是否显示占位符文本（头像模式） |
 | `loadProjects` | `boolean` | `true` | 是否自动加载项目列表（项目模式） |
+| `triggerWidth` | `string` | - | 触发器宽度，支持 UnoCSS 类名（如 'w-64', 'w-full'）或 CSS 值（如 '300px'） |
+| `menuWidth` | `string` | - | 菜单宽度，支持 UnoCSS 类名（如 'w-64', 'w-full'）或 CSS 值（如 '300px'），默认与触发器宽度一致 |
 
 ### 事件
 

@@ -28,14 +28,18 @@
 
       <!-- 头像模式：使用 Avatar 组件 -->
       <template v-else-if="mode === 'avatar'">
-        <div class="relative flex items-center bg-base-100 rounded-md ">
+        <div 
+          :class="[
+            'relative flex items-center bg-base-100 rounded-md',
+            // 如果没有占位符，使用较窄的固定宽度（w-16）；如果有占位符，使用标准固定宽度（w-full，父容器为 w-64）
+            !props.showPlaceholder ? 'w-16' : 'w-full'
+          ]"
+        >
           <div 
             :class="[
-              'flex items-center gap-2 px-2 py-1 rounded-md border border-base-300 cursor-pointer transition-colors relative',
+              'flex items-center gap-2 px-2 py-1 rounded-md border border-base-300 cursor-pointer transition-colors relative w-full',
               props.disabled ? 'opacity-50 cursor-not-allowed bg-base-200' : 'hover:bg-base-200',
-              displayClasses,
-              // 当没有文本时，添加右边距为箭头留出空间
-              (!selectedUser && !props.showPlaceholder) ? 'pr-10' : ''
+              displayClasses
             ]"
             @click.stop="toggleShow"
           >
@@ -51,14 +55,14 @@
               :clickable="false"
             />
             <span 
-              v-if="selectedUser" 
+              v-if="selectedUser && props.showPlaceholder" 
               :class="textSizeClasses"
-              class="text-base-content whitespace-nowrap max-w-32 truncate pr-8"
+              class="text-base-content whitespace-nowrap flex-1 min-w-0 truncate pr-8"
             >
               {{ selectedUser.name || selectedUser.text || selectedUser.label }}
             </span>
             <span 
-              v-else-if="props.showPlaceholder"
+              v-else-if="props.showPlaceholder && !selectedUser"
               :class="textSizeClasses"
               class="text-base-content/60 whitespace-nowrap pr-8"
             >
@@ -78,15 +82,21 @@
 
       <!-- 项目模式：使用图标和文本 -->
       <template v-else-if="mode === 'project'">
-        <div class="relative flex items-center bg-base-100 rounded-md">
+        <div class="relative flex items-center bg-base-100 rounded-md w-full">
           <div 
             :class="[
-              'flex items-center gap-2 px-2 py-1 rounded-md border border-base-300 cursor-pointer transition-colors',
+              'flex items-center gap-2 px-2 py-1 rounded-md border border-base-300 cursor-pointer transition-colors w-full',
               props.disabled ? 'opacity-50 cursor-not-allowed bg-base-200' : 'hover:bg-base-200',
               displayClasses
             ]"
             @click.stop="toggleShow"
           >
+            <icn 
+              name="layer-group" 
+              light 
+              :size="iconSize"
+              class="text-primary flex-shrink-0"
+            />
             <span 
               v-if="selectedProject" 
               :class="textSizeClasses"
@@ -373,6 +383,7 @@ const props = withDefaults(defineProps<{
   // 宽度设置（默认使用 UnoCSS 类名）
   triggerWidth?: string // 触发器宽度，支持 UnoCSS 类名（如 'w-64', 'w-full'）或 CSS 值（如 '300px'）
   menuWidth?: string // 菜单宽度，支持 UnoCSS 类名（如 'w-64', 'w-full'）或 CSS 值（如 '300px'），默认与触发器宽度一致
+  menuCanExceedTrigger?: boolean // 菜单宽度是否可以大于触发器宽度，默认为 false
 }>(), {
   mode: 'default',
   size: 'md',
@@ -381,7 +392,8 @@ const props = withDefaults(defineProps<{
   disabled: false,
   fieldValue: 'value',
   loadProjects: true,
-  showPlaceholder: true
+  showPlaceholder: true,
+  menuCanExceedTrigger: false
 })
 
 const emit = defineEmits<{
@@ -447,6 +459,18 @@ const containerWidthClasses = computed(() => {
   
   // 默认宽度（使用 UnoCSS 类名）
   if (props.mode === 'default') {
+    return 'w-64 max-w-64'
+  }
+  if (props.mode === 'avatar') {
+    // 用户模式：如果没有占位符，使用较窄的固定宽度（w-16）；如果有占位符，使用标准固定宽度（w-64）
+    // 注意：没有占位符时不显示用户名，所以使用较窄宽度即可
+    if (!props.showPlaceholder) {
+      return 'w-16 max-w-16'
+    }
+    // 有占位符时，使用标准固定宽度
+    return 'w-64 max-w-64'
+  }
+  if (props.mode === 'project') {
     return 'w-64 max-w-64'
   }
   return 'w-auto'
@@ -560,6 +584,31 @@ const menuWidthClass = computed(() => {
     return ''
   }
   
+  // 如果允许菜单宽度大于触发器，使用 min-w- 而不是固定宽度
+  if (props.menuCanExceedTrigger) {
+    // 根据触发器宽度设置最小宽度
+    if (props.triggerWidth && isUnoCSSClass(props.triggerWidth)) {
+      // 如果触发器使用 UnoCSS 类名，提取宽度值作为最小宽度
+      // 例如 w-64 -> min-w-64
+      if (props.triggerWidth.startsWith('w-')) {
+        return props.triggerWidth.replace('w-', 'min-w-')
+      }
+      return 'min-w-64'
+    }
+    // 默认最小宽度
+    if (props.mode === 'avatar') {
+      // 如果没有占位符，使用较窄的宽度（与触发器 w-16 匹配）
+      if (!props.showPlaceholder) {
+        return 'min-w-36'
+      }
+      return 'min-w-50'
+    } else if (props.mode === 'project') {
+      return 'min-w-60'
+    } else {
+      return 'min-w-64'
+    }
+  }
+  
   // 默认：菜单宽度与触发器宽度一致（使用相同的 UnoCSS 类名）
   if (props.triggerWidth && isUnoCSSClass(props.triggerWidth)) {
     return props.triggerWidth
@@ -572,6 +621,10 @@ const menuWidthClass = computed(() => {
   
   // 其他模式，使用 min-w- 确保最小宽度
   if (props.mode === 'avatar') {
+    // 如果没有占位符，使用较窄的宽度（与触发器 w-16 匹配）
+    if (!props.showPlaceholder) {
+      return 'min-w-36'
+    }
     return 'min-w-50'
   } else if (props.mode === 'project') {
     return 'min-w-60'
@@ -595,15 +648,28 @@ const menuStyle = computed(() => {
   
   // 如果指定了 menuWidth 且是 CSS 值
   if (props.menuWidth && !isUnoCSSClass(props.menuWidth)) {
-    styles.push(`min-width: ${props.menuWidth};`)
+    if (props.menuCanExceedTrigger) {
+      styles.push(`min-width: ${props.menuWidth};`)
+    } else {
+      styles.push(`width: ${props.menuWidth};`)
+    }
     return styles.join(' ')
   }
   
-  // 如果触发器使用 CSS 值，菜单也需要使用相同的 CSS 值
+  // 如果触发器使用 CSS 值
   if (props.triggerWidth && !isUnoCSSClass(props.triggerWidth)) {
-    // 如果指定了 menuWidth，使用 menuWidth；否则使用 triggerWidth
-    const width = props.menuWidth || props.triggerWidth
-    styles.push(`min-width: ${width};`)
+    if (props.menuCanExceedTrigger) {
+      // 如果允许菜单宽度大于触发器，使用 min-width
+      if (props.menuWidth) {
+        styles.push(`min-width: ${props.menuWidth};`)
+      } else {
+        styles.push(`min-width: ${props.triggerWidth};`)
+      }
+    } else {
+      // 否则使用固定宽度
+      const width = props.menuWidth || props.triggerWidth
+      styles.push(`width: ${width};`)
+    }
     return styles.join(' ')
   }
   
@@ -611,12 +677,21 @@ const menuStyle = computed(() => {
   if (!props.triggerWidth && !props.menuWidth) {
     const triggerWidth = menuWidthValue.value || getTriggerWidth()
     if (triggerWidth) {
-      styles.push(`min-width: ${triggerWidth};`)
+      if (props.menuCanExceedTrigger) {
+        styles.push(`min-width: ${triggerWidth};`)
+      } else {
+        styles.push(`width: ${triggerWidth};`)
+      }
       return styles.join(' ')
     }
     // 如果没有触发器宽度，设置默认最小宽度（兜底）
     if (props.mode === 'avatar') {
-      styles.push(`min-width: 200px;`)
+      // 如果没有占位符，使用较窄的宽度（与触发器 w-16 匹配，144px = min-w-36）
+      if (!props.showPlaceholder) {
+        styles.push(`min-width: 144px;`)
+      } else {
+        styles.push(`min-width: 200px;`)
+      }
     } else if (props.mode === 'project') {
       styles.push(`min-width: 240px;`)
     } else {
@@ -755,6 +830,8 @@ const selectedUser = computed<AvatarOption | null>(() => {
   
   // 如果 modelValue 为 null 或 undefined，返回 null
   if (props.modelValue === null || props.modelValue === undefined) {
+    // 清空内部状态，确保响应式更新
+    internalSelectedUser.value = null
     return null
   }
   
@@ -779,6 +856,9 @@ const selectedUser = computed<AvatarOption | null>(() => {
   // 更新内部状态
   if (found) {
     internalSelectedUser.value = found
+  } else {
+    // 如果没有找到匹配的用户，清空内部状态
+    internalSelectedUser.value = null
   }
   
   return found || null
