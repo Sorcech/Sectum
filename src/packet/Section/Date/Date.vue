@@ -310,6 +310,7 @@ const inputClasses = computed(() => {
   const baseClasses = [
     ' outline-none bg-transparent box-border',
     'placeholder-gray-400',
+    'px-2', // 增加左右内边距
     '[&_input]:',
     props.disabled ? 'cursor-not-allowed' : '',
     props.readonly ? 'cursor-default' : ''

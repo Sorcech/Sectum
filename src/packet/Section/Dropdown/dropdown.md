@@ -25,7 +25,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">Bottom-start</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded>
       <btn item>Item 1</btn>
       <btn item>Item 2</btn>
       <btn item>Item 3</btn>
@@ -35,7 +35,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">Bottom-end</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>Item 1</btn>
       <btn item>Item 2</btn>
       <btn item>Item 3</btn>
@@ -45,7 +45,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">Top-start</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>Item 1</btn>
       <btn item>Item 2</btn>
       <btn item>Item 3</btn>
@@ -55,7 +55,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">Top-end</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>Item 1</btn>
       <btn item>Item 2</btn>
       <btn item>Item 3</btn>
@@ -68,7 +68,7 @@ import Dropdown from 'sectum'
   <template #trigger="{ active }">
     <btn :active="active">Bottom-start</btn>
   </template>
-  <Menu rounded padding>
+  <Menu rounded >
     <btn item>Item 1</btn>
     <btn item>Item 2</btn>
     <btn item>Item 3</btn>
@@ -105,7 +105,7 @@ import Dropdown from 'sectum'
         自定义触发器
       </div>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>选项 1</btn>
       <btn item>选项 2</btn>
     </Menu>
@@ -119,7 +119,7 @@ import Dropdown from 'sectum'
       自定义触发器
     </div>
   </template>
-  <Menu rounded padding>
+  <Menu rounded >
     <btn item>选项 1</btn>
     <btn item>选项 2</btn>
   </Menu>
@@ -137,7 +137,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">悬停触发</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>悬停选项 1</btn>
       <btn item>悬停选项 2</btn>
       <btn item>悬停选项 3</btn>
@@ -150,7 +150,7 @@ import Dropdown from 'sectum'
   <template #trigger="{ active }">
     <btn :active="active">悬停触发</btn>
   </template>
-  <Menu rounded padding>
+  <Menu rounded >
     <btn item>悬停选项 1</btn>
     <btn item>悬停选项 2</btn>
     <btn item>悬停选项 3</btn>
@@ -165,7 +165,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">左下</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>左下位置</btn>
     </Menu>
   </Dropdown>
@@ -173,7 +173,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">右下</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>右下位置</btn>
     </Menu>
   </Dropdown>
@@ -181,7 +181,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">左上</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>左上位置</btn>
     </Menu>
   </Dropdown>
@@ -189,7 +189,7 @@ import Dropdown from 'sectum'
     <template #trigger="{ active }">
       <btn :active="active">右上</btn>
     </template>
-    <Menu rounded padding>
+    <Menu rounded >
       <btn item>右上位置</btn>
     </Menu>
   </Dropdown>
@@ -327,7 +327,7 @@ Dropdown 组件完全支持 Dark 模式，会自动适应主题变化：
           基础菜单
         </btn>
       </template>
-      <Menu rounded padding>
+      <Menu rounded >
         <btn item @click="handleAction('edit')">编辑</btn>
         <btn item @click="handleAction('delete')">删除</btn>
         <btn item @click="handleAction('share')">分享</btn>
@@ -341,7 +341,7 @@ Dropdown 组件完全支持 Dark 模式，会自动适应主题变化：
           悬停菜单
         </btn>
       </template>
-      <Menu rounded padding>
+      <Menu rounded >
         <btn item>快速操作 1</btn>
         <btn item>快速操作 2</btn>
       </Menu>

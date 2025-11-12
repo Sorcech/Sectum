@@ -13,8 +13,13 @@
 - ♿ **无障碍**: 完整的keyboard和screen reader支持
 - ⚡ **高性能**: 基于UnoCSS的动态样式系统
 - 🎯 **无边框设计**: 默认无边框，更加简洁
-- 🏷️ **标签支持**: 内置标签和验证文本
+- 🏷️ **标签支持**: 内置标签和验证文本，支持自定义宽度
 - 🎛️ **Flex 布局支持**: 支持外部传入 class，完美适配 flex 布局
+- 🎨 **图标支持**: 支持在输入框左右两侧显示图标，支持多种图标样式
+- 🧹 **清除功能**: 清除图标（xmark、times等）自动变为可点击按钮，hover显示primary颜色
+- 👁️ **密码切换**: 密码输入框的eye图标可点击切换显示/隐藏密码
+- 📐 **宽度控制**: 支持通过属性设置label和input的宽度，支持整行显示
+- 🔄 **布局方向**: 支持label和input在同一行（row）或垂直排列（column）
 
 ## 安装
 
@@ -42,6 +47,23 @@ import ipt from 'sectum'
 <ipt pills placeholder="Pills style" />
 <ipt ghost placeholder="Ghost style" />
 <ipt clean placeholder="Clean style" />
+```
+
+### Full Width
+
+<div class="flex flex-col gap-3">
+  <ipt full-width placeholder="占据整行" />
+  <ipt full-width label="Username" placeholder="带标签的整行输入框" />
+  <ipt full-width label="Email" type="email" placeholder="邮箱输入框" />
+</div>
+
+```vue
+<!-- 无标签，占据整行 -->
+<ipt full-width placeholder="占据整行" />
+
+<!-- 带标签，占据整行 -->
+<ipt full-width label="Username" placeholder="带标签的整行输入框" />
+<ipt full-width label="Email" type="email" placeholder="邮箱输入框" />
 ```
 
 ## Colors
@@ -158,6 +180,48 @@ import ipt from 'sectum'
 <ipt label="Password" type="password" placeholder="Enter password" />
 ```
 
+### Label Direction (布局方向)
+
+<div class="flex flex-col gap-3">
+  <div class="flex flex-wrap items-center gap-3">
+    <ipt label="Username" direction="row" placeholder="Row layout (默认)" />
+    <ipt label="Email" direction="row" type="email" placeholder="同一行显示" />
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
+    <ipt label="Username" direction="column" placeholder="Column layout" />
+    <ipt label="Email" direction="column" type="email" placeholder="垂直排列" />
+  </div>
+</div>
+
+```vue
+<!-- Row 布局：label 和 input 在同一行（默认） -->
+<ipt label="Username" direction="row" placeholder="Row layout (默认)" />
+<ipt label="Email" direction="row" type="email" placeholder="同一行显示" />
+
+<!-- Column 布局：label 在 input 上方 -->
+<ipt label="Username" direction="column" placeholder="Column layout" />
+<ipt label="Email" direction="column" type="email" placeholder="垂直排列" />
+```
+
+### Label and Input Width
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt label="Username" label-width="w-24" placeholder="Enter username" />
+  <ipt label="Email" label-width="w-32" input-width="w-64" placeholder="Enter email" />
+  <ipt label="Password" label-width="w-20" input-width="flex-1" placeholder="Enter password" />
+</div>
+
+```vue
+<!-- 设置 label 宽度 -->
+<ipt label="Username" label-width="w-24" placeholder="Enter username" />
+
+<!-- 同时设置 label 和 input 宽度 -->
+<ipt label="Email" label-width="w-32" input-width="w-64" placeholder="Enter email" />
+
+<!-- input 使用 flex-1 占据剩余空间 -->
+<ipt label="Password" label-width="w-20" input-width="flex-1" placeholder="Enter password" />
+```
+
 ## With Error
 
 <div class="flex flex-wrap items-center gap-3">
@@ -216,6 +280,257 @@ import ipt from 'sectum'
 <ipt type="url" placeholder="URL input" />
 ```
 
+## With Icons
+
+> **注意**: 图标默认使用 `light` 样式。可以通过 `leftIconStyle` 和 `rightIconStyle` 属性来改变图标样式，可选值：`'solid'`、`'regular'`、`'light'`、`'thin'`、`'brand'`。
+
+### Left Icon
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="user" placeholder="Username (默认 light)" />
+  <ipt left-icon="envelope" placeholder="Email (默认 light)" />
+  <ipt left-icon="search" color="primary" placeholder="Search..." />
+</div>
+
+```vue
+<ipt left-icon="user" placeholder="Username (默认 light)" />
+<ipt left-icon="envelope" placeholder="Email (默认 light)" />
+<ipt left-icon="search" color="primary" placeholder="Search..." />
+```
+
+### Icon Styles
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="user" left-icon-style="solid" placeholder="Solid style" />
+  <ipt left-icon="user" left-icon-style="regular" placeholder="Regular style" />
+  <ipt left-icon="user" placeholder="Light style (默认)" />
+  <ipt left-icon="user" left-icon-style="thin" placeholder="Thin style" />
+  <ipt left-icon="github" left-icon-style="brand" placeholder="Brand style" />
+</div>
+
+```vue
+<ipt left-icon="user" left-icon-style="solid" placeholder="Solid style" />
+<ipt left-icon="user" left-icon-style="regular" placeholder="Regular style" />
+<ipt left-icon="user" placeholder="Light style (默认)" />
+<ipt left-icon="user" left-icon-style="thin" placeholder="Thin style" />
+<ipt left-icon="github" left-icon-style="brand" placeholder="Brand style" />
+```
+
+### Right Icon
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt right-icon="eye" placeholder="Password (默认 light)" />
+  <ipt right-icon="check" color="success" placeholder="Verified (默认 light)" />
+  <ipt right-icon="times" color="error" placeholder="Clear (默认 light)" />
+</div>
+
+```vue
+<ipt right-icon="eye" placeholder="Password (默认 light)" />
+<ipt right-icon="check" color="success" placeholder="Verified (默认 light)" />
+<ipt right-icon="times" color="error" placeholder="Clear (默认 light)" />
+```
+
+### Password Toggle (密码显示/隐藏)
+
+当输入框类型为 `password` 且右侧图标为 `eye` 时，图标会自动变为可点击按钮，点击可以在 `eye` 和 `eye-slash` 之间切换，同时 input 的 type 会在 `password` 和 `text` 之间切换。
+
+> **注意**: 
+> - 默认状态：图标显示 `eye`，input type 为 `password`（隐藏密码）
+> - 点击后：图标切换为 `eye-slash`，input type 切换为 `text`（显示密码）
+> - 再次点击：恢复默认状态
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt type="password" right-icon="eye" placeholder="点击图标切换显示/隐藏" />
+  <ipt type="password" right-icon="eye" label="Password" placeholder="带标签的密码输入框" />
+  <ipt type="password" right-icon="eye" left-icon="lock" placeholder="带左侧图标的密码输入框" />
+</div>
+
+```vue
+<template>
+  <!-- 基础密码切换 -->
+  <ipt type="password" right-icon="eye" placeholder="点击图标切换显示/隐藏" />
+  
+  <!-- 带标签的密码切换 -->
+  <ipt type="password" right-icon="eye" label="Password" placeholder="带标签的密码输入框" />
+  
+  <!-- 带左侧图标的密码切换 -->
+  <ipt type="password" right-icon="eye" left-icon="lock" placeholder="带左侧图标的密码输入框" />
+</template>
+```
+
+<div class="flex flex-col gap-3">
+  <ipt type="password" right-icon="eye" full-width placeholder="占据整行的密码输入框" />
+  <ipt type="password" right-icon="eye" full-width label="Password" placeholder="带标签的整行密码输入框" />
+  <ipt type="password" right-icon="eye" left-icon="lock" full-width label="Password" placeholder="带左侧图标和标签的整行密码输入框" />
+</div>
+
+```vue
+<template>
+  <!-- 占据整行的密码切换 -->
+  <ipt type="password" right-icon="eye" full-width placeholder="占据整行的密码输入框" />
+  
+  <!-- 带标签的整行密码切换 -->
+  <ipt type="password" right-icon="eye" full-width label="Password" placeholder="带标签的整行密码输入框" />
+  
+  <!-- 带左侧图标和标签的整行密码切换 -->
+  <ipt type="password" right-icon="eye" left-icon="lock" full-width label="Password" placeholder="带左侧图标和标签的整行密码输入框" />
+</template>
+```
+
+### Clear Icon (可点击清除)
+
+当右侧图标为清除图标（`xmark`、`times`、`close`、`x`、`remove`）时，图标会自动变为可点击按钮，hover 时显示 primary 颜色，点击可清空输入框内容。
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt right-icon="xmark" placeholder="点击右侧图标清除" />
+  <ipt right-icon="times" placeholder="可清除输入框" />
+  <ipt right-icon="close" placeholder="支持多种清除图标" />
+</div>
+
+```vue
+<template>
+  <ipt v-model="value" right-icon="xmark" placeholder="点击右侧图标清除" />
+  <ipt v-model="value" right-icon="times" placeholder="可清除输入框" />
+  <ipt v-model="value" right-icon="close" placeholder="支持多种清除图标" />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const value = ref('')
+</script>
+```
+
+### Right Icon with Different Styles
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt right-icon="check" right-icon-style="solid" color="success" placeholder="Solid" />
+  <ipt right-icon="check" right-icon-style="regular" color="success" placeholder="Regular" />
+  <ipt right-icon="check" color="success" placeholder="Light (默认)" />
+  <ipt right-icon="check" right-icon-style="thin" color="success" placeholder="Thin" />
+</div>
+
+```vue
+<ipt right-icon="check" right-icon-style="solid" color="success" placeholder="Solid" />
+<ipt right-icon="check" right-icon-style="regular" color="success" placeholder="Regular" />
+<ipt right-icon="check" color="success" placeholder="Light (默认)" />
+<ipt right-icon="check" right-icon-style="thin" color="success" placeholder="Thin" />
+```
+
+### Both Icons
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="user" right-icon="check" placeholder="Username" />
+  <ipt left-icon="search" right-icon="filter" color="primary" placeholder="Search and filter" />
+</div>
+
+```vue
+<ipt left-icon="user" right-icon="check" placeholder="Username" />
+<ipt left-icon="search" right-icon="filter" color="primary" placeholder="Search and filter" />
+```
+
+### Icon with Different Sizes
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt size="xs" left-icon="user" placeholder="Extra small" />
+  <ipt size="sm" left-icon="user" placeholder="Small" />
+  <ipt size="md" left-icon="user" placeholder="Medium" />
+  <ipt size="lg" left-icon="user" placeholder="Large" />
+  <ipt size="xl" left-icon="user" placeholder="Extra large" />
+</div>
+
+```vue
+<ipt size="xs" left-icon="user" placeholder="Extra small" />
+<ipt size="sm" left-icon="user" placeholder="Small" />
+<ipt size="md" left-icon="user" placeholder="Medium" />
+<ipt size="lg" left-icon="user" placeholder="Large" />
+<ipt size="xl" left-icon="user" placeholder="Extra large" />
+```
+
+### Icon with Label
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt label="Username" left-icon="user" placeholder="Enter username" class="w-64" />
+  <ipt label="Email" left-icon="envelope" type="email" placeholder="Enter email" class="w-64" />
+  <ipt label="Password" left-icon="lock" right-icon="eye" type="password" placeholder="Enter password (点击图标切换显示/隐藏)" class="w-64" />
+</div>
+
+```vue
+<ipt label="Username" left-icon="user" placeholder="Enter username" class="w-64" />
+<ipt label="Email" left-icon="envelope" type="email" placeholder="Enter email" class="w-64" />
+<ipt label="Password" left-icon="lock" right-icon="eye" type="password" placeholder="Enter password (点击图标切换显示/隐藏)" class="w-64" />
+```
+
+<div class="flex flex-col gap-3">
+  <ipt label="Username" left-icon="user" full-width placeholder="Enter username" />
+  <ipt label="Email" left-icon="envelope" type="email" full-width placeholder="Enter email" />
+  <ipt label="Password" left-icon="lock" right-icon="eye" type="password" full-width placeholder="Enter password (点击图标切换显示/隐藏)" />
+</div>
+
+```vue
+<ipt label="Username" left-icon="user" full-width placeholder="Enter username" />
+<ipt label="Email" left-icon="envelope" type="email" full-width placeholder="Enter email" />
+<ipt label="Password" left-icon="lock" right-icon="eye" type="password" full-width placeholder="Enter password (点击图标切换显示/隐藏)" />
+```
+
+### Icon with Colors
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="user" color="primary" placeholder="Primary" />
+  <ipt left-icon="check" color="success" placeholder="Success" />
+  <ipt left-icon="exclamation-triangle" color="warning" placeholder="Warning" />
+  <ipt left-icon="times" color="error" placeholder="Error" />
+</div>
+
+```vue
+<ipt left-icon="user" color="primary" placeholder="Primary" />
+<ipt left-icon="check" color="success" placeholder="Success" />
+<ipt left-icon="exclamation-triangle" color="warning" placeholder="Warning" />
+<ipt left-icon="times" color="error" placeholder="Error" />
+```
+
+### Icon with Variants
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="search" ghost placeholder="Ghost with icon" />
+  <ipt left-icon="user" pills color="primary" placeholder="Pills with icon" />
+  <ipt left-icon="search" clean placeholder="Clean with icon" />
+</div>
+
+```vue
+<ipt left-icon="search" ghost placeholder="Ghost with icon" />
+<ipt left-icon="user" pills color="primary" placeholder="Pills with icon" />
+<ipt left-icon="search" clean placeholder="Clean with icon" />
+```
+
+### Icon with States
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="user" loading placeholder="Loading..." />
+  <ipt left-icon="user" disabled placeholder="Disabled" />
+  <ipt left-icon="user" error="This field is required" placeholder="Error state" />
+</div>
+
+```vue
+<ipt left-icon="user" loading placeholder="Loading..." />
+<ipt left-icon="user" disabled placeholder="Disabled" />
+<ipt left-icon="user" error="This field is required" placeholder="Error state" />
+```
+
+### Icon with Error Message
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt left-icon="envelope" error="Invalid email format" placeholder="Email" />
+  <ipt left-icon="user" color="error" error="Username already exists" placeholder="Username" />
+  <ipt left-icon="lock" right-icon="eye" error="Password too weak" type="password" placeholder="Password (点击图标切换显示/隐藏)" />
+</div>
+
+```vue
+<ipt left-icon="envelope" error="Invalid email format" placeholder="Email" />
+<ipt left-icon="user" color="error" error="Username already exists" placeholder="Username" />
+<ipt left-icon="lock" right-icon="eye" error="Password too weak" type="password" placeholder="Password (点击图标切换显示/隐藏)" />
+```
+
+
 ## API
 
 ### Props
@@ -225,7 +540,9 @@ import ipt from 'sectum'
 | `modelValue`  | `string \| number`                                              | -           | 输入框的值（v-model）            |
 | `direction`   | `string`                                                        | `'row'`     | 标签和输入框的布局方向           |
 | `label`       | `string`                                                        | -           | 标签文本                         |
-| `labelWidth`  | `string`                                                        | `'w-4/9'`   | 标签宽度                         |
+| `labelWidth`  | `string`                                                        | `'w-1/3'`   | 标签宽度（支持 Tailwind 宽度类） |
+| `inputWidth`  | `string`                                                        | -           | 输入框宽度（支持 Tailwind 宽度类，如未设置则根据布局自动计算） |
+| `fullWidth`   | `boolean`                                                       | `false`     | 是否占据整行宽度（设置为 true 时强制使用 w-full） |
 | `placeholder` | `string`                                                        | -           | 占位符文本                       |
 | `type`        | `string`                                                        | `'text'`    | 输入框类型                       |
 | `name`        | `string`                                                        | -           | 输入框名称                       |
@@ -239,6 +556,10 @@ import ipt from 'sectum'
 | `circle`      | `boolean`                                                       | `false`     | 是否使用圆形样式                 |
 | `clean`       | `boolean`                                                       | `false`     | 是否使用简洁样式（无背景、边框） |
 | `loading`     | `boolean`                                                       | `false`     | 是否显示加载状态                 |
+| `leftIcon`    | `string`                                                        | -           | 左侧图标名称                     |
+| `leftIconStyle` | `'solid' \| 'regular' \| 'light' \| 'thin' \| 'brand'`        | `'light'`   | 左侧图标样式（默认 light）        |
+| `rightIcon`   | `string`                                                        | -           | 右侧图标名称                     |
+| `rightIconStyle` | `'solid' \| 'regular' \| 'light' \| 'thin' \| 'brand'`        | `'light'`   | 右侧图标样式（默认 light）        |
 | `sm`          | `string`                                                        | -           | 小屏幕断点尺寸                   |
 | `md`          | `string`                                                        | -           | 中等屏幕断点尺寸                 |
 | `lg`          | `string`                                                        | -           | 大屏幕断点尺寸                   |
@@ -251,6 +572,7 @@ import ipt from 'sectum'
 | `update:modelValue` | `value: string \| number` | 值变化时触发   |
 | `focus`             | `event: FocusEvent`       | 获得焦点时触发 |
 | `blur`              | `event: FocusEvent`       | 失去焦点时触发 |
+| `clear`             | -                         | 点击清除图标时触发 |
 
 ### Slots
 
@@ -282,7 +604,6 @@ import ipt from 'sectum'
 
 <script setup>
 import { ref } from 'vue'
-
 const value = ref('')
 const name = ref('')
 const email = ref('')
@@ -353,6 +674,108 @@ const emailError = ref('')
 </template>
 ```
 
+### 图标使用
+
+```vue
+<template>
+  <!-- 左侧图标 -->
+  <ipt 
+    v-model="username"
+    left-icon="user"
+    placeholder="请输入用户名"
+  />
+  
+  <!-- 右侧图标（密码切换） -->
+  <ipt 
+    v-model="password"
+    type="password"
+    right-icon="eye"
+    placeholder="请输入密码（点击图标切换显示/隐藏）"
+  />
+  
+  <!-- 左右都有图标 -->
+  <ipt 
+    v-model="search"
+    left-icon="search"
+    right-icon="filter"
+    placeholder="搜索..."
+  />
+  
+  <!-- 图标样式 -->
+  <ipt 
+    left-icon="user"
+    left-icon-style="solid"
+    placeholder="Solid 样式"
+  />
+  
+  <ipt 
+    left-icon="envelope"
+    left-icon-style="regular"
+    placeholder="Regular 样式"
+  />
+  
+  <ipt 
+    left-icon="search"
+    placeholder="Light 样式（默认）"
+  />
+  
+  <ipt 
+    left-icon="user"
+    left-icon-style="thin"
+    placeholder="Thin 样式"
+  />
+  
+  <ipt 
+    right-icon="github"
+    right-icon-style="brand"
+    placeholder="Brand 样式"
+  />
+  
+  <!-- 清除图标（可点击清除） -->
+  <ipt 
+    v-model="clearValue"
+    right-icon="xmark"
+    placeholder="点击右侧图标清除"
+    @clear="handleClear"
+  />
+  
+  <!-- 密码切换（eye 图标自动切换显示/隐藏） -->
+  <ipt 
+    v-model="password"
+    type="password"
+    right-icon="eye"
+    placeholder="点击图标切换显示/隐藏密码"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const clearValue = ref('')
+const password = ref('')
+const handleClear = () => {
+  console.log('输入框已清除')
+}
+</script>
+```
+
+### 宽度控制
+
+```vue
+<template>
+  <!-- 设置 label 宽度 -->
+  <ipt label="Username" label-width="w-24" placeholder="Enter username" />
+  
+  <!-- 同时设置 label 和 input 宽度 -->
+  <ipt label="Email" label-width="w-32" input-width="w-64" placeholder="Enter email" />
+  
+  <!-- input 使用 flex-1 占据剩余空间 -->
+  <ipt label="Password" label-width="w-20" input-width="flex-1" placeholder="Enter password" />
+  
+  <!-- 占据整行 -->
+  <ipt full-width label="Full Width" placeholder="占据整行宽度" />
+</template>
+```
+
 ### 组合使用
 
 ```vue
@@ -364,7 +787,10 @@ const emailError = ref('')
     size="lg" 
     pills 
     ghost
+    left-icon="search"
+    right-icon="xmark"
     placeholder="搜索..."
+    @clear="handleSearchClear"
   />
   
   <!-- 表单组合 -->
@@ -372,25 +798,74 @@ const emailError = ref('')
     <ipt 
       v-model="form.name"
       label="姓名" 
+      label-width="w-24"
+      direction="row"
+      left-icon="user"
       placeholder="请输入姓名"
       :error="errors.name"
     />
     <ipt 
       v-model="form.email"
       label="邮箱" 
+      label-width="w-24"
+      direction="row"
       type="email"
-      placeholder="请输入邮箱"
+      left-icon="envelope"
+      placeholder="请输入邮箱（默认 light 样式）"
       :error="errors.email"
     />
     <ipt 
       v-model="form.password"
       label="密码" 
+      label-width="w-24"
+      direction="row"
       type="password"
-      placeholder="请输入密码"
+      right-icon="eye"
+      placeholder="请输入密码（点击图标切换显示/隐藏）"
       :error="errors.password"
     />
   </div>
+  
+  <!-- 整行表单 -->
+  <div class="space-y-4">
+    <ipt 
+      v-model="form.username"
+      full-width
+      label="用户名"
+      left-icon="user"
+      right-icon="xmark"
+      placeholder="请输入用户名"
+    />
+    <ipt 
+      v-model="form.email"
+      full-width
+      label="邮箱"
+      left-icon="envelope"
+      right-icon="xmark"
+      type="email"
+      placeholder="请输入邮箱"
+    />
+  </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+const search = ref('')
+const form = ref({
+  name: '',
+  email: '',
+  password: '',
+  username: ''
+})
+const errors = ref({
+  name: '',
+  email: '',
+  password: ''
+})
+const handleSearchClear = () => {
+  console.log('搜索框已清除')
+}
+</script>
 ```
 
 ### Flex 布局支持
