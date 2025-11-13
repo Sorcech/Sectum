@@ -23,8 +23,8 @@
           @blur="handleBlur"
           @input="handleInput"
         />
-        <div :class="['absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 hover:opacity-70 transition-opacity pointer-events-none', props.disabled ? 'opacity-30' : '']">
-          <icn :name="iconName" :size="iconSize"></icn>
+        <div :class="['absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 hover:opacity-70 transition-opacity pointer-events-none', props.disabled ? 'opacity-30' : '']">
+          <icn :name="iconName" :size="iconSize" v-bind="iconStyleProps"></icn>
         </div>
       </div>
       
@@ -41,7 +41,7 @@
             </div>
             <div class="flex-1 text-center flex flex-col items-center space-y-1 min-w-0">
               <span class="text-lg font-semibold text-primary">{{ currentYear }}</span>
-              <span class="text-sm text-base-content">{{ MonthName[currentMonth] }}</span>
+              <span class="text-sm text-primary">{{ MonthName[currentMonth] }}</span>
             </div>
             <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="monthIncrease" :title="t('date.nextMonth')">
               <icn name="angle-right" light lg class="hover:text-primary"></icn>
@@ -133,8 +133,10 @@ interface Props {
   readonly?: boolean
   
   // 布局属性
-  direction?: 'row' | 'column'
+  direction?: 'row' | 'col'
   labelWidth?: string
+  inputWidth?: string
+  fullWidth?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   
   // 日期属性
@@ -149,6 +151,7 @@ interface Props {
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
   variant?: 'outline' | 'filled' | 'ghost'
   shape?: 'rounded' | 'square' | 'circle'
+  iconStyle?: 'solid' | 'regular' | 'light' | 'thin' | 'brand'
   
   // 功能属性
   range?: boolean
@@ -169,7 +172,8 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   readonly: false,
   direction: 'row',
-  labelWidth: 'w-32',
+  labelWidth: 'w-1/3',
+  fullWidth: false,
   size: 'md',
   format: 'YYYY-MM-DD',
   showToday: true,
@@ -178,6 +182,7 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'primary',
   variant: 'outline',
   shape: 'rounded',
+  iconStyle: 'light',
   range: false,
   multiple: false,
   showWeekNumbers: false,
@@ -229,6 +234,18 @@ const iconSize = computed(() => {
   return sizes[props.size] || 'md'
 })
 
+// 图标样式属性
+const iconStyleProps = computed(() => {
+  const style = props.iconStyle || 'light'
+  return {
+    solid: style === 'solid',
+    regular: style === 'regular',
+    light: style === 'light',
+    thin: style === 'thin',
+    brand: style === 'brand'
+  }
+})
+
 const buttonSize = computed(() => {
   const sizes = { xs: 'xs', sm: 'sm', md: 'sm', lg: 'md', xl: 'md' }
   return sizes[props.size] || 'sm'
@@ -238,34 +255,49 @@ const buttonColor = computed(() => props.color)
 
 // 样式计算
 const dateContainerClasses = computed(() => {
-  const baseClasses = props.direction === 'column' ? 'flex flex-col space-y-2' : 'flex flex-row items-center space-x-4'
+  const classes: string[] = []
   
-  // 从 customClass 中提取宽度相关的类，但不包括 flex-shrink-0（因为那是给 datePicker 用的）
-  let widthClass = 'max-w-96' // 默认最大宽度
-  if (props.customClass) {
-    const widthClasses = props.customClass.split(' ').filter(cls => 
-      (cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')) && 
-      !cls.includes('flex-shrink')
-    )
-    if (widthClasses.length > 0) {
-      widthClass = widthClasses.join(' ')
+  // 容器需要相对定位，以便下拉面板可以绝对定位
+  classes.push('relative')
+  
+  if (props.label) {
+    // 根据 direction 设置布局方向
+    if (props.direction === 'row') {
+      classes.push('flex', 'flex-row', 'items-center')
+    } else {
+      classes.push('flex', 'flex-col')
+    }
+    
+    // 如果设置了 fullWidth，强制使用 w-full；否则默认 w-full
+    if (props.fullWidth) {
+      classes.push('w-full')
+    } else {
+      classes.push('w-full')
+    }
+  } else {
+    // 没有 label 时
+    if (props.fullWidth) {
+      classes.push('w-full')
     }
   }
   
-  const responsiveClasses = 'sm:flex-col sm:items-start sm:space-x-0 sm:space-y-2'
-  return [
-    baseClasses,
-    widthClass,
-    responsiveClasses
-  ].filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ')
 })
 
 const labelClasses = computed(() => {
-  return [
-    'select-none py-2',
-    props.labelWidth,
-    props.required ? 'after:content-["*"] after:text-error after:ml-1' : ''
-  ].filter(Boolean).join(' ')
+  const classes = ['select-none']
+  
+  if (props.label) {
+    // 根据 direction 设置不同的样式
+    if (props.direction === 'row') {
+      classes.push('pr-2') // 水平布局时，右边距
+    } else {
+      classes.push('py-2') // 垂直布局时，上下边距
+    }
+    classes.push(props.labelWidth || 'w-1/3')
+  }
+  
+  return classes.filter(Boolean).join(' ')
 })
 
 const labelTextClasses = computed(() => {
@@ -280,23 +312,25 @@ const labelTextClasses = computed(() => {
 })
 
 const datePickerClasses = computed(() => {
-  // 从 customClass 中提取宽度相关的类
-  let widthClass = 'w-96 max-w-96' // 默认宽度
+  const classes: string[] = []
   
-  if (props.customClass) {
-    const widthClasses = props.customClass.split(' ').filter(cls => 
-      cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')
-    )
-    if (widthClasses.length > 0) {
-      widthClass = widthClasses.join(' ')
-    }
+  classes.push('relative')
+  
+  // 如果设置了 fullWidth，强制使用 w-full
+  if (props.fullWidth) {
+    classes.push('w-full')
+  } else if (props.inputWidth) {
+    // 如果指定了 inputWidth，使用指定的宽度
+    classes.push(props.inputWidth)
+  } else if (props.label && props.direction === 'row') {
+    // 如果有 label 且是 row 布局，datePicker 占据剩余空间
+    classes.push('flex-1', 'min-w-0')
+  } else {
+    // 默认情况下，使用固定宽度
+    classes.push('w-96', 'max-w-96')
   }
   
-  return [
-    'relative',
-    widthClass,
-    'flex-shrink-0' // 防止在 flex 容器中被压缩
-  ].join(' ')
+  return classes.filter(Boolean).join(' ')
 })
 
 const inputContainerClasses = computed(() => {

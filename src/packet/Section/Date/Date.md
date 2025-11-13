@@ -12,6 +12,8 @@ Date 是一个功能完整的日期选择器组件，支持多种日期格式、
 - ⚡ **高性能** - 虚拟滚动和智能渲染
 - 🔧 **高度可定制** - 支持自定义样式、验证规则等
 - 🎯 **无障碍访问** - 完整的键盘导航和屏幕阅读器支持
+- 📐 **灵活布局** - 支持单行、垂直、整行等多种布局方式
+- 📏 **宽度控制** - 支持自定义标签宽度、输入宽度和全宽模式
 
 ## 基本用法
 
@@ -59,6 +61,30 @@ Date 是一个功能完整的日期选择器组件，支持多种日期格式、
   <Date color="warning" placeholder="Warning 主题" />
   <Date color="error" placeholder="Error 主题" />
 </div>
+
+### 图标样式
+
+Date 组件支持自定义图标样式，包括 solid、regular、light、thin、brand 五种样式，默认为 light。
+
+<div class="flex flex-wrap items-end gap-4 mb-6">
+  <Date icon-style="solid" placeholder="Solid 样式" label="Solid" />
+  <Date icon-style="regular" placeholder="Regular 样式" label="Regular" />
+  <Date icon-style="light" placeholder="Light 样式" label="Light" />
+  <Date icon-style="thin" placeholder="Thin 样式" label="Thin" />
+  <Date icon-style="brand" placeholder="Brand 样式" label="Brand" />
+</div>
+
+```vue
+<template>
+  <div class="flex flex-wrap items-end gap-4">
+    <Date icon-style="solid" placeholder="Solid 样式" label="Solid" />
+    <Date icon-style="regular" placeholder="Regular 样式" label="Regular" />
+    <Date icon-style="light" placeholder="Light 样式" label="Light" />
+    <Date icon-style="thin" placeholder="Thin 样式" label="Thin" />
+    <Date icon-style="brand" placeholder="Brand 样式" label="Brand" />
+  </div>
+</template>
+```
 
 ## 高级功能
 
@@ -134,21 +160,127 @@ Date 是一个功能完整的日期选择器组件，支持多种日期格式、
   />
 </div>
 
-### 布局方向
+### 单行布局（水平布局）
+
+单行布局时，标签和日期选择器在同一行显示，标签在左侧，选择器在右侧。可以通过 `label-width` 限制标签宽度，通过 `input-width` 限制选择器宽度。
 
 <div class="flex flex-wrap items-end gap-4 mb-6">
-  <Date 
-    placeholder="水平布局"
-    direction="row"
-    label="水平布局"
-  />
-  
-  <Date 
-    placeholder="垂直布局"
-    direction="column"
-    label="垂直布局"
-  />
+  <div class="w-full max-w-md space-y-4">
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      label="选择日期"
+      label-width="w-1/3"
+      input-width="w-48"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      label="出生日期"
+      label-width="w-1/4"
+      input-width="w-56"
+    />
+  </div>
 </div>
+
+```vue
+<template>
+  <div class="space-y-4">
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      label="选择日期"
+      label-width="w-1/3"
+      input-width="w-48"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      label="出生日期"
+      label-width="w-1/4"
+      input-width="w-56"
+    />
+  </div>
+</template>
+```
+
+### 垂直布局
+
+垂直布局时，标签在日期选择器上方显示。
+
+<div class="flex flex-wrap items-end gap-4 mb-6">
+  <div class="w-full max-w-md space-y-4">
+    <Date 
+      placeholder="选择日期"
+      direction="col"
+      label="选择日期"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="col"
+      label="出生日期"
+    />
+  </div>
+</div>
+
+```vue
+<template>
+  <div class="space-y-4">
+    <Date 
+      placeholder="选择日期"
+      direction="col"
+      label="选择日期"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="col"
+      label="出生日期"
+    />
+  </div>
+</template>
+```
+
+### 整行布局
+
+整行布局时，标签和日期选择器在同一行显示，并占据整行宽度，适合表单场景。使用 `direction="row"` 和 `full-width` 属性实现。
+
+<div class="flex flex-wrap items-end gap-4 mb-6">
+  <div class="w-full max-w-2xl space-y-4">
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      full-width
+      label="选择日期"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      full-width
+      label-width="w-1/4"
+      label="出生日期"
+    />
+  </div>
+</div>
+
+```vue
+<template>
+  <div class="space-y-4 max-w-2xl">
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      full-width
+      label="选择日期"
+    />
+    <Date 
+      placeholder="选择日期"
+      direction="row"
+      full-width
+      label-width="w-1/4"
+      label="出生日期"
+    />
+  </div>
+</template>
+```
 
 ## API
 
@@ -162,8 +294,10 @@ Date 是一个功能完整的日期选择器组件，支持多种日期格式、
 | required | `boolean` | `false` | 是否必填 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
-| direction | `'row' \| 'column'` | `'row'` | 布局方向 |
-| labelWidth | `string` | `'w-32'` | 标签宽度 |
+| direction | `'row' \| 'col'` | `'row'` | 布局方向 |
+| labelWidth | `string` | `'w-1/3'` | 标签宽度，支持 Tailwind CSS 宽度类 |
+| inputWidth | `string` | - | 输入区域宽度，支持 Tailwind CSS 宽度类 |
+| fullWidth | `boolean` | `false` | 是否全宽显示 |
 | size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 尺寸 |
 | format | `string` | `'YYYY-MM-DD'` | 日期格式 |
 | minDate | `string \| Date` | - | 最小日期 |
@@ -174,6 +308,7 @@ Date 是一个功能完整的日期选择器组件，支持多种日期格式、
 | color | `'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error'` | `'primary'` | 主题颜色 |
 | variant | `'outline' \| 'filled' \| 'ghost'` | `'outline'` | 输入框样式 |
 | shape | `'rounded' \| 'square' \| 'circle'` | `'rounded'` | 形状 |
+| iconStyle | `'solid' \| 'regular' \| 'light' \| 'thin' \| 'brand'` | `'light'` | 图标样式 |
 | range | `boolean` | `false` | 是否支持范围选择 |
 | multiple | `boolean` | `false` | 是否支持多选 |
 | showWeekNumbers | `boolean` | `false` | 是否显示周数 |
@@ -389,6 +524,17 @@ const setToday = () => {
 - 使用防抖处理输入事件
 - 合理设置日期范围
 
+### 5. 布局选择
+- **单行布局**：适合紧凑的表单，使用 `direction="row"` + `label-width` + `input-width` 限制宽度
+- **垂直布局**：适合移动端或需要更多空间的场景，使用 `direction="col"`
+- **整行布局**：适合标准表单，使用 `direction="row"` + `full-width` 占据整行
+
+### 6. 宽度控制
+- `labelWidth`：控制标签宽度，默认 `w-1/3`
+- `inputWidth`：控制输入区域宽度，优先级高于默认宽度配置
+- `fullWidth`：设置为 `true` 时，组件占据全宽
+- 在单行布局中，建议同时设置 `label-width` 和 `input-width` 以精确控制布局
+
 ## 注意事项
 
 1. **时区处理**: 组件内部使用本地时区，如需处理不同时区请自行转换
@@ -396,6 +542,11 @@ const setToday = () => {
 3. **浏览器兼容性**: 某些旧版浏览器可能不支持某些日期格式
 4. **国际化**: 确保已正确配置 i18n 以支持多语言
 5. **无障碍访问**: 为屏幕阅读器用户提供适当的标签和描述
+6. **布局方向**: `direction` 属性支持 `'row'` 或 `'col'`，不再支持 `'column'`
+7. **宽度控制**: 
+   - `labelWidth` 默认值为 `'w-1/3'`（与 Input 和 Select 组件保持一致）
+   - `inputWidth` 优先级高于默认宽度配置
+   - `fullWidth` 设置为 `true` 时，组件会占据全宽
 
 ## 更新日志
 
