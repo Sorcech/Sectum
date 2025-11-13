@@ -47,37 +47,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, getCurrentInstance, onUnmounted } from 'vue'
 import icn from '../Icon/Icon.vue'
 
 interface Props {
-  // 图片源
-  src?: string
-  // 替代文本
-  alt?: string
-  // 名称（用于文字头像）
-  name?: string
-  // 自定义文字（用于文字头像）
-  text?: string
-  // 图标名称（用于图标头像）
-  icon?: string
-  // 图标样式
-  iconLight?: boolean
-  iconBrand?: boolean
-  // 尺寸
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  // 形状
-  shape?: 'circle' | 'square' | 'rounded'
-  // 状态
-  status?: 'online' | 'offline' | 'away' | 'busy' | ''
-  // 状态位置
-  statusPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
-  // 背景色（当使用文字或图标头像时）
+  src?: string// 图片源
+  alt?: string// 替代文本
+  name?: string// 名称（用于文字头像）
+  text?: string// 自定义文字（用于文字头像）
+  icon?: string// 图标名称（用于图标头像）
+  iconLight?: boolean// 图标样式
+  iconBrand?: boolean// 尺寸
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'// 形状
+  shape?: 'circle' | 'square' | 'rounded'// 状态
+  status?: 'online' | 'offline' | 'away' | 'busy' | ''// 状态位置
+  statusPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'// 背景色（当使用文字或图标头像时）
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'default'
-  // 是否可点击
-  clickable?: boolean
-  // 自定义类名
-  customClass?: string
+  clickable?: boolean// 是否可点击
+  customClass?: string// 自定义类名
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -97,12 +84,35 @@ const emit = defineEmits<{
 }>()
 
 const error = ref(false)
+let isMounted = true // 标记组件是否已挂载
 
 // 处理图片加载错误
-const handleImageError = (e: Event) => {
-  error.value = true
-  emit('error', e)
+const handleImageError = async (e: Event) => {
+  // 如果组件已卸载，直接返回
+  if (!isMounted) {
+    return
+  }
+  
+  // 使用 nextTick 延迟更新，避免在 DOM 操作过程中触发响应式更新
+  await nextTick()
+  
+  // 再次检查组件是否已卸载（可能在 nextTick 期间卸载）
+  if (!isMounted) {
+    return
+  }
+  
+  // 检查组件实例是否仍然存在且已连接到 DOM
+  const instance = getCurrentInstance()
+  if (instance && instance.vnode.el && instance.vnode.el.isConnected) {
+    error.value = true
+    emit('error', e)
+  }
 }
+
+// 组件卸载时
+onUnmounted(() => {
+  isMounted = false
+})
 
 // 处理点击事件
 const handleClick = (e: MouseEvent) => {
@@ -115,10 +125,8 @@ const handleClick = (e: MouseEvent) => {
 const displayText = computed(() => {
   if (props.text) return props.text
   if (props.name) {
-    // 获取首字母，支持中文
-    const firstChar = props.name.charAt(0)
-    // 如果是中文，直接返回；如果是英文，返回大写字母
-    return /[\u4e00-\u9fa5]/.test(firstChar) ? firstChar : firstChar.toUpperCase()
+    const firstChar = props.name.charAt(0)// 获取首字母，支持中文
+    return /[\u4e00-\u9fa5]/.test(firstChar) ? firstChar : firstChar.toUpperCase()// 如果是中文，直接返回；如果是英文，返回大写字母
   }
   return ''
 })

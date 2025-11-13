@@ -1,8 +1,8 @@
 <template>
   <div :class="containerClasses" ref="selectRef">
-    <label v-if="label" :class="labelClasses">
-      <span :class="labelTextClasses">{{ label }}</span>
-    </label>
+      <label v-if="label" :class="labelClasses">
+        <span :class="textSizeClasses">{{ label }}</span>
+      </label>
     <div ref="selectContainerRef" :class="containerWidthClasses" :style="triggerStyle" class="relative flex items-center">
       <!-- 默认模式：输入框样式 -->
       <template v-if="mode === 'default'">
@@ -31,6 +31,7 @@
         <div :class="avatarContainerClasses">
           <div :class="triggerBaseClasses" @click.stop="toggleShow">
             <avt
+              :key="selectedUser ? (selectedUser.id ?? selectedUser.value ?? '') : 'empty'"
               :src="selectedUser?.avatar"
               :name="selectedUser?.name"
               :text="selectedUser?.text"
@@ -116,7 +117,7 @@
             <btn 
               clean 
               v-for="(project, index) in projects" 
-              :key="project.Name || index" 
+              :key="getProjectKey(project, index)" 
               @click.stop="selectProject(project, index)"
               :class="[
                 'flex items-center gap-2 p-2 w-full',
@@ -162,7 +163,7 @@
           :style="positionStyle"
         >
           <Menu compact shadow rounded :class="[menuClasses, menuWidthClass]" :style="menuStyle">
-            <btn clean v-for="(item, index) in displayOptions" :key="index" @click="selectData(item, index)">
+            <btn clean v-for="(item, index) in displayOptions" :key="getItemKey(item, index)" @click="selectData(item, index)">
               {{ item[fieldLabel || 'label'] }}
             </btn>
           </Menu>
@@ -179,7 +180,7 @@
             <btn 
               clean 
               v-for="(user, index) in (props.options || [])" 
-              :key="index" 
+              :key="getUserKey(user, index)" 
               @click="selectUser(user, index)"
               class="flex items-center gap-2 p-2 w-full"
             >
@@ -202,7 +203,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch, computed, nextTick } from 'vue'
+import { onMounted, ref, watch, computed, onUnmounted, onBeforeUnmount, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useClickOutside } from '~/packet/Config/useClickOutside'
 import { usePosition } from '~/packet/Config/usePosition'
@@ -212,7 +213,7 @@ const { t } = useI18n()
 
 // ==================== 类型定义 ====================
 
-interface SelectOption {
+export interface SelectOption {
   [key: string]: any
 }
 
@@ -228,7 +229,7 @@ export interface AvatarOption {
   [key: string]: any
 }
 
-interface ProjectInfo {
+export interface ProjectInfo {
   Name?: string
   [key: string]: any
 }
@@ -378,6 +379,10 @@ const menuWidthValue = ref<string | null>(null)
 const internalSelectedUser = ref<AvatarOption | null>(null)
 const internalSelectedProject = ref<ProjectInfo | null>(null)
 
+// 添加组件挂载状态管理
+const isMounted = ref(false)
+const isDestroyed = ref(false)
+
 // ==================== 工具函数 ====================
 
 const isUnoCSSClass = (value: string): boolean => {
@@ -389,9 +394,13 @@ const isUnoCSSClass = (value: string): boolean => {
 }
 
 const getTriggerWidth = (): string | null => {
-  if (!selectContainerRef.value) return null
-  const width = (selectContainerRef.value as HTMLElement).offsetWidth
-  return width ? `${width}px` : null
+  if (!selectContainerRef.value || !isMounted.value || isDestroyed.value) return null
+  try {
+    const width = (selectContainerRef.value as HTMLElement).offsetWidth
+    return width ? `${width}px` : null
+  } catch (error) {
+    return null
+  }
 }
 
 // 通用的查找函数
@@ -412,6 +421,28 @@ function findItemByValue<T extends { [key: string]: any }>(
     }
     return false
   }) || null
+}
+
+// 安全的键生成函数
+const getProjectKey = (project: ProjectInfo, index: number) => {
+  return project.Name ? `project-${project.Name}-${index}` : `project-${index}`
+}
+
+const getItemKey = (item: SelectOption, index: number) => {
+  const value = item[props.fieldValue || 'value']
+  return value ? `item-${value}-${index}` : `item-${index}`
+}
+
+const getUserKey = (user: AvatarOption, index: number) => {
+  const id = user.id ?? user.value
+  return id ? `user-${id}-${index}` : `user-${index}`
+}
+
+// 安全的状态更新函数
+const safeSetPositionShow = (value: boolean) => {
+  if (!isDestroyed.value && isMounted.value) {
+    positionShow.value = value
+  }
 }
 
 // ==================== 计算属性 ====================
@@ -501,10 +532,6 @@ const labelClasses = computed(() => {
   }
   
   return classes.filter(Boolean).join(' ')
-})
-
-const labelTextClasses = computed(() => {
-  return SIZE_MAP[props.size]?.text || 'text-base'
 })
 
 const textSizeClasses = computed(() => {
@@ -617,9 +644,14 @@ const menuStyle = computed(() => {
 
 const selectedProject = computed<ProjectInfo | null>(() => {
   if (props.mode !== 'project') return null
-  if (internalSelectedProject.value) return internalSelectedProject.value
-  if (props.modelValue === null || props.modelValue === undefined) return null
-  
+  // 直接返回内部缓存的值，优先使用缓存
+  if (internalSelectedProject.value) {
+    return internalSelectedProject.value
+  }
+  // 如果没有缓存，根据 modelValue 查找
+  if (props.modelValue === null || props.modelValue === undefined) {
+    return null
+  }
   const found = findItemByValue(projects.value, props.modelValue, props.fieldValue || 'Name', ['Name'])
   if (found) internalSelectedProject.value = found
   return found
@@ -627,18 +659,18 @@ const selectedProject = computed<ProjectInfo | null>(() => {
 
 const selectedUser = computed<AvatarOption | null>(() => {
   if (props.mode !== 'avatar') return null
-  if (internalSelectedUser.value) return internalSelectedUser.value
+  // 直接返回内部缓存的值，优先使用缓存
+  if (internalSelectedUser.value) {
+    return internalSelectedUser.value
+  }
+  // 如果没有缓存，根据 modelValue 查找
   if (props.modelValue === null || props.modelValue === undefined) {
-    internalSelectedUser.value = null
     return null
   }
-  
   const users = (props.options || []) as AvatarOption[]
   const found = findItemByValue(users, props.modelValue, props.fieldValue || 'id', ['id', 'value'])
   if (found) {
     internalSelectedUser.value = found
-  } else {
-    internalSelectedUser.value = null
   }
   return found
 })
@@ -646,63 +678,86 @@ const selectedUser = computed<AvatarOption | null>(() => {
 // ==================== 方法 ====================
 
 const toggleShow = (e?: Event) => {
-  e?.stopPropagation()
-  if (props.disabled) return
-  positionShow.value = !positionShow.value
-  if (positionShow.value) {
-    const optionsLength = props.mode === 'project' ? projects.value.length : (props.options?.length || 0)
-    hAuto.value = optionsLength > 10
-    nextTick(() => {
-      if (!props.menuWidth) {
-        menuWidthValue.value = getTriggerWidth()
-      }
-      calculatePosition()
-    })
+  if (isDestroyed.value) return
+  
+  try {
+    e?.stopPropagation()
+    if (props.disabled) return
+    
+    const newShowState = !positionShow.value
+    safeSetPositionShow(newShowState)
+    
+    if (newShowState) {
+      const optionsLength = props.mode === 'project' ? projects.value.length : (props.options?.length || 0)
+      hAuto.value = optionsLength > 10
+      
+      // 使用 setTimeout 而不是 nextTick 来避免微任务队列的问题
+      setTimeout(() => {
+        if (!isMounted.value || isDestroyed.value) return
+        
+        if (!props.menuWidth) {
+          menuWidthValue.value = getTriggerWidth()
+        }
+        
+        try {
+          calculatePosition()
+        } catch (error) {
+          console.warn('Calculate position error:', error)
+        }
+      }, 10)
+    }
+  } catch (error) {
+    console.warn('Toggle show error:', error)
   }
 }
 
-const selectUser = (user: AvatarOption, index: number) => {
-  const field = props.fieldValue || 'id'
-  const value = user[field] ?? user.id ?? user.value
-  // 先关闭菜单，避免 DOM 更新冲突
-  positionShow.value = false
-  // 使用 nextTick 确保 DOM 稳定后再更新状态
-  nextTick(() => {
-    internalSelectedUser.value = user
-    emit('update:modelValue', value)
-    emit('select', user)
-    emit('selectIndex', index)
-  })
-}
-
-const selectProject = (project: ProjectInfo, index: number) => {
-  const field = props.fieldValue || 'Name'
-  const value = project[field] ?? project.Name
-  // 先关闭菜单，避免 DOM 更新冲突
-  positionShow.value = false
-  // 使用 nextTick 确保 DOM 稳定后再更新状态
-  nextTick(() => {
-    internalSelectedProject.value = project
-    emit('update:modelValue', value)
-    emit('select', project)
-    emit('selectIndex', index)
-  })
-}
-
-const selectData = (item: SelectOption, index: number) => {
-  const field = props.fieldValue || 'value'
-  const value = item[field] ?? item.value
-  const labelField = props.fieldLabel || 'label'
-  // 先关闭菜单，避免 DOM 更新冲突
-  positionShow.value = false
-  // 使用 nextTick 确保 DOM 稳定后再更新状态
-  nextTick(() => {
-    selectValue.value = item[labelField]
+// 统一的选择处理函数
+const handleSelect = (item: any, index: number) => {
+  if (isDestroyed.value) return
+  
+  try {
+    let field: string
+    let value: any
+    
+    // 根据模式确定字段和值
+    if (props.mode === 'avatar') {
+      field = props.fieldValue || 'id'
+      value = item[field] ?? item.id ?? item.value
+    } else if (props.mode === 'project') {
+      field = props.fieldValue || 'Name'
+      value = item[field] ?? item.Name
+    } else {
+      field = props.fieldValue || 'value'
+      value = item[field] ?? item.value
+      const labelField = props.fieldLabel || 'label'
+      selectValue.value = item[labelField]
+    }
+    
+    // 先关闭菜单
+    safeSetPositionShow(false)
+    
+    // 立即更新状态（同步更新，确保触发器立即响应）
+    if (props.mode === 'avatar') {
+      internalSelectedUser.value = item
+    } else if (props.mode === 'project') {
+      internalSelectedProject.value = item
+    }
+    
+    // 触发事件
     emit('update:modelValue', value)
     emit('select', item)
     emit('selectIndex', index)
-  })
+    
+  } catch (error) {
+    console.warn('Handle select error:', error)
+    // 即使出错也确保菜单关闭
+    safeSetPositionShow(false)
+  }
 }
+
+const selectUser = (user: AvatarOption, index: number) => handleSelect(user, index)
+const selectProject = (project: ProjectInfo, index: number) => handleSelect(project, index)
+const selectData = (item: SelectOption, index: number) => handleSelect(item, index)
 
 // ==================== 监听器 ====================
 
@@ -732,7 +787,7 @@ watch(() => props.options, () => {
   }
 }, { deep: true })
 
-watch(() => props.modelValue, (newValue) => {
+watch(() => props.modelValue, (newValue, oldValue) => {
   if (props.mode === 'default' && newValue) {
     const field = props.fieldLabel || 'label'
     const item = displayOptions.value.find(opt => {
@@ -741,50 +796,98 @@ watch(() => props.modelValue, (newValue) => {
     })
     selectValue.value = item ? item[field] : ''
   }
-  if (props.mode === 'avatar' && newValue !== undefined && newValue !== null) {
-    void selectedUser.value
+  if (props.mode === 'avatar' && newValue !== undefined && newValue !== null && newValue !== oldValue) {
+    // 使用 nextTick 确保在 DOM 更新后再更新状态
+    nextTick(() => {
+      if (isDestroyed.value) return
+      // 根据 modelValue 直接查找并更新
+      const users = (props.options || []) as AvatarOption[]
+      const found = findItemByValue(users, newValue, props.fieldValue || 'id', ['id', 'value'])
+      if (found) {
+        internalSelectedUser.value = found
+      } else {
+        internalSelectedUser.value = null
+      }
+    })
   }
-  if (props.mode === 'project' && newValue !== undefined && newValue !== null) {
-    void selectedProject.value
+  if (props.mode === 'project' && newValue !== undefined && newValue !== null && newValue !== oldValue) {
+    // 使用 nextTick 确保在 DOM 更新后再更新状态
+    nextTick(() => {
+      if (isDestroyed.value) return
+      // 根据 modelValue 直接查找并更新
+      const found = findItemByValue(projects.value, newValue, props.fieldValue || 'Name', ['Name'])
+      if (found) {
+        internalSelectedProject.value = found
+      } else {
+        internalSelectedProject.value = null
+      }
+    })
   }
 }, { immediate: true, deep: true })
 
 // ==================== 生命周期 ====================
 
 onMounted(async () => {
-  placedisabled.value = props.disabled ? '' : (props.placeholder || t('common.pleaseSelect'))
-  if (props.selected) {
-    selectValue.value = props.selected
-  }
-  if (props.mode === 'project' && (!props.projects || props.projects.length === 0)) {
-    await loadProjectList()
-  }
-  if (props.mode === 'default' && props.modelValue) {
-    const field = props.fieldLabel || 'label'
-    const item = displayOptions.value.find(opt => {
-      const value = opt[props.fieldValue || 'value']
-      return value === props.modelValue || String(value) === String(props.modelValue)
-    })
-    if (item) {
-      selectValue.value = item[field]
+  isMounted.value = true
+  isDestroyed.value = false
+  
+  try {
+    placedisabled.value = props.disabled ? '' : (props.placeholder || t('common.pleaseSelect'))
+    if (props.selected) {
+      selectValue.value = props.selected
     }
+    if (props.mode === 'project' && (!props.projects || props.projects.length === 0)) {
+      await loadProjectList()
+    }
+    if (props.mode === 'default' && props.modelValue) {
+      const field = props.fieldLabel || 'label'
+      const item = displayOptions.value.find(opt => {
+        const value = opt[props.fieldValue || 'value']
+        return value === props.modelValue || String(value) === String(props.modelValue)
+      })
+      if (item) {
+        selectValue.value = item[field]
+      }
+    }
+  } catch (error) {
+    console.warn('Select component mounted error:', error)
   }
+})
+
+onBeforeUnmount(() => {
+  // 在卸载前先标记为已销毁
+  isDestroyed.value = true
+})
+
+onUnmounted(() => {
+  isMounted.value = false
+  isDestroyed.value = true
+  
+  // 清理引用
+  selectContainerRef.value = null
+  menuRef.value = null
 })
 
 // ==================== 点击外部关闭 ====================
 
 useClickOutside(selectRef, (event) => {
-  if (menuRef.value) {
-    const menuElement = (menuRef.value as any).$el || menuRef.value
-    if (menuElement && menuElement instanceof HTMLElement) {
-      const target = event.target as Node
-      if (target === menuElement || menuElement.contains(target) || event.composedPath().includes(menuElement)) {
-        return
+  if (isDestroyed.value) return
+  
+  try {
+    if (menuRef.value) {
+      const menuElement = (menuRef.value as any).$el || menuRef.value
+      if (menuElement && menuElement instanceof HTMLElement) {
+        const target = event.target as Node
+        if (target === menuElement || menuElement.contains(target) || event.composedPath().includes(menuElement)) {
+          return
+        }
       }
     }
-  }
-  if (positionShow.value) {
-    positionShow.value = false
+    if (positionShow.value) {
+      safeSetPositionShow(false)
+    }
+  } catch (error) {
+    console.warn('Click outside error:', error)
   }
 })
 </script>

@@ -17,6 +17,8 @@ import Carousel from './Carousel/Carousel.vue'
 import List from './List/List.vue'
 import Card from './Card/Card.vue'
 
+// 导出 Select 组件的类型
+export type { SelectOption, AvatarOption, ProjectInfo } from './Select/Select.vue'
 
 // 导出所有组件
 export {

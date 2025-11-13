@@ -147,7 +147,7 @@ const options = [
     mode="avatar"
     label="选择用户"
     :options="[
-      { id: 1, name: '张三', avatar: 'https://via.placeholder.com/40', status: 'online' },
+      { id: 1, name: '张三', text: 'WW', status: 'online' },
       { id: 2, name: '李四', text: 'LS', status: 'away' },
       { id: 3, name: '王五', icon: 'user', status: 'offline' }
     ]"
@@ -173,13 +173,13 @@ const users = [
   { 
     id: 1, 
     name: '张三', 
-    avatar: 'https://via.placeholder.com/40',
+    text: 'WW',
     status: 'online'
   },
   { 
     id: 2, 
     name: '李四', 
-    avatar: 'https://via.placeholder.com/40',
+    text: 'WW',
     status: 'away'
   },
   { 
@@ -256,7 +256,7 @@ const handleUserSelect = (user) => {
 
 <script setup lang="ts">
 const users = [
-  { id: 1, name: '张三', avatar: 'https://via.placeholder.com/40', status: 'online' },
+  { id: 1, name: '张三', text: 'WW', status: 'online' },
   { id: 2, name: '李四', text: 'LS', status: 'away' },
   { id: 3, name: '王五', icon: 'user', status: 'offline' }
 ]
@@ -332,7 +332,7 @@ const users = [
   { 
     id: 1, 
     name: '张三', 
-    avatar: 'https://via.placeholder.com/40',
+    text: 'WW',
     status: 'online'
   },
   { 
