@@ -48,15 +48,23 @@ const props = defineProps({
   sm: { type: String, required: false },
   md: { type: String, required: false },
   lg: { type: String, required: false },
-  xl: { type: String, required: false }
+  xl: { type: String, required: false },
+  // 格式验证
+  validate: {
+    type: String,
+    required: false,
+    validator: (value: string) => !value || ['phone', 'email', 'password'].includes(value)
+  },
+  // 是否在输入时自动验证（默认 true）
+  autoValidate: { type: Boolean, default: true, required: false }
 })
 
 // 获取外部传入的 class
 const attrs = useAttrs()
 
 const inputText = ref<HTMLInputElement | null>(null)
-const isError = ref(props.error || false)
-const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'clear'])
+const internalError = ref('') // 内部验证错误
+const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'clear', 'validate'])
 
 // 密码可见性状态
 const passwordVisible = ref(false)
@@ -68,6 +76,24 @@ const input = (e: any) => {
   const value = e.target.value
   currentInputValue.value = value
   emit('update:modelValue', value)
+  
+  // 如果启用了自动验证，在输入时进行验证
+  if (props.autoValidate && props.validate) {
+    validateFormat(value)
+  }
+}
+
+// 处理失焦事件
+const handleBlur = (event: FocusEvent) => {
+  if (props.validate && props.autoValidate) {
+    validateFormat(props.modelValue)
+  }
+  emit('blur', event)
+}
+
+// 处理聚焦事件
+const handleFocus = (event: FocusEvent) => {
+  emit('focus', event)
 }
 
 // 判断右侧图标是否是清除图标
@@ -330,6 +356,74 @@ const colorVariantClasses = computed(() => {
   return variantFn ? variantFn() : ''
 })
 
+// 格式验证函数
+const validateFormat = (value: string | number | null | undefined) => {
+  if (!props.validate) {
+    internalError.value = ''
+    return true
+  }
+  
+  const strValue = String(value || '').trim()
+  
+  // 如果值为空，不进行验证（由外部处理必填验证）
+  if (!strValue) {
+    internalError.value = ''
+    return true
+  }
+  
+  if (props.validate === 'phone') {
+    // 中国手机号格式：11位数字，以1开头，第二位是3-9
+    const phoneRegex = /^1[3-9]\d{9}$/
+    if (!phoneRegex.test(strValue)) {
+      internalError.value = '请输入有效的手机号（11位数字，以1开头）'
+      emit('validate', { valid: false, error: internalError.value, type: 'phone' })
+      return false
+    }
+    internalError.value = ''
+    emit('validate', { valid: true, error: '', type: 'phone' })
+    return true
+  }
+  
+  if (props.validate === 'email') {
+    // 邮箱格式验证
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(strValue)) {
+      internalError.value = '请输入有效的邮箱地址'
+      emit('validate', { valid: false, error: internalError.value, type: 'email' })
+      return false
+    }
+    internalError.value = ''
+    emit('validate', { valid: true, error: '', type: 'email' })
+    return true
+  }
+  
+  if (props.validate === 'password') {
+    // 密码规则：8-20位，至少包含字母和数字
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/
+    if (!passwordRegex.test(strValue)) {
+      internalError.value = '密码需8-20位，至少包含字母和数字'
+      emit('validate', { valid: false, error: internalError.value, type: 'password' })
+      return false
+    }
+    internalError.value = ''
+    emit('validate', { valid: true, error: '', type: 'password' })
+    return true
+  }
+  
+  internalError.value = ''
+  return true
+}
+
+// 计算最终的错误信息（优先显示外部传入的 error，否则显示内部验证错误）
+const finalError = computed(() => {
+  return props.error || internalError.value || ''
+})
+
+// 计算是否有错误
+const hasError = computed(() => {
+  return !!(props.error || internalError.value)
+})
+
 // 状态样式
 const stateClasses = computed(() => {
   const classes = []
@@ -346,7 +440,7 @@ const stateClasses = computed(() => {
     classes.push('pointer-events-none')
   }
   
-  if (isError.value) {
+  if (hasError.value) {
     classes.push('border-error focus:outline-2 focus:outline-error focus:outline-offset-2')
   }
   
@@ -473,12 +567,35 @@ const labelClasses = computed(() => {
   return classes.filter(Boolean).join(' ')
 })
 
+// 解析标签，将 * 号提取出来用于红色显示
+const parsedLabel = computed(() => {
+  if (!props.label) return { text: '', hasRequired: false }
+  
+  const label = props.label
+  // 检查是否包含 * 号
+  if (label.includes('*')) {
+    // 将 * 号替换为特殊标记，然后分割
+    const parts = label.split('*')
+    return {
+      text: parts[0] || '', // * 号前的文本
+      hasRequired: true,
+      suffix: parts.slice(1).join('*') || '' // * 号后的文本（如果有多个 * 号）
+    }
+  }
+  
+  return { text: label, hasRequired: false, suffix: '' }
+})
+
 </script>
 
 <template>
   <div :class="containerClasses" :style="containerStyle">
     <label v-if="label" :class="labelClasses">
-      <span :class="`text-${size}`">{{ label }}</span>
+      <span :class="`text-${size}`">
+        {{ parsedLabel.text }}
+        <span v-if="parsedLabel.hasRequired" class="text-error">*</span>
+        <span v-if="parsedLabel.suffix">{{ parsedLabel.suffix }}</span>
+      </span>
     </label>
     <div :class="inputWrapperClasses">
       <!-- 左侧图标 -->
@@ -496,7 +613,9 @@ const labelClasses = computed(() => {
       <input 
         ref="inputText" 
         :value="modelValue" 
-        @input="input" 
+        @input="input"
+        @blur="handleBlur"
+        @focus="handleFocus"
         :name="name" 
         :placeholder="placeholder" 
         :type="currentInputType"
@@ -543,9 +662,9 @@ const labelClasses = computed(() => {
       </div>
       <!-- 错误信息：使用绝对定位，相对于 inputWrapper，不影响容器高度 -->
       <div 
-        v-if="isError" 
+        v-if="hasError" 
         class="absolute top-full left-0 text-error text-xs mt-1 ml-1 whitespace-nowrap" 
-        v-text="error" 
+        v-text="finalError" 
       />
     </div>
   </div>

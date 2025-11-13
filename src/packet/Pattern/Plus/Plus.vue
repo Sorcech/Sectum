@@ -18,7 +18,6 @@ const props = withDefaults(defineProps<{
   onTaskCreate?: (formData?: any) => void
   onProjectCreate?: (formData?: any) => void
   onAccountCreate?: (formData?: any) => void
-  onUserCreate?: (formData?: any) => void
   onProductCreate?: (formData?: any) => void
   onDocumentCreate?: (formData?: any) => void
   createOptions?: CreateOption[]
@@ -81,9 +80,6 @@ const handleCreateTypeClick = (type: CreateType) => {
     case 'account':
   props.onAccountCreate?.()
       break
-    case 'user':
-      props.onUserCreate?.()
-      break
     case 'product':
       props.onProductCreate?.()
       break
@@ -143,25 +139,6 @@ const handleAccountError = (error: any, response?: any) => {
   Toast({ message: errorMessage, type: 'error' })
 }
 
-// 用户创建表单（简单示例）
-const userForm = ref({
-  name: '',
-  email: '',
-  role: 'user',
-  department: ''
-})
-
-const handleUserSubmit = () => {
-  if (!userForm.value.name || !userForm.value.email) {
-    Toast({ message: '请填写姓名和邮箱', type: 'warning' })
-    return
-  }
-  props.onUserCreate?.(userForm.value)
-  Toast({ message: '用户创建成功', type: 'success' })
-  // 重置表单
-  userForm.value = { name: '', email: '', role: 'user', department: '' }
-  selectedCreateType.value = null
-}
 
 // 产品创建表单（简单示例）
 const productForm = ref({
@@ -277,56 +254,12 @@ const handleDocumentSubmit = () => {
               />
 
               <!-- 账户创建表单 -->
-        <AccountCreate 
-                v-else-if="selectedCreateType === 'account'"
-          :onSubmit="handleAccountSubmit"
-          :onSuccess="handleAccountSuccess"
-          :onError="handleAccountError"
-        />
-
-              <!-- 用户创建表单 -->
-              <div v-else-if="selectedCreateType === 'user'" class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium mb-1">姓名</label>
-                  <ipt 
-                    v-model="userForm.name" 
-                    placeholder="输入姓名" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">邮箱</label>
-                  <ipt 
-                    v-model="userForm.email" 
-                    type="email"
-                    placeholder="输入邮箱" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">角色</label>
-                  <select 
-                    v-model="userForm.role"
-                    class="select select-bordered w-full"
-                  >
-                    <option value="user">普通用户</option>
-                    <option value="admin">管理员</option>
-                    <option value="editor">编辑</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">部门</label>
-                  <ipt 
-                    v-model="userForm.department" 
-                    placeholder="输入部门" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <btn color="primary" class="w-full" @click="handleUserSubmit">
-                  <icn name="check" light sm class="mr-2"></icn>
-                  创建用户
-                </btn>
-              </div>
+              <AccountCreate 
+                      v-else-if="selectedCreateType === 'account'"
+                :onSubmit="handleAccountSubmit"
+                :onSuccess="handleAccountSuccess"
+                :onError="handleAccountError"
+              />
 
               <!-- 产品创建表单 -->
               <div v-else-if="selectedCreateType === 'product'" class="space-y-4">

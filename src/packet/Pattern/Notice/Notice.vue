@@ -174,10 +174,8 @@ const formatDetailTime = (dateString: string): string => {
   <div key="notice-drawer" style="padding: 0; margin: 0;">
     <btn item :class="buttonClass" @click="toggleDrawer" class="relative">
       <icn name="bell" light lg></icn>
-      <span 
-        v-if="unreadCount > 0" 
-        class="absolute -top-1 -right-1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center"
-      >
+      <span v-if="unreadCount > 0" 
+        class="absolute -top-0.1 -right-0.1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center">
         {{ unreadCount > 99 ? '99+' : unreadCount }}
       </span>
     </btn>

@@ -90,10 +90,8 @@ const checkout = () => {
   <div key="cart-drawer" style="padding: 0; margin: 0;">
     <btn item :class="buttonClass" @click="toggleDrawer" class="relative">
       <icn name="cart-shopping" light lg></icn>
-      <span 
-        v-if="totalItems > 0" 
-        class="absolute -top-1 -right-1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center"
-      >
+      <span v-if="totalItems > 0" 
+        class="absolute -top-0.1 -right-0.1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center">
         {{ totalItems > 99 ? '99+' : totalItems }}
       </span>
     </btn>

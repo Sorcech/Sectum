@@ -184,10 +184,8 @@ const formatConversationTime = (dateString: string): string => {
   <div key="message-drawer" style="padding: 0; margin: 0;">
     <btn item :class="buttonClass" @click="toggleDrawer" class="relative">
       <icn name="messages" light lg></icn>
-      <span 
-        v-if="messageList.reduce((sum, msg) => sum + msg.unread, 0) > 0" 
-        class="absolute -top-1 -right-1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center"
-      >
+      <span v-if="messageList.reduce((sum, msg) => sum + msg.unread, 0) > 0" 
+        class="absolute -top-0.1 -right-0.1 bg-error text-error-content text-xs rounded-full w-5 h-5 flex items-center justify-center">
         {{ messageList.reduce((sum, msg) => sum + msg.unread, 0) > 99 ? '99+' : messageList.reduce((sum, msg) => sum + msg.unread, 0) }}
       </span>
     </btn>
@@ -200,19 +198,11 @@ const formatConversationTime = (dateString: string): string => {
     >
       <div class="flex h-full">
         <!-- 消息列表 -->
-        <div 
-          :class="[
-            'flex flex-col ',
-            selectedMessageId ? 'w-80 flex-shrink-0' : 'w-full'
-          ]"
-        >
+        <div :class="['flex flex-col ',selectedMessageId ? 'w-80 flex-shrink-0' : 'w-full']">
           <!-- 搜索框和全部已读 -->
           <div class="p-3 space-y-2 border-b-1 border-b-solid border-base-200">
             <div class="flex items-center gap-2">
-              <ipt 
-                placeholder="搜索消息..." 
-                class="flex-1"
-              >
+              <ipt placeholder="搜索消息..." class="flex-1">
                 <icn name="search" light sm slot="prefix"></icn>
               </ipt>
               <btn clean
@@ -229,15 +219,9 @@ const formatConversationTime = (dateString: string): string => {
 
           <!-- 消息列表 -->
           <div class="flex-1 overflow-y-auto">
-            <div 
-              v-for="message in messageList" 
-              :key="message.id"
-              :class="[
-                'p-2 cursor-pointer  hover:bg-base-200 transition-colors border-b-1 border-b-solid border-base-200',
-                selectedMessageId === message.id ? 'bg-base-200' : ''
-              ]"
-              @click="selectMessage(message)"
-            >
+            <div v-for="message in messageList" :key="message.id"
+              :class="['p-2 cursor-pointer  hover:bg-base-200 transition-colors border-b-1 border-b-solid border-base-200',
+                selectedMessageId === message.id ? 'bg-base-200' : '']" @click="selectMessage(message)">
               <div class="flex items-start gap-3">
                 <!-- 头像 -->
                 <div class="relative flex-shrink-0">
@@ -260,10 +244,8 @@ const formatConversationTime = (dateString: string): string => {
                   </div>
                   <div class="flex items-center gap-2">
                     <p class="text-sm text-base-content/70 truncate flex-1">{{ message.lastMessage }}</p>
-                    <span 
-                      v-if="message.unread > 0" 
-                      class="bg-error text-error-content text-xs rounded-full px-2 py-0.5 flex-shrink-0"
-                    >
+                    <span v-if="message.unread > 0" 
+                      class="bg-error text-error-content text-xs rounded-full px-2 py-0.5 flex-shrink-0">
                       {{ message.unread > 99 ? '99+' : message.unread }}
                     </span>
                   </div>
@@ -305,35 +287,21 @@ const formatConversationTime = (dateString: string): string => {
             </div>
             <div class="flex items-center gap-2">
               <btn variant="transparent" size="sm">
-                <icn name="phone" light sm></icn>
-              </btn>
-              <btn variant="transparent" size="sm">
-                <icn name="video" light sm></icn>
+                <icn name="message" light sm></icn>
               </btn>
             </div>
           </div>
 
           <!-- 对话记录 -->
           <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-base-250">
-            <div 
-              v-for="msg in currentConversation" 
+            <div v-for="msg in currentConversation" 
               :key="msg.id"
-              :class="[
-                'flex',
-                msg.isMe ? 'justify-end' : 'justify-start'
-              ]"
-            >
-              <div :class="[
-                'max-w-[70%] rounded-lg p-3',
-                msg.isMe 
-                  ? 'bg-primary text-primary-content' 
-                  : 'bg-base-100 text-base-content'
+              :class="['flex',msg.isMe ? 'justify-end' : 'justify-start']">
+              <div :class="['max-w-[70%] rounded-lg p-2',
+                msg.isMe ? 'bg-primary text-primary-content' : 'bg-base-100 text-base-content'
               ]">
                 <p class="text-sm whitespace-pre-wrap">{{ msg.content }}</p>
-                <p :class="[
-                  'text-xs mt-1',
-                  msg.isMe ? 'text-primary-content/70' : 'text-base-content/60'
-                ]">
+                <p :class="['text-xs mt-1', msg.isMe ? 'text-primary-content/70' : 'text-base-content/60']">
                   {{ formatConversationTime(msg.time) }}
                 </p>
               </div>

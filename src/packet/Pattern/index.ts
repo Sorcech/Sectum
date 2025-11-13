@@ -12,6 +12,9 @@ import Selector from './Selector/Selector.vue'
 import Message from './Message/Message.vue'
 import Contact from './Contact/Contact.vue'
 
+// 导出 Markdown 相关的工具函数
+export { autoWrapPlugin } from './Markdown/Markdown'
+
 // 导出所有组件
 export {
   Theme, Language, User, Plus, Notice, DarkToggle, Markdown, Catalog, FullScreen, Selector, Message, Contact

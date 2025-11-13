@@ -180,6 +180,78 @@ import ipt from 'sectum'
 <ipt label="Password" type="password" placeholder="Enter password" />
 ```
 
+### Required Field Indicator (必填字段标识)
+
+标签中的 `*` 号会自动显示为红色，用于标识必填字段：
+
+<div class="flex flex-wrap items-center gap-3">
+  <ipt label="姓名 *" placeholder="请输入姓名" />
+  <ipt label="手机号 *" type="tel" placeholder="请输入手机号" />
+  <ipt label="密码 *" type="password" placeholder="请输入密码" />
+</div>
+
+```vue
+<!-- 标签中的 * 号会自动显示为红色 -->
+<ipt label="姓名 *" placeholder="请输入姓名" />
+<ipt label="手机号 *" type="tel" placeholder="请输入手机号" />
+<ipt label="密码 *" type="password" placeholder="请输入密码" />
+```
+
+### Format Validation (格式验证)
+
+组件支持自动验证手机号、邮箱和密码格式。设置 `validate` 属性后，组件会在输入时自动验证格式：
+
+<div class="flex flex-col gap-3">
+  <ipt label="手机号 *" validate="phone" placeholder="请输入手机号" />
+  <ipt label="邮箱" validate="email" type="email" placeholder="请输入邮箱" />
+  <ipt label="密码 *" validate="password" type="password" placeholder="请输入密码" />
+</div>
+
+```vue
+<!-- 手机号格式验证 -->
+<ipt 
+  label="手机号 *" 
+  validate="phone" 
+  placeholder="请输入手机号" 
+  @validate="handleValidate"
+/>
+
+<!-- 邮箱格式验证 -->
+<ipt 
+  label="邮箱" 
+  validate="email" 
+  type="email" 
+  placeholder="请输入邮箱"
+  @validate="handleValidate"
+/>
+
+<!-- 密码格式验证 -->
+<ipt 
+  label="密码 *" 
+  validate="password" 
+  type="password" 
+  placeholder="请输入密码"
+  @validate="handleValidate"
+/>
+
+<script setup>
+const handleValidate = (result) => {
+  console.log('验证结果:', result)
+  // result: { valid: boolean, error: string, type: 'phone' | 'email' | 'password' }
+}
+</script>
+```
+
+**验证规则：**
+- **手机号** (`validate="phone"`): 11位数字，以1开头，第二位是3-9
+- **邮箱** (`validate="email"`): 标准邮箱格式（包含@和域名）
+- **密码** (`validate="password"`): 8-20位，至少包含字母和数字，可包含特殊字符
+
+**注意事项：**
+- 当值为空时，不会显示验证错误（由外部处理必填验证）
+- 可以通过 `autoValidate` 属性控制是否在输入时自动验证（默认 `true`）
+- 验证错误会通过 `error` 属性显示，也可以通过 `@validate` 事件获取验证结果
+
 ### Label Direction (布局方向)
 
 <div class="flex flex-col gap-3">
@@ -539,7 +611,7 @@ const value = ref('')
 | ------------- | --------------------------------------------------------------- | ----------- | -------------------------------- |
 | `modelValue`  | `string \| number`                                              | -           | 输入框的值（v-model）            |
 | `direction`   | `string`                                                        | `'row'`     | 标签和输入框的布局方向           |
-| `label`       | `string`                                                        | -           | 标签文本                         |
+| `label`       | `string`                                                        | -           | 标签文本（标签中的 `*` 号会自动显示为红色，用于标识必填字段） |
 | `labelWidth`  | `string`                                                        | `'w-1/3'`   | 标签宽度（支持 Tailwind 宽度类） |
 | `inputWidth`  | `string`                                                        | -           | 输入框宽度（支持 Tailwind 宽度类，如未设置则根据布局自动计算） |
 | `fullWidth`   | `boolean`                                                       | `false`     | 是否占据整行宽度（设置为 true 时强制使用 w-full） |
@@ -564,6 +636,8 @@ const value = ref('')
 | `md`          | `string`                                                        | -           | 中等屏幕断点尺寸                 |
 | `lg`          | `string`                                                        | -           | 大屏幕断点尺寸                   |
 | `xl`          | `string`                                                        | -           | 超大屏幕断点尺寸                 |
+| `validate`    | `'phone' \| 'email' \| 'password'`                            | -           | 格式验证类型（phone: 手机号, email: 邮箱, password: 密码） |
+| `autoValidate`| `boolean`                                                       | `true`      | 是否在输入时自动验证格式         |
 
 ### Events
 
@@ -573,6 +647,7 @@ const value = ref('')
 | `focus`             | `event: FocusEvent`       | 获得焦点时触发 |
 | `blur`              | `event: FocusEvent`       | 失去焦点时触发 |
 | `clear`             | -                         | 点击清除图标时触发 |
+| `validate`          | `{ valid: boolean, error: string, type: 'phone' \| 'email' \| 'password' }` | 格式验证结果（当设置了 validate 属性时触发） |
 
 ### Slots
 

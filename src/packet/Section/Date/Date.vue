@@ -614,6 +614,41 @@ const parseDate = (dateString: string): Date | null => {
   return isNaN(date.getTime()) ? null : date
 }
 
+/**
+ * 将日期转换为 RFC3339 (ISO8601) 格式
+ * 例如: "1990-01-01T00:00:00.000Z" 或 "1990-01-01T00:00:00+08:00"
+ * @param date Date 对象或 null
+ * @returns RFC3339 格式的字符串或 null
+ */
+const formatToRFC3339 = (date: Date | null): string | null => {
+  if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+    return null
+  }
+  // 使用 toISOString() 生成 UTC 格式: "1990-01-01T00:00:00.000Z"
+  return date.toISOString()
+}
+
+/**
+ * 格式化日期值用于 emit
+ * 根据 format 属性决定输出格式：
+ * - 如果 format 包含 'T' 或需要 RFC3339 格式，返回 RFC3339
+ * - 否则返回格式化后的字符串（YYYY-MM-DD）
+ */
+const formatValueForEmit = (date: Date | null): string | Date | null => {
+  if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+    return null
+  }
+  
+  // 如果 format 是 RFC3339 相关格式，返回 RFC3339
+  // 检查 format 是否包含时间相关格式（HH, mm, ss 等）或已经是 ISO 格式
+  if (props.format.includes('T') || props.format.includes('HH') || props.format.includes('mm') || props.format.includes('ss')) {
+    return formatToRFC3339(date)
+  }
+  
+  // 否则返回 Date 对象，让外部组件决定如何处理
+  return date
+}
+
 // 事件处理
 const toggleShow = () => {
   if (props.disabled || props.readonly) return
@@ -632,9 +667,10 @@ const selectDate = (date: DateItem) => {
   selectedDate.value = selected
   
   positionShow.value = false
-  emit('update:modelValue', selected)
-  emit('change', selected)
-  emit('select', selected)
+  const emitValue = formatValueForEmit(selected)
+  emit('update:modelValue', emitValue)
+  emit('change', emitValue)
+  emit('select', emitValue)
 }
 
 const yearDecrease = () => {
@@ -667,9 +703,10 @@ const today = () => {
   const today = new Date()
   selectedDate.value = today
   positionShow.value = false
-  emit('update:modelValue', today)
-  emit('change', today)
-  emit('select', today)
+  const emitValue = formatValueForEmit(today)
+  emit('update:modelValue', emitValue)
+  emit('change', emitValue)
+  emit('select', emitValue)
 }
 
 const selectNow = () => {

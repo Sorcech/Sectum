@@ -1,215 +1,200 @@
 <template>
-  <div :class="containerClasses" ref="selectRef">
-    <label v-if="label" :class="labelClasses">
-      <span :class="labelTextClasses">{{ label }}</span>
-    </label>
-    <div ref="selectContainerRef" class="relative w-auto flex items-center">
-      <!-- 显示选中的用户 - 使用 Avatar 组件作为触发器 -->
-      <div class="relative flex items-center">
-        <avt
-          :src="selectedUser?.avatar"
-          :name="selectedUser?.name"
-          :text="selectedUser?.text"
-          :icon="selectedUser?.icon"
-          :size="avatarSize"
-          :status="selectedUser?.status"
-          :clickable="!disabled"
-          :custom-class="displayClasses"
-          @click="toggleShow"
-        />
-        
-        <!-- 下拉箭头 - 定位在头像右侧中心 -->
-        <div 
-          class="absolute flex items-center justify-center pointer-events-none z-10 left-full top-1/2 -translate-y-1/2 -ml-3"
-          v-show="!disabled"
-        >
-          <span v-show="!positionShow">
-            <icn name="angle-down" light sm></icn>
-          </span>
-          <span v-show="positionShow">
-            <icn name="angle-up" light sm></icn>
-          </span>
-        </div>
-      </div>
-      
-      <!-- 下拉菜单 -->
-      <tst name="downward" v-if="positionShow && !disabled" :class="tstClasses" :style="positionStyle">
-        <Menu compact shadow rounded :class="menuClasses" style="min-width: 200px;">
-          <btn 
-            clean 
-            v-for="(user, index) in users" 
-            :key="index" 
-            @click="selectUser(user, index)"
-            class="flex items-center gap-2 p-2"
-          >
-            <avt
-              :src="user.avatar"
-              :name="user.name"
-              :text="user.text"
-              :icon="user.icon"
-              :size="avatarSize"
-              :status="user.status"
-              :clickable="false"
-            />
-            <span>{{ user.name || user.text || user.label }}</span>
-          </btn>
-        </Menu>
-      </tst>
-    </div>
-  </div>
+  <Select
+    ref="selectRef"
+    mode="avatar"
+    :options="displayOptions"
+    :model-value="modelValue"
+    @update:modelValue="handleUpdateModelValue"
+    @select="handleSelect"
+    @selectIndex="handleSelectIndex"
+    :direction="direction"
+    :placeholder="placeholder"
+    :label="label"
+    :label-width="labelWidth"
+    :input-width="inputWidth"
+    :full-width="fullWidth"
+    :disabled="disabled"
+    :size="size"
+    :avatar-size="avatarSize"
+    :field-value="fieldValue"
+    :icon-mode="iconMode"
+    :show-placeholder="showPlaceholder"
+    :trigger-width="triggerWidth"
+    :menu-width="menuWidth"
+    :menu-can-exceed-trigger="menuCanExceedTrigger"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue'
-import { useClickOutside } from '~/packet/Config/useClickOutside'
-import { usePosition } from '~/packet/Config/usePosition'
+import { ref, computed, watch, onMounted } from 'vue'
+import Select from '~/packet/Section/Select/Select.vue'
+import type { AvatarOption } from '~/packet/Section/Select/Select.vue'
+import { Account } from '~/store/account/account'
 
-// 用户选项接口
-export interface AvatarOption {
-  id?: string | number
-  name?: string
-  text?: string
-  avatar?: string
-  icon?: string
-  status?: 'online' | 'offline' | 'away' | 'busy' | ''
-  label?: string
-  value?: string | number
+// 导出 AvatarOption 接口供外部使用
+export type { AvatarOption }
+
+// 后端返回的用户数据接口
+interface BackendUserData {
+  Name?: string
+  AccountId?: number
+  Phone?: string
+  Gender?: string
+  Birthday?: string
+  Detail?: string
   [key: string]: any
 }
 
-const selectRef = ref(null)
-const selectContainerRef = ref<HTMLElement | null>(null)
-
 const props = withDefaults(defineProps<{
   direction?: string
-  users: AvatarOption[]
+  users?: AvatarOption[]
   placeholder?: string
   label?: string
   labelWidth?: string
+  inputWidth?: string
+  fullWidth?: boolean
   disabled?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   avatarSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   modelValue?: string | number | null
   fieldValue?: string
+  iconMode?: string
+  showPlaceholder?: boolean
+  triggerWidth?: string
+  menuWidth?: string
+  menuCanExceedTrigger?: boolean
+  autoLoad?: boolean
 }>(), {
   size: 'md',
   avatarSize: 'sm',
+  iconMode: 'light',
   disabled: false,
-  fieldValue: 'id'
+  fieldValue: 'id',
+  showPlaceholder: true,
+  menuCanExceedTrigger: false,
+  labelWidth: 'w-1/3',
+  fullWidth: false,
+  autoLoad: true
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | number | null | undefined]
   select: [user: AvatarOption]
+  selectIndex: [index: number]
 }>()
 
-// 容器方向样式类
-const containerClasses = computed(() => {
-  const baseClasses = props.direction === 'col' ? 'flex flex-col' : 'flex flex-row justify-between items-center'
-  // 如果没有 label，容器宽度自适应内容；如果有 label，容器占据全宽
-  const widthClass = props.label ? 'w-full max-w-full min-w-0' : 'w-auto'
-  if (!props.label) return widthClass
-  return [baseClasses, widthClass].filter(Boolean).join(' ')
-})
+// ==================== 响应式数据 ====================
 
-// 标签样式类
-const labelClasses = computed(() => {
-  return [
-    'select-none py-2',
-    props.label ? props.labelWidth : ''
-  ].filter(Boolean).join(' ')
-})
+const selectRef = ref<InstanceType<typeof Select> | null>(null)
+const internalUsers = ref<AvatarOption[]>([])
+const isLoadingUsers = ref(false)
 
-// 标签文本大小样式类
-const labelTextClasses = computed(() => {
-  const sizeMap = {
-    xs: 'text-xs',
-    sm: 'text-sm', 
-    md: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl'
-  }
-  return sizeMap[props.size as keyof typeof sizeMap] || 'text-base'
-})
+// ==================== 工具函数 ====================
 
-
-// 显示区域样式类
-const displayClasses = computed(() => {
-  return [
-    props.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-  ].filter(Boolean).join(' ')
-})
-
-
-
-const hAuto = ref(false)
-
-// 位置计算
-const { placement, positionStyle, calculatePosition } = usePosition(selectContainerRef, {
-  panelHeight: 300,
-  panelWidth: 256,
-  gap: 4
-})
-
-// tst 容器样式类
-const tstClasses = computed(() => {
-  const baseClasses = ['absolute z-99']
-  if (placement.value === 'top') {
-    baseClasses.push('bottom-full mb-1')
-  } else {
-    baseClasses.push('top-full mt-1')
-  }
-  return baseClasses.join(' ')
-})
-
-// 菜单样式类
-const menuClasses = computed(() => {
-  const baseClasses = []
-  
-  if (hAuto.value) {
-    baseClasses.push('h-64 overflow-y-auto')
-  } else {
-    baseClasses.push('h-auto')
-  }
-  
-  return baseClasses.join(' ')
-})
-
-const positionShow = ref(false)
-
-const toggleShow = () => {
-  if (props.disabled) return
-  positionShow.value = true
-  if (props.users.length > 10) {
-    hAuto.value = true
-  }
-  nextTick(() => {
-    calculatePosition()
-  })
+// 转换后端数据格式到 AvatarOption 格式
+function convertBackendDataToAvatarOption(backendData: BackendUserData[]): AvatarOption[] {
+  return backendData
+    .filter(item => item.Name && item.Name.trim() !== '') // 过滤掉 Name 为空的项
+    .map(item => ({
+      id: item.AccountId,
+      value: item.AccountId,
+      name: item.Name,
+      text: item.Name,
+      label: item.Name,
+      phone: item.Phone,
+      gender: item.Gender,
+      birthday: item.Birthday,
+      detail: item.Detail,
+      // 可以添加其他字段
+      ...item
+    }))
 }
 
-// 选中的用户
-const selectedUser = computed<AvatarOption | null>(() => {
-  if (!props.modelValue) return null
+// 加载用户列表
+async function loadUsers(): Promise<void> {
+  if (isLoadingUsers.value) return
   
-  const field = props.fieldValue || 'id'
-  return props.users.find(user => {
-    const value = user[field] ?? user.id ?? user.value
-    return value === props.modelValue || String(value) === String(props.modelValue)
-  }) || null
+  isLoadingUsers.value = true
+  try {
+    const response: any = await Account.List()
+    
+    // 打印 Account.List 返回的数据
+    console.log('Account.List() 返回数据:', response)
+    console.log('response.data:', response?.data)
+    console.log('response.data?.data:', response?.data?.data)
+    
+    // 解析响应数据
+    let userData: BackendUserData[] = []
+    if (response?.data?.data && Array.isArray(response.data.data)) {
+      userData = response.data.data
+      console.log('使用 response.data.data，数据长度:', userData.length)
+    } else if (response?.data && Array.isArray(response.data)) {
+      userData = response.data
+      console.log('使用 response.data，数据长度:', userData.length)
+    } else if (Array.isArray(response)) {
+      userData = response
+      console.log('使用 response，数据长度:', userData.length)
+    }
+    
+    console.log('解析后的 userData:', userData)
+    
+    // 转换数据格式并过滤
+    internalUsers.value = convertBackendDataToAvatarOption(userData)
+  } catch (error) {
+    console.error('加载用户列表失败:', error)
+    internalUsers.value = []
+  } finally {
+    isLoadingUsers.value = false
+  }
+}
+
+// 计算最终使用的用户列表
+const displayOptions = computed<AvatarOption[]>(() => {
+  // 如果启用了自动加载，优先使用内部加载的用户列表（从服务器获取的最新数据）
+  if (props.autoLoad && internalUsers.value.length > 0) {
+    return internalUsers.value
+  }
+  // 如果传入了 users prop，使用传入的数据
+  if (props.users && props.users.length > 0) {
+    return props.users
+  }
+  // 否则使用内部加载的用户列表
+  return internalUsers.value
 })
 
-const selectUser = (user: AvatarOption, index: number) => {
-  const field = props.fieldValue || 'id'
-  const value = user[field] ?? user.id ?? user.value
-  positionShow.value = false
+// ==================== 事件处理 ====================
+
+const handleUpdateModelValue = (value: string | number | null | undefined) => {
   emit('update:modelValue', value)
+}
+
+const handleSelect = (user: AvatarOption) => {
   emit('select', user)
 }
 
-useClickOutside(selectRef, () => {
-  if (positionShow.value)
-    positionShow.value = false
+const handleSelectIndex = (index: number) => {
+  emit('selectIndex', index)
+}
+
+// ==================== 监听器 ====================
+
+watch(() => props.users, () => {
+  // 当 users prop 变化时，Select 组件会自动响应
+}, { deep: true })
+
+// ==================== 生命周期 ====================
+
+onMounted(async () => {
+  // 如果启用了自动加载，则自动加载用户列表（无论是否传入了 users prop）
+  // 这样可以确保总是从服务器获取最新的用户列表
+  if (props.autoLoad) {
+    await loadUsers()
+  }
+})
+
+// 暴露方法供外部调用
+defineExpose({
+  loadUsers,
+  refreshUsers: loadUsers
 })
 </script>
-

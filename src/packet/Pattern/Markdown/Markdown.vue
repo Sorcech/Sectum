@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row flex-1 min-h-0 px-5 pb-5">
       <!-- 文档内容区域：固定比例 75% -->
-      <div class="w-3/4 flex-shrink-0  lg:pr-10">
+      <div class="w-3/4 flex-shrink-0 lg:pr-10">
           <slot />
       </div>
       <!-- 目录：固定比例 25%，同时检查 TOC 和 showCatalog -->

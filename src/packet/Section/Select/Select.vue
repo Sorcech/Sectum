@@ -664,32 +664,44 @@ const toggleShow = (e?: Event) => {
 const selectUser = (user: AvatarOption, index: number) => {
   const field = props.fieldValue || 'id'
   const value = user[field] ?? user.id ?? user.value
-  internalSelectedUser.value = user
+  // 先关闭菜单，避免 DOM 更新冲突
   positionShow.value = false
-  emit('update:modelValue', value)
-  emit('select', user)
-  emit('selectIndex', index)
+  // 使用 nextTick 确保 DOM 稳定后再更新状态
+  nextTick(() => {
+    internalSelectedUser.value = user
+    emit('update:modelValue', value)
+    emit('select', user)
+    emit('selectIndex', index)
+  })
 }
 
 const selectProject = (project: ProjectInfo, index: number) => {
   const field = props.fieldValue || 'Name'
   const value = project[field] ?? project.Name
-  internalSelectedProject.value = project
+  // 先关闭菜单，避免 DOM 更新冲突
   positionShow.value = false
-  emit('update:modelValue', value)
-  emit('select', project)
-  emit('selectIndex', index)
+  // 使用 nextTick 确保 DOM 稳定后再更新状态
+  nextTick(() => {
+    internalSelectedProject.value = project
+    emit('update:modelValue', value)
+    emit('select', project)
+    emit('selectIndex', index)
+  })
 }
 
 const selectData = (item: SelectOption, index: number) => {
   const field = props.fieldValue || 'value'
   const value = item[field] ?? item.value
   const labelField = props.fieldLabel || 'label'
-  selectValue.value = item[labelField]
+  // 先关闭菜单，避免 DOM 更新冲突
   positionShow.value = false
-  emit('update:modelValue', value)
-  emit('select', item)
-  emit('selectIndex', index)
+  // 使用 nextTick 确保 DOM 稳定后再更新状态
+  nextTick(() => {
+    selectValue.value = item[labelField]
+    emit('update:modelValue', value)
+    emit('select', item)
+    emit('selectIndex', index)
+  })
 }
 
 // ==================== 监听器 ====================
