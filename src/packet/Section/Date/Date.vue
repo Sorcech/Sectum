@@ -24,7 +24,7 @@
           @input="handleInput"
         />
         <div :class="['absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 hover:opacity-70 transition-opacity pointer-events-none', props.disabled ? 'opacity-30' : '']">
-          <icn :name="iconName" :size="iconSize" v-bind="iconStyleProps"></icn>
+          <icn :name="iconName" :size="iconSize" v-bind="iconStyleProps" class="text-base-content"></icn>
         </div>
       </div>
       
@@ -343,9 +343,11 @@ const inputContainerClasses = computed(() => {
 const inputClasses = computed(() => {
   const baseClasses = [
     ' outline-none bg-transparent box-border',
-    'placeholder-gray-400',
+    'text-base-content',
+    'placeholder:text-base-content/60',
     'px-2', // 增加左右内边距
-    '[&_input]:',
+    '[&_input]:text-base-content',
+    '[&_input]:placeholder:text-base-content/60',
     props.disabled ? 'cursor-not-allowed' : '',
     props.readonly ? 'cursor-default' : ''
   ]
@@ -362,14 +364,14 @@ const inputClasses = computed(() => {
     ghost: 'border-b border-gray-300 hover:border-gray-400 focus:border-primary'
   }
   const shapeClasses = {
-    rounded: 'rounded',
+    rounded: 'rounded-$rounded-btn',
     square: 'rounded-none',
     circle: 'rounded-full'
   }
   // 确定圆角类：优先使用 shape 属性，如果没有则根据 variant 决定
   const roundedClass = props.shape 
     ? shapeClasses[props.shape] 
-    : (props.variant === 'ghost' ? 'rounded-none' : 'rounded')
+    : (props.variant === 'ghost' ? 'rounded-none' : 'rounded-$rounded-btn')
   
   return [
     ...baseClasses,
@@ -433,7 +435,7 @@ const { placement, positionStyle, calculatePosition } = usePosition(inputContain
 
 const panelClasses = computed(() => {
   const baseClasses = [
-    'absolute bg-base-100 border border-base-250 rounded-lg shadow-lg z-[9999]',
+    'absolute bg-base-100 border border-base-250 rounded-$rounded-box shadow-lg z-[9999]',
     'w-full min-w-[320px]', // 最小宽度 320px（20rem），确保包含所有导航按钮和日期网格
     'date-panel',
     'overflow-hidden', // 确保内容不超出面板边界

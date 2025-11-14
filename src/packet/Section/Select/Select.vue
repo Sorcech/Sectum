@@ -13,15 +13,15 @@
           :placeholder="placedisabled" 
           :disabled="disabled"
           :size="size"
-          class="w-full [&_input]:w-full"
+          class="w-full [&_input]:w-full [&_input]:text-base-content [&_input]:placeholder:text-base-content/60"
           @click="toggleShow" 
         />
         <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 pointer-events-none" v-show="!disabled">
           <span v-show="!positionShow">
-            <icn name="angle-down" light xl></icn>
+            <icn name="angle-down" light xl class="text-base-content"></icn>
           </span>
           <span v-show="positionShow">
-            <icn name="angle-up" light xl></icn>
+            <icn name="angle-up" light xl class="text-base-content"></icn>
           </span>
         </div>
       </template>
@@ -58,10 +58,10 @@
             </span>
             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 pointer-events-none" v-show="!disabled">
               <span v-show="!positionShow">
-                <icn name="angle-down" light xl></icn>
+                <icn name="angle-down" light xl class="text-base-content"></icn>
               </span>
               <span v-show="positionShow">
-                <icn name="angle-up" light xl></icn>
+                <icn name="angle-up" light xl class="text-base-content"></icn>
               </span>
             </div>
           </div>
@@ -70,7 +70,7 @@
 
       <!-- 项目模式：使用图标和文本 -->
       <template v-else-if="mode === 'project'">
-        <div class="relative flex items-center bg-base-100 rounded-md w-full">
+        <div class="relative flex items-center bg-base-100 rounded-$rounded-btn w-full">
           <div :class="triggerBaseClasses" @click.stop="toggleShow">
             <icn 
               name="layer-group" 
@@ -94,10 +94,10 @@
             </span>
             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-50 pointer-events-none" v-show="!disabled">
               <span v-show="!positionShow">
-                <icn name="angle-down" light xl></icn>
+                <icn name="angle-down" light xl class="text-base-content"></icn>
               </span>
               <span v-show="positionShow">
-                <icn name="angle-up" light xl></icn>
+                <icn name="angle-up" light xl class="text-base-content"></icn>
               </span>
             </div>
           </div>
@@ -548,14 +548,14 @@ const displayClasses = computed(() => {
 
 const avatarContainerClasses = computed(() => {
   return [
-    'relative flex items-center bg-base-100 rounded-md',
+    'relative flex items-center bg-base-100 rounded-$rounded-btn',
     props.showPlaceholder ? 'w-full' : 'w-16'
   ]
 })
 
 const triggerBaseClasses = computed(() => {
   return [
-    'flex items-center gap-2 px-2 py-1 rounded-md border border-base-300 cursor-pointer transition-colors relative w-full',
+    'flex items-center gap-2 px-2 py-1 rounded-$rounded-btn border border-base-300 cursor-pointer transition-colors relative w-full',
     props.disabled ? 'opacity-50 cursor-not-allowed bg-base-200' : 'hover:bg-base-200',
     displayClasses.value
   ]

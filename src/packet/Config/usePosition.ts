@@ -1,14 +1,10 @@
 import { ref, type Ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
 
 export interface PositionOptions {
-  /** 下拉面板的预估高度 */
-  panelHeight?: number
-  /** 下拉面板的预估宽度 */
-  panelWidth?: number
-  /** 触发元素与面板之间的间距 */
-  gap?: number
-  /** 距离屏幕边缘的最小距离 */
-  edgeGap?: number
+  panelHeight?: number// 下拉面板的预估高度 
+  panelWidth?: number// 下拉面板的预估宽度 
+  gap?: number// 触发元素与面板之间的间距 
+  edgeGap?: number// 距离屏幕边缘的最小距离 
 }
 
 /**
@@ -52,7 +48,7 @@ export function usePosition(triggerRef: Ref<HTMLElement | null>, options: Positi
     
     // 水平方向：计算最佳位置，确保面板不超出屏幕左右边界
     // 默认左对齐，计算面板右边缘位置
-    const panelLeft = 0 // 相对于触发器的左偏移
+    const panelLeft = 16 // 相对于触发器的左偏移
     const panelRightEdge = rect.left + panelLeft + panelWidth
     
     // 如果面板会超出屏幕右边界
@@ -61,21 +57,48 @@ export function usePosition(triggerRef: Ref<HTMLElement | null>, options: Positi
       const rightAlignedLeft = rect.width - panelWidth
       const rightAlignedRightEdge = rect.left + rightAlignedLeft + panelWidth
       
-      // 如果右对齐后仍超出右边界，或者左边界空间不足
-      if (rightAlignedRightEdge > viewportWidth - edgeGap || rightAlignedLeft < -rect.left + edgeGap) {
-        // 使用右对齐，但确保不超出左边界
-        const adjustedLeft = Math.max(
-          rightAlignedLeft,
-          -(rect.left - edgeGap)
-        )
-        styles.left = `${adjustedLeft}px`
-        styles.right = 'auto'
-        // 计算实际可用宽度
-        const availableWidth = Math.min(
-          viewportWidth - (rect.left + adjustedLeft) - edgeGap,
-          panelWidth
-        )
-        styles.maxWidth = `${availableWidth}px`
+      // 如果触发器宽度小于面板宽度，或者右对齐后仍超出右边界，或者左边界空间不足
+      if (rect.width < panelWidth || rightAlignedRightEdge > viewportWidth - edgeGap || rightAlignedLeft < -rect.left + edgeGap) {
+        // 如果触发器宽度小于面板宽度，使用左对齐但添加小偏移
+        if (rect.width < panelWidth) {
+          // 先计算实际可用的面板宽度（考虑边界限制）
+          const maxAvailableWidth = Math.min(panelWidth, viewportWidth - rect.left - edgeGap)
+          // 使用实际可用宽度的比例计算偏移，使得实际宽度约 120px 时约为 -30
+          // 使用实际可用宽度计算偏移量
+          const offsetLeft = -maxAvailableWidth * 0.25
+          // 计算偏移后的右边缘位置（使用实际可用宽度）
+          const offsetRightEdge = rect.left + offsetLeft + maxAvailableWidth
+          // 确保偏移后不超出右边界，也不超出左边界
+          let adjustedLeft = offsetLeft
+          
+          // 如果超出右边界，调整偏移
+          if (offsetRightEdge > viewportWidth - edgeGap) {
+            adjustedLeft = viewportWidth - rect.left - maxAvailableWidth - edgeGap
+          }
+          
+          // 确保不超出左边界
+          if (rect.left + adjustedLeft < edgeGap) {
+            adjustedLeft = edgeGap - rect.left
+          }
+          
+          styles.left = `${adjustedLeft}px`
+          styles.right = 'auto'
+          styles.maxWidth = `${maxAvailableWidth}px`
+        } else {
+          // 使用右对齐，但确保不超出左边界
+          const adjustedLeft = Math.max(
+            rightAlignedLeft,
+            -(rect.left - edgeGap)
+          )
+          styles.left = `${adjustedLeft}px`
+          styles.right = 'auto'
+          // 计算实际可用宽度
+          const availableWidth = Math.min(
+            viewportWidth - (rect.left + adjustedLeft) - edgeGap,
+            panelWidth
+          )
+          styles.maxWidth = `${availableWidth}px`
+        }
       } else {
         // 右对齐可行
         styles.left = `${rightAlignedLeft}px`

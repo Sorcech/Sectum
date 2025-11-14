@@ -27,12 +27,10 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import Select from '~/packet/Section/Select/Select.vue'
-import type { AvatarOption } from '~/packet/Section/Select/Select.vue'
+import { Select } from 'sectum'
 import { Account } from '~/store/account/account'
+import type { AvatarOption } from 'sectum'
 
-// 导出 AvatarOption 接口供外部使用
-export type { AvatarOption }
 
 // 后端返回的用户数据接口
 interface BackendUserData {
@@ -118,25 +116,15 @@ async function loadUsers(): Promise<void> {
   try {
     const response: any = await Account.List()
     
-    // 打印 Account.List 返回的数据
-    console.log('Account.List() 返回数据:', response)
-    console.log('response.data:', response?.data)
-    console.log('response.data?.data:', response?.data?.data)
-    
     // 解析响应数据
     let userData: BackendUserData[] = []
     if (response?.data?.data && Array.isArray(response.data.data)) {
       userData = response.data.data
-      console.log('使用 response.data.data，数据长度:', userData.length)
     } else if (response?.data && Array.isArray(response.data)) {
       userData = response.data
-      console.log('使用 response.data，数据长度:', userData.length)
     } else if (Array.isArray(response)) {
       userData = response
-      console.log('使用 response，数据长度:', userData.length)
     }
-    
-    console.log('解析后的 userData:', userData)
     
     // 转换数据格式并过滤
     internalUsers.value = convertBackendDataToAvatarOption(userData)
