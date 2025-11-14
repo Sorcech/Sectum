@@ -28,7 +28,7 @@
 
       <!-- 头像模式：使用 Avatar 组件 -->
       <template v-else-if="mode === 'avatar'">
-        <div :class="avatarContainerClasses">
+        <div :class="modeContainerClasses">
           <div :class="triggerBaseClasses" @click.stop="toggleShow">
             <avt
               :key="selectedUser ? (selectedUser.id ?? selectedUser.value ?? '') : 'empty'"
@@ -70,7 +70,7 @@
 
       <!-- 项目模式：使用图标和文本 -->
       <template v-else-if="mode === 'project'">
-        <div class="relative flex items-center bg-base-100 rounded-$rounded-btn w-full">
+        <div :class="modeContainerClasses">
           <div :class="triggerBaseClasses" @click.stop="toggleShow">
             <icn 
               name="layer-group" 
@@ -546,11 +546,24 @@ const displayClasses = computed(() => {
   return props.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
 })
 
-const avatarContainerClasses = computed(() => {
-  return [
-    'relative flex items-center bg-base-100 rounded-$rounded-btn',
-    props.showPlaceholder ? 'w-full' : 'w-16'
+// 统一的外层容器样式（用于 avatar 和 project 模式）
+const modeContainerClasses = computed(() => {
+  const baseClasses = [
+    'relative',
+    'flex',
+    'items-center',
+    'bg-base-100',
+    'rounded-$rounded-btn'
   ]
+  
+  // 根据模式设置宽度
+  if (props.mode === 'avatar') {
+    baseClasses.push(props.showPlaceholder ? 'w-full' : 'w-16')
+  } else if (props.mode === 'project') {
+    baseClasses.push('w-full')
+  }
+  
+  return baseClasses
 })
 
 const triggerBaseClasses = computed(() => {

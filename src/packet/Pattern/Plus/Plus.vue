@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
-import Drawer from '../../Section/Drawer/Drawer.vue'
-import Card from '../../Section/Card/Card.vue'
-import TaskCreate from '../../Model/Forms/TaskCreate.vue'
-import ProjectCreate from '../../Model/Forms/ProjectCreate.vue'
-import AccountCreate from '../../Model/Forms/AccountCreate.vue'
-import Toast from '../../Element/Toast/Toast'
+import UserCreate from '../User/UserCreate.vue'
 import type { CreateType, CreateOption } from './Plus'
 import { getCreateOptions } from './PlusData'
+import Toast from '~/packet/Element/Toast/Toast';
 
 const { t } = useI18n();
 
@@ -17,7 +13,7 @@ const props = withDefaults(defineProps<{
   buttonClass?: string
   onTaskCreate?: (formData?: any) => void
   onProjectCreate?: (formData?: any) => void
-  onAccountCreate?: (formData?: any) => void
+  onUserCreate?: (formData?: any) => void
   onProductCreate?: (formData?: any) => void
   onDocumentCreate?: (formData?: any) => void
   createOptions?: CreateOption[]
@@ -77,8 +73,8 @@ const handleCreateTypeClick = (type: CreateType) => {
     case 'project':
       props.onProjectCreate?.()
       break
-    case 'account':
-  props.onAccountCreate?.()
+    case 'user':
+  props.onUserCreate?.()
       break
     case 'product':
       props.onProductCreate?.()
@@ -125,16 +121,16 @@ const handleProjectError = (error: any, response?: any) => {
 }
 
 // 账户表单回调函数
-const handleAccountSubmit = async (formData: any) => {
-  props.onAccountCreate?.(formData)
+const handleUserSubmit = async (formData: any) => {
+  props.onUserCreate?.(formData)
 }
 
-const handleAccountSuccess = (response: any) => {
+const handleUserSuccess = (response: any) => {
   Toast({ message: '账户创建成功', type: 'success' })
   selectedCreateType.value = null
 }
 
-const handleAccountError = (error: any, response?: any) => {
+const handleUserError = (error: any, response?: any) => {
   const errorMessage = error?.response?.data?.message || error?.data?.message || '账户创建失败'
   Toast({ message: errorMessage, type: 'error' })
 }
@@ -254,11 +250,11 @@ const handleDocumentSubmit = () => {
               />
 
               <!-- 账户创建表单 -->
-              <AccountCreate 
-                      v-else-if="selectedCreateType === 'account'"
-                :onSubmit="handleAccountSubmit"
-                :onSuccess="handleAccountSuccess"
-                :onError="handleAccountError"
+              <UserCreate 
+                      v-else-if="selectedCreateType === 'user'"
+                :onSubmit="handleUserSubmit"
+                :onSuccess="handleUserSuccess"
+                :onError="handleUserError"
               />
 
               <!-- 产品创建表单 -->

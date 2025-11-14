@@ -27,9 +27,9 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import { Select } from 'sectum'
-import { Account } from '~/store/account/account'
-import type { AvatarOption } from 'sectum'
+import Select from '~/packet/Section/Select/Select.vue'
+import { User } from '~/packet/Pattern/User/User'
+import type { UserOption } from '~/packet/Section/Select/Select.vue'
 
 
 // 后端返回的用户数据接口
@@ -45,7 +45,7 @@ interface BackendUserData {
 
 const props = withDefaults(defineProps<{
   direction?: string
-  users?: AvatarOption[]
+  users?: UserOption[]
   placeholder?: string
   label?: string
   labelWidth?: string
@@ -77,20 +77,20 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | number | null | undefined]
-  select: [user: AvatarOption]
+  select: [user: UserOption]
   selectIndex: [index: number]
 }>()
 
 // ==================== 响应式数据 ====================
 
 const selectRef = ref<InstanceType<typeof Select> | null>(null)
-const internalUsers = ref<AvatarOption[]>([])
+const internalUsers = ref<UserOption[]>([])
 const isLoadingUsers = ref(false)
 
 // ==================== 工具函数 ====================
 
 // 转换后端数据格式到 AvatarOption 格式
-function convertBackendDataToAvatarOption(backendData: BackendUserData[]): AvatarOption[] {
+function convertBackendDataToAvatarOption(backendData: BackendUserData[]): UserOption[] {
   return backendData
     .filter(item => item.Name && item.Name.trim() !== '') // 过滤掉 Name 为空的项
     .map(item => ({
@@ -114,7 +114,7 @@ async function loadUsers(): Promise<void> {
   
   isLoadingUsers.value = true
   try {
-    const response: any = await Account.List()
+    const response: any = await User.List()
     
     // 解析响应数据
     let userData: BackendUserData[] = []
@@ -137,7 +137,7 @@ async function loadUsers(): Promise<void> {
 }
 
 // 计算最终使用的用户列表
-const displayOptions = computed<AvatarOption[]>(() => {
+const displayOptions = computed<UserOption[]>(() => {
   // 如果启用了自动加载，优先使用内部加载的用户列表（从服务器获取的最新数据）
   if (props.autoLoad && internalUsers.value.length > 0) {
     return internalUsers.value
@@ -156,7 +156,7 @@ const handleUpdateModelValue = (value: string | number | null | undefined) => {
   emit('update:modelValue', value)
 }
 
-const handleSelect = (user: AvatarOption) => {
+const handleSelect = (user: UserOption) => {
   emit('select', user)
 }
 

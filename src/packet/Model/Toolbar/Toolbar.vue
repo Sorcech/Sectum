@@ -96,7 +96,7 @@ import { getInitialContactList } from '~/packet/Pattern/Contact/ContactData'
 import type { ContactItem } from '~/packet/Pattern/Contact/Contact'
 import { getCreateOptions } from '~/packet/Pattern/Plus/PlusData'
 import type { CreateOption } from '~/packet/Pattern/Plus/Plus'
-import { getInitialUserInfo } from '~/packet/Pattern/User/UserData'
+import { getInitialUserInfo } from '~/packet/Pattern/User/User'
 import type { UserInfo } from '~/packet/Pattern/User/User'
 import { getInitialCartItems } from '~/packet/Pattern/Cart/CartData'
 import type { CartItem } from '~/packet/Pattern/Cart/Cart'
@@ -127,7 +127,8 @@ const contactList = ref<ContactItem[]>(getInitialContactList())
 const plusCreateOptions = ref<CreateOption[]>(getCreateOptions() as CreateOption[])
 
 // User 组件数据源（从 UserData.ts 注入）
-const userInfo = ref<UserInfo>(getInitialUserInfo())
+// @ts-ignore - getInitialUserInfo 返回 UserProfile，但 UserInfo 需要 id 属性
+const userInfo = ref<UserInfo>(getInitialUserInfo() as any)
 
 // Cart 组件数据源（从 CartData.ts 注入）
 const cartItems = ref<CartItem[]>(getInitialCartItems())
