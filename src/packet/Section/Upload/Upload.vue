@@ -4,11 +4,11 @@
       <span :class="[`text-${size}`]">{{ label }}</span>
     </label>
     <div class="w-95">
-      <div v-show="files" class="py-1">
-        <li v-for="(item, index) in files" :key="index"
+      <div v-show="fileIds && fileIds.length > 0" class="py-1">
+        <li v-for="(fileId, index) in fileIds" :key="index"
           class="flex align-middle justify-between w-full hover:bg-base-300 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 p-1 rounded-$rounded-btn">
-          <span class="text-sm truncate"><a :href="item.Link">{{ item.Name }}</a></span>
-          <span class="cursor-pointer hover:text-primary" @click="deleteAppendix(item.AppendixId)">
+          <span class="text-sm truncate"><a :href="fileLinks?.[index]">{{ fileNames?.[index] }}</a></span>
+          <span class="cursor-pointer hover:text-primary" @click="deleteAppendix(fileId)">
             <icn name="trash-can" light md></icn>
           </span>
         </li>
@@ -35,13 +35,6 @@
 <script lang="ts" setup>
 import { reactive, ref, computed } from 'vue'
 
-// 定义接口类型
-interface FileItem {
-  Link: string
-  Name: string
-  AppendixId: number
-}
-
 const props = defineProps({
   direction: { type: String, default: 'row', required: false },
   multiple: { type: Boolean, default: false, required: false },
@@ -54,7 +47,9 @@ const props = defineProps({
   },
   label: { type: String, required: false },
   labelWidth: { type: String, default: 'w-4/9', required: false },
-  files: { type: Array as () => FileItem[], required: false }
+  fileIds: { type: Array as () => number[], required: false },
+  fileNames: { type: Array as () => string[], required: false },
+  fileLinks: { type: Array as () => string[], required: false }
 })
 
 // 容器样式计算属性 - 将CSS转换为UnoCSS原子类

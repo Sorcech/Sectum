@@ -4,7 +4,7 @@
       <icn 
         v-if="logoIcon" 
         :name="logoIcon" 
-        solid 
+        regular 
         xl 
         color="primary" 
         style="font-size: 1.5rem;" 
@@ -123,7 +123,7 @@ const logoIcon = computed(() => {
     return props.logoIcon
   }
   // 否则使用 config 中的默认值
-  return config.project.logoIcon
+  return config.project.logoIcon || undefined
 })
 
 // 监听 logoIcon 变化并设置 favicon

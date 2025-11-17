@@ -86,7 +86,7 @@ const route = [
             },
             {
               path: '/sectum/date',
-              component: () => import('~/packet/Section/Date/Date.md'),
+              component: () => import('~/packet/Section/DatePicker/DatePicker.md'),
               meta: { title: 'Date' },
             },
             {

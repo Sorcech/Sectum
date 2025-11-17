@@ -35,9 +35,9 @@ const defaultNavbarItems: NavbarItem[] = [{
   icon: 'globe',
   path: '/website'
 }, {
-  title: 'Document',
+  title: 'Mastery',
   icon: 'blog',
-  path: '/document'
+  path: '/mastery'
 }, {
   title: 'Setting',
   icon: 'gear',

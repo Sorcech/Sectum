@@ -8,7 +8,7 @@ import Table from './Table/Table.vue'
 import Form from './Form/Form.vue'
 import FormItem from './Form/FormItem.vue'
 import Select from './Select/Select.vue'
-import Date from './Date/Date.vue'
+import DatePicker from './DatePicker/DatePicker.vue'
 import Tabs from './Tabs/Tabs.vue'
 import TabPane from './Tabs/TabPane.vue'
 import Upload from './Upload/Upload.vue'
@@ -17,12 +17,9 @@ import Carousel from './Carousel/Carousel.vue'
 import List from './List/List.vue'
 import Card from './Card/Card.vue'
 
-// 导出 Select 组件的类型
-export type { SelectOption, AvatarOption, ProjectInfo } from './Select/Select.vue'
-
 // 导出所有组件
 export {
-  Group, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, Date, Tabs, TabPane, Upload, File, Carousel, List, Card
+  Group, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, DatePicker, Tabs, TabPane, Upload, File, Carousel, List, Card
 }
 
 const install = (app: App) => {
@@ -35,7 +32,7 @@ const install = (app: App) => {
   app.component('Form', Form)//表单
   app.component('FormItem', FormItem)//表单元素
   app.component('Select', Select)//下拉选择器
-  app.component('Date', Date)//日期选择器
+  app.component('DatePicker', DatePicker)//日期选择器
   app.component('Tabs', Tabs)
   app.component('TabPane', TabPane)
   app.component('Upload', Upload)//上传

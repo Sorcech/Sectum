@@ -14,11 +14,12 @@
           ref="inputRef"
           type="text"
           :size="size"
-          :class="[inputClasses, iptClasses]"
+          :class="iptClasses"
           :modelValue="displayValue"
           :placeholder="placeholder"
           :disabled="disabled"
           :readonly="readonly"
+          :color="color"
           @focus="handleFocus"
           @blur="handleBlur"
           @input="handleInput"
@@ -28,26 +29,27 @@
         </div>
       </div>
       
-      <!-- 日期选择面板 -->
-      <tst name="fade">
-        <div v-if="positionShow" :class="panelClasses" :style="positionStyle">
+      <!-- 日期选择面板 - 使用 Teleport 传送到 body -->
+      <Teleport to="body">
+        <tst name="fade">
+          <div v-if="positionShow" :class="panelClasses" :style="fixedPositionStyle">
           <!-- 头部导航 -->
           <div class="flex flex-row items-center border-b border-base-250 p-3 gap-1 h-12 flex-shrink-0">
             <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="yearDecrease" :title="t('date.previousYear')">
-              <icn name="angles-left" light lg class="hover:text-primary"></icn>
+              <icn name="angles-left" light lg class="text-base-content hover:text-primary"></icn>
             </div>
             <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="monthDecrease" :title="t('date.previousMonth')">
-              <icn name="angle-left" light lg class="hover:text-primary"></icn>
+              <icn name="angle-left" light lg class="text-base-content hover:text-primary"></icn>
             </div>
             <div class="flex-1 text-center flex flex-col items-center space-y-1 min-w-0">
-              <span class="text-lg font-semibold text-primary">{{ currentYear }}</span>
+              <span class="text-lg text-primary">{{ currentYear }}</span>
               <span class="text-sm text-primary">{{ MonthName[currentMonth] }}</span>
             </div>
             <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="monthIncrease" :title="t('date.nextMonth')">
-              <icn name="angle-right" light lg class="hover:text-primary"></icn>
+              <icn name="angle-right" light lg class="text-base-content hover:text-primary"></icn>
             </div>
             <div class="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 ease-in-out hover:opacity-70 active:scale-95 cursor-pointer flex-shrink-0 [&_i]:text-primary [&_i]:transition-colors [&_i]:duration-200 hover:[&_i]:text-primary-focus" @click="yearIncrease" :title="t('date.nextYear')">
-              <icn name="angles-right" light lg class="hover:text-primary"></icn>
+              <icn name="angles-right" light lg class="text-base-content hover:text-primary"></icn>
             </div>
           </div>
           
@@ -99,13 +101,14 @@
             </btn>
           </div>
         </div>
-      </tst>
+        </tst>
+      </Teleport>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, Teleport } from 'vue'
 import { useClickOutside } from '~/packet/Config/useClickOutside'
 import { usePosition } from '~/packet/Config/usePosition'
 import { useI18n } from 'vue-i18n'
@@ -148,7 +151,7 @@ interface Props {
   allowClear?: boolean
   
   // 样式属性
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' 
   variant?: 'outline' | 'filled' | 'ghost'
   shape?: 'rounded' | 'square' | 'circle'
   iconStyle?: 'solid' | 'regular' | 'light' | 'thin' | 'brand'
@@ -179,7 +182,7 @@ const props = withDefaults(defineProps<Props>(), {
   showToday: true,
   showNow: false,
   allowClear: true,
-  color: 'primary',
+  color: undefined,
   variant: 'outline',
   shape: 'rounded',
   iconStyle: 'light',
@@ -308,7 +311,7 @@ const labelTextClasses = computed(() => {
     lg: 'text-lg',
     xl: 'text-xl'
   }
-  return [sizes[props.size] || 'text-base', 'font-medium'].join(' ')
+  return [sizes[props.size] || 'text-base'].join(' ')
 })
 
 const datePickerClasses = computed(() => {
@@ -340,49 +343,12 @@ const inputContainerClasses = computed(() => {
     props.readonly ? 'cursor-default' : ''
   ].filter(Boolean).join(' ')
 })
-const inputClasses = computed(() => {
-  const baseClasses = [
-    ' outline-none bg-transparent box-border',
-    'text-base-content',
-    'placeholder:text-base-content/60',
-    'px-2', // 增加左右内边距
-    '[&_input]:text-base-content',
-    '[&_input]:placeholder:text-base-content/60',
-    props.disabled ? 'cursor-not-allowed' : '',
-    props.readonly ? 'cursor-default' : ''
-  ]
-  const sizeClasses = {
-    xs: 'h-6  text-xs ',
-    sm: 'h-8  text-sm ',
-    md: 'h-10  text-base ',
-    lg: 'h-12  text-lg ',
-    xl: 'h-14  text-xl '
-  }
-  const variantClasses = {
-    outline: 'border border-gray-300 hover:border-gray-400 focus:border-primary focus:ring-1 focus:ring-primary',
-    filled: 'bg-gray-100 hover:bg-gray-200 focus:bg-white focus:ring-2 focus:ring-primary',
-    ghost: 'border-b border-gray-300 hover:border-gray-400 focus:border-primary'
-  }
-  const shapeClasses = {
-    rounded: 'rounded-$rounded-btn',
-    square: 'rounded-none',
-    circle: 'rounded-full'
-  }
-  // 确定圆角类：优先使用 shape 属性，如果没有则根据 variant 决定
-  const roundedClass = props.shape 
-    ? shapeClasses[props.shape] 
-    : (props.variant === 'ghost' ? 'rounded-none' : 'rounded-$rounded-btn')
-  
-  return [
-    ...baseClasses,
-    sizeClasses[props.size] || sizeClasses.md,
-    variantClasses[props.variant] || variantClasses.outline,
-    roundedClass,
-    props.inputClass
-  ].filter(Boolean).join(' ')
+// 根据 variant 添加背景样式（filled 变体需要背景色）
+const variantBgClass = computed(() => {
+  return props.variant === 'filled' ? 'bg-base-200 hover:bg-base-300' : ''
 })
 
-// Input 组件的 class（支持宽度设定）
+// Input 组件的 class（支持宽度设定和自定义样式）
 const iptClasses = computed(() => {
   const classes: string[] = []
   // 提取宽度相关类的辅助函数
@@ -396,13 +362,31 @@ const iptClasses = computed(() => {
   const extractRoundedClasses = (classString: string): string[] => {
     return classString.split(' ').filter(cls => cls.includes('rounded'))
   }
+  // 根据 shape 属性添加圆角类
+  if (props.shape) {
+    const shapeClasses = {
+      rounded: 'rounded-$rounded-btn',
+      square: 'rounded-none',
+      circle: 'rounded-full'
+    }
+    const roundedClass = shapeClasses[props.shape]
+    if (roundedClass) {
+      classes.push(roundedClass)
+    }
+  } else if (props.variant === 'ghost') {
+    classes.push('rounded-none')
+  }
+  // 添加 filled 变体的背景色
+  if (variantBgClass.value) {
+    classes.push(variantBgClass.value)
+  }
   // 优先使用 inputClass 中的宽度类
   if (props.inputClass) {
     const widthClasses = extractWidthClasses(props.inputClass)
     if (widthClasses.length > 0) {
       classes.push(...widthClasses)
     }
-    // 也提取圆角类
+    // 也提取圆角类（如果 inputClass 中有）
     const roundedClasses = extractRoundedClasses(props.inputClass)
     if (roundedClasses.length > 0) {
       classes.push(...roundedClasses)
@@ -416,12 +400,23 @@ const iptClasses = computed(() => {
     }
   }
   // 默认情况下，如果没有指定宽度，使用 w-full
-  if (classes.length === 0) {
+  if (!classes.some(cls => cls.includes('w-'))) {
     classes.push('w-full')
   }
   // 确保 input 元素也占据全宽（除非已经指定了具体的宽度类）
   if (!classes.some(cls => cls.startsWith('w-') && cls !== 'w-full')) {
     classes.push('[&_input]:w-full')
+  }
+  // 添加自定义 inputClass（除了宽度和圆角类）
+  if (props.inputClass) {
+    const customClasses = props.inputClass.split(' ').filter(cls => 
+      !cls.includes('w-') && !cls.includes('min-w-') && !cls.includes('max-w-') && 
+      !cls.includes('flex-') && !cls.includes('flex-grow') && !cls.includes('flex-shrink') &&
+      !cls.includes('rounded')
+    )
+    if (customClasses.length > 0) {
+      classes.push(...customClasses)
+    }
   }
   return classes.join(' ')
 })
@@ -433,20 +428,45 @@ const { placement, positionStyle, calculatePosition } = usePosition(inputContain
   gap: 4
 })
 
+// 转换为 fixed 定位样式（用于 Teleport 到 body）
+const fixedPositionStyle = computed(() => {
+  if (!inputContainerRef.value || !positionShow.value) return {}
+  
+  const rect = inputContainerRef.value.getBoundingClientRect()
+  const styles: Record<string, string> = { ...positionStyle.value }
+  
+  // 将相对定位转换为固定定位
+  if (placement.value === 'top') {
+    styles.bottom = `${window.innerHeight - rect.top + 4}px`
+    styles.top = 'auto'
+  } else {
+    styles.top = `${rect.bottom + 4}px`
+    styles.bottom = 'auto'
+  }
+  
+  // 水平位置
+  if (styles.left) {
+    const leftValue = parseFloat(styles.left.replace('px', ''))
+    styles.left = `${rect.left + leftValue}px`
+  } else if (styles.right) {
+    const rightValue = parseFloat(styles.right.replace('px', ''))
+    styles.right = `${window.innerWidth - rect.right + rightValue}px`
+    styles.left = 'auto'
+  } else {
+    styles.left = `${rect.left}px`
+  }
+  
+  styles.position = 'fixed'
+  return styles
+})
+
 const panelClasses = computed(() => {
   const baseClasses = [
-    'absolute bg-base-100 border border-base-250 rounded-$rounded-box shadow-lg z-[9999]',
+    'fixed bg-base-100 border border-base-250 rounded-$rounded-box shadow-lg z-[9999]',
     'w-full min-w-[320px]', // 最小宽度 320px（20rem），确保包含所有导航按钮和日期网格
     'date-panel',
     'overflow-hidden', // 确保内容不超出面板边界
   ]
-  
-  // 根据位置调整样式
-  if (placement.value === 'top') {
-    baseClasses.push('bottom-full mb-1')
-  } else {
-    baseClasses.push('top-full mt-1')
-  }
   
   baseClasses.push(props.panelClass)
   return baseClasses.filter(Boolean).join(' ')

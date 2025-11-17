@@ -6,7 +6,7 @@
     v-if="isTwoLanguagesMode"
     item 
     @click="toggleLanguage" 
-    class="hover:text-primary hover:border-primary relative p-0 border border-solid  border-base-content/20 rounded-md overflow-visible"
+    class="hover:text-primary hover:border-primary relative p-0 border border-solid border-base-900 rounded-md overflow-visible"
     style="min-width: 1.5rem; width: 1.5rem; height: 1.5rem;"
   >
     <span class="relative inline-flex items-center justify-center w-full h-full">
