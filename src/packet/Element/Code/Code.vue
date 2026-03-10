@@ -60,12 +60,12 @@ hljs.registerLanguage('php', php)
 hljs.registerLanguage('vue', vue)
 
 const props = defineProps({
-  code: {type: String,default: ''},// 代码内容
-  language: {type: String,default: ''},// 编程语言
-  inline: {type: Boolean,default: false},// 是否为行内代码
-  wordWrap: {type: Boolean,default: false},// 是否自动换行
-  trim: {type: Boolean,default: true},// 是否去除首尾空白
-  highlight: {type: Boolean,default: true}// 是否启用代码高亮
+  code: { type: String, default: '' },
+  language: { type: String, default: '' },
+  inline: { type: Boolean, default: false },
+  wordWrap: { type: Boolean, default: false },
+  trim: { type: Boolean, default: true },
+  highlight: { type: Boolean, default: true }
 })
 
 const codeRef = ref<HTMLElement | null>(null)
@@ -126,11 +126,11 @@ const getHighlightedCode = (code: string, lang: string): string => {
 // 设置代码内容
 const setCode = () => {
   if (!codeRef.value) return
-  let decodedCode = props.code// 解码 HTML 实体（包括换行符 &#10;）
-  if (props.code.includes('&#')) {
-    decodedCode = decodeHtmlEntities(props.code)
+  let decodedCode = props.code
+  if (decodedCode.includes('&#')) {
+    decodedCode = decodeHtmlEntities(decodedCode)
   }
-  const codeContent = props.inline || props.trim ? decodedCode.trim() : decodedCode// 行内代码去除首尾空白，代码块保持原样（包括换行和缩进）
+  const codeContent = props.inline || props.trim ? decodedCode.trim() : decodedCode
   if (props.inline) {
     codeRef.value.textContent = codeContent// 行内代码直接设置文本
   } else {

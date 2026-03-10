@@ -257,53 +257,38 @@ export default defineConfig(({ mode }) => {
     plugins: [
       iconServerPlugin(), // 开发环境服务 icon.js
       UnoCSS({ configFile: false, ...UnoConfig } as any), // UnoCSS插件，使用配置
-      autoWrapPlugin(), // 自动包装Markdown文件
-      VuePlugin({
-        include: [/\.vue$/, /\.md$/],
-      }),
+      autoWrapPlugin(),
       Markdown({
-        // 自定义代码块渲染
+        enforce: 'pre',
         markdownItSetup(md) {
-          // 覆盖代码块的渲染函数
           md.renderer.rules.fence = (tokens, idx, options, env, self) => {
             const token = tokens[idx]
             const info = token.info ? token.info.trim() : ''
             const langName = info.split(/\s+/g)[0]
             const code = token.content
-            
-            // 转义 HTML 特殊字符，保持代码的原始格式（包括换行和缩进）
             const escapedCode = code
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
               .replace(/"/g, '&quot;')
               .replace(/'/g, '&#39;')
-            
-            // 使用普通属性传递代码，Vue 会自动处理字符串
-            // 使用 v-text 或直接在组件内部处理
             return `<cod code="${escapedCode}" ${langName ? `language="${langName}"` : ''} :trim="false"></cod>\n`
           }
-          
-          // 覆盖行内代码的渲染函数
           md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
             const token = tokens[idx]
             const code = token.content.trim()
-            
-            // 转义 HTML 特殊字符
             const escapedCode = code
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
               .replace(/"/g, '&quot;')
               .replace(/'/g, '&#39;')
-            
-            // 对于行内代码，直接使用 HTML code 标签，不转换为 Vue 组件
-            // 这样可以确保在表格单元格中也能正常渲染
             return `<code class="inline-code">${escapedCode}</code>`
           }
         }
-      }),// 移除wrapperComponent，因为我们使用自定义的auto-wrap-plugin
-      codePlugin(), // Code组件插件，将pre和code转换为Code组件（必须在Markdown之后）
+      }),
+      VuePlugin({ include: [/\.vue$/, /\.md$/] }),
+      codePlugin(),
       Components({
         resolvers: [ElementPlusResolver()],
         include: [/\.vue$/, /\.vue\?vue/],

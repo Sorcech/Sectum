@@ -72,8 +72,13 @@ const showHeight64 = ref(false)
 const showHeight96 = ref(false)
 const showScrollDrawer = ref(false)
 const showNoBackdrop = ref(false)
+const showOffsetDrawer1 = ref(false)
+const showOffsetDrawer2 = ref(false)
+const showOffsetDrawer3 = ref(false)
 </script>
 
+<template>
+<div>
 <div class="flex flex-wrap gap-3 mb-6">
   <btn @click="showTopDrawer = true" color="primary">从上方滑出</btn>
   <btn @click="showRightDrawer = true" color="primary">从右侧滑出</btn>
@@ -621,8 +626,6 @@ const handleSubmit = () => {
 </script>
 ```
 
-## 偏移量配置
-
 Drawer 组件支持通过 `offset` 属性配置不同方向的偏移量，控制抽屉距离屏幕边缘的距离。
 
 ### 统一偏移量
@@ -670,13 +673,6 @@ Drawer 组件支持通过 `offset` 属性配置不同方向的偏移量，控制
 
 ### 偏移量示例
 
-<script setup>
-import { ref } from 'vue'
-const showOffsetDrawer1 = ref(false)
-const showOffsetDrawer2 = ref(false)
-const showOffsetDrawer3 = ref(false)
-</script>
-
 <div class="flex flex-wrap gap-3 mb-6">
   <btn @click="showOffsetDrawer1 = true" color="primary">默认偏移 (0)</btn>
   <btn @click="showOffsetDrawer2 = true" color="primary">自定义偏移 (right-20)</btn>
@@ -717,6 +713,8 @@ const showOffsetDrawer3 = ref(false)
     <p>为不同方向设置不同的偏移量。</p>
   </div>
 </Drawer>
+</div>
+</template>
 
 ## API 参考
 
