@@ -8,11 +8,7 @@ const STORAGE_KEY = 'sectum_projects'
  * @returns ProjectInfo[]
  */
 export function getInitialProjectList(): Array<{ value?: string | number; label?: string; [key: string]: any }> {
-  return [
-    { label: '示例项目1' },
-    { label: '示例项目2' },
-    { label: '示例项目3' }
-  ]
+  return []
 }
 
 /**
@@ -68,7 +64,7 @@ export async function loadProjectList(
   if (loadProjects && mode === 'project') {
     try {
       const response = await listLocalProjects()
-      const loadedProjects = response?.data?.code === 0 ? (response.data.data || []) : []
+      const loadedProjects = response?.data?.Code === 0 ? (response.data.Data || []) : []
       return loadedProjects.length > 0 ? loadedProjects : getInitialProjectList()
     } catch (error) {
       console.error('加载项目列表失败:', error)

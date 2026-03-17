@@ -14,6 +14,12 @@ export const UnoConfig = {
   darkMode: 'class',
 
   rules: [
+    // Border 默认样式：当使用 border 相关类时，自动应用 border-solid
+    // 如果用户明确指定了其他 border-style（如 border-dashed），则使用指定的样式
+    ['border', { 'border-width': '1px', 'border-style': 'solid' }],
+    [/^border-(\d+)$/, ([, width]: RuleParams) => {
+      return { 'border-width': `${width}px`, 'border-style': 'solid' }
+    }],
     // 自定义颜色规则 - 处理项目特有的颜色名
     [/^bg-(primary|secondary|success|warning|error)$/, ([, color]: RuleParams) => {
       return { 'background-color': `var(--${color})` }

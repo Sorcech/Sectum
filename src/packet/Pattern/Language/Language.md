@@ -422,7 +422,7 @@ app.mount('#app')
 对于不同的项目，可以配置不同的语言集合。例如，某个项目只需要中文和英文：
 
 ```typescript
-// rotor/locale/index.ts
+// rooor/locale/index.ts
 import { createI18n } from 'vue-i18n'
 
 const messages = {
@@ -448,10 +448,10 @@ export default i18n
 ```
 
 ```vue
-<!-- rotor/App.vue -->
+<!-- rooor/App.vue -->
 <script setup>
 import { onMounted } from 'vue'
-import rotorI18n from './locale/index'
+import rooorI18n from './locale/index'
 
 onMounted(() => {
   // 将项目特定的 i18n 实例设置为全局 I18n
@@ -459,7 +459,7 @@ onMounted(() => {
     if (!window.globalUtils) {
       window.globalUtils = {}
     }
-    window.globalUtils.I18n = rotorI18n
+    window.globalUtils.I18n = rooorI18n
   }
 })
 </script>

@@ -1,51 +1,3 @@
-<template>
-  <div 
-    :class="avatarClasses"
-    :style="avatarStyles"
-    @click="handleClick"
-  >
-    <!-- 图片头像 -->
-    <img 
-      v-if="src && !error" 
-      :src="src" 
-      :alt="alt || name"
-      @error="handleImageError"
-      class="w-full h-full object-cover"
-    />
-    
-    <!-- 文字头像 -->
-    <span 
-      v-else-if="name || text" 
-      :class="textClasses"
-    >
-      {{ displayText }}
-    </span>
-    
-    <!-- 图标头像 -->
-    <icn 
-      v-else-if="icon"
-      :name="icon"
-      :light="iconLight"
-      :brand="iconBrand"
-      :class="iconClasses"
-    />
-    
-    <!-- 默认图标 -->
-    <icn 
-      v-else
-      name="user"
-      light
-      :class="iconClasses"
-    />
-    
-    <!-- 状态指示器 -->
-    <span 
-      v-if="status"
-      :class="statusClasses"
-    ></span>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, nextTick, getCurrentInstance, onUnmounted } from 'vue'
 import icn from '../Icon/Icon.vue'
@@ -53,11 +5,9 @@ import icn from '../Icon/Icon.vue'
 interface Props {
   src?: string// 图片源
   alt?: string// 替代文本
-  name?: string// 名称（用于文字头像）
-  text?: string// 自定义文字（用于文字头像）
+  label?: string// 标签文本（用于文字头像，显示首字母或完整文本）
   icon?: string// 图标名称（用于图标头像）
-  iconLight?: boolean// 图标样式
-  iconBrand?: boolean// 尺寸
+  iconStyle?: 'solid' | 'regular' | 'light' | 'thin' | 'duotone' | 'brand'// 图标样式
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'// 形状
   shape?: 'circle' | 'square' | 'rounded'// 状态
   status?: 'online' | 'offline' | 'away' | 'busy' | ''// 状态位置
@@ -74,8 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
   statusPosition: 'bottom-right',
   color: 'default',
   clickable: false,
-  iconLight: false,
-  iconBrand: false
+  iconStyle: 'light'
 })
 
 const emit = defineEmits<{
@@ -121,11 +70,10 @@ const handleClick = (e: MouseEvent) => {
   }
 }
 
-// 显示的文字（优先使用 text，否则使用 name 的首字母）
+// 显示的文字（使用 label 的首字母）
 const displayText = computed(() => {
-  if (props.text) return props.text
-  if (props.name) {
-    const firstChar = props.name.charAt(0)// 获取首字母，支持中文
+  if (props.label) {
+    const firstChar = props.label.charAt(0)// 获取首字母，支持中文
     return /[\u4e00-\u9fa5]/.test(firstChar) ? firstChar : firstChar.toUpperCase()// 如果是中文，直接返回；如果是英文，返回大写字母
   }
   return ''
@@ -156,14 +104,6 @@ const avatarClasses = computed(() => {
   
   return classes.join(' ')
 })
-
-// 头像容器内联样式（用于背景色）
-const avatarStyles = computed(() => {
-  // 背景色通过 CSS 类名设置，不需要内联样式
-  return {}
-})
-
-// 图片样式
 
 // 文字样式
 const textClasses = computed(() => {
@@ -226,3 +166,18 @@ const statusClasses = computed(() => {
 })
 </script>
 
+<template>
+  <div :class="avatarClasses" @click="handleClick">
+    <!-- 图片头像 -->
+    <img  v-if="src && !error"  :src="src"  :alt="alt || label" @error="handleImageError" class="w-full h-full object-cover"/>   
+    <!-- 文字头像 -->
+    <span  v-else-if="label"  :class="textClasses">{{ displayText }}</span>
+    <!-- 图标头像 -->
+    <icn v-else-if="icon" :name="icon" :solid="iconStyle === 'solid'" :regular="iconStyle === 'regular'" :light="iconStyle === 'light'" 
+    :thin="iconStyle === 'thin'" :duotone="iconStyle === 'duotone'" :brand="iconStyle === 'brand'" :class="iconClasses"/>
+    <!-- 默认图标 -->
+    <icn v-else name="user" light :class="iconClasses"/>
+    <!-- 状态指示器 -->
+    <span v-if="status" :class="statusClasses"></span>
+  </div>
+</template>

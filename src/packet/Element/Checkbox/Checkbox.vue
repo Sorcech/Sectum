@@ -27,10 +27,7 @@ const isChecked = computed({
 </script>
 
 <template>
-  <input type="checkbox" v-model="isChecked" :disabled="disabled" class="ckb" :class="[
-    `ckb-${color}`,
-    `ckb-${size}`,
-  ]">
+  <input type="checkbox" v-model="isChecked" :disabled="disabled" class="ckb" :class="[`ckb-${color}`,`ckb-${size}`,]">
 </template>
 
 <style scoped>

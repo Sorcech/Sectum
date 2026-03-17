@@ -31,15 +31,19 @@ import Avatar from 'sectum'
 ### 文字头像
 
 ```vue
-<Avatar name="张三" />
-<Avatar text="AB" />
+<Avatar label="张三" />
+<Avatar label="AB" />
 ```
 
 ### 图标头像
 
 ```vue
 <Avatar icon="user" />
-<Avatar icon="github" icon-brand />
+<Avatar icon="github" icon-style="brand" />
+<Avatar icon="user" icon-style="solid" />
+<Avatar icon="user" icon-style="regular" />
+<Avatar icon="user" icon-style="light" />
+<Avatar icon="user" icon-style="thin" />
 ```
 
 ## 尺寸
@@ -91,9 +95,9 @@ import Avatar from 'sectum'
 当使用文字或图标头像时，可以设置背景色：
 
 ```vue
-<Avatar name="张三" color="primary" />
-<Avatar name="李四" color="secondary" />
-<Avatar name="王五" color="success" />
+<Avatar label="张三" color="primary" />
+<Avatar label="李四" color="secondary" />
+<Avatar label="王五" color="success" />
 <Avatar icon="user" color="warning" />
 ```
 
@@ -131,11 +135,9 @@ import Avatar from 'sectum'
 |------|------|--------|------|
 | `src` | `string` | `undefined` | 图片源地址 |
 | `alt` | `string` | `undefined` | 图片替代文本 |
-| `name` | `string` | `undefined` | 名称（用于文字头像，显示首字母） |
-| `text` | `string` | `undefined` | 自定义文字（用于文字头像） |
+| `label` | `string` | `undefined` | 标签文本（用于文字头像，显示首字母） |
 | `icon` | `string` | `undefined` | 图标名称（用于图标头像） |
-| `iconLight` | `boolean` | `false` | 图标是否为 light 样式 |
-| `iconBrand` | `boolean` | `false` | 图标是否为 brand 样式 |
+| `iconStyle` | `'solid' \| 'regular' \| 'light' \| 'thin' \| 'duotone' \| 'brand'` | `'light'` | 图标样式 |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 尺寸 |
 | `shape` | `'circle' \| 'square' \| 'rounded'` | `'circle'` | 形状 |
 | `status` | `'online' \| 'offline' \| 'away' \| 'busy' \| ''` | `''` | 状态 |
@@ -161,7 +163,7 @@ import Avatar from 'sectum'
     <div v-for="user in users" :key="user.id" class="flex items-center gap-3">
       <Avatar 
         :src="user.avatar" 
-        :name="user.name"
+        :label="user.name"
         :status="user.status"
         size="md"
         clickable
@@ -198,7 +200,7 @@ const handleUserClick = (user) => {
       v-for="(user, index) in users" 
       :key="user.id"
       :src="user.avatar"
-      :name="user.name"
+      :label="user.name"
       size="sm"
       :style="{ zIndex: users.length - index }"
     />
@@ -209,7 +211,7 @@ const handleUserClick = (user) => {
 ## 注意事项
 
 1. **优先级**: 图片 > 文字 > 图标 > 默认图标
-2. **文字头像**: 如果提供了 `text`，优先使用 `text`；否则使用 `name` 的首字母
+2. **文字头像**: 使用 `label` 的首字母显示（中文直接显示首字符，英文显示大写首字母）
 3. **图片加载失败**: 如果图片加载失败，会自动回退到文字或图标显示
 4. **状态指示器**: 只在设置了 `status` 属性时显示
 5. **点击事件**: 需要设置 `clickable` 属性才能触发点击事件

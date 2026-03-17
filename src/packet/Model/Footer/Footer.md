@@ -50,9 +50,10 @@ import Footer from '~/packet/Model/Footer/Footer.vue'
 
 <script setup>
 import { computed } from 'vue'
-import { Footer } from 'sectum'
+import Footer from '~/packet/Model/Footer/Footer.vue'
+import type { SitemapLinkGroup } from '~/packet/Model/Footer/Footer.vue'
 
-const sitemapLinks = computed(() => [
+const sitemapLinks = computed<SitemapLinkGroup[]>(() => [
   {
     title: 'Drive Section',
     subtitle: 'REVER',
@@ -185,7 +186,7 @@ Footer 组件会自动识别链接类型：
 ## 示例数据格式
 
 ```typescript
-const sitemapLinks = [
+const sitemapLinks: SitemapLinkGroup[] = [
   {
     title: 'Drive Section',           // 主标题
     subtitle: 'REVER',                // 副标题

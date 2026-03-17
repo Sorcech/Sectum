@@ -76,17 +76,17 @@ export const speedOptions: SelectOption[] = [
   { label: '40', value: '4' }
 ]
 
-// 表单字段配置接口
+// 表单字段配置接口（通用版本，不依赖 ProductFormData）
 export interface FormFieldConfig {
-  key: keyof ProductFormData    // 字段键名
-  label: string                  // 字段标签
-  type: 'select' | 'input'       // 字段类型：下拉选择或输入框
-  options?: SelectOption[]       // 选项列表（select类型需要）
-  placeholder?: string           // 占位符
-  inputType?: string             // 输入框类型（input类型需要，如 'number', 'text'）
+  key: string                    // 字段键名
+  label: string                   // 字段标签
+  type: 'select' | 'input'        // 字段类型：下拉选择或输入框
+  options?: SelectOption[]         // 选项列表（select类型需要）
+  placeholder?: string             // 占位符
+  inputType?: string              // 输入框类型（input类型需要，如 'number', 'text'）
 }
 
-// 表单字段配置数组
+// 表单字段配置数组（向后兼容，使用类型断言）
 export const formFields: FormFieldConfig[] = [
   {
     key: 'type1',
@@ -130,7 +130,7 @@ export const formFields: FormFieldConfig[] = [
     inputType: 'number',
     placeholder: '请输入参数'
   }
-]
+] as FormFieldConfig[]
 
 // 创建默认表单数据
 export const createDefaultFormData = (): ProductFormData => ({

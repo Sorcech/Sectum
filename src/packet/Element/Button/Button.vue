@@ -90,7 +90,13 @@ const colorVariantClasses = computed(() => {
   
   const variants = {
     default: (color: string) => `bg-${color} text-${color}-content shadow-md hover:bg-${color}-focus hover:shadow-${color}/15`,
-    outline: (color: string) => `text-${color} ring-2 ring-${color} ring-inset bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`,
+    outline: (color: string) => {
+      // active 状态下，outline 变体显示为实心背景，尺寸不变
+      if (props.active) {
+        return `bg-${color} text-${color}-content shadow-md`
+      }
+      return `text-${color} ring-1 ring-${color} ring-inset bg-transparent hover:bg-${color} hover:text-${color}-content hover:shadow-${color}/15`
+    },
     transparent: (color: string) => `text-${color} bg-transparent hover:bg-${color}/10`,
     link: (color: string) => `text-${color} bg-transparent hover:underline`
   }
@@ -110,7 +116,8 @@ const stateClasses = computed(() => {
   if (props.loading) {
     classes.push('cursor-wait')
   }
-  if (props.active) {
+  // active 状态下，只有 default (solid) 变体才添加 scale-95，outline 变体保持尺寸不变
+  if (props.active && props.variant === 'default') {
     classes.push('scale-95')
   }
   return classes.join(' ')
@@ -167,18 +174,11 @@ const handleClick = (event: Event) => {
   }
 }
 </script>
+
 <template>
-  <component 
-    :is="props.tag" 
-    :disabled="props.disabled || props.loading" 
-    :type="computedType" 
-    :class="buttonClasses"
-    @click="handleClick"
-  >
-    <div 
-      v-if="props.loading" 
-      class="btn-loading-icon animate-spin w-4 h-4 mr-2 border-2 border-current border-t-transparent rounded-full"
-    ></div>
+  <component :is="props.tag" :disabled="props.disabled || props.loading"  :type="computedType" 
+    :class="buttonClasses" @click="handleClick" v-bind="$attrs">
+    <div v-if="props.loading" class="btn-loading-icon animate-spin w-4 h-4 mr-2 border-1 border-current border-t-transparent rounded-full"></div>
     
     <!-- 按钮内容 -->
     <slot />

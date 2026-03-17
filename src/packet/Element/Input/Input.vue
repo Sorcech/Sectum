@@ -267,7 +267,10 @@ const baseClasses = computed(() => {
   const externalClass = getExternalClass()
   const classes = [
     'bg-base-100 transition-all duration-200 ease-in-out',
+    'text-base-content', // 输入内容颜色
+    'placeholder:text-base-content/60', // placeholder 颜色
     'min-w-0', // 防止溢出，移除 flex-shrink-0 以支持外部 flex 设置
+    'box-border', // 确保 padding 包含在高度内
     // 圆角
     props.pills ? 'rounded-full' : 
     props.circle ? 'rounded-full' : 'rounded-$rounded-btn'
@@ -591,7 +594,7 @@ const parsedLabel = computed(() => {
 <template>
   <div :class="containerClasses" :style="containerStyle">
     <label v-if="label" :class="labelClasses">
-      <span :class="`text-${size}`">
+      <span :class="`text-${size} text-base-content`">
         {{ parsedLabel.text }}
         <span v-if="parsedLabel.hasRequired" class="text-error">*</span>
         <span v-if="parsedLabel.suffix">{{ parsedLabel.suffix }}</span>
@@ -599,72 +602,34 @@ const parsedLabel = computed(() => {
     </label>
     <div :class="inputWrapperClasses">
       <!-- 左侧图标 -->
-      <div 
-        v-if="leftIcon" 
-        class="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10"
-        :class="disabled || loading ? 'opacity-50' : 'opacity-70'"
-      >
-        <icn 
-          :name="leftIcon" 
-          v-bind="{ ...iconSizeProps, ...leftIconStyleProps }"
-        />
+      <div v-if="leftIcon" class="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10" 
+      :class="disabled || loading ? 'opacity-50' : 'opacity-70'">
+        <icn :name="leftIcon" v-bind="{ ...iconSizeProps, ...leftIconStyleProps }" />
       </div>
       <!-- 输入框 -->
-      <input 
-        ref="inputText" 
-        :value="modelValue" 
-        @input="input"
-        @blur="handleBlur"
-        @focus="handleFocus"
-        :name="name" 
-        :placeholder="placeholder" 
-        :type="currentInputType"
-        :disabled="disabled || loading" 
-        :class="inputClasses"
-      >
+      <input ref="inputText" :value="modelValue" @input="input" @blur="handleBlur" @focus="handleFocus" :name="name"
+       :placeholder="placeholder" :type="currentInputType" :disabled="disabled || loading" :class="inputClasses">
       <!-- 右侧图标 -->
-      <div
-        v-if="rightIcon"
+      <div v-if="rightIcon"
         class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center z-10"
-        :class="[
-          (isClearIcon || isPasswordToggle) && !isEmpty
-            ? 'cursor-pointer hover:text-primary transition-colors duration-200' 
-            : 'pointer-events-none',
-          disabled || loading || (isEmpty && (isClearIcon || isPasswordToggle)) ? 'opacity-50' : (isClearIcon || isPasswordToggle) ? 'opacity-70 hover:opacity-100' : 'opacity-70'
-        ]"
-        @click.stop.prevent="isEmpty ? null : (isClearIcon ? clearInput($event) : (isPasswordToggle ? togglePasswordVisibility($event) : null))"
-        @mousedown.stop.prevent
-      >
+        :class="[(isClearIcon || isPasswordToggle) && !isEmpty ? 'cursor-pointer hover:text-primary transition-colors duration-200'  : 'pointer-events-none',
+          disabled || loading || (isEmpty && (isClearIcon || isPasswordToggle)) ? 'opacity-50' : (isClearIcon || isPasswordToggle) ? 'opacity-70 hover:opacity-100' : 'opacity-70']"
+        @click.stop.prevent="isEmpty ? null : (isClearIcon ? clearInput($event) : (isPasswordToggle ? togglePasswordVisibility($event) : null))" @mousedown.stop.prevent>
         <!-- 密码切换：使用两个独立的图标，通过 v-show 控制显示 -->
         <template v-if="isPasswordToggle">
           <span v-show="!passwordVisible">
-            <icn 
-              name="eye" 
-              v-bind="{ ...iconSizeProps, ...rightIconStyleProps }"
-              class="pointer-events-none"
-            />
+            <icn name="eye" v-bind="{ ...iconSizeProps, ...rightIconStyleProps }" class="pointer-events-none" />
           </span>
           <span v-show="passwordVisible">
-            <icn 
-              name="eye-slash" 
-              v-bind="{ ...iconSizeProps, ...rightIconStyleProps }"
-              class="pointer-events-none"
-            />
+            <icn name="eye-slash" v-bind="{ ...iconSizeProps, ...rightIconStyleProps }" class="pointer-events-none" />
           </span>
         </template>
         <!-- 其他图标：使用动态图标名称 -->
-        <icn 
-          v-else
-          :name="currentRightIcon" 
-          v-bind="{ ...iconSizeProps, ...rightIconStyleProps }"
-          :class="(isClearIcon || isPasswordToggle) ? 'pointer-events-none' : ''"
-        />
+        <icn v-else :name="currentRightIcon" v-bind="{ ...iconSizeProps, ...rightIconStyleProps }" 
+        :class="[(isClearIcon || isPasswordToggle) ? 'pointer-events-none' : '', isClearIcon ? 'text-base-content' : '']" />
       </div>
       <!-- 错误信息：使用绝对定位，相对于 inputWrapper，不影响容器高度 -->
-      <div 
-        v-if="hasError" 
-        class="absolute top-full left-0 text-error text-xs mt-1 ml-1 whitespace-nowrap" 
-        v-text="finalError" 
+      <div v-if="hasError" class="absolute top-full left-0 text-error text-xs mt-1 ml-1 whitespace-nowrap" v-text="finalError" 
       />
     </div>
   </div>

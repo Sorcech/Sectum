@@ -1,128 +1,32 @@
-<template>
-  <div 
-    :class="containerClasses"
-    :style="containerStyles"
-    @click="handleClick"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
-    <!-- 加载占位符 -->
-    <div 
-      v-if="loading && !loaded && !error"
-      :class="placeholderClasses"
-    >
-      <icn 
-        v-if="placeholderIcon"
-        :name="placeholderIcon"
-        :light="placeholderIconLight"
-        :brand="placeholderIconBrand"
-        :class="iconClasses"
-      />
-      <span v-else-if="placeholderText" :class="textClasses">
-        {{ placeholderText }}
-      </span>
-    </div>
-    
-    <!-- 错误占位符 -->
-    <div 
-      v-else-if="error"
-      :class="placeholderClasses"
-    >
-      <icn 
-        v-if="errorIcon"
-        :name="errorIcon"
-        :light="errorIconLight"
-        :brand="errorIconBrand"
-        :class="iconClasses"
-      />
-      <span v-else-if="errorText" :class="textClasses">
-        {{ errorText }}
-      </span>
-      <icn 
-        v-else
-        name="image"
-        light
-        :class="iconClasses"
-      />
-    </div>
-    
-    <!-- 图片 -->
-    <img
-      v-else
-      :src="src"
-      :alt="alt"
-      :class="imageClasses"
-      :style="imageStyles"
-      :loading="lazy ? 'lazy' : 'eager'"
-      @load="handleLoad"
-      @error="handleError"
-    />
-    
-    <!-- 遮罩层（hover 时显示） -->
-    <div 
-      v-if="showOverlay && (hovered || clicked)"
-      :class="overlayClasses"
-    >
-      <slot name="overlay">
-        <icn 
-          v-if="overlayIcon"
-          :name="overlayIcon"
-          :light="overlayIconLight"
-          :brand="overlayIconBrand"
-          :class="overlayIconClasses"
-        />
-      </slot>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import icn from '../Icon/Icon.vue'
 
 interface Props {
-  // 图片源
-  src: string
-  // 替代文本
-  alt?: string
-  // 宽度
-  width?: string | number
-  // 高度
-  height?: string | number
-  // 尺寸预设
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
-  // 圆角
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
-  // 对象适配模式
-  fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
-  // 是否懒加载
-  lazy?: boolean
-  // 是否显示加载状态
-  loading?: boolean
-  // 占位符图标
-  placeholderIcon?: string
+  src: string  // 图片源
+  alt?: string  // 替代文本
+  width?: string | number  // 宽度
+  height?: string | number  // 高度
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'  // 尺寸预设
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'  // 圆角
+  fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'  // 对象适配模式
+  lazy?: boolean  // 是否懒加载
+  loading?: boolean  // 是否显示加载状态
+  placeholderIcon?: string  // 占位符图标
   placeholderIconLight?: boolean
   placeholderIconBrand?: boolean
-  // 占位符文字
-  placeholderText?: string
-  // 错误图标
-  errorIcon?: string
+  placeholderText?: string  // 占位符文字
+  errorIcon?: string  // 错误图标
   errorIconLight?: boolean
   errorIconBrand?: boolean
-  // 错误文字
-  errorText?: string
-  // 是否显示遮罩层
-  showOverlay?: boolean
-  // 遮罩层图标
-  overlayIcon?: string
+  errorText?: string  // 错误文字
+  showOverlay?: boolean  // 是否显示遮罩层
+  overlayIcon?: string  // 遮罩层图标
   overlayIconLight?: boolean
   overlayIconBrand?: boolean
-  // 是否可点击
-  clickable?: boolean
-  // 点击时是否显示遮罩
-  showOverlayOnClick?: boolean
-  // 自定义类名
-  customClass?: string
+  clickable?: boolean  // 是否可点击
+  showOverlayOnClick?: boolean  // 点击时是否显示遮罩
+  customClass?: string  // 自定义类名
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -301,3 +205,27 @@ const handleMouseLeave = () => {
 }
 </script>
 
+<template>
+  <div :class="containerClasses" :style="containerStyles" @click="handleClick" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    <!-- 加载占位符 -->
+    <div v-if="loading && !loaded && !error" :class="placeholderClasses">
+      <icn v-if="placeholderIcon" :name="placeholderIcon" :light="placeholderIconLight" :brand="placeholderIconBrand" :class="iconClasses" />
+      <span v-else-if="placeholderText" :class="textClasses">{{ placeholderText }}</span>
+    </div>
+    <!-- 错误占位符 -->
+    <div v-else-if="error" :class="placeholderClasses">
+      <icn v-if="errorIcon" :name="errorIcon" :light="errorIconLight" :brand="errorIconBrand" :class="iconClasses" />
+      <span v-else-if="errorText" :class="textClasses">{{ errorText }}</span>
+      <icn v-else name="image" light :class="iconClasses" />
+    </div>
+    <!-- 图片 -->
+    <img v-else :src="src" :alt="alt" :class="imageClasses" :style="imageStyles" :loading="lazy ? 'lazy' : 'eager'" 
+    @load="handleLoad" @error="handleError" />
+    <!-- 遮罩层（hover 时显示） -->
+    <div v-if="showOverlay && (hovered || clicked)" :class="overlayClasses">
+      <slot name="overlay">
+        <icn v-if="overlayIcon" :name="overlayIcon" :light="overlayIconLight" :brand="overlayIconBrand" :class="overlayIconClasses" />
+      </slot>
+    </div>
+  </div>
+</template>

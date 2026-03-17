@@ -14,8 +14,9 @@ import Toast from './Toast/Toast'
 import Code from './Code/Code.vue'
 import Avatar from './Avatar/Avatar.vue'
 import Image from './Image/Image.vue'
+import Progress from './Progress/Progress.vue'
 
-// 导出 Excel 工具函数
+// 导出 Excel 工具函数（Sectum 中 Excel 在 Element 下）
 export { exportExcel } from './Excel/Excel'
 
 // 导出 Code 插件
@@ -23,7 +24,7 @@ export { codePlugin } from './Code/Code'
 
 // 导出所有组件
 export {
-  Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Toast, Code, Avatar, Image
+  Button, Label, Input, Checkbox, Toggle, Icon, Mask, Textarea, Transition, Color, Palette, Toast, Code, Avatar, Image, Progress
 }
 
 const install = (app: App) => {
@@ -39,6 +40,7 @@ const install = (app: App) => {
   app.component('cod', Code)//代码
   app.component('avt', Avatar)//头像
   app.component('imag', Image)//图片
+  app.component('prog', Progress)//进度条
   app.component('Color', Color)
   app.component('Palette', Palette)
   

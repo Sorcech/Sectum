@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
-import UserCreate from '../User/UserCreate.vue'
 import type { CreateType, CreateOption } from './Plus'
-import { getCreateOptions } from './PlusData'
+import { getCreateOptions } from './Plus'
 import Toast from '~/packet/Element/Toast/Toast';
 
 const { t } = useI18n();
@@ -14,6 +13,8 @@ const props = withDefaults(defineProps<{
   onTaskCreate?: (formData?: any) => void
   onProjectCreate?: (formData?: any) => void
   onUserCreate?: (formData?: any) => void
+  onMatterCreate?: (formData?: any) => void
+  onUploadCreate?: (formData?: any) => void
   onProductCreate?: (formData?: any) => void
   onDocumentCreate?: (formData?: any) => void
   createOptions?: CreateOption[]
@@ -24,13 +25,14 @@ const props = withDefaults(defineProps<{
 const isShowDrawer = ref(false)
 const selectedCreateType = ref<CreateType>(null)
 
-// 创建选项列表（从 props 注入或使用默认数据，并处理国际化）
+// 创建选项列表（已移除依赖 store 的 User，仅保留 product、document）
 const createOptions = computed<CreateOption[]>(() => {
   const baseOptions = props.createOptions && props.createOptions.length > 0 
     ? props.createOptions 
     : getCreateOptions()
-  
-  return baseOptions.map(option => {
+  const allowedKeys: CreateType[] = ['product', 'document']
+  const filtered = baseOptions.filter((opt: CreateOption) => opt.key && allowedKeys.includes(opt.key))
+  return filtered.map(option => {
     const baseOption = option as CreateOption
     return {
       ...baseOption,
@@ -62,6 +64,14 @@ const toggleDrawer = () => {
   }
 }
 
+// 监听 Drawer 关闭，刷新页面
+watch(isShowDrawer, (newVal, oldVal) => {
+  // 当 Drawer 从打开变为关闭时，刷新页面
+  if (oldVal === true && newVal === false) {
+    window.location.reload()
+  }
+})
+
 // 处理创建类型点击
 const handleCreateTypeClick = (type: CreateType) => {
   selectedCreateType.value = type
@@ -74,7 +84,13 @@ const handleCreateTypeClick = (type: CreateType) => {
       props.onProjectCreate?.()
       break
     case 'user':
-  props.onUserCreate?.()
+      props.onUserCreate?.()
+      break
+    case 'matter':
+      props.onMatterCreate?.()
+      break
+    case 'upload':
+      props.onUploadCreate?.()
       break
     case 'product':
       props.onProductCreate?.()
@@ -89,52 +105,6 @@ const handleCreateTypeClick = (type: CreateType) => {
 const backToCreateList = () => {
   selectedCreateType.value = null
 }
-
-// 任务表单回调函数
-const handleTaskSubmit = async (formData: any) => {
-  props.onTaskCreate?.(formData)
-}
-
-const handleTaskSuccess = (response: any) => {
-  Toast({ message: '任务创建成功', type: 'success' })
-  selectedCreateType.value = null
-}
-
-const handleTaskError = (error: any, response?: any) => {
-  const errorMessage = error?.response?.data?.message || error?.data?.message || '任务创建失败'
-  Toast({ message: errorMessage, type: 'error' })
-}
-
-// 项目表单回调函数
-const handleProjectSubmit = async (formData: any) => {
-  props.onProjectCreate?.(formData)
-}
-
-const handleProjectSuccess = (response: any) => {
-  Toast({ message: '项目创建成功', type: 'success' })
-  selectedCreateType.value = null
-}
-
-const handleProjectError = (error: any, response?: any) => {
-  const errorMessage = error?.response?.data?.message || error?.data?.message || '项目创建失败'
-  Toast({ message: errorMessage, type: 'error' })
-}
-
-// 账户表单回调函数
-const handleUserSubmit = async (formData: any) => {
-  props.onUserCreate?.(formData)
-}
-
-const handleUserSuccess = (response: any) => {
-  Toast({ message: '账户创建成功', type: 'success' })
-  selectedCreateType.value = null
-}
-
-const handleUserError = (error: any, response?: any) => {
-  const errorMessage = error?.response?.data?.message || error?.data?.message || '账户创建失败'
-  Toast({ message: errorMessage, type: 'error' })
-}
-
 
 // 产品创建表单（简单示例）
 const productForm = ref({
@@ -188,20 +158,13 @@ const handleDocumentSubmit = () => {
       @update:isShow="isShowDrawer = $event"
       :overflow="true"
     >
-      <div class="flex h-full">
+      <div class="flex h-full min-w-0 max-w-full overflow-hidden">
         <!-- 创建选项列表 -->
-        <div :class="['flex flex-col',selectedCreateType ? 'w-80 flex-shrink-0' : 'w-full']">
+        <div :class="['flex flex-col',selectedCreateType ? 'w-80 flex-shrink-0' : 'w-full']" style="min-width: 0; max-width: 100%;">
           <!-- 选项列表 -->
           <div class="flex-1 overflow-y-auto p-4 space-y-2">
-            <div 
-              v-for="option in createOptions" 
-              :key="option.key || ''"
-              :class="[
-                'px-4 rounded-lg cursor-pointer  hover:shadow-md',
-                selectedCreateType === option.key ? 'bg-base-200' : 'bg-base-100'
-              ]"
-              @click="handleCreateTypeClick(option.key)"
-            >
+            <div v-for="option in createOptions" :key="option.key || ''" @click="handleCreateTypeClick(option.key)"
+            :class="['px-4 rounded-lg cursor-pointer  hover:shadow-md', selectedCreateType === option.key ? 'bg-base-200' : 'bg-base-100']" >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                   <icn :name="option.icon" light sm class="text-primary"></icn>
@@ -217,131 +180,79 @@ const handleDocumentSubmit = () => {
         </div>
 
         <!-- 创建表单区域 -->
-        <div v-if="selectedCreateType" class="flex-1 flex flex-col border-l-2 border-l-solid border-base-200">
+        <div v-if="selectedCreateType" class="flex-1 flex flex-col border-l-2 border-l-solid border-base-200 min-w-0 max-w-full overflow-hidden">
           <!-- 表单头部 -->
-          <div class="p-4 border-b border-base-300 bg-base-150 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <btn clean size="xl" @click="backToCreateList">
+          <div class="p-4 border-b border-base-300 bg-base-150 flex items-center justify-between flex-shrink-0 min-w-0 max-w-full overflow-hidden">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <btn clean size="xl" @click="backToCreateList" class="flex-shrink-0">
                 <icn name="arrow-left" light xl class="hover:text-primary"></icn>
               </btn>
-              <h2 class="text-lg font-bold">
+              <h2 class="text-lg font-bold truncate min-w-0">
                 {{ createOptions.find(opt => opt.key === selectedCreateType)?.name }}
               </h2>
             </div>
           </div>
 
           <!-- 表单内容 -->
-          <div class="flex-1 overflow-y-auto p-6 bg-base-250 ">
-            <Card shadow rounded>
-              <!-- 任务创建表单 -->
-              <TaskCreate 
-                      v-if="selectedCreateType === 'task'"
-                :onSubmit="handleTaskSubmit"
-                :onSuccess="handleTaskSuccess"
-                :onError="handleTaskError"
-              />
-
-              <!-- 项目创建表单 -->
-              <ProjectCreate 
-                v-else-if="selectedCreateType === 'project'"
-                :onSubmit="handleProjectSubmit"
-                :onSuccess="handleProjectSuccess"
-                :onError="handleProjectError"
-              />
-
-              <!-- 账户创建表单 -->
-              <UserCreate 
-                      v-else-if="selectedCreateType === 'user'"
-                :onSubmit="handleUserSubmit"
-                :onSuccess="handleUserSuccess"
-                :onError="handleUserError"
-              />
-
-              <!-- 产品创建表单 -->
-              <div v-else-if="selectedCreateType === 'product'" class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium mb-1">产品名称</label>
-                  <ipt 
-                    v-model="productForm.name" 
-                    placeholder="输入产品名称" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">分类</label>
-                  <select 
-                    v-model="productForm.category"
-                    class="select select-bordered w-full"
-                  >
-                    <option value="">选择分类</option>
-                    <option value="phone">手机</option>
-                    <option value="computer">电脑</option>
-                    <option value="headphone">耳机</option>
-                    <option value="electronics">其他电子</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">价格</label>
-                  <ipt 
-                    v-model="productForm.price" 
-                    type="number"
-                    placeholder="输入价格" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">库存</label>
-                  <ipt 
-                    v-model="productForm.stock" 
-                    type="number"
-                    placeholder="输入库存数量" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <btn color="primary" class="w-full" @click="handleProductSubmit">
-                  <icn name="check" light sm class="mr-2"></icn>
-                  创建产品
-                </btn>
+          <div :class="[ 'flex-1 p-3 bg-base-250 min-w-0 max-w-full',
+            selectedCreateType === 'matter' ? 'overflow-y-auto overflow-x-hidden' : 'overflow-y-auto overflow-x-hidden']" 
+            style="position: relative;">
+            <!-- 产品创建表单 -->
+            <div v-if="selectedCreateType === 'product'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-1">产品名称</label>
+                <ipt  v-model="productForm.name"  placeholder="输入产品名称"  class="w-full"></ipt>
               </div>
-
-              <!-- 文档创建表单 -->
-              <div v-else-if="selectedCreateType === 'document'" class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium mb-1">文档标题</label>
-                  <ipt 
-                    v-model="documentForm.title" 
-                    placeholder="输入文档标题" 
-                    class="w-full"
-                  ></ipt>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">分类</label>
-                  <select 
-                    v-model="documentForm.category"
-                    class="select select-bordered w-full"
-                  >
-                    <option value="">选择分类</option>
-                    <option value="tech">技术</option>
-                    <option value="design">设计</option>
-                    <option value="product">产品</option>
-                    <option value="other">其他</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium mb-1">内容</label>
-                  <textarea 
-                    v-model="documentForm.content" 
-                    placeholder="输入文档内容"
-                    class="w-full min-h-48 p-2 border border-base-300 rounded"
-                    rows="10"
-                  ></textarea>
-                </div>
-                <btn color="primary" class="w-full" @click="handleDocumentSubmit">
-                  <icn name="check" light sm class="mr-2"></icn>
-                  创建文档
-                </btn>
+              <div>
+                <label class="block text-sm font-medium mb-1">分类</label>
+                <select  v-model="productForm.category" class="select select-bordered w-full">
+                  <option value="">选择分类</option>
+                  <option value="phone">手机</option>
+                  <option value="computer">电脑</option>
+                  <option value="headphone">耳机</option>
+                  <option value="electronics">其他电子</option>
+                </select>
               </div>
-            </Card>
+              <div>
+                <label class="block text-sm font-medium mb-1">价格</label>
+                <ipt v-model="productForm.price" type="number" placeholder="输入价格" class="w-full"></ipt>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">库存</label>
+                <ipt v-model="productForm.stock" type="number" placeholder="输入库存数量"  class="w-full"></ipt>
+              </div>
+              <btn color="primary" class="w-full" @click="handleProductSubmit">
+                <icn name="check" light sm class="mr-2"></icn>
+                创建产品
+              </btn>
+            </div>
+
+            <!-- 文档创建表单 -->
+            <div v-else-if="selectedCreateType === 'document'" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-1">文档标题</label>
+                <ipt v-model="documentForm.title"  placeholder="输入文档标题"  class="w-full"></ipt>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">分类</label>
+                <select  v-model="documentForm.category" class="select select-bordered w-full">
+                  <option value="">选择分类</option>
+                  <option value="tech">技术</option>
+                  <option value="design">设计</option>
+                  <option value="product">产品</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">内容</label>
+                <textarea  v-model="documentForm.content" placeholder="输入文档内容"
+                  class="w-full min-h-48 p-2 border border-base-300 rounded" rows="10"></textarea>
+              </div>
+              <btn color="primary" class="w-full" @click="handleDocumentSubmit">
+                <icn name="check" light sm class="mr-2"></icn>
+                创建文档
+              </btn>
+            </div>
           </div>
         </div>
 

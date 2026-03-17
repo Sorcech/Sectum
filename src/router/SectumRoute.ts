@@ -67,6 +67,11 @@ const route = [
               path: '/sectum/image',
               component: () => import('~/packet/Element/Image/Image.md'),
               meta: { title: 'Image' },
+            },
+            {
+              path: '/sectum/progress',
+              component: () => import('~/packet/Element/Progress/Progress.md'),
+              meta: { title: 'Progress' },
             }
           ]
         },
@@ -186,14 +191,9 @@ const route = [
               meta: { title: 'Plus' },
             },
             {
-              path: '/sectum/notice',
-              component: () => import('~/packet/Pattern/Notice/Notice.md'),
-              meta: { title: 'Notice' },
-            },
-            {
-              path: '/sectum/user',
-              component: () => import('~/packet/Pattern/User/User.md'),
-              meta: { title: 'User' },
+              path: '/sectum/editor',
+              component: () => import('~/packet/Pattern/Editor/Editor.md'),
+              meta: { title: 'Editor' },
             },
           ]
         },

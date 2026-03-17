@@ -1,30 +1,16 @@
-<template>
-  <div class="relative w-full">
-    <textarea 
-      :value="modelValue" 
-      @input="input" 
-      :rows="rows" 
-      :cols="cols" 
-      :disabled="disabled || loading" 
-      :readonly="readonly"
-      :placeholder="placeholder || t('common.pleaseInput')"
-      @focus="focus" 
-      @blur="blur" 
-      :maxlength="maxlength" 
-      :class="textareaClasses"
-    ></textarea>
-    <div v-if="showCounter" class="opacity-50 absolute bottom-2 right-2 text-xs">{{ quantity }}/{{ maxlength }}</div>
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const props = defineProps({
   modelValue: { type: String },
+  direction: { type: String, default: 'row', required: false },
+  label: { type: String, required: false },
+  labelWidth: { type: String, default: 'w-1/3', required: false },
+  inputWidth: { type: String, required: false },
+  fullWidth: { type: Boolean, default: false, required: false },
   rows: { type: Number, default: 5 },
   cols: { type: Number, default: 30 },
   disabled: { type: Boolean, default: false },
@@ -56,16 +42,45 @@ const props = defineProps({
   xl: { type: String, required: false }
 })
 
+// 获取外部传入的 class
+const attrs = useAttrs()
+
 const quantity = ref(0)
 const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
 
+// 获取外部传入的 class（用于容器和 textarea）
+const getExternalClass = () => {
+  return typeof attrs.class === 'string' 
+    ? attrs.class 
+    : Array.isArray(attrs.class) 
+      ? attrs.class.join(' ')
+      : ''
+}
+
 // 基础样式
 const baseClasses = computed(() => {
-  return [
-    'w-full max-w-sm bg-base-100 transition-all duration-200 ease-in-out',
-    'min-w-0 flex-shrink-0',
+  const externalClass = getExternalClass()
+  const classes = [
+    'bg-base-100 transition-all duration-200 ease-in-out',
+    'min-w-0',
     'rounded-$rounded-btn'
-  ].join(' ')
+  ]
+  
+  // 如果设置了 fullWidth，确保 textarea 占据全宽
+  if (props.fullWidth) {
+    classes.push('w-full')
+  } else if (!props.label && externalClass && externalClass.includes('flex-1')) {
+    // 如果没有 label 且外部传入了 flex-1，确保 textarea 也占据全宽
+    classes.push('w-full')
+  } else if (props.label && props.direction === 'row') {
+    // 如果有 label 且是 row 布局，textarea 也应该占据全宽（在 flex-1 容器内）
+    classes.push('w-full')
+  } else {
+    // 默认情况下，使用 max-w-sm 限制最大宽度
+    classes.push('w-full', 'max-w-sm')
+  }
+  
+  return classes.filter(Boolean).join(' ')
 })
 
 // 尺寸样式
@@ -155,16 +170,106 @@ const responsiveSizes = {
 
 // 最终样式组合
 const textareaClasses = computed(() => {
+  const externalClass = getExternalClass()
+  
   return [
     baseClasses.value,
     sizeClasses.value,
     colorVariantClasses.value,
     stateClasses.value,
     responsiveClasses.value,
-    props.resize
+    props.resize,
+    externalClass // 合并外部传入的 class
   ].filter(Boolean).join(' ')
 })
 
+// 容器样式
+const containerClasses = computed(() => {
+  const classes: string[] = []
+  const externalClass = getExternalClass()
+  
+  // 从外部传入的 class 中提取宽度相关类
+  const widthClasses = externalClass ? externalClass.split(' ').filter(cls => 
+    cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')
+  ) : []
+  
+  // 容器需要相对定位，以便计数器可以绝对定位
+  classes.push('relative')
+  
+  if (props.label) {
+    // 根据 direction 设置布局方向
+    if (props.direction === 'row') {
+      classes.push('flex', 'flex-row', 'items-start')
+    } else {
+      classes.push('flex', 'flex-col')
+    }
+    
+    // 如果设置了 fullWidth，强制使用 w-full；否则根据外部传入的宽度类或默认 w-full
+    if (props.fullWidth) {
+      classes.push('w-full')
+    } else if (widthClasses.length > 0) {
+      classes.push(...widthClasses)
+    } else {
+      classes.push('w-full')
+    }
+  } else {
+    // 没有 label 时
+    if (props.fullWidth) {
+      // 如果设置了 fullWidth，强制使用 w-full
+      classes.push('w-full')
+    } else if (externalClass) {
+      // 从外部传入的 class 中提取 flex 和宽度相关类应用到容器
+      const flexClasses = externalClass.split(' ').filter(cls => 
+        cls.includes('flex-') || cls.includes('w-') || cls.includes('min-w-') || cls.includes('max-w-')
+      )
+      if (flexClasses.length > 0) {
+        classes.push(...flexClasses)
+      }
+    }
+  }
+  return classes.join(' ')
+})
+
+// 标签样式
+const labelClasses = computed(() => {
+  const classes = ['select-none']
+  
+  if (props.label) {
+    // 根据 direction 设置不同的样式
+    if (props.direction === 'row') {
+      classes.push('pr-2', 'pt-1') // 水平布局时，右边距和顶部对齐
+    } else {
+      classes.push('pb-2') // 垂直布局时，下边距
+    }
+    classes.push(props.labelWidth)
+  }
+  
+  return classes.filter(Boolean).join(' ')
+})
+
+// textarea 包装容器样式
+const textareaWrapperClasses = computed(() => {
+  const classes = [
+    'relative',
+    'flex'
+  ]
+  
+  // 如果设置了 fullWidth，强制使用 w-full
+  if (props.fullWidth) {
+    classes.push('w-full')
+  } else if (props.inputWidth) {
+    // 如果指定了 inputWidth，使用指定的宽度
+    classes.push(props.inputWidth)
+  } else if (props.label && props.direction === 'row') {
+    // 如果有 label 且是 row 布局，textarea 占据剩余空间
+    classes.push('flex-1', 'min-w-0')
+  } else {
+    // 默认情况下，textarea 占据全宽
+    classes.push('w-full')
+  }
+  
+  return classes.filter(Boolean).join(' ')
+})
 
 const input = (e: any) => {
   quantity.value = e.target.value.length
@@ -182,6 +287,31 @@ const blur = (e: any) => {
   emit('blur', e.target.value)
 }
 </script>
+<template>
+  <div :class="containerClasses">
+    <label v-if="label" :class="labelClasses">
+      <span :class="`text-${size} text-base-content`">
+        {{ label }}
+      </span>
+    </label>
+    <div :class="textareaWrapperClasses">
+      <textarea 
+        :value="modelValue" 
+        @input="input" 
+        :rows="rows" 
+        :cols="cols" 
+        :disabled="disabled || loading" 
+        :readonly="readonly"
+        :placeholder="placeholder || t('common.pleaseInput')"
+        @focus="focus" 
+        @blur="blur" 
+        :maxlength="maxlength" 
+        :class="textareaClasses"
+      ></textarea>
+      <div v-if="showCounter" class="opacity-50 absolute bottom-2 right-2 text-xs">{{ quantity }}/{{ maxlength }}</div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 /* 文本域边框颜色设置 - 使用 CSS 变量确保纯色 */

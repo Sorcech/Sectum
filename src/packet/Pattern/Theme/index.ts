@@ -128,7 +128,7 @@ const SectumTheme = definePreset((): Preset => {
             }
             css += `${normalSelectors.join(',\n')} {\n`
             // 直接使用 --dark-base-* 变量，避免被主题类覆盖
-            css += `  background-color: var(--dark-base-${num}) !important;\n`
+            css += `  background-color: var(--dark-base-${num}) ;\n`
             css += `}\n\n`
             
             // 为显式的 dark:bg-base-* 添加支持
@@ -138,7 +138,7 @@ const SectumTheme = definePreset((): Preset => {
             }
             css += `${darkSelectors.join(',\n')} {\n`
             // 直接使用 --dark-base-* 变量，避免被主题类覆盖
-            css += `  background-color: var(--dark-base-${num}) !important;\n`
+            css += `  background-color: var(--dark-base-${num}) ;\n`
             css += `}\n\n`
             
             // border 样式 - 普通 border-base-*
@@ -148,7 +148,7 @@ const SectumTheme = definePreset((): Preset => {
             }
             css += `${borderSelectors.join(',\n')} {\n`
             // 直接使用 --dark-base-* 变量
-            css += `  border-color: var(--dark-base-${num}) !important;\n`
+            css += `  border-color: var(--dark-base-${num}) ;\n`
             css += `}\n\n`
             
             // border 样式 - 显式 dark:border-base-*
@@ -158,7 +158,7 @@ const SectumTheme = definePreset((): Preset => {
             }
             css += `${darkBorderSelectors.join(',\n')} {\n`
             // 直接使用 --dark-base-* 变量
-            css += `  border-color: var(--dark-base-${num}) !important;\n`
+            css += `  border-color: var(--dark-base-${num}) ;\n`
             css += `}\n\n`
           }
           

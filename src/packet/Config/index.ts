@@ -1,8 +1,8 @@
 // 导出 UnoCSS 配置
 export { UnoConfig } from './uno.config'
 
-// 导出 Vite 插件
-export { sectumIconLoader } from './vite-icon-plugin'
+// 注意：sectumIconLoader 仅用于 vite.config.ts（Node），不可从此处导出，否则会被前端打包并报错 node:path 等。
+// 若需在 vite 配置中使用，请直接：import { sectumIconLoader } from '~/packet/Config/vite-icon-plugin'
 
 // 导出 Favicon 和页面标题管理
 export { setFavicon, initFavicon, initFaviconFromConfig, setPageTitle, initPageMeta } from './favicon'
@@ -14,18 +14,9 @@ export const configInfo = {
   version: '0.1.6',
   description: 'UnoCSS configuration for Sectum UI component library, including presets, rules, theme extensions, and safelist.',
   usage: `
-    // In your uno.config.js:
+    // In your uno.config.js / uno.config.ts:
     import { defineConfig } from 'unocss'
-    import { UnoConfig } from 'sectum/dist/uno.config.js' // For JS projects
-
-    export default defineConfig({
-      ...UnoConfig,
-      // Your other configurations
-    })
-
-    // In your uno.config.ts (for internal development or TS projects):
-    import { defineConfig } from 'unocss'
-    import { UnoConfig } from 'sectum/src/packet/Config' // For TS projects
+    import { UnoConfig } from '~/packet/Config'
 
     export default defineConfig({
       ...UnoConfig,

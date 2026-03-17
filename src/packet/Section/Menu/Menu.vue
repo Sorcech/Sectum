@@ -20,6 +20,7 @@ const props = defineProps({
   rounded: { type: Boolean, default: false, required: false }, // Menu with rounded borders
   padding: { type: Boolean, default: false, required: false },// Menu with padding and list with rounded border
   hoverBorder: { type: Boolean, default: false, required: false }, // List with left border colored on hover
+  fitContent: { type: Boolean, default: false, required: false }, // Menu width fits content, no wrapping
 })
 
 // 检测 slot 中的子元素数量（用于 v-for 情况）
@@ -80,12 +81,13 @@ const getMenuItemStyle = (index: number, total: number) => {
 // 基础菜单样式
 const baseClasses = computed(() => {
   return [
-    'w-auto select-none list-none p-0 m-0',
+    'select-none list-none p-0 m-0',
     'flex flex-col',
     props.shadow ? 'shadow-md' : '',
     props.padding ? 'p-2' : '',
     props.rounded ? 'rounded-$rounded-btn' : '',
-    props.hoverBorder ? 'hover-border' : ''
+    props.hoverBorder ? 'hover-border' : '',
+    props.fitContent ? 'w-auto whitespace-nowrap' : ''
   ].filter(Boolean).join(' ')
 })
 
@@ -167,25 +169,25 @@ const menuClasses = computed(() => {
   text-align: left;
   transition: all 200ms ease-in-out;
   font-size: 1rem;
-  text-decoration: none !important;
+  text-decoration: none ;
   color: var(--base-content);
   padding: 0.5rem 1rem;
 }
 
 .menu li > *:not(.disabled, .menu-title):hover {
   background-color: rgba(0, 0, 0, 0.07);
-  text-decoration: none !important;
+  text-decoration: none ;
 }
 
 .dark .menu li > *:not(.disabled, .menu-title):hover {
   background-color: rgba(255, 255, 255, 0.07);
-  text-decoration: none !important;
+  text-decoration: none ;
 }
 
 .menu li > *:not(.disabled, .menu-title):active {
-  background-color: var(--primary) !important;
-  color: var(--primary-content) !important;
-  text-decoration: none !important;
+  background-color: var(--primary) ;
+  color: var(--primary-content) ;
+  text-decoration: none ;
 }
 
 /* 禁用状态 */
@@ -426,11 +428,11 @@ const menuClasses = computed(() => {
 
 /* Dark 模式下的菜单项文字颜色优化 */
 .dark .menu li > *:not(.disabled, .menu-title) {
-  color: var(--base-content);
+  color: var(--dark-base-content);
 }
 
 /* Dark 模式下的菜单项悬停状态优化 */
 .dark .menu li > *:not(.disabled, .menu-title):hover {
-  color: var(--base-content);
+  color: var(--primary);
 }
 </style>

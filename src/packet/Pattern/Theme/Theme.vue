@@ -79,29 +79,13 @@ function isCurrentTheme(item: typeof themes[0]): boolean {
 
 <template>
   <!-- Dropdown 模式 -->
-  <Dropdown 
-    v-if="mode === 'dropdown'"
-    key="theme-dropdown"
-    placement="bottom" 
-    hover
-  >
+  <Dropdown v-if="mode === 'dropdown'" key="theme-dropdown" placement="bottom" hover>
     <template #trigger>
-      <btn item :class="buttonClass">
-        <icn name="swatchbook" light xl></icn>
-      </btn>
+      <btn item :class="buttonClass"><icn name="swatchbook" light xl></icn></btn>
     </template>
     <Menu shadow rounded class="bg-base-300 dark:bg-base-100 w-auto min-w-32">
-      <btn 
-        v-for="item in themes" 
-        :key="item.theme"
-        clean 
-        :disabled="isCurrentTheme(item)"
-        @click="changeTheme(item.theme)" 
-        :class="[
-          'w-full flex items-center gap-3 whitespace-nowrap',
-          isCurrentTheme(item) ? 'text-primary font-semibold' : ''
-        ]"
-      >
+      <btn v-for="item in themes" :key="item.theme" clean :disabled="isCurrentTheme(item)" @click="changeTheme(item.theme)" 
+      :class="['w-full flex items-center gap-3 whitespace-nowrap', isCurrentTheme(item) ? 'text-primary font-semibold' : '']">
         <span :class="[item.class, 'rounded-$rounded-btn', item.bg, 'h-6 w-6 flex-shrink-0']"></span>{{ t(item.key) }}
       </btn>
     </Menu>
@@ -110,22 +94,11 @@ function isCurrentTheme(item: typeof themes[0]): boolean {
   <!-- Drawer 模式 -->
   <template v-else>
     <div key="theme-drawer" style="padding: 0; margin: 0;">
-      <btn item :class="buttonClass" @click="toggleDrawer">
-        <icn name="swatchbook" light xl></icn>
-      </btn>
+      <btn item :class="buttonClass" @click="toggleDrawer"><icn name="swatchbook" light xl></icn></btn>
       <Drawer title="Theme" width="w-36" :isShow="isShowDrawer" @update:isShow="isShowDrawer = $event">
       <Menu shadow rounded class="bg-base-300 dark:bg-base-100 m-3">
-        <btn 
-          v-for="item in themes" 
-          :key="item.theme"
-          clean 
-          :disabled="isCurrentTheme(item)"
-          @click="changeTheme(item.theme)" 
-          :class="[
-            'w-full flex items-center gap-3 whitespace-nowrap',
-            isCurrentTheme(item) ? 'text-primary font-semibold' : ''
-          ]"
-        >
+        <btn v-for="item in themes" :key="item.theme" clean :disabled="isCurrentTheme(item)" @click="changeTheme(item.theme)" 
+          :class="['w-full flex items-center gap-3 whitespace-nowrap', isCurrentTheme(item) ? 'text-primary font-semibold' : '']">
           <span :class="[item.class, 'rounded-$rounded-btn', item.bg, 'h-6 w-6 flex-shrink-0']"></span>{{ t(item.key) }}
         </btn>
       </Menu>

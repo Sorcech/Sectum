@@ -10,16 +10,11 @@
       <h1>test</h1>
     </Drawer>
     
-    <!-- Selector 组件 -->
-    <div class="mt-8">
-      <Selector />
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Selector from '~/packet/Pattern/Selector/Selector.vue';
 
 const isShow = ref(false)
 function showDrawer() {

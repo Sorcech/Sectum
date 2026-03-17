@@ -17,9 +17,9 @@ import Carousel from './Carousel/Carousel.vue'
 import List from './List/List.vue'
 import Card from './Card/Card.vue'
 
-// 导出所有组件
+// 导出所有组件（Sectum 无 Section/Excel，不导出 ExcelUpload）
 export {
-  Group, Menu, Dropdown, Modal, Drawer, Table, Form, FormItem, Select, DatePicker, Tabs, TabPane, Upload, File, Carousel, List, Card
+  Group, Menu, Dropdown, Modal, Drawer, Table as tbl, Form, FormItem, Select, DatePicker, Tabs, TabPane, Upload, File, Carousel, List, Card
 }
 
 const install = (app: App) => {
@@ -28,10 +28,10 @@ const install = (app: App) => {
   app.component('Dropdown', Dropdown);//下拉菜单
   app.component('Modal', Modal);//弹窗
   app.component('Drawer', Drawer)//抽屉
-  app.component('Table', Table)//表格
+  app.component('tbl', Table)//表格
   app.component('Form', Form)//表单
   app.component('FormItem', FormItem)//表单元素
-  app.component('Select', Select)//下拉选择器
+  app.component('slct', Select)//下拉选择器（已注册为 slct，避免与原生 select 冲突）
   app.component('DatePicker', DatePicker)//日期选择器
   app.component('Tabs', Tabs)
   app.component('TabPane', TabPane)

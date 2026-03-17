@@ -74,22 +74,33 @@ const handleFileChange = (files: File[]) => {
 |--------|------|--------|------|
 | `direction` | `String` | `'row'` | 布局方向，可选值：`'row'` \| `'col'` |
 | `multiple` | `Boolean` | `false` | 是否支持多文件选择 |
-| `button` | `String` | `'Upload'` | 上传按钮文本 |
+| `button` | `String` | `'Upload'` | 上传按钮的文本 |
 | `icon` | `Boolean` | `false` | 是否显示上传图标 |
 | `list` | `Boolean` | `false` | 是否显示文件列表 |
-| `size` | `String` | `'md'` | 组件尺寸，可选值：`'xs'` \| `'sm'` \| `'md'` \| `'lg'` \| `'xl'` |
+| `autoUpload` | `Boolean` | `true` | 是否自动上传文件（选择后立即上传） |
+| `size` | `String` | `'md'` | 标签尺寸，可选值：`'xs'` \| `'sm'` \| `'md'` \| `'lg'` \| `'xl'` |
 | `label` | `String` | - | 标签文本 |
 | `labelWidth` | `String` | `'w-4/9'` | 标签宽度 |
-| `fileIds` | `Array<number>` | - | 已上传文件ID数组 |
-| `fileNames` | `Array<string>` | - | 已上传文件名数组 |
-| `fileLinks` | `Array<string>` | - | 已上传文件链接数组 |
+| `fileIds` | `Array<number>` | - | 已上传文件的ID列表（用于显示已上传文件） |
+| `fileNames` | `Array<string>` | - | 已上传文件的名称列表 |
+| `fileLinks` | `Array<string>` | - | 已上传文件的链接列表 |
 
 ## 事件
 
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
-| `change` | `files: File[]` | 文件选择变化时触发，返回选择的文件数组 |
-| `delete` | `fileId: number` | 删除已上传文件时触发，返回被删除的文件ID |
+| `change` | `files: File[]` | 文件列表变化时触发，返回当前所有选中的文件 |
+| `delete` | `fileId: number` | 删除已上传文件时触发 |
+| `uploadSuccess` | `result: StorageUploadRes \| StorageUploadsRes[]` | 文件上传成功时触发 |
+| `uploadError` | `error: any` | 文件上传失败时触发 |
+
+## 方法
+
+通过 `ref` 可以访问组件实例并调用以下方法：
+
+| 方法名 | 参数 | 返回值 | 说明 |
+|--------|------|--------|------|
+| `clearFiles` | - | `void` | 清空所有已选择的文件列表，包括内部文件列表和已上传文件列表，并触发 `change` 事件 |
 
 ## 插槽
 
@@ -255,3 +266,5 @@ const fileLinks = ['/files/1', '/files/2', '/files/3']
 4. **数据格式**：组件内部使用FormData处理文件数据
 5. **数组同步**：使用 `fileIds`、`fileNames`、`fileLinks` 时，确保三个数组保持同步
 6. **删除操作**：删除文件时，`delete` 事件会传递文件ID，需要根据ID找到对应索引并同时更新三个数组
+7. **清空文件**：使用 `clearFiles()` 方法可以清空所有已选择的文件，适用于表单重置等场景
+8. **自动上传**：设置 `autoUpload` 为 `false` 时，文件选择后不会自动上传，需要手动处理上传逻辑

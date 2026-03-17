@@ -1,46 +1,17 @@
-<template>
-  <div class="flex flex-col items-center h-screen w-20 bg-base-100 border-r dark:bg-gray-800 dark:border-gray-500 text-center">
-    <RouterLink to="/" class="flex flex-col items-center pt-3 no-underline hover:opacity-80 transition-opacity">
-      <icn 
-        v-if="logoIcon" 
-        :name="logoIcon" 
-        regular 
-        xl 
-        color="primary" 
-        style="font-size: 1.5rem;" 
-      />
-      <h3 class="font-medium text-md text-primary mt-1">
-        {{ projectName }}
-      </h3>
-    </RouterLink>
-    <nav class="flex flex-col mt-6 gap-y-2">
-      <btn size="md" item v-for="(item, index) in Nav" :key="index" tag="RouterLink"
-        class="flex flex-col items-center py-2 no-underline hover:bg-base-300 hover:text-primary dark:hover:text-primary w-20"
-        :class="[ind === index ? 'bg-primary/10 text-primary bg-base-200' : 'text-gray-600 dark:text-gray-400 ']"
-        :to="item.path" @click="setNav(index)">
-        <icn :name="item.icon" light xl ></icn>
-        <span class="mx-2 text-sm font-normal">{{ item.title }}</span>
-      </btn>
-    </nav>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { Store } from '~/packet/Config/storage'
 import { setFavicon as setFaviconUtil, setPageTitle } from '~/packet/Config'
 import navbar from '~/packet/Model/Navbar/Navbar'
 import config from '~/config/config'
-
-// 导入类型
 import type { NavbarItem } from './Navbar'
 
-// Props 定义
+// Props 定义（Sectum 无 Layout/Company，不包含 companies）
 const props = withDefaults(defineProps<{
   items?: NavbarItem[]
   projectName?: string
-  logoIcon?: string  // Logo 图标名称，如果未提供则不显示图标
+  logoIcon?: string
 }>(), {
   projectName: undefined,
   logoIcon: undefined
@@ -170,3 +141,16 @@ const setNav = (index: number) => {
 
 </script>
 
+<template>
+  <div class="flex flex-col items-center h-screen w-20 bg-base-100 border-r dark:bg-gray-800 dark:border-gray-500 text-center">
+    <nav class="flex flex-col mt-6 gap-y-2">
+      <btn size="md" item v-for="(item, index) in Nav" :key="index" tag="RouterLink"
+        class="flex flex-col items-center py-2 no-underline hover:bg-base-300 hover:text-primary dark:hover:text-primary w-20"
+        :class="[ind === index ? 'bg-primary/10 text-primary bg-base-200' : 'text-gray-600 dark:text-gray-400 ']"
+        :to="item.path" @click="setNav(index)">
+        <icn :name="item.icon" light xl ></icn>
+        <span class="mx-2 text-sm font-normal">{{ item.title }}</span>
+      </btn>
+    </nav>
+  </div>
+</template>

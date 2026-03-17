@@ -1,17 +1,3 @@
-<template>
-  <slot name="default" :isFullscreen="isFullscreen" :enter="enter" :exit="exit" :toggle="toggle">
-    <!-- 默认按钮 UI -->
-    <btn :item="item" @click="toggle()" :class="buttonClass">
-      <span v-show="!isFullscreen" class="hover:text-primary">
-        <icn name="expand" light lg />
-      </span>
-      <span v-show="isFullscreen" class="hover:text-primary">
-        <icn name="compress" light lg />
-      </span>
-    </btn>
-  </slot>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, onMounted, onBeforeUnmount, Ref } from "vue"
 
@@ -241,3 +227,17 @@ onBeforeUnmount(() => {
   document.removeEventListener("keydown", onKeydownF11);
 });
 </script>
+
+<template>
+  <slot name="default" :isFullscreen="isFullscreen" :enter="enter" :exit="exit" :toggle="toggle">
+    <!-- 默认按钮 UI -->
+    <btn :item="item" @click="toggle()" :class="buttonClass">
+      <span v-show="!isFullscreen" class="hover:text-primary">
+        <icn name="expand" light lg />
+      </span>
+      <span v-show="isFullscreen" class="hover:text-primary">
+        <icn name="compress" light lg />
+      </span>
+    </btn>
+  </slot>
+</template>

@@ -7,10 +7,11 @@ const props = defineProps({
   placement: {
     type: String, default: 'auto', required: false,
     validator: (value: string) => {
-      return ['auto', 'bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'].includes(value)
+      return ['auto', 'bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'].includes(value)
     }
   },
-  hover: { type: Boolean, default: false, required: false }
+  hover: { type: Boolean, default: false, required: false },
+  fitContent: { type: Boolean, default: false, required: false } // Dropdown menu width fits content
 })
 
 const dropdownRef = ref<HTMLElement | null>(null)
@@ -33,8 +34,17 @@ const { placement: autoPlacement, positionStyle, calculatePosition } = usePositi
 const menuClasses = computed(() => {
   const base = ['absolute block z-50 p-1']
   
-  // 如果使用自动位置，根据计算的位置设置样式
-  if (useAutoPosition) {
+  // 如果使用 fitContent，默认居中显示
+  if (props.fitContent) {
+    if (useAutoPosition && autoPlacement.value === 'top') {
+      base.push('bottom-full mb-1')
+    } else {
+      base.push('top-full mt-1')
+    }
+    // fitContent 模式下始终居中
+    base.push('left-1/2 transform -translate-x-1/2')
+  } else if (useAutoPosition) {
+    // 如果使用自动位置，根据计算的位置设置样式
     if (autoPlacement.value === 'top') {
       base.push('bottom-full mb-1')
     } else {
@@ -50,17 +60,28 @@ const menuClasses = computed(() => {
     }
   } else {
     // 使用指定的位置
-    base.push('mt-1')
     if (props.placement === 'bottom') {
-      base.push('left-1/2 transform -translate-x-1/2 top-full')
+      base.push('mt-1 left-1/2 transform -translate-x-1/2 top-full')
     } else if (props.placement === 'bottom-start') {
-      base.push('left-0 top-full')
+      base.push('mt-1 left-0 top-full')
     } else if (props.placement === 'bottom-end') {
-      base.push('right-0 top-full')
+      base.push('mt-1 right-0 top-full')
     } else if (props.placement === 'top-start') {
-      base.push('bottom-full left-0 mb-1')
+      base.push('mb-1 bottom-full left-0')
     } else if (props.placement === 'top-end') {
-      base.push('bottom-full right-0 mb-1')
+      base.push('mb-1 bottom-full right-0')
+    } else if (props.placement === 'right') {
+      base.push('ml-1 left-full top-1/2 transform -translate-y-1/2')
+    } else if (props.placement === 'right-start') {
+      base.push('ml-1 left-full top-0')
+    } else if (props.placement === 'right-end') {
+      base.push('ml-1 left-full bottom-0')
+    } else if (props.placement === 'left') {
+      base.push('mr-1 right-full top-1/2 transform -translate-y-1/2')
+    } else if (props.placement === 'left-start') {
+      base.push('mr-1 right-full top-0')
+    } else if (props.placement === 'left-end') {
+      base.push('mr-1 right-full bottom-0')
     }
   }
   
@@ -107,6 +128,26 @@ useClickOutside(dropdownRef, () => {
   if (isActive.value)
     isActive.value = false
 })
+
+const close = () => {
+  isActive.value = false
+}
+
+// 处理菜单内容区域的点击事件，点击菜单项时自动关闭
+const handleMenuClick = (e: Event) => {
+  // 如果点击的是 trigger，不关闭（由 toggle 处理）
+  if (triggerRef.value?.contains(e.target as Node)) {
+    return
+  }
+  // 点击菜单内容区域时，关闭下拉菜单（无论是否是 hover 模式）
+  // hover 模式只影响鼠标悬停行为，不影响点击关闭行为
+  close()
+}
+
+defineExpose({
+  close,
+  isActive
+})
 </script>
 
 <template>
@@ -121,7 +162,8 @@ useClickOutside(dropdownRef, () => {
       :leave-active-class="transitionClasses['leave-active-class']"
       :leave-from-class="transitionClasses['leave-from-class']"
       :leave-to-class="transitionClasses['leave-to-class']">
-      <div v-show="isActive" :class="menuClasses" :style="useAutoPosition ? positionStyle : {}">
+      <div v-show="isActive" :class="menuClasses" :style="{ ...(useAutoPosition && !props.fitContent ? positionStyle : {}),
+          ...(props.fitContent ? { maxWidth: 'none', width: 'auto' } : {})}" @click="handleMenuClick" >
         <slot />
       </div>
     </transition>

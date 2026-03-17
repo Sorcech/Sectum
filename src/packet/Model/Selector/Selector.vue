@@ -1,143 +1,128 @@
-<template>
-  <div class="product-selector-container p-4 w-full">
-    <!-- 产品体系选择器 -->
-    <div class="mb-6 flex items-center gap-4">
-      <label class="text-base font-medium text-base-content">产品体系：</label>
-      <Select
-        :options="productTypeOptions"
-        field-label="label"
-        field-value="value"
-        placeholder="请选择产品体系"
-        :selected="getSelectedLabel(productTypeOptions, currentProductType)"
-        @select="handleProductTypeChange"
-        class="w-48"
-      />
-    </div>
-
-    <!-- 动态加载对应的选型组件 -->
-    <component
-      :is="currentSelectorComponent"
-      v-if="currentSelectorComponent"
-      :model-value="props.modelValue"
-      @update:modelValue="handleFormDataUpdate"
-      @product-code-change="handleCodeChange"
-      @roller-code-change="handleCodeChange"
-      @roller-id-change="handleIdChange"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { ref, computed, watch, markRaw, type Component } from 'vue'
-import Select from '~/packet/Section/Select/Select.vue'
-import ConveyorSelector from './ConveyorSelector.vue'
+import { ref } from 'vue'
 import RollerSelector from './RollerSelector.vue'
-import type { ProductFormData } from './ConveyorSelector'
-import type { RollerFormData } from './RollerSelector'
-import { getSelectedLabel } from './ConveyorSelector'
+import RollerParser from './RollerParser.vue'
+import MatterGenerator from '~/packet/Layout/Matter/MatterGenerator.vue'
+import { generateFullCombinationsCSV } from './RollerSelector'
 
-// 产品体系类型
-export type ProductType = 'conveyor' | 'roller'
+// 布局模式：横向或纵向
+const layoutMode = ref<'horizontal' | 'vertical'>('horizontal')
 
-// 产品体系选项
-export interface ProductTypeOption {
-  label: string
-  value: ProductType
-  component: Component
-  icon?: string
+const isGenerating = ref(false)
+const csvContent = ref('')
+const combinationCount = ref(0)
+
+const generateTable = () => {
+  isGenerating.value = true
+  combinationCount.value = 0
+  
+  // 使用 setTimeout 避免阻塞UI
+  setTimeout(() => {
+    try {
+      const csv = generateFullCombinationsCSV()
+      csvContent.value = csv
+      combinationCount.value = csv.split('\n').length - 1 // 减去表头
+    } catch (error) {
+      console.error('生成失败:', error)
+      alert('生成失败: ' + (error as Error).message)
+    } finally {
+      isGenerating.value = false
+    }
+  }, 100)
 }
 
-// 创建默认产品体系选项
-const createDefaultProductTypeOptions = (): ProductTypeOption[] => [
-  {
-    label: '输送带',
-    value: 'conveyor' as ProductType,
-    component: markRaw(ConveyorSelector),
-    icon: 'conveyor-belt'
-  },
-  {
-    label: '滚轮',
-    value: 'roller' as ProductType,
-    component: markRaw(RollerSelector),
-    icon: 'cog'
-  }
-]
-
-// Props
-const props = withDefaults(defineProps<{
-  productType?: ProductType
-  productTypeOptions?: ProductTypeOption[]
-  modelValue?: ProductFormData | RollerFormData | Record<string, any>
-}>(), {
-  productType: 'conveyor',
-  productTypeOptions: undefined,
-  modelValue: undefined
-})
-
-// Emits
-const emit = defineEmits<{
-  'update:modelValue': [value: ProductFormData | RollerFormData | Record<string, any>]
-  'product-type-change': [type: ProductType]
-  'product-code-change': [code: string]
-  'product-id-change': [id: string]
-}>()
-
-// 当前产品体系选项（使用 props 或默认值）
-const currentProductTypeOptions = computed<ProductTypeOption[]>(() => {
-  return props.productTypeOptions || createDefaultProductTypeOptions()
-})
-
-// 当前产品体系
-const currentProductType = ref<ProductType>(props.productType)
-
-// 监听外部 productType 变化
-watch(() => props.productType, (newType) => {
-  if (newType && newType !== currentProductType.value) {
-    currentProductType.value = newType
-  }
-})
-
-// 当前选型组件
-const currentSelectorComponent = computed<Component | null>(() => {
-  const option = currentProductTypeOptions.value.find(opt => opt.value === currentProductType.value)
-  return option?.component || null
-})
-
-
-// 产品体系选项（用于 Select 组件）
-const productTypeOptions = computed(() => {
-  return currentProductTypeOptions.value.map(opt => ({
-    label: opt.label,
-    value: opt.value
-  }))
-})
-
-// 处理产品体系切换
-const handleProductTypeChange = (type: string) => {
-  currentProductType.value = type as ProductType
-  emit('product-type-change', type as ProductType)
-}
-
-// 处理表单数据更新
-const handleFormDataUpdate = (value: ProductFormData | RollerFormData | Record<string, any>) => {
-  emit('update:modelValue', value)
-}
-
-// 处理产品型号变化
-const handleCodeChange = (code: string) => {
-  emit('product-code-change', code)
-}
-
-// 处理产品ID号变化（仅 Roller 使用）
-const handleIdChange = (id: string) => {
-  emit('product-id-change', id)
+const downloadCSV = () => {
+  if (!csvContent.value) return
+  
+  const blob = new Blob(['\uFEFF' + csvContent.value], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  link.setAttribute('href', url)
+  link.setAttribute('download', `产品型号和编号遍历表_${new Date().toISOString().split('T')[0]}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 </script>
 
+<template>
+  <div class="product-selector-container w-full box-border max-w-full overflow-x-hidden">
+    <!-- 标题和布局切换 -->
+    <div class="p-4 w-full bg-base-200 rounded-lg mb-4 box-border max-w-full">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-base-content">辊筒选型</div>
+        <div class="flex items-center gap-2">
+          <span class="text-sm text-base-content/60">布局模式：</span>
+          <btn :color="layoutMode === 'horizontal' ? 'primary' : 'secondary'" size="sm" @click="layoutMode = 'horizontal'">
+            横向
+          </btn>
+          <btn :color="layoutMode === 'vertical' ? 'primary' : 'secondary'" size="sm" @click="layoutMode = 'vertical'">
+            纵向
+          </btn>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 加载 RollerSelect 组件 -->
+    <RollerSelector :layout-mode="layoutMode" />
+    
+    <!-- 滚轮参数解析器 -->
+    <div class="p-4 mt-8 border-t border-base-300 bg-base-150 rounded-lg box-border max-w-full">
+      <RollerParser />
+    </div>
+    
+    <!-- Matter 编码生成器 -->
+    <div class="p-4 mt-8 border-t border-base-300 bg-base-150 rounded-lg box-border max-w-full">
+      <div class="mb-6 pb-4 border-b border-base-300">
+        <h2 class="text-2xl font-bold text-base-content">Matter 编码生成器</h2>
+        <p class="text-sm text-base-content/60 mt-1">根据编码体系生成 Matter Code</p>
+      </div>
+      <MatterGenerator />
+    </div>
+    
+    <!-- 产品型号和编号遍历表生成器 -->
+    <div class="p-4 mt-8 border-t border-base-300 bg-base-150 rounded-lg box-border max-w-full">
+      <div class="mb-6 pb-4 border-b border-base-300">
+        <h2 class="text-2xl font-bold text-base-content">产品型号和编号遍历表生成器</h2>
+        <p class="text-sm text-base-content/60 mt-1">生成所有可能的产品组合并导出为CSV文件</p>
+      </div>
+      
+      <div class="mb-6 flex flex-wrap gap-3">
+        <btn @click="generateTable" :disabled="isGenerating" color="primary" size="md">
+          {{ isGenerating ? '生成中...' : '生成完整遍历表' }}
+        </btn>
+        <btn v-if="csvContent" @click="downloadCSV"  color="success" size="md">
+          下载CSV文件
+        </btn>
+      </div>
+      
+      <div v-if="isGenerating" class="mb-6 p-4 bg-base-200 rounded-lg border border-base-300">
+        <div class="flex items-center gap-2 text-base-content">
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+          <p class="font-medium">正在生成，请稍候...</p>
+        </div>
+        <p class="text-sm text-base-content/60 mt-2">已生成: {{ combinationCount }} 条记录</p>
+      </div>
+      
+      <div v-if="csvContent" class="mb-6 p-4 bg-success/10 rounded-lg border border-success/20">
+        <p class="text-success font-bold mb-1">✓ 生成完成！</p>
+        <p class="text-sm text-base-content/80">共 {{ combinationCount }} 条记录，文件大小: {{ (csvContent.length / 1024).toFixed(2) }} KB</p>
+      </div>
+      
+      <div v-if="csvContent" class="max-h-96 overflow-auto border border-base-300 p-4 bg-base-200 rounded-lg">
+        <pre class="text-xs font-mono text-base-content whitespace-pre-wrap break-all">{{ csvContent.substring(0, 2000) }}{{ csvContent.length > 2000 ? '...' : '' }}</pre>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .product-selector-container {
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 </style>
 

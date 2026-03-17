@@ -1,14 +1,3 @@
-<template>
-  <Transition name="slide-fade">
-    <div
-      class="msg fixed left-1/2 transform -translate-x-1/2 h-8 w-64 z-100 text-center text-lg rounded-md shadow-lg text-white opacity-90"
-      :class="bgClass"
-      :style="bgStyle"
-      v-show="visible">
-      {{ message }}
-    </div>
-  </Transition>
-</template>
 <script lang="ts" setup>
 import { reactive, toRefs, computed } from 'vue';
 import { ToastTypes } from './Toast'
@@ -66,6 +55,17 @@ const setTop = (top: number) => {
 defineExpose({ setVisible, setTop, height: 8, margin: 2 })
 const { visible, top } = toRefs(state)
 </script>
+<template>
+  <Transition name="slide-fade">
+    <div
+      class="msg fixed left-1/2 transform -translate-x-1/2 h-8 w-64 z-100 text-center text-lg rounded-md shadow-lg text-white opacity-90"
+      :class="bgClass"
+      :style="bgStyle"
+      v-show="visible">
+      {{ message }}
+    </div>
+  </Transition>
+</template>
 <style scoped>
 .slide-fade-enter-active {
   transition: all 0.3s ease-in;

@@ -1,109 +1,3 @@
-<template>
-  <nav 
-    class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b h-12 shadow-md"
-    :class="backgroundClass"
-    :style="backgroundStyle"
-  >
-    <div class="flex justify-between items-center px-5 lg:px-30 mx-auto w-full">
-      <div class="flex items-center">
-        <btn v-if="!isHomePage" @click.prevent="toggleSidebar" clean type="button" size="xl"
-          class="px-5 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
-          <icn name="bars" regular xl />
-        </btn>
-        
-        <RouterLink
-          v-if="props.homeLink && !isExternalLink(props.homeLink)"
-          :to="props.homeLink"
-          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
-          <icn 
-            v-if="props.logoIcon" 
-            :name="props.logoIcon" 
-            regular 
-            xl 
-            color="primary" 
-            style="font-size: 2rem;" 
-          />
-          <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
-        </RouterLink>
-        <a
-          v-else
-          :href="props.homeLink || '/'"
-          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
-          <icn 
-            v-if="props.logoIcon" 
-            :name="props.logoIcon" 
-            regular 
-            xl 
-            color="primary" 
-            style="font-size: 2rem;" 
-          />
-          <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
-        </a>
-      </div>
-      
-      <!-- 中间导航菜单 -->
-      <nav v-if="navItems.length > 0" class="hidden md:flex items-center flex-1 justify-center" :style="{ gap: navItemsGap }">
-        <template v-for="(item, index) in navItems" :key="index">
-          <a
-            v-if="isExternalLink(item.path)"
-            :href="item.path"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-base font-medium transition-colors duration-200 no-underline"
-            :class="[
-              isActiveNav(item.path) 
-                ? 'text-primary' 
-                : 'text-base-content hover:text-primary'
-            ]"
-          >
-            {{ item.title }}
-          </a>
-          <RouterLink
-            v-else
-            :to="item.path"
-            class="text-base font-medium transition-colors duration-200 no-underline"
-            :class="[
-              isActiveNav(item.path) 
-                ? 'text-primary' 
-                : 'text-base-content hover:text-primary'
-            ]"
-          >
-            {{ item.title }}
-          </RouterLink>
-        </template>
-      </nav>
-      
-      <div class="flex space-x-5">
-        <component :is="props.themeComponent" v-if="props.themeComponent" />
-        <component :is="props.darkComponent" v-if="props.darkComponent" />
-        <component :is="props.languageComponent" v-if="props.languageComponent" />
-        <!-- 图标按钮：支持多个图标按钮 -->
-        <template v-for="(iconBtn, index) in iconButtons" :key="index">
-          <btn v-if="iconBtn.link" clean class="transition-colors duration-200">
-            <a v-if="isExternalLink(iconBtn.link)" :href="iconBtn.link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center group">
-              <icn 
-                :name="iconBtn.icon || 'user'" 
-                :light="iconBtn.light || false"
-                :brand="iconBtn.brand || false"
-                xl 
-                class="text-base-content group-hover:text-primary transition-colors duration-200"
-              ></icn>
-            </a>
-            <RouterLink v-else :to="iconBtn.link" class="inline-flex items-center group">
-              <icn 
-                :name="iconBtn.icon || 'user'" 
-                :light="iconBtn.light || false"
-                :brand="iconBtn.brand || false"
-                xl 
-                class="text-base-content group-hover:text-primary transition-colors duration-200"
-              ></icn>
-            </RouterLink>
-          </btn>
-        </template>
-      </div>
-    </div>
-  </nav>
-</template>
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
@@ -259,8 +153,8 @@ const isActiveNav = (path: string): boolean => {
   }
   
   // 检查是否有更精确的匹配（更长的路径匹配）
-  // 例如：当路径是 /rotor.cn/product 时，不应该激活 /rotor.cn
-  // 因为 /rotor.cn/product 是更精确的匹配
+  // 例如：当路径是 /rooor.cn/product 时，不应该激活 /rooor.cn
+  // 因为 /rooor.cn/product 是更精确的匹配
   const hasMoreSpecificMatch = navItems.value.some(item => {
     if (!item.path) return false
     const itemPath = item.path.replace(/\/$/, '')
@@ -280,8 +174,8 @@ const isActiveNav = (path: string): boolean => {
   }
   
   // 路径开头匹配（支持子路由）
-  // 例如：/rotor.cn/product/xxx 应该匹配 /rotor.cn/product
-  // 但 /rotor.cn/product 不应该匹配 /rotor.cn（因为这不是子路径，而是同级路径）
+  // 例如：/rooor.cn/product/xxx 应该匹配 /rooor.cn/product
+  // 但 /rooor.cn/product 不应该匹配 /rooor.cn（因为这不是子路径，而是同级路径）
   // 只有当当前路径是导航路径的子路径时才匹配
   // 使用 normalizedPath + '/' 确保是真正的子路径
   if (normalizedCurrentPath.startsWith(normalizedPath + '/')) {
@@ -358,4 +252,68 @@ onMounted(() => {
 })
 
 </script>
+
+<template>
+  <nav 
+    class="flex sticky top-0 z-10 flex-none py-3 mx-auto w-full border-b h-12 shadow-md"
+    :class="backgroundClass"
+    :style="backgroundStyle"
+  >
+    <div class="flex justify-between items-center px-5 lg:px-30 mx-auto w-full">
+      <div class="flex items-center">
+        <btn v-if="!isHomePage" @click.prevent="toggleSidebar" clean type="button" size="xl"
+          class="px-5 items-center text-sm text-zinc-500 rounded-lg lg:hidden hover:bg-zinc-300/10 focus:outline-none focus:ring-2 focus:ring-zinc-300/10 active:bg-zinc-300/10">
+          <icn name="bars" regular xl />
+        </btn>
+        
+        <RouterLink v-if="props.homeLink && !isExternalLink(props.homeLink)" :to="props.homeLink"
+          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
+          <icn v-if="props.logoIcon"  :name="props.logoIcon"  regular  xl  color="primary"  style="font-size: 2rem;" />
+          <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
+        </RouterLink>
+        <a v-else :href="props.homeLink || '/'"
+          class="inline-flex items-center gap-3 text-2xl font-bold transition-colors duration-200 transform hover:text-primary no-underline">
+          <icn v-if="props.logoIcon" :name="props.logoIcon" regular xl color="primary" style="font-size: 2rem;" />
+          <span class="text-primary">{{ props.projectName || 'Cloud' }}</span>
+        </a>
+      </div>
+      
+      <!-- 中间导航菜单 -->
+      <nav v-if="navItems.length > 0" class="hidden md:flex items-center flex-1 justify-center" :style="{ gap: navItemsGap }">
+        <template v-for="(item, index) in navItems" :key="index">
+          <a v-if="isExternalLink(item.path)" :href="item.path" target="_blank" rel="noopener noreferrer"
+            class="text-base font-medium transition-colors duration-200 no-underline"
+            :class="[ isActiveNav(item.path) ? 'text-primary' : 'text-base-content hover:text-primary' ]">
+            {{ item.title }}
+          </a>
+          <RouterLink v-else :to="item.path" class="text-base font-medium transition-colors duration-200 no-underline"
+            :class="[ isActiveNav(item.path)  ? 'text-primary' : 'text-base-content hover:text-primary']">
+            {{ item.title }}
+          </RouterLink>
+        </template>
+      </nav>
+      
+      <div class="flex space-x-5">
+        <component :is="props.themeComponent" v-if="props.themeComponent" />
+        <component :is="props.darkComponent" v-if="props.darkComponent" />
+        <component :is="props.languageComponent" v-if="props.languageComponent" />
+        <!-- 图标按钮：支持多个图标按钮 -->
+        <template v-for="(iconBtn, index) in iconButtons" :key="index">
+          <btn v-if="iconBtn.link" clean class="transition-colors duration-200">
+            <a v-if="isExternalLink(iconBtn.link)" :href="iconBtn.link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center group">
+              <icn :name="iconBtn.icon || 'user'" :light="iconBtn.light || false" :brand="iconBtn.brand || false" xl 
+                class="text-base-content group-hover:text-primary transition-colors duration-200"
+              ></icn>
+            </a>
+            <RouterLink v-else :to="iconBtn.link" class="inline-flex items-center group">
+              <icn :name="iconBtn.icon || 'user'" :light="iconBtn.light || false" :brand="iconBtn.brand || false" xl 
+                class="text-base-content group-hover:text-primary transition-colors duration-200"
+              ></icn>
+            </RouterLink>
+          </btn>
+        </template>
+      </div>
+    </div>
+  </nav>
+</template>
 

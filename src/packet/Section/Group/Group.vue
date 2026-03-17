@@ -1,12 +1,3 @@
-<template>
-  <div 
-    :class="buttonGroupClasses"
-    :style="buttonGroupStyles"
-  >
-    <slot />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 
@@ -158,6 +149,12 @@ defineExpose({
 })
 </script>
 
+<template>
+  <div :class="buttonGroupClasses" :style="buttonGroupStyles">
+    <slot />
+  </div>
+</template>
+
 <style scoped>
 /* 按钮圆角处理 - 横向排布 */
 .group.group-rounded.flex-row :deep(> *:first-child) {
@@ -197,15 +194,37 @@ defineExpose({
   border-bottom-right-radius: var(--rounded-btn, 0.5rem);
 }
 
-/* Outline 变体的边框处理 */
-.group.group-rounded.flex-row :deep(> *:not(:first-child).btn-outline),
-.group.group-rounded.flex-row :deep(> *:not(:first-child)[variant="outline"]) {
-  border-left: 0;
+/* Outline 变体的边框处理 - 水平排列 */
+/* ring-1 使用 box-shadow 实现，宽度是 1px，使用负 margin 让相邻按钮的边框重叠 */
+/* 通过检查是否有 ring-1 类来识别 outline 按钮 */
+.group.group-rounded.flex-row :deep(> *:not(:first-child).ring-1),
+.group.group-rounded.flex-row :deep(> *:not(:first-child)[class*="ring-1"]) {
+  /* 非第一个按钮且是 outline 变体：使用负 margin-left 让左边框与上一个按钮的右边框重叠 */
+  margin-left: -1px ;
 }
 
-.group.group-rounded.flex-col :deep(> *:not(:first-child).btn-outline),
-.group.group-rounded.flex-col :deep(> *:not(:first-child)[variant="outline"]) {
-  border-top: 0;
+/* Outline 变体的边框处理 - 垂直排列 */
+.group.group-rounded.flex-col :deep(> *:not(:first-child).ring-1),
+.group.group-rounded.flex-col :deep(> *:not(:first-child)[class*="ring-1"]) {
+  /* 非第一个按钮且是 outline 变体：使用负 margin-top 让上边框与上一个按钮的下边框重叠 */
+  margin-top: -1px ;
+}
+
+/* Solid 变体的边框处理 - 使用更通用的选择器 */
+/* 只对非 outline 变体的按钮应用 */
+.group.group-rounded.flex-row :deep(> *:not(:first-child):not(.ring-1)) {
+  border-left: 0 ;
+  margin-left: 0 ;
+}
+
+.group.group-rounded.flex-col :deep(> *:not(:first-child):not(.ring-1)) {
+  border-top: 0 ;
+  margin-top: 0 ;
+}
+
+/* 移除所有按钮的 margin（outline 变体除外，因为它需要负 margin 来重叠边框） */
+.group.group-rounded :deep(> *:not(.ring-1)) {
+  margin: 0 ;
 }
 
 /* 焦点管理 */

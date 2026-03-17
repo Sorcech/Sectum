@@ -1,7 +1,3 @@
-<template>
-  <i :class="iconClasses" :style="customStyles"></i>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, nextTick } from 'vue'
 
@@ -179,3 +175,7 @@ onMounted(async () => {
   }
 })
 </script>
+
+<template>
+  <i :class="iconClasses" :style="customStyles"></i>
+</template>

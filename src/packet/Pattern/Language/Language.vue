@@ -1,105 +1,3 @@
-<template>
-  <!-- Dropdown 模式 -->
-  <template v-if="mode === 'dropdown'">
-  <!-- 单按钮模式（只有两种语言时） -->
-  <btn 
-    v-if="isTwoLanguagesMode"
-    item 
-    @click="toggleLanguage" 
-    class="hover:text-primary hover:border-primary relative p-0 border border-solid border-base-900 rounded-md overflow-visible"
-    style="min-width: 1.5rem; width: 1.5rem; height: 1.5rem;"
-  >
-    <span class="relative inline-flex items-center justify-center w-full h-full">
-      <!-- 非当前语言的字符（左上角，小尺寸，默认颜色，可以重叠） -->
-      <template v-for="locale in availableLocales" :key="`top-${locale}`">
-        <span 
-          v-if="locale !== currentLocale"
-          class="absolute text-base-content/60 leading-none pointer-events-none"
-          :style="getTopCharStyle(locale)"
-        >
-          {{ getLocaleChar(locale) }}
-        </span>
-      </template>
-      
-      <!-- 当前语言的字符（右下角，大尺寸，主题色，可以重叠） -->
-      <template v-for="locale in availableLocales" :key="`bottom-${locale}`">
-        <span 
-          v-if="locale === currentLocale"
-          class="absolute text-primary font-bold leading-none pointer-events-none"
-          :style="getBottomCharStyle(locale)"
-        >
-          {{ getLocaleChar(locale) }}
-        </span>
-      </template>
-    </span>
-  </btn>
-
-  <!-- 下拉列表模式（多于两种语言时） -->
-  <Dropdown v-else placement="bottom" hover>
-    <template #trigger>
-      <btn item class="hover:text-primary relative group">
-        <icn name="globe" light xl></icn>
-        <!-- 当前语言字符显示在图标右上方，鼠标悬停时隐藏 -->
-        <span
-          class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1 group-hover:opacity-0 transition-opacity duration-200"
-          :style="{right: '0.03rem',bottom: '0.03rem',fontSize: '0.75rem',zIndex: 2,transform: 'translate(0, 0)'}"
-        >
-          {{ getLocaleChar(currentLocale) }}
-        </span>
-      </btn>
-    </template>
-    <Menu shadow rounded class="bg-base-300 dark:bg-base-100 w-auto min-w-32">
-      <btn 
-        v-for="locale in availableLocales" 
-        :key="locale"
-        clean 
-        :disabled="currentLocale === locale"
-        @click="setLanguage(locale)"
-        :class="[
-          'w-full flex items-center gap-3 whitespace-nowrap',
-          currentLocale === locale ? 'text-primary font-semibold' : ''
-        ]"
-      >
-        {{ getLocaleName(locale) }}
-      </btn>
-    </Menu>
-  </Dropdown>
-  </template>
-
-  <!-- Drawer 模式 -->
-  <template v-else>
-    <div key="language-drawer" style="padding: 0; margin: 0;">
-      <btn item :class="[buttonClass, 'relative group']" @click="toggleDrawer">
-        <icn name="globe" light xl></icn>
-        <!-- 当前语言字符显示在图标右上方 -->
-        <span
-          class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1"
-          :style="{right: '1rem',bottom: '0.5rem',fontSize: '0.85rem',zIndex: 2,transform: 'translate(0, 0)'}"
-        >
-          {{ getLocaleChar(currentLocale) }}
-        </span>
-      </btn>
-      <Drawer title="Language" width="w-48" :isShow="isShowDrawer" @update:isShow="isShowDrawer = $event">
-        <Menu shadow rounded class="bg-base-300 dark:bg-base-100 m-3">
-          <btn 
-            v-for="locale in availableLocales" 
-            :key="locale"
-            clean 
-            :disabled="currentLocale === locale"
-            @click="setLanguage(locale)"
-            :class="[
-              'w-full flex items-center gap-3 whitespace-nowrap',
-              currentLocale === locale ? 'text-primary font-semibold' : ''
-            ]"
-          >
-            {{ getLocaleName(locale) }}
-          </btn>
-        </Menu>
-      </Drawer>
-    </div>
-  </template>
-</template>
-
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { Store } from '../../Config/storage'
@@ -299,6 +197,8 @@ const setLanguage = (locale: string) => {
     if (props.mode === 'drawer') {
       isShowDrawer.value = false
     }
+    // 刷新页面以重新加载所有接口和数据
+    window.location.reload()
     return true
   }
   return false
@@ -337,3 +237,93 @@ onMounted(() => {
   }
 })
 </script>
+
+<template>
+  <!-- Dropdown 模式 -->
+  <template v-if="mode === 'dropdown'">
+  <!-- 单按钮模式（只有两种语言时） -->
+  <btn v-if="isTwoLanguagesMode" item @click="toggleLanguage" style="min-width: 1.5rem; width: 1.5rem; height: 1.5rem;"
+  class="hover:text-primary hover:border-primary relative p-0 border border-solid border-base-900 rounded-md overflow-visible" >
+    <span class="relative inline-flex items-center justify-center w-full h-full">
+      <!-- 非当前语言的字符（左上角，小尺寸，默认颜色，可以重叠） -->
+      <template v-for="locale in availableLocales" :key="`top-${locale}`">
+        <span v-if="locale !== currentLocale" class="absolute text-base-content leading-none pointer-events-none" :style="getTopCharStyle(locale)">
+          {{ getLocaleChar(locale) }}
+        </span>
+      </template>
+      
+      <!-- 当前语言的字符（右下角，大尺寸，主题色，可以重叠） -->
+      <template v-for="locale in availableLocales" :key="`bottom-${locale}`">
+        <span v-if="locale === currentLocale" class="absolute text-primary font-bold leading-none pointer-events-none" :style="getBottomCharStyle(locale)">
+          {{ getLocaleChar(locale) }}
+        </span>
+      </template>
+    </span>
+  </btn>
+
+  <!-- 下拉列表模式（多于两种语言时） -->
+  <Dropdown v-else placement="bottom" hover>
+    <template #trigger>
+      <btn item class="hover:text-primary relative group">
+        <icn name="globe" light xl></icn>
+        <!-- 当前语言字符显示在图标右上方，鼠标悬停时隐藏 -->
+        <span class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1 group-hover:opacity-0 transition-opacity duration-200"
+          :style="{right: '0.03rem',bottom: '0.03rem',fontSize: '0.75rem',zIndex: 2,transform: 'translate(0, 0)'}">
+          {{ getLocaleChar(currentLocale) }}
+        </span>
+      </btn>
+    </template>
+    <Menu shadow rounded class="bg-base-300 dark:bg-base-100 w-auto min-w-32">
+      <btn v-for="locale in availableLocales" :key="locale" clean :disabled="currentLocale === locale" @click="setLanguage(locale)" 
+      :class="['w-full flex items-center gap-3 whitespace-nowrap', currentLocale === locale ? 'text-primary font-semibold' : '']">
+        {{ getLocaleName(locale) }}
+      </btn>
+    </Menu>
+  </Dropdown>
+  </template>
+
+  <!-- Drawer 模式 -->
+  <template v-else>
+    <!-- 单按钮模式（只有两种语言时） -->
+    <div v-if="isTwoLanguagesMode" class="flex items-center justify-center box-border my-1 w-full h-full" >
+      <btn item @click="toggleLanguage" class="hover:text-primary hover:border-primary relative border border-solid border-base-900 rounded-md overflow-visible" 
+      :class="buttonClass" style="min-width: 1.5rem; width: 1.5rem; height: 1.5rem;">
+      <span class="relative inline-flex items-center justify-center w-full h-full">
+        <!-- 非当前语言的字符（左上角，小尺寸，默认颜色，可以重叠） -->
+        <template v-for="locale in availableLocales" :key="`top-${locale}`">
+          <span v-if="locale !== currentLocale" class="absolute text-base-content leading-none pointer-events-none" :style="getTopCharStyle(locale)">
+            {{ getLocaleChar(locale) }}
+          </span>
+        </template>
+        
+        <!-- 当前语言的字符（右下角，大尺寸，主题色，可以重叠） -->
+        <template v-for="locale in availableLocales" :key="`bottom-${locale}`">
+          <span v-if="locale === currentLocale" class="absolute text-primary font-bold leading-none pointer-events-none" :style="getBottomCharStyle(locale)">
+            {{ getLocaleChar(locale) }}
+          </span>
+        </template>
+      </span>
+      </btn>
+    </div>
+
+    <!-- Drawer 模式（多于两种语言时） -->
+    <div v-else key="language-drawer" style="padding: 0; margin: 0;">
+      <btn item :class="[buttonClass, 'relative group']" @click="toggleDrawer">
+        <icn name="globe" light xl></icn>
+        <!-- 当前语言字符显示在图标右上方 -->
+        <span class="absolute text-primary font-bold leading-none pointer-events-none bg-base-100 rounded-sm p-0.1"
+          :style="{right: '1rem',bottom: '0.5rem',fontSize: '0.85rem',zIndex: 2,transform: 'translate(0, 0)'}">
+          {{ getLocaleChar(currentLocale) }}
+        </span>
+      </btn>
+      <Drawer title="Language" width="w-48" :isShow="isShowDrawer" @update:isShow="isShowDrawer = $event">
+        <Menu shadow rounded class="bg-base-300 dark:bg-base-100 m-3">
+          <btn v-for="locale in availableLocales" :key="locale" clean  :disabled="currentLocale === locale" @click="setLanguage(locale)"
+            :class="[ 'w-full flex items-center gap-3 whitespace-nowrap', currentLocale === locale ? 'text-primary font-semibold' : '']">
+            {{ getLocaleName(locale) }}
+          </btn>
+        </Menu>
+      </Drawer>
+    </div>
+  </template>
+</template>

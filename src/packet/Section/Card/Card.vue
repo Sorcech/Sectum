@@ -31,25 +31,29 @@ const baseClasses = computed(() => {
 </script>
 
 <template>
-  <div :class="baseClasses">
+  <div :class="[baseClasses, $attrs.class]" style="overflow: visible;">
     <!-- 顶部图片 -->
     <div v-if="image && imagePosition === 'top'" class="card-image-top w-full overflow-hidden rounded-t-$rounded-box">
       <img :src="image" alt="" class="w-full h-auto object-cover" />
     </div>
     
     <!-- 标题区域 -->
-    <div v-if="title || subtitle" class="card-header p-4 border-b border-base-250 dark:border-dark-base-250">
-      <h3 v-if="title" class="card-title text-lg font-bold text-base-content dark:text-dark-base-content">
-        {{ title }}
-      </h3>
-      <p v-if="subtitle" class="card-subtitle text-sm text-base-content/70 dark:text-dark-base-content/70 mt-1">
-        {{ subtitle }}
-      </p>
+    <div v-if="$slots.header || title || subtitle" class="card-header p-4 border-b border-base-250 dark:border-dark-base-250">
+      <slot name="header">
+        <h3 v-if="title" class="card-title text-lg font-bold text-base-content dark:text-dark-base-content">
+          {{ title }}
+        </h3>
+        <p v-if="subtitle" class="card-subtitle text-sm text-base-content/70 dark:text-dark-base-content/70 mt-1">
+          {{ subtitle }}
+        </p>
+      </slot>
     </div>
     
     <!-- 内容区域 -->
-    <div class="card-body p-4">
-      <slot />
+    <div class="card-body p-4 flex flex-col min-h-0 flex-1 overflow-visible">
+      <slot name="body">
+        <slot />
+      </slot>
     </div>
     
     <!-- 底部图片 -->
@@ -68,11 +72,13 @@ const baseClasses = computed(() => {
 .card {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .card-body {
   flex: 1;
+  position: relative;
+  overflow: visible ;
 }
 
 .card-title {

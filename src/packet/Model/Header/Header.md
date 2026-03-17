@@ -63,8 +63,8 @@ import { Header } from 'sectum'
 ```vue
 <template>
   <Header 
-    project-name="ROTOR" 
-    home-link="/rotor.cn"
+    project-name="rooor" 
+    home-link="/rooor.cn"
   />
 </template>
 ```
@@ -75,14 +75,14 @@ import { Header } from 'sectum'
 <template>
   <!-- 内部路由 -->
   <Header 
-    project-name="ROTOR" 
-    home-link="/rotor.cn"
+    project-name="rooor" 
+    home-link="/rooor.cn"
   />
   
   <!-- 外部链接 -->
   <Header 
-    project-name="ROTOR" 
-    home-link="https://rotor.cn"
+    project-name="rooor" 
+    home-link="https://rooor.cn"
   />
 </template>
 ```
@@ -323,7 +323,7 @@ const iconButtons = [
 | 属性名 | 类型 | 默认值 | 说明 |
 |--------|------|--------|------|
 | `project-name` | `string` | `'Cloud'` | 项目名称，显示在 Logo 旁边 |
-| `home-link` | `string` | `'/'` | 项目首页链接，点击项目名称时导航到该链接。支持内部路由（如 `/rotor.cn`）或外部链接（如 `https://rotor.cn`） |
+| `home-link` | `string` | `'/'` | 项目首页链接，点击项目名称时导航到该链接。支持内部路由（如 `/rooor.cn`）或外部链接（如 `https://rooor.cn`） |
 | `logo-icon` | `string` | `undefined` | Logo 图标名称，如果未提供则不显示图标。当提供此属性时，会自动将页面 favicon 设置为对应的图标（使用 FontAwesome regular 样式） |
 | `nav-items` | `NavItem[]` | `undefined` | 导航菜单项数组，用于在中间位置显示页面切换按钮。格式：`[{ title: string, path: string }]` |
 | `nav-items-gap` | `string` | `'1.5rem'` | 导航按钮间距，支持 CSS 间距值（如 `'1rem'`, `'24px'`, `'8rem'`） |

@@ -57,8 +57,8 @@ const handleLinkClick = (event: Event, slug: string) => {
       block: 'start'
     })
     
-    // 更新URL hash
-    history.pushState(null, '', `#${slug}`)
+    // 更新 URL hash，保留现有 history.state 以免破坏 Vue Router 的状态
+    history.pushState(history.state ?? {}, '', `#${slug}`)
   }
 }
 

@@ -1,71 +1,3 @@
-<template>
-  <div 
-    :class="['calendar', calendarClasses]" 
-    :style="cssVars"
-    class="leading-[var(--n-line-height)] text-[var(--n-font-size)] text-[var(--n-text-color)] h-[720px] flex flex-col"
-  >
-    <!-- 头部 -->
-    <div class="calendar-header flex items-center leading-none text-[var(--n-title-font-size)] pb-[18px] justify-between">
-      <div class="calendar-header__title text-[var(--n-title-text-color)] font-[var(--n-title-font-weight)] transition-colors duration-300">
-        <slot name="header" :year="year" :month="calendarMonth">
-          {{ monthBeforeYear ? `${localeMonth} ${year}` : `${year} ${localeMonth}` }}
-        </slot>
-      </div>
-      <div class="calendar-header__extra flex items-center">
-        <btn-group>
-          <btn size="small" @click="handlePrevClick" class="calendar-prev-btn cursor-pointer">
-            <icn name="chevron-left" />
-          </btn>
-          <btn size="small" @click="handleTodayClick">
-            {{ todayText }}
-          </btn>
-          <btn size="small" @click="handleNextClick" class="calendar-next-btn cursor-pointer">
-            <icn name="chevron-right" />
-          </btn>
-        </btn-group>
-      </div>
-    </div>
-    
-    <!-- 日期网格 -->
-    <div 
-      class="calendar-dates grid grid-cols-7 flex-1 border-t border-l border-[var(--n-border-color)] rounded-[var(--n-border-radius)] transition-[border-color] duration-300"
-    >
-      <div
-        v-for="(dateItem, index) in dateItems"
-        :key="`${dateItem.ts}-${index}`"
-        :class="['calendar-cell', getCellClasses(dateItem)]"
-        @click="handleCellClick(dateItem)"
-        class="box-border p-[10px] border-r border-b border-[var(--n-border-color)] cursor-pointer relative transition-all duration-300"
-      >
-        <div class="calendar-date relative leading-none flex items-center h-[1em] justify-between pb-[0.75em] transition-all duration-300 text-[var(--n-text-color)]">
-          <div 
-            :title="formatDate(dateItem.ts)"
-            class="calendar-date__date text-[var(--n-text-color)] rounded-full flex items-center justify-center -ml-[0.4em] w-[1.8em] h-[1.8em] transition-all duration-300"
-            :class="getDateDateClasses(dateItem)"
-          >
-            {{ dateItem.dateObject.date }}
-          </div>
-          <div
-            v-if="index < 7"
-            :title="formatDate(dateItem.ts)"
-            class="calendar-date__day text-[var(--n-day-text-color)] transition-colors duration-300"
-          >
-            {{ formatDay(dateItem.ts) }}
-          </div>
-        </div>
-        <slot
-          :year="dateItem.dateObject.year"
-          :month="dateItem.dateObject.month + 1"
-          :date="dateItem.dateObject.date"
-        />
-        <div 
-          class="calendar-cell__bar absolute left-0 right-0 -bottom-[1px] h-[3px] bg-transparent transition-[background-color] duration-300"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -451,6 +383,73 @@ watch(
   { flush: 'post', immediate: false }
 )
 </script>
+<template>
+  <div 
+    :class="['calendar', calendarClasses]" 
+    :style="cssVars"
+    class="leading-[var(--n-line-height)] text-[var(--n-font-size)] text-[var(--n-text-color)] h-[720px] flex flex-col"
+  >
+    <!-- 头部 -->
+    <div class="calendar-header flex items-center leading-none text-[var(--n-title-font-size)] pb-[18px] justify-between">
+      <div class="calendar-header__title text-[var(--n-title-text-color)] font-[var(--n-title-font-weight)] transition-colors duration-300">
+        <slot name="header" :year="year" :month="calendarMonth">
+          {{ monthBeforeYear ? `${localeMonth} ${year}` : `${year} ${localeMonth}` }}
+        </slot>
+      </div>
+      <div class="calendar-header__extra flex items-center">
+        <btn-group>
+          <btn size="small" @click="handlePrevClick" class="calendar-prev-btn cursor-pointer">
+            <icn name="chevron-left" />
+          </btn>
+          <btn size="small" @click="handleTodayClick">
+            {{ todayText }}
+          </btn>
+          <btn size="small" @click="handleNextClick" class="calendar-next-btn cursor-pointer">
+            <icn name="chevron-right" />
+          </btn>
+        </btn-group>
+      </div>
+    </div>
+    
+    <!-- 日期网格 -->
+    <div 
+      class="calendar-dates grid grid-cols-7 flex-1 border-t border-l border-[var(--n-border-color)] rounded-[var(--n-border-radius)] transition-[border-color] duration-300"
+    >
+      <div
+        v-for="(dateItem, index) in dateItems"
+        :key="`${dateItem.ts}-${index}`"
+        :class="['calendar-cell', getCellClasses(dateItem)]"
+        @click="handleCellClick(dateItem)"
+        class="box-border p-[10px] border-r border-b border-[var(--n-border-color)] cursor-pointer relative transition-all duration-300"
+      >
+        <div class="calendar-date relative leading-none flex items-center h-[1em] justify-between pb-[0.75em] transition-all duration-300 text-[var(--n-text-color)]">
+          <div 
+            :title="formatDate(dateItem.ts)"
+            class="calendar-date__date text-[var(--n-text-color)] rounded-full flex items-center justify-center -ml-[0.4em] w-[1.8em] h-[1.8em] transition-all duration-300"
+            :class="getDateDateClasses(dateItem)"
+          >
+            {{ dateItem.dateObject.date }}
+          </div>
+          <div
+            v-if="index < 7"
+            :title="formatDate(dateItem.ts)"
+            class="calendar-date__day text-[var(--n-day-text-color)] transition-colors duration-300"
+          >
+            {{ formatDay(dateItem.ts) }}
+          </div>
+        </div>
+        <slot
+          :year="dateItem.dateObject.year"
+          :month="dateItem.dateObject.month + 1"
+          :date="dateItem.dateObject.date"
+        />
+        <div 
+          class="calendar-cell__bar absolute left-0 right-0 -bottom-[1px] h-[3px] bg-transparent transition-[background-color] duration-300"
+        />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 /* 使用 CSS 变量和复杂选择器的情况保留在 style 中 */

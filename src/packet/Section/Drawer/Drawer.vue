@@ -1,7 +1,7 @@
 <template>
     <msk :show="isShow && backdrop" @click="closeDrawer" blur/>
     <tst :name="animationName">
-      <div v-if="isShow" class="fixed z-15 flex-none bg-base-300" :class="[positionClasses, sizeClasses]">
+      <div v-if="isShow" class="fixed z-15 flex-none bg-base-300" :class="[positionClasses, sizeClasses]" :style="props.style">
         <div class="flex items-center justify-between bg-base-100 px-2 h-10 text-base-content" >
           <span class="font-medium text-lg">{{ title }}</span>
           <btn item class="hover:text-primary " @click="closeDrawer">
@@ -46,7 +46,12 @@ const props = defineProps({
     required: false
   },
   // 是否允许内容区域滚动
-  overflow: { type: Boolean, default: false, required: false }
+  overflow: { type: Boolean, default: false, required: false },
+  // 自定义样式
+  style: {
+    type: Object as () => Record<string, string | number> | undefined,
+    required: false
+  }
 })
 
 // 支持 v-model
@@ -123,11 +128,16 @@ const positionClasses = computed(() => {
   const offsetConfig = parseOffset(props.offset)
   const currentPosition = props.position as 'top' | 'right' | 'bottom' | 'left'
   
+  // 对于 right 和 left 位置，如果提供了 height prop，就不使用 h-screen
+  const heightClass = (props.position === 'right' || props.position === 'left') && props.height 
+    ? '' 
+    : (props.position === 'right' || props.position === 'left' ? 'h-screen' : '')
+  
   const positionMap = {
     top: `${getOffsetClass(offsetConfig.top, 'top')} ${getOffsetClass(offsetConfig.left, 'left')} ${getOffsetClass(offsetConfig.right, 'right')}`,
-    right: `${getOffsetClass(offsetConfig.top, 'top')} ${getOffsetClass(offsetConfig.right, 'right')} h-screen`,
+    right: `${getOffsetClass(offsetConfig.top, 'top')} ${getOffsetClass(offsetConfig.right, 'right')} ${heightClass}`,
     bottom: `${getOffsetClass(offsetConfig.bottom, 'bottom')} ${getOffsetClass(offsetConfig.left, 'left')} ${getOffsetClass(offsetConfig.right, 'right')}`,
-    left: `${getOffsetClass(offsetConfig.top, 'top')} ${getOffsetClass(offsetConfig.left, 'left')} h-screen`
+    left: `${getOffsetClass(offsetConfig.top, 'top')} ${getOffsetClass(offsetConfig.left, 'left')} ${heightClass}`
   }
   
   return positionMap[currentPosition] || positionMap.right
@@ -138,9 +148,11 @@ const sizeClasses = computed(() => {
   if (props.position === 'top' || props.position === 'bottom') {
     return props.height || 'h-96'
   } else {
+    // 对于 right 和 left 位置，如果提供了 height prop，也应用它
+    const heightClass = props.height ? props.height : ''
     // 确保宽度被正确应用，并添加最大宽度限制（最大不超过屏幕宽度的 80%）
     // 使用 max-w-4xl 作为最大宽度限制，避免占据全屏
-    return `${props.width} max-w-4xl`
+    return `${props.width} ${heightClass} max-w-4xl`.trim()
   }
 })
 

@@ -1,73 +1,3 @@
-<template>
-  <div 
-    class="relative w-full overflow-hidden rounded-$rounded-box" 
-    :style="wrapperStyle"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
-    <!-- 轮播容器 -->
-    <div 
-      ref="carouselRef"
-      class="w-full h-full flex transition-transform duration-500 ease-in-out [&>*]:flex-shrink-0 [&>*]:w-full [&>*]:h-full"
-      :style="containerStyle"
-      @touchstart="handleTouchStart"
-      @touchmove="handleTouchMove"
-      @touchend="handleTouchEnd"
-    >
-      <!-- 如果提供了图片数组，自动渲染图片 -->
-      <template v-if="images && images.length > 0">
-        <div 
-          v-for="(image, index) in images" 
-          :key="index"
-          class="relative w-full h-full"
-        >
-          <img 
-            :src="image" 
-            :alt="t('common.carouselImage', { index: index + 1 })"
-            class="w-full h-full object-cover"
-          />
-        </div>
-      </template>
-      <!-- 否则使用 slot 内容 -->
-      <slot v-else />
-    </div>
-
-    <!-- 导航按钮 - 左右箭头 -->
-    <template v-if="showArrows && itemsCount > 1">
-      <button
-        v-if="loop || currentIndex > 0"
-        class="cursor-pointer left-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
-        @click="goToPrev"
-        :aria-label="t('common.previous')"
-      >
-        <icn name="angle-left" light xl class="text-base-content dark:text-dark-base-content" />
-      </button>
-      <button
-        v-if="loop || currentIndex < itemsCount - 1"
-        class="cursor-pointer right-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
-        @click="goToNext"
-        :aria-label="t('common.next')"
-      >
-        <icn name="angle-right" light xl class="text-base-content dark:text-dark-base-content" />
-      </button>
-    </template>
-
-    <!-- 指示器 - 小圆点 -->
-    <div v-if="showIndicators && itemsCount > 1" class="absolute z-10" :class="indicatorsClasses">
-      <button
-        v-for="index in itemsCount"
-        :key="index - 1"
-        class="border-none outline-none w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-300 p-0 bg-white/50 border-white/80 hover:bg-white/70 dark:bg-white/30 dark:border-white/50 dark:hover:bg-white/50"
-        :class="{ 
-          '!bg-white !w-6 !rounded-md dark:!bg-white/90': currentIndex === index - 1 
-        }"
-        @click="goTo(index - 1)"
-        :aria-label="t('common.goToSlide', { index })"
-      />
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -295,3 +225,72 @@ onUnmounted(() => {
 })
 </script>
 
+<template>
+  <div 
+    class="relative w-full overflow-hidden rounded-$rounded-box" 
+    :style="wrapperStyle"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
+    <!-- 轮播容器 -->
+    <div 
+      ref="carouselRef"
+      class="w-full h-full flex transition-transform duration-500 ease-in-out [&>*]:flex-shrink-0 [&>*]:w-full [&>*]:h-full"
+      :style="containerStyle"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+    >
+      <!-- 如果提供了图片数组，自动渲染图片 -->
+      <template v-if="images && images.length > 0">
+        <div 
+          v-for="(image, index) in images" 
+          :key="index"
+          class="relative w-full h-full"
+        >
+          <img 
+            :src="image" 
+            :alt="t('common.carouselImage', { index: index + 1 })"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </template>
+      <!-- 否则使用 slot 内容 -->
+      <slot v-else />
+    </div>
+
+    <!-- 导航按钮 - 左右箭头 -->
+    <template v-if="showArrows && itemsCount > 1">
+      <button
+        v-if="loop || currentIndex > 0"
+        class="cursor-pointer left-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
+        @click="goToPrev"
+        :aria-label="t('common.previous')"
+      >
+        <icn name="angle-left" light xl class="text-base-content dark:text-dark-base-content" />
+      </button>
+      <button
+        v-if="loop || currentIndex < itemsCount - 1"
+        class="cursor-pointer right-4 absolute top-1/2 -translate-y-1/2 bg-base-200 dark:bg-dark-base-250 hover:bg-base-300 dark:hover:bg-dark-base-250 text-base-content dark:text-dark-base-content rounded-full p-2 shadow-lg transition-all duration-200 z-10 border-none outline-none"
+        @click="goToNext"
+        :aria-label="t('common.next')"
+      >
+        <icn name="angle-right" light xl class="text-base-content dark:text-dark-base-content" />
+      </button>
+    </template>
+
+    <!-- 指示器 - 小圆点 -->
+    <div v-if="showIndicators && itemsCount > 1" class="absolute z-10" :class="indicatorsClasses">
+      <button
+        v-for="index in itemsCount"
+        :key="index - 1"
+        class="border-none outline-none w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-300 p-0 bg-white/50 border-white/80 hover:bg-white/70 dark:bg-white/30 dark:border-white/50 dark:hover:bg-white/50"
+        :class="{ 
+          '!bg-white !w-6 !rounded-md dark:!bg-white/90': currentIndex === index - 1 
+        }"
+        @click="goTo(index - 1)"
+        :aria-label="t('common.goToSlide', { index })"
+      />
+    </div>
+  </div>
+</template>

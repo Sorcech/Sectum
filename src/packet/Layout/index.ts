@@ -9,9 +9,9 @@ import Menual from './Menual/Menual.vue'
 //import Project from './Project/Project.vue'
 //import Mail from './Mail/Mail.vue'
 //import Product from './Product/Product.vue'
-//import Data from './Data/Data.vue'
+//import Matter from './Matter/Matter.vue'
 //import Website from './Website/Website.vue'
-//import Document from './Document/Document.vue'
+//import Mastery from './Mastery/Mastery.vue'
 //import Setting from './Setting/Setting.vue'
 
 // 导出类型
@@ -31,13 +31,13 @@ export {
 //  Project,     // 项目
 //  Mail,        // 邮件
 //  Product,     // 产品
-//  Data,        // 数据
+//  Matter,      // 数据
 //  Website,     // 网站
-//  Document,    // 文档
+//  Mastery,     // 文档
 //  Setting      // 设置
 }
 
-// 重新导出 Model 中的布局组件（保持向后兼容）
+// 重新导出 Model 中的布局组件
 export { Footer, Header, Navbar, Sidebar, Toolbar } from '~/packet/Model'
 export type { NavItem, IconButton } from '~/packet/Model'
 export type { NavbarItem } from '~/packet/Model'
@@ -52,9 +52,9 @@ const install = (app: App) => {
 //  app.component('Project', Project)    // 项目
 //  app.component('Mail', Mail)          // 邮件
 //  app.component('Product', Product)    // 产品
-//  app.component('Data', Data)          // 数据
+//  app.component('Matter', Matter)      // 数据
 //  app.component('Website', Website)    // 网站
-//  app.component('Document', Document)  // 文档
+//  app.component('Mastery', Mastery)    // 文档
 //  app.component('Setting', Setting)    // 设置
 }
 

@@ -27,9 +27,9 @@ const defaultNavbarItems: NavbarItem[] = [{
   icon: 'atom',
   path: '/product'
 }, {
-  title: 'Data',
+  title: 'Matter',
   icon: 'database',
-  path: '/data'
+  path: '/matter'
 }, {
   title: 'Website',
   icon: 'globe',
@@ -48,6 +48,6 @@ const defaultNavbarItems: NavbarItem[] = [{
 export { defaultNavbarItems as navbarItems }
 export { defaultNavbarItems }
 
-// 默认导出（保持向后兼容）
+// 默认导出
 export default defaultNavbarItems
 

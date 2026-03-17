@@ -1,8 +1,3 @@
-<template>
-  <Transition :name="name">
-    <slot></slot>
-  </Transition>
-</template>
 <script lang="ts" setup>
 defineProps({
   name: {
@@ -13,6 +8,11 @@ defineProps({
   }
 })
 </script>
+<template>
+  <Transition :name="name">
+    <slot></slot>
+  </Transition>
+</template>
 <style scoped>
 .downward-enter-active {
   transition: all 0.2s ease-out;
@@ -75,11 +75,13 @@ defineProps({
 .bloom-enter-active,
 .bloom-leave-active {
   transition: opacity 0.5s ease;
+  margin: 0;
 }
 
 .bloom-enter-from,
 .bloom-leave-to {
   opacity: 0;
+  margin: 0;
 }
 
 .fade-enter-active,

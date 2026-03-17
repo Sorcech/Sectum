@@ -108,7 +108,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick, Teleport } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useClickOutside } from '~/packet/Config/useClickOutside'
 import { usePosition } from '~/packet/Config/usePosition'
 import { useI18n } from 'vue-i18n'
